@@ -1,0 +1,5 @@
+cd /forschung/projects/2016_Lerndorf/data/lerndorf
+git add . 
+git commit 
+git push
+
