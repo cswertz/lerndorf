@@ -2,7 +2,14 @@
   "development": {
     "use_env_variable": false,
     "operatorsAliases": false,
-    "storage": "db.sqlite",
+    "storage": "development.sqlite",
     "dialect": "sqlite"
+  },
+  "test": {
+    "use_env_variable": false,
+    "operatorsAliases": false,
+    "storage": "test.sqlite",
+    "dialect": "sqlite",
+    "logging": false
   }
 }
