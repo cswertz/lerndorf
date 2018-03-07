@@ -1,4 +1,6 @@
 # lerndorf
+[![Build Status](https://travis-ci.org/cswertz/lerndorf.svg?branch=master)](https://travis-ci.org/cswertz/lerndorf)
+
 > WebDidactic@lerndorf
 
 This repository has 3 main folders:
@@ -14,4 +16,3 @@ A new release will be made after each Milestone.
 
 ## Contributions
 Contributions are very welcome. Make sure to direct you PR's against the dev branch. Make sure that tests are in place and that your PR is passing all the tests.
-
