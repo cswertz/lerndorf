@@ -1,4 +1,6 @@
 # Lerndorf Server (Backed)
+[![Dependency Status](https://david-dm.org/cswertz/lerndorf.svg?path=server)](https://david-dm.org/cswertz/lerndorf) [![devDependencies Status](https://david-dm.org/cswertz/lerndorf/dev-status.svg?path=server)](https://david-dm.org/cswertz/lerndorf?type=dev) [![peerDependencies Status](https://david-dm.org/cswertz/lerndorf/peer-status.svg)](https://david-dm.org/cswertz/lerndorf?type=peer&path=server)
+
 This repository hold all the relevant code for the Lerndorf backend.
 
 ## Installation
