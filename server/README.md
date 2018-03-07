@@ -1,4 +1,6 @@
 # Lerndorf Server (Backed)
+[![Build Status](https://travis-ci.org/cswertz/lerndorf.svg?branch=master)](https://travis-ci.org/cswertz/lerndorf)
+
 This repository hold all the relevant code for the Lerndorf backend.
 
 ## Installation
