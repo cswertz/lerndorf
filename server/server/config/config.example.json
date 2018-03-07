@@ -1,0 +1,8 @@
+{
+  "development": {
+    "use_env_variable": false,
+    "operatorsAliases": false,
+    "storage": "db.sqlite",
+    "dialect": "sqlite"
+  }
+}
