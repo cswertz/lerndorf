@@ -1,0 +1,6 @@
+module.exports = {
+  "config": "server/config/babelHook.js",
+  "migrations-path": "migrations",
+  "models-path": "server/models",
+  "seeders-path": "seeders"
+}
