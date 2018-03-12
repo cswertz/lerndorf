@@ -5,7 +5,7 @@ import passport from 'passport';
 import express from 'express';
 
 import passportConfig from './config/passport';
-import users from './routes/users';
+import routeConfig from './config/routes';
 import logger from './logger';
 import models from './models';
 
@@ -31,12 +31,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', (req, res) => {
-  res.json({
-    message: 'I am a server route and can also be hot reloaded!',
-  });
-});
-
-app.use('/api/users', users);
+routeConfig(app);
 
 export default app;
