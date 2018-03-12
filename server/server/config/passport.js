@@ -4,7 +4,7 @@ import {
   comparePasswords,
 } from '../helpers/utils';
 
-import models from '../models';
+import models from './sequelize';
 
 const passportConfig = (passport) => {
   const LocalStrategy = Strategy;

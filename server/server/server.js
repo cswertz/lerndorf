@@ -5,13 +5,13 @@ import passport from 'passport';
 import express from 'express';
 
 import passportConfig from './config/passport';
+import modelConfig from './config/sequelize';
 import routeConfig from './config/routes';
 import logger from './logger';
-import models from './models';
 
 const app = express();
 
-models.sequelize
+modelConfig.sequelize
   .sync()
   .catch((err) => {
     /* istanbul ignore next */

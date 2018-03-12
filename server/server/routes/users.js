@@ -7,7 +7,7 @@ import {
   isSelf,
 } from '../helpers/auth';
 import { hashPassword } from '../helpers/utils';
-import models from '../models';
+import models from '../config/sequelize';
 
 const router = express.Router();
 
