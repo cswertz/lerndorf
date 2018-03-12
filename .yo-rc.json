@@ -1,0 +1,11 @@
+{
+  "generator-sex": {
+    "models": "server/server/models/",
+    "routes": "server/server/routes/",
+    "seeders": "server/seeders/",
+    "migrations": "server/migrations/",
+    "tests": "server/test/",
+    "relativeModels": "../models/",
+    "relativeRoutes": "../routes/"
+  }
+}
