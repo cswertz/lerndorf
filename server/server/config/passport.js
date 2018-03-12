@@ -2,9 +2,9 @@ import Strategy from 'passport-local';
 import {
   hashPassword,
   comparePasswords,
-} from '../../helpers/utils';
+} from '../helpers/utils';
 
-import models from '../../models';
+import models from '../models';
 
 const passportConfig = (passport) => {
   const LocalStrategy = Strategy;
