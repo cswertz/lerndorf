@@ -4,7 +4,7 @@
   "main": "./server/index.js",
   "license": "MIT",
   "scripts": {
-    "test": "SERVER_PORT=9999 NODE_ENV=test nyc mocha --require server/config/babelHook.js --timeout 10000 --exit",
+    "test": "NODE_ENV=test yarn sequelize db:migrate && SERVER_PORT=9999 NODE_ENV=test nyc mocha --require server/config/babelHook.js --timeout 10000 --exit",
     "test-watch": "SERVER_PORT=9999 NODE_ENV=test mocha --require server/config/babelHook.js --timeout 10000 --exit --watch",
     "start": "rm -rf ./build && webpack --config  webpack.config.server.js",
     "lint": "eslint server/ --ext .js",

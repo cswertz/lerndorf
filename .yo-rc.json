@@ -1,5 +1,6 @@
 {
   "generator-sex": {
+    "configs": "server/server/config/",
     "models": "server/server/models/",
     "routes": "server/server/routes/",
     "seeders": "server/seeders/",
