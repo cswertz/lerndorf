@@ -8,7 +8,7 @@ chai.should();
 chai.use(chaiHttp);
 const agent = chai.request.agent(server);
 
-describe('Users', () => {
+describe('User', () => {
   const user = {
     username: 'username',
     password: 'password',
