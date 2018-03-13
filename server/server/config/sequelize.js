@@ -1,11 +1,11 @@
 import Sequelize from 'sequelize';
 
+import Capability from '../models/Capability';
+import Language from '../models/Language';
 import User from '../models/User';
 import Role from '../models/Role';
 
-import Capability from '../models/Capability';
-
-const models = [User, Role, Capability];
+const models = [User, Role, Capability, Language];
 
 /* istanbul ignore next */
 const env = process.env.NODE_ENV || 'development';
