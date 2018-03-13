@@ -16,12 +16,10 @@ describe('Capability', () => {
   const capabilities = [];
 
   before((done) => {
-    if (models.Capability) {
-      models.Capability.truncate({
-        restartIdentity: true,
-        cascade: true,
-      });
-    }
+    models.Capability.truncate({
+      restartIdentity: true,
+      cascade: true,
+    });
 
     done();
   });
