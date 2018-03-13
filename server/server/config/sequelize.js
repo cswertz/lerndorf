@@ -4,8 +4,9 @@ import Capability from '../models/Capability';
 import Language from '../models/Language';
 import User from '../models/User';
 import Role from '../models/Role';
+import File from '../models/File';
 
-const models = [User, Role, Capability, Language];
+const models = [User, Role, Capability, Language, File];
 
 /* istanbul ignore next */
 const env = process.env.NODE_ENV || 'development';
