@@ -25,11 +25,9 @@ class Language extends Model {
     }, { sequelize });
   }
 
-  /*
   static associate(sequelize) {
-
+    Language.belongsToMany(sequelize.User, { through: 'UserLanguage' });
   }
-  */
 }
 
 export default Language;
