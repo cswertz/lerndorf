@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 
-class Role extends Model {
+class Capability extends Model {
   static init(sequelize) {
     return super.init({
       id: {
@@ -26,9 +26,8 @@ class Role extends Model {
   }
 
   static associate(sequelize) {
-    Role.belongsToMany(sequelize.User, { through: 'UserRole' });
-    Role.belongsToMany(sequelize.Capability, { through: 'RoleCapability' });
+    Capability.belongsToMany(sequelize.Role, { through: 'RoleCapability' });
   }
 }
 
-export default Role;
+export default Capability;
