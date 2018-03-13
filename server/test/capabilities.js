@@ -13,6 +13,10 @@ describe('Capability', () => {
     slug: 'edit_users',
     name: 'Edit Users',
   };
+  const capability1 = {
+    slug: 'delete_users',
+    name: 'Delete Users',
+  };
   const capabilities = [];
 
   before((done) => {
@@ -106,6 +110,38 @@ describe('Capability', () => {
           res.body.should.have.property('updatedAt');
 
           capabilities[0] = res.body.id;
+
+          done();
+        });
+    });
+
+    it('it should not add the same Capability twice', (done) => {
+      chai.request(server)
+        .post('/api/capabilities')
+        .send(capability)
+        .end((err, res) => {
+          res.should.have.status(422);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          res.body.should.have.property('errors');
+          res.body.errors.length.should.be.eql(1);
+
+          done();
+        });
+    });
+
+    it('it should add a different Capability', (done) => {
+      chai.request(server)
+        .post('/api/capabilities')
+        .send(capability1)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('id');
+          res.body.should.have.property('createdAt');
+          res.body.should.have.property('updatedAt');
+
+          capabilities[1] = res.body.id;
 
           done();
         });

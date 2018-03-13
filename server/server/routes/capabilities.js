@@ -28,7 +28,14 @@ router.post('/', (req, res) => {
     }
 
     return models.Capability.create(req.body)
-      .then(result => res.json(result));
+      .then(result => res.json(result))
+      .catch(err => res.status(422).send({
+        error: 'There have been database errors.',
+        errors: err.errors.map(error => ({
+          message: error.message,
+          type: error.type,
+        })),
+      }));
   });
 });
 
