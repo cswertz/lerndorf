@@ -7,6 +7,9 @@ class User extends Model {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
+        allowNull: false,
+        notEmpty: true,
+        unique: true,
       },
 
       username: {
@@ -16,7 +19,6 @@ class User extends Model {
         unique: true,
       },
 
-      /*
       email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -25,11 +27,70 @@ class User extends Model {
           isEmail: true,
         },
       },
-      */
 
       password: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+
+      firstName: {
+        type: DataTypes.STRING,
+      },
+
+      lastName: {
+        type: DataTypes.STRING,
+      },
+
+      titlePrefix: {
+        type: DataTypes.STRING,
+      },
+
+      titleSuffix: {
+        type: DataTypes.STRING,
+      },
+
+      birthdate: {
+        type: DataTypes.DATE,
+      },
+
+      studyId: {
+        type: DataTypes.STRING,
+      },
+
+      phone: {
+        type: DataTypes.STRING,
+      },
+
+      street: {
+        type: DataTypes.STRING,
+      },
+
+      zip: {
+        type: DataTypes.STRING,
+      },
+
+      city: {
+        type: DataTypes.STRING,
+      },
+
+      country: {
+        type: DataTypes.STRING,
+      },
+
+      website: {
+        type: DataTypes.STRING,
+      },
+
+      picture: {
+        type: DataTypes.STRING,
+      },
+
+      privacyLevel: {
+        type: DataTypes.INTEGER,
+      },
+
+      description: {
+        type: DataTypes.TEXT,
       },
 
       lastLogin: {

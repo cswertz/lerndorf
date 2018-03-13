@@ -25,6 +25,10 @@ router.post('/', (req, res) => {
   req.checkBody('password', 'password is required')
     .isLength({ max: 255 })
     .notEmpty();
+  req.checkBody('email', 'email is required, has to be valid and not longer than 255 chars.')
+    .notEmpty()
+    .isLength({ max: 255 })
+    .isEmail();
 
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {

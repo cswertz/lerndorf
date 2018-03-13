@@ -12,10 +12,12 @@ describe('User', () => {
   const user = {
     username: 'username',
     password: 'password',
+    email: 'username@host.com',
   };
   const user1 = {
     username: 'username1',
     password: 'password',
+    email: 'username1@host.com',
   };
   const users = [];
 
@@ -54,7 +56,7 @@ describe('User', () => {
   });
 
   describe('POST /api/users', () => {
-    it('it should display an error when username and password not present', (done) => {
+    it('it should display an error when required fields are missing', (done) => {
       chai.request(server)
         .post('/api/users')
         .send({})
@@ -63,7 +65,7 @@ describe('User', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('error');
           res.body.should.have.property('errors');
-          res.body.errors.length.should.be.eql(2);
+          res.body.errors.length.should.be.eql(4);
 
           done();
         });
@@ -74,6 +76,7 @@ describe('User', () => {
         .post('/api/users')
         .send({
           password: 'password',
+          email: 'username@host.com',
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -91,6 +94,44 @@ describe('User', () => {
         .post('/api/users')
         .send({
           username: 'username',
+          email: 'username@host.com',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          res.body.should.have.property('errors');
+          res.body.errors.length.should.be.eql(1);
+
+          done();
+        });
+    });
+
+    it('it should display an error when email not present', (done) => {
+      chai.request(server)
+        .post('/api/users')
+        .send({
+          password: 'password',
+          username: 'username',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          res.body.should.have.property('errors');
+          res.body.errors.length.should.be.eql(2);
+
+          done();
+        });
+    });
+
+    it('it should display an error when email invalid', (done) => {
+      chai.request(server)
+        .post('/api/users')
+        .send({
+          password: 'password',
+          username: 'username',
+          email: 'invalid',
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -110,6 +151,7 @@ describe('User', () => {
         .send({
           username: longUsername,
           password: 'password',
+          email: 'username@host.com',
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -129,6 +171,7 @@ describe('User', () => {
         .send({
           username: 'username',
           password: longPassword,
+          email: 'username@host.com',
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -136,6 +179,26 @@ describe('User', () => {
           res.body.should.have.property('error');
           res.body.should.have.property('errors');
           res.body.errors.length.should.be.eql(1);
+
+          done();
+        });
+    });
+
+    it('it should display an error when email too long', (done) => {
+      const longEmail = `${Array(500).join('a')}@host.com`;
+      chai.request(server)
+        .post('/api/users')
+        .send({
+          username: 'username',
+          password: 'password',
+          email: longEmail,
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          res.body.should.have.property('errors');
+          res.body.errors.length.should.be.eql(2);
 
           done();
         });

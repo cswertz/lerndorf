@@ -42,6 +42,7 @@ const passportConfig = (passport) => {
         const user = {
           username,
           password: hashedPassword,
+          email: req.body.email,
         };
 
         return models.User.create(user)

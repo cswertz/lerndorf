@@ -1,35 +1,106 @@
 export default {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('Users', {
+  up: (queryInterface, DataTypes) => queryInterface.createTable('Users', {
     id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      allowNull: false,
-    },
-
-    username: {
-      type: Sequelize.STRING,
       allowNull: false,
       notEmpty: true,
       unique: true,
     },
 
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      notEmpty: true,
+      unique: true,
+    },
+
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true,
+      },
+    },
+
     password: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
 
+    firstName: {
+      type: DataTypes.STRING,
+    },
+
+    lastName: {
+      type: DataTypes.STRING,
+    },
+
+    titlePrefix: {
+      type: DataTypes.STRING,
+    },
+
+    titleSuffix: {
+      type: DataTypes.STRING,
+    },
+
+    birthdate: {
+      type: DataTypes.DATE,
+    },
+
+    studyId: {
+      type: DataTypes.STRING,
+    },
+
+    phone: {
+      type: DataTypes.STRING,
+    },
+
+    street: {
+      type: DataTypes.STRING,
+    },
+
+    zip: {
+      type: DataTypes.STRING,
+    },
+
+    city: {
+      type: DataTypes.STRING,
+    },
+
+    country: {
+      type: DataTypes.STRING,
+    },
+
+    website: {
+      type: DataTypes.STRING,
+    },
+
+    picture: {
+      type: DataTypes.STRING,
+    },
+
+    privacyLevel: {
+      type: DataTypes.INTEGER,
+    },
+
+    description: {
+      type: DataTypes.TEXT,
+    },
+
     lastLogin: {
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
     },
 
     createdAt: {
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
       allowNull: false,
     },
 
     updatedAt: {
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
       allowNull: false,
     },
   }),
