@@ -15,6 +15,7 @@ export default {
         model: 'Roles',
         key: 'id',
       },
+      onDelete: 'cascade',
     },
 
     CapabilityId: {
@@ -25,6 +26,7 @@ export default {
         model: 'Capabilities',
         key: 'id',
       },
+      onDelete: 'cascade',
     },
 
     createdAt: {

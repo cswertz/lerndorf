@@ -15,6 +15,7 @@ export default {
         model: 'Users',
         key: 'id',
       },
+      onDelete: 'cascade',
     },
 
     LanguageId: {
@@ -25,6 +26,7 @@ export default {
         model: 'Languages',
         key: 'id',
       },
+      onDelete: 'cascade',
     },
 
     level: {

@@ -15,6 +15,7 @@ export default {
         model: 'Users',
         key: 'id',
       },
+      onDelete: 'cascade',
     },
 
     RoleId: {
@@ -25,6 +26,7 @@ export default {
         model: 'Roles',
         key: 'id',
       },
+      onDelete: 'cascade',
     },
 
     createdAt: {
