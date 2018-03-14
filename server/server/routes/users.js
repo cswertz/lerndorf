@@ -124,4 +124,42 @@ router.post('/login', (req, res, next) => {
   });
 });
 
+router.post('/:id/role', isLoggedIn, hasRole('admin'), (req, res) => {
+  req.checkBody('id', 'id is required').notEmpty();
+
+  req.getValidationResult().then((errors) => {
+    if (!errors.isEmpty()) {
+      res.status(400).send({
+        error: 'There have been validation errors.',
+        errors: errors.array(),
+      });
+      return;
+    }
+
+    models.Role.findById(req.body.id)
+      .then((role) => {
+        if (role) {
+          models.User.findById(req.params.id)
+            .then((result) => {
+              result.addRole(role.id);
+
+              return res.json(result);
+            });
+        } else {
+          res.status(400).send({
+            error: 'Role does not exist.',
+          });
+        }
+      });
+  });
+});
+
+router.delete('/:id/role/:role', hasRole('admin'), (req, res) => {
+  models.User.findById(req.params.id)
+    .then((result) => {
+      result.removeRole(req.params.roll);
+      res.status(200).send({});
+    });
+});
+
 export default router;
