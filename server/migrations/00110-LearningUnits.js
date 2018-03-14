@@ -1,29 +1,27 @@
 export default {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('Taxonomies', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('LearningUnits', {
     id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
-      notEmpty: true,
-      unique: true,
     },
 
     rootId: {
       type: Sequelize.INTEGER,
       allowNull: true,
       references: {
-        model: 'Taxonomies',
+        model: 'LearningUnits',
         key: 'id',
       },
-      unique: 'taxonomyRootIdCreatedAt',
+      unique: 'learningUnitsRootIdCreatedAt',
     },
 
     prevId: {
       type: Sequelize.INTEGER,
       allowNull: true,
       references: {
-        model: 'Taxonomies',
+        model: 'LearningUnits',
         key: 'id',
       },
     },
@@ -37,32 +35,21 @@ export default {
       },
     },
 
-    parent: {
+    UserId: {
       type: Sequelize.INTEGER,
       allowNull: true,
       references: {
-        model: 'Taxonomies',
+        model: 'Users',
         key: 'id',
       },
-    },
-
-    active: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: true,
-    },
-
-    type: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      notEmpty: true,
+      onDelete: 'cascade',
     },
 
     createdAt: {
       type: Sequelize.DATE,
       allowNull: false,
-      notEmpty: true,
-      unique: 'taxonomyRootIdCreatedAt',
+      unique: 'learningUnitsRootIdCreatedAt',
     },
   }),
-  down: queryInterface => queryInterface.dropTable('Taxonomies'),
+  down: queryInterface => queryInterface.dropTable('LearningUnits'),
 };

@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 
+import LearningUnit from '../models/LearningUnit';
 import Capability from '../models/Capability';
 import Taxonomy from '../models/Taxonomy';
 import Language from '../models/Language';
@@ -7,7 +8,7 @@ import User from '../models/User';
 import Role from '../models/Role';
 import File from '../models/File';
 
-const models = [User, Role, Capability, Language, File, Taxonomy];
+const models = [User, Role, Capability, Language, File, Taxonomy, LearningUnit];
 
 /* istanbul ignore next */
 const env = process.env.NODE_ENV || 'development';

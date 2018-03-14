@@ -31,7 +31,7 @@ class TaxonomyLanguage extends Model {
       },
 
       vocable: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         notEmpty: true,
         defaultValue: 0,
