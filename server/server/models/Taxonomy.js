@@ -79,6 +79,7 @@ class Taxonomy extends Model {
     Taxonomy.hasOne(Taxonomy, { foreignKey: 'prevId' });
     Taxonomy.hasOne(Taxonomy, { foreignKey: 'nextId' });
     Taxonomy.hasOne(Taxonomy, { foreignKey: 'parentId' });
+    Taxonomy.belongsToMany(sequelize.Language, { through: 'TaxonomyLanguage', foreignKey: 'TaxonomyId' });
   }
 }
 

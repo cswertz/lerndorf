@@ -26,8 +26,8 @@ class Role extends Model {
   }
 
   static associate(sequelize) {
-    Role.belongsToMany(sequelize.User, { through: 'UserRole' });
-    Role.belongsToMany(sequelize.Capability, { through: 'RoleCapability' });
+    Role.belongsToMany(sequelize.User, { through: 'UserRole', foreignKey: 'RoleId' });
+    Role.belongsToMany(sequelize.Capability, { through: 'RoleCapability', foreignKey: 'RoleId' });
   }
 }
 

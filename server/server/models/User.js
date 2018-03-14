@@ -100,8 +100,8 @@ class User extends Model {
   }
 
   static associate(sequelize) {
-    User.belongsToMany(sequelize.Role, { through: 'UserRole' });
-    User.belongsToMany(sequelize.Language, { through: 'UserLanguage' });
+    User.belongsToMany(sequelize.Role, { through: 'UserRole', foreignKey: 'UserId' });
+    User.belongsToMany(sequelize.Language, { through: 'UserLanguage', foreignKey: 'UserId' });
   }
 }
 
