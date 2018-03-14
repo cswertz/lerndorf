@@ -3,7 +3,8 @@
     "use_env_variable": false,
     "operatorsAliases": false,
     "storage": "development.sqlite",
-    "dialect": "sqlite"
+    "dialect": "sqlite",
+    "seederStorage": "sequelize"
   },
   "test": {
     "use_env_variable": false,

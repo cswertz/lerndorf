@@ -5,18 +5,9 @@ import passport from 'passport';
 import express from 'express';
 
 import passportConfig from './config/passport';
-import modelConfig from './config/sequelize';
 import routeConfig from './config/routes';
-import logger from './logger';
 
 const app = express();
-
-modelConfig.sequelize
-  .sync()
-  .catch((err) => {
-    /* istanbul ignore next */
-    logger.error('Could not connect to database', { err });
-  });
 
 passportConfig(passport);
 
