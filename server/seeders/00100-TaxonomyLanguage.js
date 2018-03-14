@@ -1,19 +1,19 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.rawSelect('Users', {
+  up: (queryInterface, Sequelize) => queryInterface.rawSelect('Taxonomies', {
     where: {
-      username: 'admin',
+      id: 1,
     },
   }, ['id'])
     .then((result) => {
-      const user = result;
+      const taxonomy = result;
       return queryInterface.rawSelect('Languages', {
         where: {
           code: 'en',
         },
       }, ['id'])
-        .then(language => queryInterface.bulkInsert('UserLanguage', [
+        .then(language => queryInterface.bulkInsert('TaxonomyLanguage', [
           {
-            UserId: user,
+            TaxonomyId: taxonomy,
             LanguageId: language,
             createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
             updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
@@ -21,12 +21,12 @@ module.exports = {
         ], {}));
     }),
 
-  down: queryInterface => queryInterface.rawSelect('Users', {
+  down: queryInterface => queryInterface.rawSelect('Taxonomies', {
     where: {
-      username: 'admin',
+      id: 1,
     },
   }, ['id'])
-    .then(user => queryInterface.bulkDelete('UserLanguage', {
-      userId: user,
+    .then(taxonomy => queryInterface.bulkDelete('TaxonomyLanguage', {
+      TaxonomyId: taxonomy,
     })),
 };

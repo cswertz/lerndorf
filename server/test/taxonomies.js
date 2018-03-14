@@ -6,7 +6,7 @@ import server from '../server/';
 
 chai.should();
 chai.use(chaiHttp);
-const agent = chai.request.agent(server);
+// const agent = chai.request.agent(server);
 
 describe('Taxonomy', () => {
   const taxonomy = {
