@@ -1,4 +1,5 @@
 import capabilities from '../routes/capabilities';
+import taxonomies from '../routes/taxonomies';
 import languages from '../routes/languages';
 import users from '../routes/users';
 import files from '../routes/files';
@@ -10,8 +11,8 @@ const configRoutes = (app) => {
     });
   });
 
-
   app.use('/api/capabilities', capabilities);
+  app.use('/api/taxonomies', taxonomies);
   app.use('/api/languages', languages);
   app.use('/api/users', users);
   app.use('/api/files', files);
