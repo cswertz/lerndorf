@@ -1,3 +1,4 @@
+import knowledgeUnits from '../routes/knowledgeUnits';
 import learningUnits from '../routes/learningUnits';
 import capabilities from '../routes/capabilities';
 import taxonomies from '../routes/taxonomies';
@@ -12,6 +13,7 @@ const configRoutes = (app) => {
     });
   });
 
+  app.use('/api/knowledgeUnits', knowledgeUnits);
   app.use('/api/learningUnits', learningUnits);
   app.use('/api/capabilities', capabilities);
   app.use('/api/taxonomies', taxonomies);

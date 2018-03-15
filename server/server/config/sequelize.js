@@ -2,6 +2,7 @@ import Sequelize from 'sequelize';
 
 import LearningUnitLanguage from '../models/LearningUnitLanguage';
 import LearningUnitRelation from '../models/LearningUnitRelation';
+import KnowledgeUnit from '../models/KnowledgeUnit';
 import LearningUnit from '../models/LearningUnit';
 import Capability from '../models/Capability';
 import Taxonomy from '../models/Taxonomy';
@@ -10,7 +11,18 @@ import User from '../models/User';
 import Role from '../models/Role';
 import File from '../models/File';
 
-const models = [User, Role, Capability, Language, File, Taxonomy, LearningUnit, LearningUnitLanguage, LearningUnitRelation];
+const models = [
+  LearningUnitLanguage,
+  LearningUnitRelation,
+  KnowledgeUnit,
+  LearningUnit,
+  Capability,
+  Language,
+  Taxonomy,
+  User,
+  Role,
+  File,
+];
 
 /* istanbul ignore next */
 const env = process.env.NODE_ENV || 'development';
