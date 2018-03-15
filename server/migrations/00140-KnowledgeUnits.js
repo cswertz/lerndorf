@@ -102,7 +102,7 @@ export default {
       notEmpty: true,
     },
 
-	publish: {
+    publish: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
       allowNull: false,
