@@ -102,6 +102,13 @@ export default {
       notEmpty: true,
     },
 
+	publish: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+      allowNull: false,
+      notEmpty: true,
+    },
+
     review: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
