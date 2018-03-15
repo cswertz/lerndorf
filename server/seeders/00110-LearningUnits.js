@@ -11,6 +11,12 @@ module.exports = {
         UserId: user,
         createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
+      {
+        id: 2,
+        rootId: 2,
+        UserId: user,
+        createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
     ], {})),
 
   down: queryInterface => queryInterface.bulkDelete('LearningUnits', {
