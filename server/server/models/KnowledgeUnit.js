@@ -166,6 +166,7 @@ class KnowledgeUnit extends Model {
   }
 
   static associate(sequelize) {
+    KnowledgeUnit.belongsToMany(sequelize.User, { through: 'KnowledgeUnitUserRating' });
     KnowledgeUnit.belongsToMany(sequelize.User, { through: 'KnowledgeUnitUser' });
 
     KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'minimumScreenResolution' });
