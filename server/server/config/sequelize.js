@@ -2,6 +2,7 @@ import Sequelize from 'sequelize';
 
 import LearningUnitLanguage from '../models/LearningUnitLanguage';
 import LearningUnitRelation from '../models/LearningUnitRelation';
+import KnowledgeUnitTag from '../models/KnowledgeUnitTag';
 import KnowledgeUnit from '../models/KnowledgeUnit';
 import LearningUnit from '../models/LearningUnit';
 import Capability from '../models/Capability';
@@ -14,6 +15,7 @@ import File from '../models/File';
 const models = [
   LearningUnitLanguage,
   LearningUnitRelation,
+  KnowledgeUnitTag,
   KnowledgeUnit,
   LearningUnit,
   Capability,

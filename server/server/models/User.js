@@ -100,13 +100,14 @@ class User extends Model {
   }
 
   static associate(sequelize) {
-    User.hasMany(sequelize.LearningUnit, { as: 'LearningUnits' });
     User.hasMany(sequelize.LearningUnitLanguage, { as: 'LearningUnitLanguages' });
     User.hasMany(sequelize.LearningUnitRelation, { as: 'LearningUnitRelations' });
+    User.hasMany(sequelize.KnowledgeUnitTag, { as: 'KnowledgeUnitTags' });
+    User.hasMany(sequelize.LearningUnit, { as: 'LearningUnits' });
 
-    User.belongsToMany(sequelize.Role, { through: 'UserRole' });
-    User.belongsToMany(sequelize.Language, { through: 'UserLanguage' });
     User.belongsToMany(sequelize.KnowledgeUnit, { through: 'KnowledgeUnitUser' });
+    User.belongsToMany(sequelize.Language, { through: 'UserLanguage' });
+    User.belongsToMany(sequelize.Role, { through: 'UserRole' });
   }
 }
 

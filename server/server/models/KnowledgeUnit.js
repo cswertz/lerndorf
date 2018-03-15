@@ -162,11 +162,7 @@ class KnowledgeUnit extends Model {
   }
 
   static associate(sequelize) {
-    KnowledgeUnit.belongsTo(sequelize.LearningUnit);
-
-    KnowledgeUnit.hasOne(KnowledgeUnit, { foreignKey: 'rootId' });
-    KnowledgeUnit.hasOne(KnowledgeUnit, { foreignKey: 'prevId' });
-    KnowledgeUnit.hasOne(KnowledgeUnit, { foreignKey: 'nextId' });
+    KnowledgeUnit.belongsToMany(sequelize.User, { through: 'KnowledgeUnitUser' });
 
     KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'knowledgeType' });
     KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'courseLevel' });
@@ -175,7 +171,13 @@ class KnowledgeUnit extends Model {
     KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'eqfLevel' });
     KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'licence' });
 
-    KnowledgeUnit.belongsToMany(sequelize.User, { through: 'KnowledgeUnitUser' });
+    KnowledgeUnit.hasMany(sequelize.KnowledgeUnitTag, { as: 'Tags' });
+
+    KnowledgeUnit.hasOne(KnowledgeUnit, { foreignKey: 'rootId' });
+    KnowledgeUnit.hasOne(KnowledgeUnit, { foreignKey: 'prevId' });
+    KnowledgeUnit.hasOne(KnowledgeUnit, { foreignKey: 'nextId' });
+
+    KnowledgeUnit.belongsTo(sequelize.LearningUnit);
   }
 }
 
