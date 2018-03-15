@@ -72,6 +72,15 @@ export default {
       },
     },
 
+    minimumScreenResolution: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'Taxonomies',
+        key: 'id',
+      },
+    },
+
     suitableBlind: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
@@ -144,11 +153,6 @@ export default {
     },
 
     recommendedAge: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-
-    minimumScreenResolution: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },

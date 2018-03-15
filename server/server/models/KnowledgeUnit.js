@@ -75,6 +75,15 @@ class KnowledgeUnit extends Model {
         },
       },
 
+      minimumScreenResolution: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Taxonomies',
+          key: 'id',
+        },
+      },
+
       suitableBlind: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
@@ -150,11 +159,6 @@ class KnowledgeUnit extends Model {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
-
-      minimumScreenResolution: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-      },
     }, {
       sequelize,
       updatedAt: false,
@@ -164,6 +168,7 @@ class KnowledgeUnit extends Model {
   static associate(sequelize) {
     KnowledgeUnit.belongsToMany(sequelize.User, { through: 'KnowledgeUnitUser' });
 
+    KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'minimumScreenResolution' });
     KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'knowledgeType' });
     KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'courseLevel' });
     KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'objextType' });
