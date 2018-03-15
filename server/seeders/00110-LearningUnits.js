@@ -1,7 +1,7 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.rawSelect('Taxonomies', {
+  up: (queryInterface, Sequelize) => queryInterface.rawSelect('Users', {
     where: {
-      id: 1,
+      username: 'admin',
     },
   }, ['id'])
     .then(user => queryInterface.bulkInsert('LearningUnits', [
