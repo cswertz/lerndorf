@@ -106,6 +106,7 @@ class User extends Model {
 
     User.belongsToMany(sequelize.Role, { through: 'UserRole' });
     User.belongsToMany(sequelize.Language, { through: 'UserLanguage' });
+    User.belongsToMany(sequelize.KnowledgeUnit, { through: 'KnowledgeUnitUser' });
   }
 }
 

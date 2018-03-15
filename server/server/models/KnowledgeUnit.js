@@ -174,6 +174,8 @@ class KnowledgeUnit extends Model {
     KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'mediaType' });
     KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'eqfLevel' });
     KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'licence' });
+
+    KnowledgeUnit.belongsToMany(sequelize.User, { through: 'KnowledgeUnitUser' });
   }
 }
 
