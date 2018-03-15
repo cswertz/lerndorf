@@ -28,6 +28,7 @@ class Language extends Model {
   static associate(sequelize) {
     Language.belongsToMany(sequelize.User, { through: 'UserLanguage' });
     Language.belongsToMany(sequelize.Taxonomy, { through: 'TaxonomyLanguage' });
+    Language.belongsToMany(sequelize.LearningUnit, { through: 'LearningUnitLanguage' });
   }
 }
 
