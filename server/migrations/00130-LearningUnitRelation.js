@@ -39,6 +39,15 @@ export default {
       onDelete: 'cascade',
     },
 
+    type: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'Taxonomies',
+        key: 'id',
+      },
+    },
+
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,

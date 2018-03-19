@@ -41,6 +41,15 @@ class LearningUnitRelation extends Model {
         },
         onDelete: 'cascade',
       },
+
+      type: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Taxonomies',
+          key: 'id',
+        },
+      },
     }, {
       sequelize,
       updatedAt: false,
@@ -49,6 +58,7 @@ class LearningUnitRelation extends Model {
 
   static associate(sequelize) {
     LearningUnitRelation.belongsTo(sequelize.User);
+    LearningUnitRelation.hasOne(sequelize.Taxonomy, { foreignKey: 'type' });
   }
 }
 
