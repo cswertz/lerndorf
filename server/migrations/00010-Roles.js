@@ -1,32 +1,32 @@
 export default {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('Roles', {
+  up: (queryInterface, DataTypes) => queryInterface.createTable('Roles', {
     id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
     },
 
     slug: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
       unique: true,
     },
 
     name: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
     },
 
     createdAt: {
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
       allowNull: false,
     },
 
     updatedAt: {
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
       allowNull: false,
     },
   }),

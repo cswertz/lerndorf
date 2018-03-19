@@ -1,14 +1,14 @@
 export default {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('LearningUnits', {
+  up: (queryInterface, DataTypes) => queryInterface.createTable('LearningUnits', {
     id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
     },
 
     rootId: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: 'LearningUnits',
@@ -18,7 +18,7 @@ export default {
     },
 
     prevId: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: 'LearningUnits',
@@ -27,7 +27,7 @@ export default {
     },
 
     nextId: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: 'Taxonomies',
@@ -36,7 +36,7 @@ export default {
     },
 
     UserId: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: 'Users',
@@ -46,7 +46,7 @@ export default {
     },
 
     createdAt: {
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
       allowNull: false,
       unique: 'learningUnitsRootIdCreatedAt',
     },

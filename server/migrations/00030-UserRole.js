@@ -1,14 +1,14 @@
 export default {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('UserRole', {
+  up: (queryInterface, DataTypes) => queryInterface.createTable('UserRole', {
     id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
     },
 
     UserId: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
       references: {
@@ -19,7 +19,7 @@ export default {
     },
 
     RoleId: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
       references: {
@@ -30,12 +30,12 @@ export default {
     },
 
     createdAt: {
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
       allowNull: false,
     },
 
     updatedAt: {
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
       allowNull: false,
     },
   }),
