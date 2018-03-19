@@ -72,6 +72,8 @@ class Text extends Model {
   }
 
   static associate(sequelize) {
+    Text.belongsToMany(sequelize.File, { through: 'TextFile' });
+
     Text.hasOne(Text, { foreignKey: 'rootId' });
     Text.hasOne(Text, { foreignKey: 'prevId' });
     Text.hasOne(Text, { foreignKey: 'nextId' });
