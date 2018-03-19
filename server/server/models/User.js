@@ -100,6 +100,7 @@ class User extends Model {
   }
 
   static associate(sequelize) {
+    User.hasMany(sequelize.KnowledgeUnitUserRating, { as: 'KnowledgeUnitUserRatings' });
     User.hasMany(sequelize.LearningUnitLanguage, { as: 'LearningUnitLanguages' });
     User.hasMany(sequelize.LearningUnitRelation, { as: 'LearningUnitRelations' });
     User.hasMany(sequelize.KnowledgeUnitTag, { as: 'KnowledgeUnitTags' });

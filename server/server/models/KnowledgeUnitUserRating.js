@@ -49,8 +49,8 @@ class KnowledgeUnitUserRating extends Model {
   }
 
   static associate(sequelize) {
-    KnowledgeUnitTag.belongsTo(sequelize.KnowledgeUnit);
-    KnowledgeUnitTag.belongsTo(sequelize.User);
+    KnowledgeUnitUserRating.belongsTo(sequelize.KnowledgeUnit);
+    KnowledgeUnitUserRating.belongsTo(sequelize.User);
   }
 }
 
