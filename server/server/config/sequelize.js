@@ -12,6 +12,7 @@ import Language from '../models/Language';
 import User from '../models/User';
 import Role from '../models/Role';
 import File from '../models/File';
+import Text from '../models/Text';
 
 const models = [
   KnowledgeUnitUserRating,
@@ -26,6 +27,7 @@ const models = [
   User,
   Role,
   File,
+  Text,
 ];
 
 /* istanbul ignore next */
