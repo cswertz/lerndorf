@@ -28,6 +28,15 @@ class User extends Model {
         },
       },
 
+      privacyLevel: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Taxonomies',
+          key: 'id',
+        },
+      },
+
       password: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -85,10 +94,6 @@ class User extends Model {
         type: DataTypes.STRING,
       },
 
-      privacyLevel: {
-        type: DataTypes.INTEGER,
-      },
-
       description: {
         type: DataTypes.TEXT,
       },
@@ -113,6 +118,8 @@ class User extends Model {
     User.belongsToMany(sequelize.KnowledgeUnit, { through: 'KnowledgeUnitUser' });
     User.belongsToMany(sequelize.Language, { through: 'UserLanguage' });
     User.belongsToMany(sequelize.Role, { through: 'UserRole' });
+
+    User.hasOne(sequelize.Taxonomy, { foreignKey: 'privacyLevel' });
   }
 }
 
