@@ -80,6 +80,8 @@ class LogUser extends Model {
     LogUser.hasOne(sequelize.LearningUnit);
     LogUser.hasOne(sequelize.KnowledgeUnit);
     // LogUser.hasOne(sequelize.Course);
+
+    LogUser.belongsToMany(sequelize.Role, { through: 'LogUserRole' });
   }
 }
 
