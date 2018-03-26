@@ -22,6 +22,7 @@ describe('Text', () => {
   const texts = [];
   const knowledgeUnitIds = [];
   const languageIds = [];
+  const users = [];
 
   before((done) => {
     models.Text.truncate({
@@ -44,22 +45,37 @@ describe('Text', () => {
       cascade: true,
     });
 
+    models.User.truncate({
+      restartIdentity: true,
+      cascade: true,
+    });
+
     models.LearningUnit.create({})
       .then((result) => {
-        models.KnowledgeUnit.create({
-          LearningUnitId: result.get().id,
+        models.User.create({
+          username: 'user',
+          email: 'foobar@example.com',
+          password: 'foobar',
         })
-          .then((result1) => {
-            knowledgeUnitIds.push(result1.get().id);
+          .then((user) => {
+            users.push(user.get());
 
-            models.Language.create({
-              code: 'en',
-              name: 'English',
+            models.KnowledgeUnit.create({
+              LearningUnitId: result.get().id,
+              UserId: users[0].id,
             })
-              .then((result2) => {
-                languageIds.push(result2.get().id);
+              .then((result1) => {
+                knowledgeUnitIds.push(result1.get().id);
 
-                done();
+                models.Language.create({
+                  code: 'en',
+                  name: 'English',
+                })
+                  .then((result2) => {
+                    languageIds.push(result2.get().id);
+
+                    done();
+                  });
               });
           });
       });

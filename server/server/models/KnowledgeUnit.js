@@ -21,6 +21,17 @@ class KnowledgeUnit extends Model {
         onDelete: 'cascade',
       },
 
+      UserId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        notEmpty: true,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+        onDelete: 'cascade',
+      },
+
       mediaType: {
         type: DataTypes.INTEGER,
         allowNull: true,
@@ -194,6 +205,7 @@ class KnowledgeUnit extends Model {
     KnowledgeUnit.hasOne(KnowledgeUnit, { foreignKey: 'nextId' });
 
     KnowledgeUnit.belongsTo(sequelize.LearningUnit);
+    KnowledgeUnit.belongsTo(sequelize.User);
   }
 }
 

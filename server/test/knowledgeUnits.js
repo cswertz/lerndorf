@@ -11,6 +11,7 @@ chai.use(chaiHttp);
 describe('KnowledgeUnit', () => {
   const knowledgeUnits = [];
   const learningUnits = [];
+  const users = [];
 
   before((done) => {
     models.KnowledgeUnit.truncate({
@@ -23,12 +24,26 @@ describe('KnowledgeUnit', () => {
       cascade: true,
     });
 
+    models.User.truncate({
+      restartIdentity: true,
+      cascade: true,
+    });
+
     models.LearningUnit.create({})
       .then((result) => {
         const learningUnit = result.get();
         learningUnits.push(learningUnit);
 
-        done();
+        models.User.create({
+          username: 'user',
+          email: 'foobar@example.com',
+          password: 'foobar',
+        })
+          .then((user) => {
+            users.push(user.get());
+
+            done();
+          });
       });
   });
 
@@ -62,7 +77,7 @@ describe('KnowledgeUnit', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('error');
           res.body.should.have.property('errors');
-          res.body.errors.length.should.be.eql(2);
+          res.body.errors.length.should.be.eql(4);
 
           done();
         });
@@ -73,6 +88,7 @@ describe('KnowledgeUnit', () => {
         .post('/api/knowledgeUnits')
         .send({
           LearningUnitId: learningUnits[0].id,
+          UserId: users[0].id,
         })
         .end((err, res) => {
           res.should.have.status(200);
@@ -91,6 +107,7 @@ describe('KnowledgeUnit', () => {
         .post('/api/knowledgeUnits')
         .send({
           LearningUnitId: learningUnits[0].id,
+          UserId: users[0].id,
         })
         .end((err, res) => {
           res.should.have.status(200);

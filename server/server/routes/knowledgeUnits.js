@@ -16,6 +16,10 @@ router.post('/', (req, res) => {
     .isInt()
     .notEmpty();
 
+  req.checkBody('UserId', 'LearningUnitId is required')
+    .isInt()
+    .notEmpty();
+
   req.getValidationResult().then((errors) => {
     if (!errors.isEmpty()) {
       return res.status(400).send({

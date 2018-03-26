@@ -104,6 +104,7 @@ class User extends Model {
     User.hasMany(sequelize.LearningUnitLanguage, { as: 'LearningUnitLanguages' });
     User.hasMany(sequelize.LearningUnitRelation, { as: 'LearningUnitRelations' });
     User.hasMany(sequelize.KnowledgeUnitTag, { as: 'KnowledgeUnitTags' });
+    User.hasMany(sequelize.KnowledgeUnit, { as: 'KnowledgeUnits' });
     User.hasMany(sequelize.LearningUnit, { as: 'LearningUnits' });
     User.hasMany(sequelize.LogUser, { as: 'Logs' });
 
