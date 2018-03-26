@@ -9,6 +9,7 @@ import LearningUnit from '../models/LearningUnit';
 import Capability from '../models/Capability';
 import Taxonomy from '../models/Taxonomy';
 import Language from '../models/Language';
+import LogUser from '../models/LogUser';
 import User from '../models/User';
 import Role from '../models/Role';
 import File from '../models/File';
@@ -24,6 +25,7 @@ const models = [
   Capability,
   Language,
   Taxonomy,
+  LogUser,
   User,
   Role,
   File,
