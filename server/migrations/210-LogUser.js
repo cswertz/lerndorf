@@ -20,8 +20,7 @@ export default {
 
     KnowledgeUnitId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      notEmpty: true,
+      allowNull: true,
       references: {
         model: 'KnowledgeUnits',
         key: 'id',
@@ -31,8 +30,7 @@ export default {
 
     LearningUnitId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      notEmpty: true,
+      allowNull: true,
       references: {
         model: 'KnowledgeUnits',
         key: 'id',
@@ -43,8 +41,7 @@ export default {
     /*
     CourseId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      notEmpty: true,
+      allowNull: true,
       references: {
         model: 'Courses',
         key: 'id',
