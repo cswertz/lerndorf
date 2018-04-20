@@ -27,6 +27,7 @@ class Capability extends Model {
 
   static associate(sequelize) {
     Capability.belongsToMany(sequelize.Role, { through: 'RoleCapability' });
+    Capability.belongsToMany(sequelize.Languages, { through: 'CapabilityLanguage' });
   }
 }
 
