@@ -5,7 +5,7 @@ module.exports = {
     },
   }, ['id'])
     .then((user) => {
-      queryInterface.bulkInsert('KnowledgeUnitTag', [
+      queryInterface.bulkInsert('LearningUnitTag', [
         {
           KnowledgeUnitId: 1,
           UserId: user,
@@ -15,7 +15,7 @@ module.exports = {
       ], {});
     }),
 
-  down: queryInterface => queryInterface.bulkDelete('KnowledgeUnitTag', {
+  down: queryInterface => queryInterface.bulkDelete('LearningUnitTag', {
     // Where clause
   }),
 };

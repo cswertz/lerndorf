@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 
-class KnowledgeUnitTag extends Model {
+class LearningUnitTag extends Model {
   static init(sequelize) {
     return super.init({
       id: {
@@ -44,9 +44,9 @@ class KnowledgeUnitTag extends Model {
   }
 
   static associate(sequelize) {
-    KnowledgeUnitTag.belongsTo(sequelize.KnowledgeUnit);
-    KnowledgeUnitTag.belongsTo(sequelize.User);
+    LearningUnitTag.belongsTo(sequelize.KnowledgeUnit);
+    LearningUnitTag.belongsTo(sequelize.User);
   }
 }
 
-export default KnowledgeUnitTag;
+export default LearningUnitTag;

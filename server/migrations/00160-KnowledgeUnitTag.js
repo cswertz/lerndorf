@@ -1,5 +1,5 @@
 export default {
-  up: (queryInterface, DataTypes) => queryInterface.createTable('KnowledgeUnitTag', {
+  up: (queryInterface, DataTypes) => queryInterface.createTable('LearningUnitTag', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,

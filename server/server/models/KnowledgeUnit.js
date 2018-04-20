@@ -197,7 +197,7 @@ class KnowledgeUnit extends Model {
     KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'licence' });
 
     KnowledgeUnit.hasMany(sequelize.KnowledgeUnitUserRating, { as: 'Ratings' });
-    KnowledgeUnit.hasMany(sequelize.KnowledgeUnitTag, { as: 'Tags' });
+    KnowledgeUnit.hasMany(sequelize.LearningUnitTag, { as: 'Tags' });
     KnowledgeUnit.hasMany(sequelize.Text, { as: 'Texts' });
 
     KnowledgeUnit.hasOne(KnowledgeUnit, { foreignKey: 'rootId' });

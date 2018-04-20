@@ -28,7 +28,16 @@ class User extends Model {
         },
       },
 
-      privacyLevel: {
+      privacyLevelLog: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Taxonomies',
+          key: 'id',
+        },
+      },
+
+      privacyLevelProfile: {
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
@@ -108,7 +117,7 @@ class User extends Model {
     User.hasMany(sequelize.KnowledgeUnitUserRating, { as: 'KnowledgeUnitUserRatings' });
     User.hasMany(sequelize.LearningUnitLanguage, { as: 'LearningUnitLanguages' });
     User.hasMany(sequelize.LearningUnitRelation, { as: 'LearningUnitRelations' });
-    User.hasMany(sequelize.KnowledgeUnitTag, { as: 'KnowledgeUnitTags' });
+    User.hasMany(sequelize.LearningUnitTag, { as: 'LearningUnitTags' });
     User.hasMany(sequelize.KnowledgeUnit, { as: 'KnowledgeUnits' });
     User.hasMany(sequelize.LearningUnit, { as: 'LearningUnits' });
     User.hasMany(sequelize.LogUser, { as: 'Logs' });
@@ -119,7 +128,8 @@ class User extends Model {
     User.belongsToMany(sequelize.Language, { through: 'UserLanguage' });
     User.belongsToMany(sequelize.Role, { through: 'UserRole' });
 
-    User.hasOne(sequelize.Taxonomy, { foreignKey: 'privacyLevel' });
+    User.hasOne(sequelize.Taxonomy, { foreignKey: 'privacyLevelLog' });
+    User.hasOne(sequelize.Taxonomy, { foreignKey: 'privacyLevelProfile' });
   }
 }
 
