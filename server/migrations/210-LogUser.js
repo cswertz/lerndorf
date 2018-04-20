@@ -1,5 +1,5 @@
 export default {
-  up: (queryInterface, DataTypes) => queryInterface.createTable('LearningUnitRelation', {
+  up: (queryInterface, DataTypes) => queryInterface.createTable('LogUser', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -7,31 +7,10 @@ export default {
       allowNull: false,
     },
 
-    sourceId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      notEmpty: true,
-      references: {
-        model: 'LearningUnits',
-        key: 'id',
-      },
-      onDelete: 'cascade',
-    },
-
-    targetId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      notEmpty: true,
-      references: {
-        model: 'LearningUnits',
-        key: 'id',
-      },
-      onDelete: 'cascade',
-    },
-
     UserId: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
+      notEmpty: true,
       references: {
         model: 'Users',
         key: 'id',
@@ -39,13 +18,48 @@ export default {
       onDelete: 'cascade',
     },
 
-    type: {
+    KnowledgeUnitId: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'Taxonomies',
+        model: 'KnowledgeUnits',
         key: 'id',
       },
+      onDelete: 'cascade',
+    },
+
+    LearningUnitId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'KnowledgeUnits',
+        key: 'id',
+      },
+      onDelete: 'cascade',
+    },
+
+    /*
+    CourseId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'Courses',
+        key: 'id',
+      },
+      onDelete: 'cascade',
+    },
+    */
+
+    mode: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      notEmpty: true,
+    },
+
+    navigationTool: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      notEmpty: true,
     },
 
     createdAt: {
@@ -53,5 +67,5 @@ export default {
       allowNull: false,
     },
   }),
-  down: queryInterface => queryInterface.dropTable('TaxonomyLanguage'),
+  down: queryInterface => queryInterface.dropTable('LogUser'),
 };

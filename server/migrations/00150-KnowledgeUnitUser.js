@@ -1,14 +1,14 @@
 export default {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('KnowledgeUnitUser', {
+  up: (queryInterface, DataTypes) => queryInterface.createTable('KnowledgeUnitUser', {
     id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
     },
 
     KnowledgeUnitId: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
       references: {
@@ -19,7 +19,7 @@ export default {
     },
 
     UserId: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
       references: {
@@ -30,7 +30,7 @@ export default {
     },
 
     createdAt: {
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
       allowNull: false,
     },
   }),

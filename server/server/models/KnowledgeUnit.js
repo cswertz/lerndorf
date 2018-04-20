@@ -21,6 +21,17 @@ class KnowledgeUnit extends Model {
         onDelete: 'cascade',
       },
 
+      UserId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        notEmpty: true,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+        onDelete: 'cascade',
+      },
+
       mediaType: {
         type: DataTypes.INTEGER,
         allowNull: true,
@@ -105,6 +116,13 @@ class KnowledgeUnit extends Model {
         notEmpty: true,
       },
 
+      publish: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+        allowNull: false,
+        notEmpty: true,
+      },
+
       review: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
@@ -166,6 +184,8 @@ class KnowledgeUnit extends Model {
   }
 
   static associate(sequelize) {
+    KnowledgeUnit.belongsToMany(sequelize.User, { through: 'KnowledgeUnitUserRating' });
+    KnowledgeUnit.belongsToMany(sequelize.User, { through: 'KnowledgeUnitUserLog' });
     KnowledgeUnit.belongsToMany(sequelize.User, { through: 'KnowledgeUnitUser' });
 
     KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'minimumScreenResolution' });
@@ -176,13 +196,16 @@ class KnowledgeUnit extends Model {
     KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'eqfLevel' });
     KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'licence' });
 
-    KnowledgeUnit.hasMany(sequelize.KnowledgeUnitTag, { as: 'Tags' });
+    KnowledgeUnit.hasMany(sequelize.KnowledgeUnitUserRating, { as: 'Ratings' });
+    KnowledgeUnit.hasMany(sequelize.LearningUnitTag, { as: 'Tags' });
+    KnowledgeUnit.hasMany(sequelize.Text, { as: 'Texts' });
 
     KnowledgeUnit.hasOne(KnowledgeUnit, { foreignKey: 'rootId' });
     KnowledgeUnit.hasOne(KnowledgeUnit, { foreignKey: 'prevId' });
     KnowledgeUnit.hasOne(KnowledgeUnit, { foreignKey: 'nextId' });
 
     KnowledgeUnit.belongsTo(sequelize.LearningUnit);
+    KnowledgeUnit.belongsTo(sequelize.User);
   }
 }
 

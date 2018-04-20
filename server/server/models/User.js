@@ -28,6 +28,24 @@ class User extends Model {
         },
       },
 
+      privacyLevelLog: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Taxonomies',
+          key: 'id',
+        },
+      },
+
+      privacyLevelProfile: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Taxonomies',
+          key: 'id',
+        },
+      },
+
       password: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -85,10 +103,6 @@ class User extends Model {
         type: DataTypes.STRING,
       },
 
-      privacyLevel: {
-        type: DataTypes.INTEGER,
-      },
-
       description: {
         type: DataTypes.TEXT,
       },
@@ -100,14 +114,22 @@ class User extends Model {
   }
 
   static associate(sequelize) {
+    User.hasMany(sequelize.KnowledgeUnitUserRating, { as: 'KnowledgeUnitUserRatings' });
     User.hasMany(sequelize.LearningUnitLanguage, { as: 'LearningUnitLanguages' });
     User.hasMany(sequelize.LearningUnitRelation, { as: 'LearningUnitRelations' });
-    User.hasMany(sequelize.KnowledgeUnitTag, { as: 'KnowledgeUnitTags' });
+    User.hasMany(sequelize.LearningUnitTag, { as: 'LearningUnitTags' });
+    User.hasMany(sequelize.KnowledgeUnit, { as: 'KnowledgeUnits' });
     User.hasMany(sequelize.LearningUnit, { as: 'LearningUnits' });
+    User.hasMany(sequelize.LogUser, { as: 'Logs' });
 
+    User.belongsToMany(sequelize.KnowledgeUnit, { through: 'KnowledgeUnitUserRating' });
+    User.belongsToMany(sequelize.KnowledgeUnit, { through: 'KnowledgeUnitUserLog' });
     User.belongsToMany(sequelize.KnowledgeUnit, { through: 'KnowledgeUnitUser' });
     User.belongsToMany(sequelize.Language, { through: 'UserLanguage' });
     User.belongsToMany(sequelize.Role, { through: 'UserRole' });
+
+    User.hasOne(sequelize.Taxonomy, { foreignKey: 'privacyLevelLog' });
+    User.hasOne(sequelize.Taxonomy, { foreignKey: 'privacyLevelProfile' });
   }
 }
 

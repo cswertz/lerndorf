@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 
-class LearningUnitRelation extends Model {
+class LogUser extends Model {
   static init(sequelize) {
     return super.init({
       id: {
@@ -10,31 +10,10 @@ class LearningUnitRelation extends Model {
         allowNull: false,
       },
 
-      sourceId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        notEmpty: true,
-        references: {
-          model: 'LearningUnits',
-          key: 'id',
-        },
-        onDelete: 'cascade',
-      },
-
-      targetId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        notEmpty: true,
-        references: {
-          model: 'LearningUnits',
-          key: 'id',
-        },
-        onDelete: 'cascade',
-      },
-
       UserId: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
+        notEmpty: true,
         references: {
           model: 'Users',
           key: 'id',
@@ -42,14 +21,53 @@ class LearningUnitRelation extends Model {
         onDelete: 'cascade',
       },
 
-      type: {
+      KnowledgeUnitId: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
+        notEmpty: true,
         references: {
-          model: 'Taxonomies',
+          model: 'KnowledgeUnits',
           key: 'id',
         },
+        onDelete: 'cascade',
       },
+
+      LearningUnitId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        notEmpty: true,
+        references: {
+          model: 'KnowledgeUnits',
+          key: 'id',
+        },
+        onDelete: 'cascade',
+      },
+
+      /*
+      CourseId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        notEmpty: true,
+        references: {
+          model: 'Courses',
+          key: 'id',
+        },
+        onDelete: 'cascade',
+      },
+      */
+
+      mode: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        notEmpty: true,
+      },
+
+      navigationTool: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        notEmpty: true,
+      },
+
     }, {
       sequelize,
       updatedAt: false,
@@ -57,9 +75,14 @@ class LearningUnitRelation extends Model {
   }
 
   static associate(sequelize) {
-    LearningUnitRelation.belongsTo(sequelize.User);
-    LearningUnitRelation.hasOne(sequelize.Taxonomy, { foreignKey: 'type' });
+    LogUser.belongsTo(sequelize.User);
+
+    LogUser.hasOne(sequelize.LearningUnit);
+    LogUser.hasOne(sequelize.KnowledgeUnit);
+    // LogUser.hasOne(sequelize.Course);
+
+    LogUser.belongsToMany(sequelize.Role, { through: 'LogUserRole' });
   }
 }
 
-export default LearningUnitRelation;
+export default LogUser;

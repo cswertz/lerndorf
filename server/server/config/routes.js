@@ -5,6 +5,7 @@ import taxonomies from '../routes/taxonomies';
 import languages from '../routes/languages';
 import users from '../routes/users';
 import files from '../routes/files';
+import texts from '../routes/texts';
 
 const configRoutes = (app) => {
   app.get('/', (req, res) => {
@@ -20,6 +21,7 @@ const configRoutes = (app) => {
   app.use('/api/languages', languages);
   app.use('/api/users', users);
   app.use('/api/files', files);
+  app.use('/api/texts', texts);
 };
 
 export default configRoutes;

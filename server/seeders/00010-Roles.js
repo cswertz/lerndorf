@@ -1,14 +1,25 @@
-module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.bulkInsert('Roles', [
-    {
-      slug: 'admin',
-      name: 'Admin',
-      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
-      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
-    },
-  ], {}),
+import models from '../server/config/sequelize';
 
-  down: queryInterface => queryInterface.bulkDelete('Roles', {
+const roles = [
+  {
     slug: 'admin',
-  }),
+    name: 'Admin',
+  },
+];
+
+export default {
+  up: async () => {
+    await models.Role.bulkCreate(roles);
+  },
+
+  down: async () => {
+    const slugs = roles.map(item => item.slug);
+    await models.Role.destroy({
+      where: {
+        slug: {
+          [models.Sequelize.Op.in]: slugs,
+        },
+      },
+    });
+  },
 };

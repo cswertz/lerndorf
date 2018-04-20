@@ -25,6 +25,25 @@ export default {
       },
     },
 
+    privacyLevelLog: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'Taxonomies',
+        key: 'id',
+      },
+    },
+
+    privacyLevelProfile: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'Taxonomies',
+        key: 'id',
+      },
+    },
+
+
     password: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -80,10 +99,6 @@ export default {
 
     picture: {
       type: DataTypes.STRING,
-    },
-
-    privacyLevel: {
-      type: DataTypes.INTEGER,
     },
 
     description: {

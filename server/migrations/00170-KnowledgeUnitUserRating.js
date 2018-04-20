@@ -1,5 +1,5 @@
 export default {
-  up: (queryInterface, DataTypes) => queryInterface.createTable('RoleCapability', {
+  up: (queryInterface, DataTypes) => queryInterface.createTable('KnowledgeUnitUserRating', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -7,37 +7,38 @@ export default {
       allowNull: false,
     },
 
-    RoleId: {
+    KnowledgeUnitId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      notEmpty: true,      
+      notEmpty: true,
       references: {
-        model: 'Roles',
+        model: 'KnowledgeUnits',
         key: 'id',
       },
       onDelete: 'cascade',
     },
 
-    CapabilityId: {
+    UserId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
       references: {
-        model: 'Capabilities',
+        model: 'Users',
         key: 'id',
       },
       onDelete: 'cascade',
+    },
+
+    rating: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      allowEmpty: false,
     },
 
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
     },
-
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
   }),
-  down: queryInterface => queryInterface.dropTable('RoleCapability'),
+  down: queryInterface => queryInterface.dropTable('KnowledgeUnitUserRating'),
 };

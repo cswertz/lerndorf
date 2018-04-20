@@ -1,7 +1,7 @@
 export default {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('Taxonomies', {
+  up: (queryInterface, DataTypes) => queryInterface.createTable('Taxonomies', {
     id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
@@ -9,36 +9,8 @@ export default {
       unique: true,
     },
 
-    rootId: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'Taxonomies',
-        key: 'id',
-      },
-      unique: 'taxonomyRootIdCreatedAt',
-    },
-
-    prevId: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'Taxonomies',
-        key: 'id',
-      },
-    },
-
-    nextId: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'Taxonomies',
-        key: 'id',
-      },
-    },
-
     parent: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: 'Taxonomies',
@@ -47,18 +19,18 @@ export default {
     },
 
     active: {
-      type: Sequelize.BOOLEAN,
+      type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
 
     type: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
     },
 
     createdAt: {
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
       allowNull: false,
       notEmpty: true,
       unique: 'taxonomyRootIdCreatedAt',

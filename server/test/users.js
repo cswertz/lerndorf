@@ -23,6 +23,11 @@ describe('User', () => {
   const roles = [];
 
   before((done) => {
+    models.User.truncate({
+      restartIdentity: true,
+      cascade: true,
+    });
+
     models.Role.create({
       slug: 'admin',
       name: 'Admin',

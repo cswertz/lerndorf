@@ -1,14 +1,14 @@
 export default {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('TaxonomyLanguage', {
+  up: (queryInterface, DataTypes) => queryInterface.createTable('TaxonomyLanguage', {
     id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
     },
 
     TaxonomyId: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
       references: {
@@ -19,7 +19,7 @@ export default {
     },
 
     LanguageId: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
       references: {
@@ -30,19 +30,19 @@ export default {
     },
 
     vocable: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
       defaultValue: 0,
     },
 
     createdAt: {
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
       allowNull: false,
     },
 
     updatedAt: {
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
       allowNull: false,
     },
   }),

@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 
-class LearningUnitRelation extends Model {
+class KnowledgeUnitUserRating extends Model {
   static init(sequelize) {
     return super.init({
       id: {
@@ -10,23 +10,12 @@ class LearningUnitRelation extends Model {
         allowNull: false,
       },
 
-      sourceId: {
+      KnowledgeUnitId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         notEmpty: true,
         references: {
-          model: 'LearningUnits',
-          key: 'id',
-        },
-        onDelete: 'cascade',
-      },
-
-      targetId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        notEmpty: true,
-        references: {
-          model: 'LearningUnits',
+          model: 'KnowledgeUnits',
           key: 'id',
         },
         onDelete: 'cascade',
@@ -34,7 +23,8 @@ class LearningUnitRelation extends Model {
 
       UserId: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
+        notEmpty: true,
         references: {
           model: 'Users',
           key: 'id',
@@ -42,13 +32,15 @@ class LearningUnitRelation extends Model {
         onDelete: 'cascade',
       },
 
-      type: {
+      rating: {
         type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-          model: 'Taxonomies',
-          key: 'id',
-        },
+        allowNull: false,
+        allowEmpty: false,
+      },
+
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
       },
     }, {
       sequelize,
@@ -57,9 +49,9 @@ class LearningUnitRelation extends Model {
   }
 
   static associate(sequelize) {
-    LearningUnitRelation.belongsTo(sequelize.User);
-    LearningUnitRelation.hasOne(sequelize.Taxonomy, { foreignKey: 'type' });
+    KnowledgeUnitUserRating.belongsTo(sequelize.KnowledgeUnit);
+    KnowledgeUnitUserRating.belongsTo(sequelize.User);
   }
 }
 
-export default LearningUnitRelation;
+export default KnowledgeUnitUserRating;

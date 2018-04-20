@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 
-class KnowledgeUnitTag extends Model {
+class RoleLanguage extends Model {
   static init(sequelize) {
     return super.init({
       id: {
@@ -8,45 +8,56 @@ class KnowledgeUnitTag extends Model {
         autoIncrement: true,
         primaryKey: true,
         allowNull: false,
+        unique: 'idcreatedAt',
       },
 
-      KnowledgeUnitId: {
+      roleId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         notEmpty: true,
+        unique: 'roleIdlanguageId',
         references: {
-          model: 'KnowledgeUnits',
+          model: 'Roles',
           key: 'id',
         },
         onDelete: 'cascade',
       },
 
-      UserId: {
+      languageId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         notEmpty: true,
+        unique: 'roleIdlanguageId',
         references: {
-          model: 'Users',
+          model: 'Languages',
           key: 'id',
         },
         onDelete: 'cascade',
       },
 
-      tag: {
+      vocable: {
         type: DataTypes.STRING,
         allowNull: false,
-        allowEmpty: false,
+        notEmpty: true,
       },
-    }, {
-      sequelize,
-      updatedAt: false,
-    });
+
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        unique: 'idcreatedAt',
+      },
+
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+    }, { sequelize });
   }
 
   static associate(sequelize) {
-    KnowledgeUnitTag.belongsTo(sequelize.KnowledgeUnit);
-    KnowledgeUnitTag.belongsTo(sequelize.User);
+    RoleLanguage.belongsTo(sequelize.Language);
+    RoleLanguage.belongsTo(sequelize.Role);
   }
 }
 
-export default KnowledgeUnitTag;
+export default RoleLanguage;

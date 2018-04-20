@@ -37,11 +37,9 @@ class File extends Model {
     }, { sequelize });
   }
 
-  /*
   static associate(sequelize) {
-
+    File.belongsToMany(sequelize.Text, { through: 'TextFile' });
   }
-  */
 }
 
 export default File;

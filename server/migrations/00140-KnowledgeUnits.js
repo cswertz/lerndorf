@@ -18,6 +18,17 @@ export default {
       onDelete: 'cascade',
     },
 
+    UserId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      notEmpty: true,
+      references: {
+        model: 'Users',
+        key: 'id',
+      },
+      onDelete: 'cascade',
+    },
+
     mediaType: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -98,6 +109,13 @@ export default {
     suitableDumb: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
+      allowNull: false,
+      notEmpty: true,
+    },
+
+    publish: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
       allowNull: false,
       notEmpty: true,
     },

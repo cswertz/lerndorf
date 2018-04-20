@@ -1,29 +1,35 @@
 import Sequelize from 'sequelize';
 
+import KnowledgeUnitUserRating from '../models/KnowledgeUnitUserRating';
 import LearningUnitLanguage from '../models/LearningUnitLanguage';
 import LearningUnitRelation from '../models/LearningUnitRelation';
-import KnowledgeUnitTag from '../models/KnowledgeUnitTag';
+import LearningUnitTag from '../models/LearningUnitTag';
 import KnowledgeUnit from '../models/KnowledgeUnit';
 import LearningUnit from '../models/LearningUnit';
 import Capability from '../models/Capability';
 import Taxonomy from '../models/Taxonomy';
 import Language from '../models/Language';
+import LogUser from '../models/LogUser';
 import User from '../models/User';
 import Role from '../models/Role';
 import File from '../models/File';
+import Text from '../models/Text';
 
 const models = [
+  KnowledgeUnitUserRating,
   LearningUnitLanguage,
   LearningUnitRelation,
-  KnowledgeUnitTag,
+  LearningUnitTag,
   KnowledgeUnit,
   LearningUnit,
   Capability,
   Language,
   Taxonomy,
+  LogUser,
   User,
   Role,
   File,
+  Text,
 ];
 
 /* istanbul ignore next */

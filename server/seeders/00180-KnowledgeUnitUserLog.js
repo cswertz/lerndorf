@@ -5,17 +5,17 @@ module.exports = {
     },
   }, ['id'])
     .then((user) => {
-      queryInterface.bulkInsert('KnowledgeUnitTag', [
+      queryInterface.bulkInsert('KnowledgeUnitUserLog', [
         {
           KnowledgeUnitId: 1,
           UserId: user,
-          tag: 'some Tag',
           createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+          updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
         },
       ], {});
     }),
 
-  down: queryInterface => queryInterface.bulkDelete('KnowledgeUnitTag', {
+  down: queryInterface => queryInterface.bulkDelete('KnowledgeUnitUserLog', {
     // Where clause
   }),
 };

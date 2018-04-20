@@ -8,18 +8,39 @@ chai.should();
 chai.use(chaiHttp);
 // const agent = chai.request.agent(server);
 
-describe('KnowledgeUnit', () => {
-  const knowledgeUnits = [];
-  const learningUnits = [];
+describe('Text', () => {
+  const text = {
+    content: 'Content comes here',
+    KnowledgeUnitId: 1,
+    LanguageId: 1,
+  };
+  const text1 = {
+    content: 'Content comes here',
+    KnowledgeUnitId: 1,
+    LanguageId: 1,
+  };
+  const texts = [];
+  const knowledgeUnitIds = [];
+  const languageIds = [];
   const users = [];
 
   before((done) => {
-    models.KnowledgeUnit.truncate({
+    models.Text.truncate({
       restartIdentity: true,
       cascade: true,
     });
 
     models.LearningUnit.truncate({
+      restartIdentity: true,
+      cascade: true,
+    });
+
+    models.KnowledgeUnit.truncate({
+      restartIdentity: true,
+      cascade: true,
+    });
+
+    models.Language.truncate({
       restartIdentity: true,
       cascade: true,
     });
@@ -31,9 +52,6 @@ describe('KnowledgeUnit', () => {
 
     models.LearningUnit.create({})
       .then((result) => {
-        const learningUnit = result.get();
-        learningUnits.push(learningUnit);
-
         models.User.create({
           username: 'user',
           email: 'foobar@example.com',
@@ -42,7 +60,23 @@ describe('KnowledgeUnit', () => {
           .then((user) => {
             users.push(user.get());
 
-            done();
+            models.KnowledgeUnit.create({
+              LearningUnitId: result.get().id,
+              UserId: users[0].id,
+            })
+              .then((result1) => {
+                knowledgeUnitIds.push(result1.get().id);
+
+                models.Language.create({
+                  code: 'en',
+                  name: 'English',
+                })
+                  .then((result2) => {
+                    languageIds.push(result2.get().id);
+
+                    done();
+                  });
+              });
           });
       });
   });
@@ -53,10 +87,10 @@ describe('KnowledgeUnit', () => {
     done();
   });
 
-  describe('GET /api/knowledgeUnits', () => {
-    it('it should GET all the knowledgeUnits', (done) => {
+  describe('GET /api/texts', () => {
+    it('it should GET all the texts', (done) => {
       chai.request(server)
-        .get('/api/knowledgeUnits')
+        .get('/api/texts')
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
@@ -67,28 +101,29 @@ describe('KnowledgeUnit', () => {
     });
   });
 
-  describe('POST /api/knowledgeUnits', () => {
+  describe('POST /api/texts', () => {
     it('it should display an error when required fields are missing', (done) => {
       chai.request(server)
-        .post('/api/knowledgeUnits')
+        .post('/api/texts')
         .send({})
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
           res.body.should.have.property('errors');
-          res.body.errors.length.should.be.eql(4);
+          res.body.errors.length.should.be.eql(3);
 
           done();
         });
     });
 
-    it('it should add a new KnowledgeUnit', (done) => {
+    it('it should add a new Text', (done) => {
       chai.request(server)
-        .post('/api/knowledgeUnits')
+        .post('/api/texts')
         .send({
-          LearningUnitId: learningUnits[0].id,
-          UserId: users[0].id,
+          content: text.content,
+          KnowledgeUnitId: knowledgeUnitIds[0],
+          LanguageId: languageIds[0],
         })
         .end((err, res) => {
           res.should.have.status(200);
@@ -96,18 +131,19 @@ describe('KnowledgeUnit', () => {
           res.body.should.have.property('id');
           res.body.should.have.property('createdAt');
 
-          knowledgeUnits[0] = res.body.id;
+          texts[0] = res.body.id;
 
           done();
         });
     });
 
-    it('it should add a different KnowledgeUnit', (done) => {
+    it('it should add a different Text', (done) => {
       chai.request(server)
-        .post('/api/knowledgeUnits')
+        .post('/api/texts')
         .send({
-          LearningUnitId: learningUnits[0].id,
-          UserId: users[0].id,
+          content: text1.content,
+          KnowledgeUnitId: knowledgeUnitIds[0],
+          LanguageId: languageIds[0],
         })
         .end((err, res) => {
           res.should.have.status(200);
@@ -115,17 +151,17 @@ describe('KnowledgeUnit', () => {
           res.body.should.have.property('id');
           res.body.should.have.property('createdAt');
 
-          knowledgeUnits[1] = res.body.id;
+          texts[1] = res.body.id;
 
           done();
         });
     });
   });
 
-  describe('GET /api/knowledgeUnits/:id', () => {
-    it('it should display KnowledgeUnit information', (done) => {
+  describe('GET /api/texts/:id', () => {
+    it('it should display Text information', (done) => {
       chai.request(server)
-        .get(`/api/knowledgeUnits/${knowledgeUnits[0]}`)
+        .get(`/api/texts/${texts[0]}`)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
@@ -137,10 +173,10 @@ describe('KnowledgeUnit', () => {
     });
   });
 
-  describe('DELETE /api/knowledgeUnits/:id', () => {
-    it('it should be possible to delete a KnowledgeUnit', (done) => {
+  describe('DELETE /api/texts/:id', () => {
+    it('it should be possible to delete a Text', (done) => {
       chai.request(server)
-        .delete(`/api/knowledgeUnits/${knowledgeUnits[0]}`)
+        .delete(`/api/texts/${texts[0]}`)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');

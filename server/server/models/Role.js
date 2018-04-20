@@ -28,6 +28,8 @@ class Role extends Model {
   static associate(sequelize) {
     Role.belongsToMany(sequelize.User, { through: 'UserRole' });
     Role.belongsToMany(sequelize.Capability, { through: 'RoleCapability' });
+    Role.belongsToMany(sequelize.LogUser, { through: 'LogUserRole' });
+    Role.belongsToMany(sequelize.Language, { through: 'RoleLanguage' });
   }
 }
 
