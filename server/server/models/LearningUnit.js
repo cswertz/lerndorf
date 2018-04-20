@@ -10,33 +10,6 @@ class LearningUnit extends Model {
         allowNull: false,
       },
 
-      rootId: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-          model: 'LearningUnits',
-          key: 'id',
-        },
-        unique: 'learningUnitsRootIdCreatedAt',
-      },
-
-      prevId: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-          model: 'LearningUnits',
-          key: 'id',
-        },
-      },
-
-      nextId: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-          model: 'Taxonomies',
-          key: 'id',
-        },
-      },
     }, {
       sequelize,
       updatedAt: false,
