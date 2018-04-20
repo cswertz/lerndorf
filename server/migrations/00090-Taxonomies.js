@@ -9,34 +9,6 @@ export default {
       unique: true,
     },
 
-    rootId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'Taxonomies',
-        key: 'id',
-      },
-      unique: 'taxonomyRootIdCreatedAt',
-    },
-
-    prevId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'Taxonomies',
-        key: 'id',
-      },
-    },
-
-    nextId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'Taxonomies',
-        key: 'id',
-      },
-    },
-
     parent: {
       type: DataTypes.INTEGER,
       allowNull: true,

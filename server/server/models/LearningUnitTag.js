@@ -44,7 +44,7 @@ class LearningUnitTag extends Model {
   }
 
   static associate(sequelize) {
-    LearningUnitTag.belongsTo(sequelize.KnowledgeUnit);
+    LearningUnitTag.belongsTo(sequelize.LearningUnit);
     LearningUnitTag.belongsTo(sequelize.User);
   }
 }

@@ -12,36 +12,6 @@ class Taxonomy extends Model {
         unique: true,
       },
 
-      rootId: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-          model: 'Taxonomies',
-          key: 'id',
-        },
-        unique: 'taxonomyRootIdCreatedAt',
-      },
-
-      prevId: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-          model: 'Taxonomies',
-          key: 'id',
-        },
-        unique: 'taxonomyRootIdCreatedAt',
-      },
-
-      nextId: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-          model: 'Taxonomies',
-          key: 'id',
-        },
-        unique: 'taxonomyRootIdCreatedAt',
-      },
-
       parent: {
         type: DataTypes.INTEGER,
         allowNull: true,
