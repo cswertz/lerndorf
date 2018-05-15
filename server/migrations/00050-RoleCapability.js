@@ -10,7 +10,7 @@ export default {
     RoleId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      notEmpty: true,      
+      notEmpty: true,
       references: {
         model: 'Roles',
         key: 'id',

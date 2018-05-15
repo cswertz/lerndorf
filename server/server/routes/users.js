@@ -53,13 +53,27 @@ router.post('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
+  // TODO: Return id, username, lastLogin to non self and non edit users
+  // TODO: Return this only to self and to user with edit_user role
   models.User.findById(req.params.id, {
-    attributes: ['id', 'username', 'lastLogin', 'createdAt', 'updatedAt'],
+    attributes: [
+      'id',
+      'username',
+      'lastLogin',
+      'createdAt',
+      'updatedAt',
+    ],
     include: [
       {
         model: models.Role,
         attributes: ['id', 'slug', 'name'],
         through: { attributes: [] },
+        include: [
+          {
+            model: models.Capability,
+            attributes: ['id', 'slug', 'name'],
+          },
+        ],
       },
     ],
   })

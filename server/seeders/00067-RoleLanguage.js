@@ -1,7 +1,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.rawSelect('Roles', {
     where: {
-      id: 1,
+      slug: 'admin',
     },
   }, ['id'])
     .then((result) => {
@@ -15,6 +15,7 @@ module.exports = {
           {
             RoleId: role,
             LanguageId: language,
+            vocable: 'Admin',
             createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
             updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
           },
@@ -23,10 +24,10 @@ module.exports = {
 
   down: queryInterface => queryInterface.rawSelect('Roles', {
     where: {
-      id: 1,
+      slug: 'admin',
     },
   }, ['id'])
-    .then(taxonomy => queryInterface.bulkDelete('RoleLanguage', {
+    .then(role => queryInterface.bulkDelete('RoleLanguage', {
       RoleId: role,
     })),
 };

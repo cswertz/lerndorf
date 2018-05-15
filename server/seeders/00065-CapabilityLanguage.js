@@ -1,11 +1,11 @@
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.rawSelect('Capabilities', {
     where: {
-      id: 1,
+      slug: 'edit_user',
     },
   }, ['id'])
     .then((result) => {
-      const taxonomy = result;
+      const capability = result;
       return queryInterface.rawSelect('Languages', {
         where: {
           code: 'en',
@@ -13,8 +13,9 @@ module.exports = {
       }, ['id'])
         .then(language => queryInterface.bulkInsert('CapabilityLanguage', [
           {
-            TaxonomyId: taxonomy,
+            CapabilityId: capability,
             LanguageId: language,
+            vocable: 'Edit User',
             createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
             updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
           },

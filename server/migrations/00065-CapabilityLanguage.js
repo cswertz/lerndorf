@@ -1,31 +1,31 @@
 export default {
-  up: (queryInterface, DataTypes) => queryInterface.createTable('RoleLanguage', {
+  up: (queryInterface, DataTypes) => queryInterface.createTable('CapabilityLanguage', {
 
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
-      unique: 'idcreatedAt',      
+      unique: 'idcreatedAt',
     },
 
-    roleId: {
+    CapabilityId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
-      unique: 'roleIdlanguageId',
+      unique: 'capabilityIdlanguageId',
       references: {
-        model: 'Roles',
+        model: 'Capabilities',
         key: 'id',
       },
       onDelete: 'cascade',
     },
 
-    languageId: {
+    LanguageId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
-      unique: 'roleIdlanguageId',
+      unique: 'capabilityIdlanguageId',
       references: {
         model: 'Languages',
         key: 'id',
@@ -44,11 +44,11 @@ export default {
       allowNull: false,
       unique: 'idcreatedAt',
     },
-    
+
     updatedAt: {
       type: DataTypes.DATE,
       allowNull: false,
-    },     
-  }),  
-  down: queryInterface => queryInterface.dropTable('RoleLanguage'),
+    },
+  }),
+  down: queryInterface => queryInterface.dropTable('CapabilityLanguage'),
 };

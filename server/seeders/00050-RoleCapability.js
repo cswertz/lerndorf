@@ -8,7 +8,7 @@ module.exports = {
       const role = result;
       return queryInterface.rawSelect('Capabilities', {
         where: {
-          slug: 'edit_users',
+          slug: 'edit_user',
         },
       }, ['id'])
         .then(capability => queryInterface.bulkInsert('RoleCapability', [
