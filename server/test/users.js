@@ -383,7 +383,7 @@ describe('User', () => {
               password: 'newPassword',
             })
             .end((err, res) => {
-              res.should.have.status(401);
+              res.should.have.status(403);
               res.body.should.be.a('object');
               res.body.should.have.property('error');
 
@@ -471,7 +471,7 @@ describe('User', () => {
               id: roles[0].id,
             })
             .end((err, res) => {
-              res.should.have.status(401);
+              res.should.have.status(403);
               res.body.should.be.a('object');
               res.body.should.have.property('error');
 
@@ -570,7 +570,7 @@ describe('User', () => {
   describe('DELETE /api/users/:id/role/:role', () => {
     it('it should not be possible to remove a role by a guest user', (done) => {
       const role = roles[0];
-      agent
+      chai.request(server)
         .delete(`/api/users/${users[0]}/role/${role.id}`)
         .end((err, res) => {
           res.should.have.status(401);
@@ -629,7 +629,7 @@ describe('User', () => {
           agent
             .delete(`/api/users/${users[0]}`)
             .end((err, res) => {
-              res.should.have.status(401);
+              res.should.have.status(403);
               res.body.should.be.a('object');
               res.body.should.have.property('error');
 

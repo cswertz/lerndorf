@@ -14,7 +14,7 @@ const isSelf = (req, res, next) => {
       return next();
     }
 
-    return res.status(401).send({
+    return res.status(403).send({
       error: 'You can not do this to another user',
     });
   }
@@ -33,7 +33,7 @@ const hasRole = (...allowed) => (req, res, next) => {
       return next();
     }
 
-    return res.status(401).send({
+    return res.status(403).send({
       error: 'You do not have the role to do this',
     });
   }
@@ -43,7 +43,27 @@ const hasRole = (...allowed) => (req, res, next) => {
   });
 };
 
+const hasCapability = (...allowed) => (req, res, next) => {
+  if (req.user) {
+    const { capabilities } = req.user;
+    const permit = allowed.filter(item => capabilities.indexOf(item) > -1);
+
+    if (permit.length > 0) {
+      return next();
+    }
+
+    return res.status(403).send({
+      error: 'You do not have the capability to do this',
+    });
+  }
+
+  return res.status(401).send({
+    error: 'Not logged in.',
+  });
+};
+
 export {
+  hasCapability,
   isLoggedIn,
   hasRole,
   isSelf,
