@@ -2,7 +2,6 @@ import passport from 'passport';
 import express from 'express';
 
 import {
-  isLoggedIn,
   hasRole,
   isSelf,
 } from '../helpers/auth';
@@ -80,7 +79,7 @@ router.get('/:id', (req, res) => {
     .then(result => res.json(result));
 });
 
-router.patch('/:id', isLoggedIn, isSelf, (req, res) => {
+router.patch('/:id', isSelf, (req, res) => {
   delete (req.body.createdAt);
   delete (req.body.updatedAt);
   delete (req.body.lastLogin);
@@ -104,7 +103,7 @@ router.patch('/:id', isLoggedIn, isSelf, (req, res) => {
     });
 });
 
-router.delete('/:id', isLoggedIn, hasRole('admin'), (req, res) => {
+router.delete('/:id', hasRole('admin'), (req, res) => {
   models.User.destroy({
     where: {
       id: req.params.id,
@@ -138,7 +137,7 @@ router.post('/login', (req, res, next) => {
   });
 });
 
-router.post('/:id/role', isLoggedIn, hasRole('admin'), (req, res) => {
+router.post('/:id/role', hasRole('admin'), (req, res) => {
   req.checkBody('id', 'id is required').notEmpty();
 
   req.getValidationResult().then((errors) => {

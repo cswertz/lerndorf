@@ -9,29 +9,38 @@ const isLoggedIn = (req, res, next) => {
 };
 
 const isSelf = (req, res, next) => {
-  if (parseInt(req.params.id, 10) === parseInt(req.user.id, 10)) {
-    return next();
+  if (req.user) {
+    if (parseInt(req.params.id, 10) === parseInt(req.user.id, 10)) {
+      return next();
+    }
+
+    return res.status(401).send({
+      error: 'You can not do this to another user',
+    });
   }
 
   return res.status(401).send({
-    error: 'You can not do this to another user',
+    error: 'Not logged in.',
   });
 };
 
 const hasRole = (...allowed) => (req, res, next) => {
-  req.user.getRoles()
-    .then((results) => {
-      const roles = results.map(item => item.get().slug);
-      const permit = allowed.filter(item => roles.indexOf(item) > -1);
+  if (req.user) {
+    const { roles } = req.user;
+    const permit = allowed.filter(item => roles.indexOf(item) > -1);
 
-      if (permit.length > 0) {
-        next();
-      } else {
-        res.status(401).send({
-          error: 'You do not have the permission to do this',
-        });
-      }
+    if (permit.length > 0) {
+      return next();
+    }
+
+    return res.status(401).send({
+      error: 'You do not have the role to do this',
     });
+  }
+
+  return res.status(401).send({
+    error: 'Not logged in.',
+  });
 };
 
 export {
