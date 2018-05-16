@@ -51,26 +51,35 @@ The following ENV variables are available, including their default values, shoul
 
 ## Available Endpoints
 This section describes the available Endpoints and their functionality
-### /api/users
-#### GET
+
+### [POST] /api/users/login
+Login a user.
+
+### [GET] /api/users
 Returns a list of all available users.
 
-#### POST
+#### [POST] /api/users
 Create a new user.
+**Params:**
+* username
+* password
+* email
 
-### /api/users/:id
-#### GET
+### [GET] /api/users/:id
 Get information about a specific user.
 
-#### PATCH
+#### [PATCH] /api/users/:id
 Update submitted fields of a specific user.
 
-#### DELETE
+#### [DELETE] /api/users/:id
 Delete a specific user.
 
-### /api/users/login
-#### POST
-Login a user.
+### [POST] /api/users/:userId/role
+**Params:**:
+* id: the ID of the role to be assigned to user
+
+### [DELETE] /api/users/:userId/role/:roleId
+Delete the given role from the user
 
 ## First steps
 In this section I will describe how to add a new field to a model, by adding a new migration, customizing and running it:

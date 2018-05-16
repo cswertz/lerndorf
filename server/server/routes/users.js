@@ -11,6 +11,7 @@ import models from '../config/sequelize';
 
 const router = express.Router();
 
+/* User management */
 router.get('/', (req, res) => {
   models.User.findAll({
     attributes: ['id', 'username'],
@@ -138,6 +139,7 @@ router.post('/login', (req, res, next) => {
   });
 });
 
+/* User Role Management */
 router.post('/:id/role', hasCapability('add_role_to_user'), (req, res) => {
   req.checkBody('id', 'id is required').notEmpty();
 
