@@ -2,6 +2,7 @@ import passport from 'passport';
 import express from 'express';
 
 import {
+  hasCapability,
   hasRole,
   isSelf,
 } from '../helpers/auth';
@@ -137,7 +138,7 @@ router.post('/login', (req, res, next) => {
   });
 });
 
-router.post('/:id/role', hasRole('admin'), (req, res) => {
+router.post('/:id/role', hasCapability('add_role_to_user'), (req, res) => {
   req.checkBody('id', 'id is required').notEmpty();
 
   req.getValidationResult().then((errors) => {
@@ -167,7 +168,7 @@ router.post('/:id/role', hasRole('admin'), (req, res) => {
   });
 });
 
-router.delete('/:id/role/:role', hasRole('admin'), (req, res) => {
+router.delete('/:id/role/:role', hasCapability('delete_role_from_user'), (req, res) => {
   models.User.findById(req.params.id)
     .then((result) => {
       result.removeRole(req.params.roll);

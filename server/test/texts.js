@@ -45,16 +45,11 @@ describe('Text', () => {
       cascade: true,
     });
 
-    models.User.truncate({
-      restartIdentity: true,
-      cascade: true,
-    });
-
     models.LearningUnit.create({})
       .then((result) => {
         models.User.create({
-          username: 'user',
-          email: 'foobar@example.com',
+          username: 'userLearningUnit',
+          email: 'userLearningUnit@example.com',
           password: 'foobar',
         })
           .then((user) => {

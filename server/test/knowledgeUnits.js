@@ -24,11 +24,6 @@ describe('KnowledgeUnit', () => {
       cascade: true,
     });
 
-    models.User.truncate({
-      restartIdentity: true,
-      cascade: true,
-    });
-
     models.LearningUnit.create({})
       .then((result) => {
         const learningUnit = result.get();

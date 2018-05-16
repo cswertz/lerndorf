@@ -2,7 +2,6 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 
 import server from '../server/';
-import models from '../server/config/sequelize';
 
 chai.should();
 chai.use(chaiHttp);
@@ -19,26 +18,11 @@ describe('User', () => {
     password: 'password',
     email: 'username1@host.com',
   };
+  const admin = {
+    username: 'admin',
+    password: 'admin',
+  };
   const users = [];
-  const roles = [];
-
-  before((done) => {
-    models.User.truncate({
-      restartIdentity: true,
-      cascade: true,
-    });
-
-    models.Role.create({
-      slug: 'admin',
-      name: 'Admin',
-    })
-      .then((result) => {
-        const role = result.get();
-        roles.push(role);
-
-        done();
-      });
-  });
 
   after((done) => {
     server.close();
@@ -53,7 +37,7 @@ describe('User', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
-          res.body.length.should.be.eql(0);
+          res.body.length.should.not.be.eql(0);
 
           done();
         });
@@ -329,8 +313,8 @@ describe('User', () => {
       chai.request(server)
         .post('/api/users/login')
         .send({
-          username: 'user',
-          password: 'pass',
+          username: 'unknown',
+          password: 'unknown',
         })
         .end((err, res) => {
           res.should.have.status(409);
@@ -449,7 +433,7 @@ describe('User', () => {
       chai.request(server)
         .post(`/api/users/${users[0]}/role`)
         .send({
-          id: roles[0].id,
+          id: 1,
         })
         .end((err, res) => {
           res.should.have.status(401);
@@ -460,7 +444,7 @@ describe('User', () => {
         });
     });
 
-    it('it should not be possible to add a role by a non admin user', (done) => {
+    it('it should not be possible to add a role by a user without proper permissions', (done) => {
       agent
         .post('/api/users/login')
         .send(user)
@@ -468,7 +452,7 @@ describe('User', () => {
           agent
             .post(`/api/users/${users[0]}/role`)
             .send({
-              id: roles[0].id,
+              id: 1,
             })
             .end((err, res) => {
               res.should.have.status(403);
@@ -480,88 +464,61 @@ describe('User', () => {
         });
     });
 
-    it('it should show an error when adding a role by an admin user without required fields', (done) => {
-      const role = roles[0];
-      models.User.findById(users[1])
-        .then((userRecord) => {
-          userRecord.addRole(role.id)
-            .then(() => {
-              agent
-                .post('/api/users/login')
-                .send(user1)
-                .end(() => {
-                  agent
-                    .post(`/api/users/${users[0]}/role`)
-                    .send({})
-                    .end((err, res) => {
-                      res.should.have.status(400);
-                      res.body.should.be.a('object');
-                      res.body.should.have.property('error');
-                      res.body.should.have.property('errors');
-                      res.body.errors.length.should.be.eql(1);
+    it('it should show an error when adding a role by a user with proper permissions but without required fields', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post(`/api/users/${users[0]}/role`)
+            .send({})
+            .end((err, res) => {
+              res.should.have.status(400);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              res.body.should.have.property('errors');
+              res.body.errors.length.should.be.eql(1);
 
-                      userRecord.removeRole(role.id).then(() => {
-                        done();
-                      });
-                    });
-                });
+              done();
             });
         });
     });
 
     it('it should show an error when adding a non existing role by an admin user without required fields', (done) => {
-      const role = roles[0];
-      models.User.findById(users[1])
-        .then((userRecord) => {
-          userRecord.addRole(role.id)
-            .then(() => {
-              agent
-                .post('/api/users/login')
-                .send(user1)
-                .end(() => {
-                  agent
-                    .post(`/api/users/${users[0]}/role`)
-                    .send({
-                      id: role.id + 100,
-                    })
-                    .end((err, res) => {
-                      res.should.have.status(400);
-                      res.body.should.be.a('object');
-                      res.body.should.have.property('error');
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post(`/api/users/${users[0]}/role`)
+            .send({
+              id: 999999,
+            })
+            .end((err, res) => {
+              res.should.have.status(400);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
 
-                      userRecord.removeRole(role.id).then(() => {
-                        done();
-                      });
-                    });
-                });
+              done();
             });
         });
     });
 
     it('it should be possible to add a role by an admin user', (done) => {
-      const role = roles[0];
-      models.User.findById(users[1])
-        .then((userRecord) => {
-          userRecord.addRole(role.id)
-            .then(() => {
-              agent
-                .post('/api/users/login')
-                .send(user1)
-                .end(() => {
-                  agent
-                    .post(`/api/users/${users[0]}/role`)
-                    .send({
-                      id: role.id,
-                    })
-                    .end((err, res) => {
-                      res.should.have.status(200);
-                      res.body.should.be.a('object');
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post(`/api/users/${users[0]}/role`)
+            .send({
+              id: 1,
+            })
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
 
-                      userRecord.removeRole(role.id).then(() => {
-                        done();
-                      });
-                    });
-                });
+              done();
             });
         });
     });
@@ -569,9 +526,8 @@ describe('User', () => {
 
   describe('DELETE /api/users/:id/role/:role', () => {
     it('it should not be possible to remove a role by a guest user', (done) => {
-      const role = roles[0];
       chai.request(server)
-        .delete(`/api/users/${users[0]}/role/${role.id}`)
+        .delete(`/api/users/${users[0]}/role/1`)
         .end((err, res) => {
           res.should.have.status(401);
           res.body.should.be.a('object');
@@ -582,26 +538,17 @@ describe('User', () => {
     });
 
     it('it should be possible to remove a role by an admin user', (done) => {
-      const role = roles[0];
-      models.User.findById(users[1])
-        .then((userRecord) => {
-          userRecord.addRole(role.id)
-            .then(() => {
-              agent
-                .post('/api/users/login')
-                .send(user1)
-                .end(() => {
-                  agent
-                    .delete(`/api/users/${users[0]}/role/${role.id}`)
-                    .end((err, res) => {
-                      res.should.have.status(200);
-                      res.body.should.be.a('object');
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .delete(`/api/users/${users[0]}/role/${1}`)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
 
-                      userRecord.removeRole(role.id).then(() => {
-                        done();
-                      });
-                    });
-                });
+              done();
             });
         });
     });
@@ -638,26 +585,19 @@ describe('User', () => {
         });
     });
 
-    it('it should be possible to delete a user having the admin role', (done) => {
-      const role = roles[0];
-      models.User.findById(users[1])
-        .then((userRecord) => {
-          userRecord.addRole(role.id)
-            .then(() => {
-              agent
-                .post('/api/users/login')
-                .send(user1)
-                .end(() => {
-                  agent
-                    .delete(`/api/users/${users[0]}`)
-                    .end((err, res) => {
-                      res.should.have.status(200);
-                      res.body.should.be.a('object');
-                      res.body.should.have.property('deleted');
+    it('it should be possible to delete a user having the proper capability', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .delete(`/api/users/${users[0]}`)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('deleted');
 
-                      done();
-                    });
-                });
+              done();
             });
         });
     });

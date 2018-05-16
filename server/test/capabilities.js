@@ -1,7 +1,6 @@
 import chaiHttp from 'chai-http';
 import chai from 'chai';
 
-import models from '../server/config/sequelize';
 import server from '../server/';
 
 chai.should();
@@ -10,23 +9,14 @@ const agent = chai.request.agent(server);
 
 describe('Capability', () => {
   const capability = {
-    slug: 'edit_users',
-    name: 'Edit Users',
+    slug: 'edit_users_test',
+    name: 'Edit Users Test',
   };
   const capability1 = {
-    slug: 'delete_users',
-    name: 'Delete Users',
+    slug: 'delete_users_test',
+    name: 'Delete Users Test',
   };
   const capabilities = [];
-
-  before((done) => {
-    models.Capability.truncate({
-      restartIdentity: true,
-      cascade: true,
-    });
-
-    done();
-  });
 
   after((done) => {
     server.close();
@@ -41,7 +31,7 @@ describe('Capability', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
-          res.body.length.should.be.eql(0);
+          res.body.length.should.not.be.eql(0);
 
           done();
         });
