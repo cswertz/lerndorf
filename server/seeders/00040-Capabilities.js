@@ -85,8 +85,8 @@ module.exports = {
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
     {
-      slug: 'delete_file',
-      name: 'Delete File',
+      slug: 'delete_any_file',
+      name: 'Delete Any File',
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
@@ -115,8 +115,8 @@ module.exports = {
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
     {
-      slug: 'edit_knowledge_unit',
-      name: 'Edit Knowledge Unit',
+      slug: 'edit_any_knowledge_unit',
+      name: 'Edit Any Knowledge Unit',
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
@@ -151,8 +151,8 @@ module.exports = {
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
     {
-      slug: 'edit_learning_unit',
-      name: 'Edit Learning Unit',
+      slug: 'edit_any_learning_unit',
+      name: 'Edit Any Learning Unit',
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
