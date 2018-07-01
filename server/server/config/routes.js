@@ -6,6 +6,7 @@ import languages from '../routes/languages';
 import users from '../routes/users';
 import files from '../routes/files';
 import texts from '../routes/texts';
+import roles from '../routes/roles';
 
 const configRoutes = (app) => {
   app.get('/', (req, res) => {
@@ -22,6 +23,7 @@ const configRoutes = (app) => {
   app.use('/api/users', users);
   app.use('/api/files', files);
   app.use('/api/texts', texts);
+  app.use('/api/roles', roles);
 };
 
 export default configRoutes;
