@@ -145,7 +145,7 @@ module.exports = {
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
     {
-      slug: 'set_knowledge_unit_review',
+      slug: 'set_knowledge_unit_reviewed',
       name: 'Mark a Knowledge Unit as reviewed',
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),

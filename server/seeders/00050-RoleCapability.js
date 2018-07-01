@@ -25,7 +25,7 @@ const roleCapabilities = [
       'add_knowledge_unit',
       'edit_any_knowledge_unit',
       'add_knowledge_unit_version',
-      'set_knowledge_unit_review',
+      'set_knowledge_unit_reviewed',
       'set_knowledge_unit_lectored',
       'view_non_public_knowledge_unit',
       'add_learning_unit',
@@ -52,7 +52,7 @@ const roleCapabilities = [
   {
     role: 'editor',
     capabilities: [
-      'set_knowledge_unit_review',
+      'set_knowledge_unit_reviewed',
       'set_knowledge_unit_lectored',
       'delete_editor_role_from_user',
     ],
