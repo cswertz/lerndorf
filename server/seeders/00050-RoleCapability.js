@@ -54,11 +54,14 @@ const roleCapabilities = [
     capabilities: [
       'set_knowledge_unit_review',
       'set_knowledge_unit_lectored',
+      'delete_editor_role_from_user',
     ],
   },
   {
     role: 'lector',
-    capabilities: [],
+    capabilities: [
+      'delete_lector_role_from_user',
+    ],
   },
 ];
 
