@@ -32,6 +32,7 @@ const roleCapabilities = [
       'edit_any_learning_unit',
       'add_role_to_user',
       'delete_role_from_user',
+      'delete_self',
     ],
   },
   {
@@ -45,6 +46,7 @@ const roleCapabilities = [
       'add_knowledge_unit',
       'add_knowledge_unit_version',
       'add_learning_unit',
+      'delete_self',
     ],
   },
   {

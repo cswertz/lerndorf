@@ -13,6 +13,12 @@ module.exports = {
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
     {
+      slug: 'delete_self',
+      name: 'Delete Self',
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    {
       slug: 'add_admin_role_to_user',
       name: 'Add Admin Role to Users',
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
