@@ -2,7 +2,6 @@ export default {
   up: (queryInterface, DataTypes) => queryInterface.createTable('Taxonomies', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
       allowNull: false,
       notEmpty: true,
@@ -33,7 +32,6 @@ export default {
       type: DataTypes.DATE,
       allowNull: false,
       notEmpty: true,
-      unique: 'taxonomyRootIdCreatedAt',
     },
   }),
   down: queryInterface => queryInterface.dropTable('Taxonomies'),
