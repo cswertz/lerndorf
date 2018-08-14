@@ -888,7 +888,7 @@ const TaxonomyLanguages = [
     type: '4-3-L',
     language: 'de',
     vocable: '4-3-L'
-  },  
+  },
   {
     type: '4-3-XL',
     language: 'en',
@@ -900,7 +900,6 @@ const TaxonomyLanguages = [
     vocable: '4-3-XL'
   },
 ]
-
 
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.rawSelect('Taxonomies', {
