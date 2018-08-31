@@ -622,7 +622,7 @@ describe('User', () => {
         });
     });
 
-    it('it should not be possible to delete a user without admin role', (done) => {
+    it('it should not be possible to delete a user without proper capability', (done) => {
       agent
         .post('/api/users/login')
         .send(user1)

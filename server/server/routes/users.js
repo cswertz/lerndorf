@@ -4,12 +4,39 @@ import express from 'express';
 import {
   isSelfOrHasCapability,
   hasCapability,
-  hasRole,
 } from '../helpers/auth';
 import { hashPassword } from '../helpers/utils';
 import models from '../config/sequelize';
 
 const router = express.Router();
+
+router.post('/login', (req, res, next) => {
+  req.checkBody('username', 'username is required').notEmpty();
+  req.checkBody('password', 'password is required').notEmpty();
+
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).send({
+        error: 'There have been validation errors.',
+        errors: result.array(),
+      });
+      return;
+    }
+
+    passport.authenticate('local-signin', (user, info) => {
+      if (info) {
+        return res.status(409).send(info);
+      }
+
+      return req.logIn(user, () => res.json(user));
+    })(req, res, next);
+  });
+});
+
+router.get('/logout', (req, res) => {
+  req.logout();
+  return res.sendStatus(200);
+});
 
 /* User management */
 router.get('/', (req, res) => {
@@ -51,11 +78,6 @@ router.post('/', (req, res) => {
       });
     })(req, res);
   });
-});
-
-router.get('/logout', (req, res) => {
-  req.logout();
-  return res.sendStatus(200);
 });
 
 router.get('/:id', (req, res) => {
@@ -110,7 +132,7 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
     });
 });
 
-router.delete('/:id', hasRole('admin'), (req, res) => {
+router.delete('/:id', hasCapability('delete_user'), (req, res) => {
   models.User.destroy({
     where: {
       id: req.params.id,
@@ -119,29 +141,6 @@ router.delete('/:id', hasRole('admin'), (req, res) => {
     .then((result) => {
       res.json({ deleted: result });
     });
-});
-
-router.post('/login', (req, res, next) => {
-  req.checkBody('username', 'username is required').notEmpty();
-  req.checkBody('password', 'password is required').notEmpty();
-
-  req.getValidationResult().then((result) => {
-    if (!result.isEmpty()) {
-      res.status(400).send({
-        error: 'There have been validation errors.',
-        errors: result.array(),
-      });
-      return;
-    }
-
-    passport.authenticate('local-signin', (user, info) => {
-      if (info) {
-        return res.status(409).send(info);
-      }
-
-      return req.logIn(user, () => res.json(user));
-    })(req, res, next);
-  });
 });
 
 /* User Role Management */
