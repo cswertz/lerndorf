@@ -53,6 +53,11 @@ router.post('/', (req, res) => {
   });
 });
 
+router.get('/logout', (req, res) => {
+  req.logout();
+  return res.sendStatus(200);
+});
+
 router.get('/:id', (req, res) => {
   // TODO: Return id, username, lastLogin to non self and non edit users
   // TODO: Return this only to self and to user with edit_user role
