@@ -1,3 +1,5 @@
+import models from '../config/sequelize';
+
 const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
@@ -24,13 +26,21 @@ const isSelf = (req, res, next) => {
   });
 };
 
+const checkRole = (allowed, roles) => {
+  const permit = allowed.filter(item => roles.indexOf(item) > -1);
+
+  if (permit.length > 0) {
+    return true;
+  }
+
+  return false;
+};
+
 const hasRole = (...allowed) => (req, res, next) => {
   if (req.user) {
     const { roles } = req.user;
-    const permit = allowed.filter(item => roles.indexOf(item) > -1);
-
-    if (permit.length > 0) {
-      return next();
+    if (checkRole(allowed, roles)) {
+      return next;
     }
 
     return res.status(403).send({
@@ -85,9 +95,45 @@ const isSelfOrHasCapability = (...allowed) => (req, res, next) => {
   });
 };
 
+const isLastAdmin = (id, next) => {
+  models.User.findById(id)
+    .then((result) => {
+      result.getRoles()
+        .then((roles) => {
+          const userRoles = roles.map(role => role.dataValues.slug);
+          const isAdmin = checkRole(['admin'], userRoles);
+
+          if (isAdmin) {
+            return models.User.findAll({
+              attributes: ['id'],
+              include: [
+                {
+                  model: models.Role,
+                  attributes: ['id', 'slug'],
+                  where: {
+                    slug: 'admin',
+                  },
+                },
+              ],
+            })
+              .then((results) => {
+                if (results.length > 1) {
+                  return next(false);
+                }
+
+                return next(true);
+              });
+          }
+
+          return next(false);
+        });
+    });
+};
+
 export {
   isSelfOrHasCapability,
   hasCapability,
+  isLastAdmin,
   isLoggedIn,
   hasRole,
   isSelf,

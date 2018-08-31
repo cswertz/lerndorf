@@ -655,5 +655,21 @@ describe('User', () => {
             });
         });
     });
+
+    it('it should not be possible to delete the last admin user', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .delete('/api/users/1')
+            .end((err, res) => {
+              res.should.have.status(400);
+              res.body.should.be.a('object');
+
+              done();
+            });
+        });
+    });
   });
 });

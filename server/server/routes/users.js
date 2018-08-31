@@ -4,6 +4,7 @@ import express from 'express';
 import {
   isSelfOrHasCapability,
   hasCapability,
+  isLastAdmin,
 } from '../helpers/auth';
 import { hashPassword } from '../helpers/utils';
 import models from '../config/sequelize';
@@ -133,14 +134,24 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
 });
 
 router.delete('/:id', hasCapability('delete_user'), (req, res) => {
-  models.User.destroy({
-    where: {
-      id: req.params.id,
-    },
-  })
-    .then((result) => {
-      res.json({ deleted: result });
-    });
+  const { id } = req.params;
+
+  isLastAdmin(id, (last) => {
+    if (!last) {
+      models.User.destroy({
+        where: {
+          id,
+        },
+      })
+        .then((result) => {
+          res.json({ deleted: result });
+        });
+    } else {
+      res.status(400).send({
+        error: 'Can not delete last admin.',
+      });
+    }
+  });
 });
 
 /* User Role Management */
