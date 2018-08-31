@@ -426,6 +426,45 @@ describe('User', () => {
             });
         });
     });
+
+    it('it should not allow a user without the proper permissions to edit another user', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(user1)
+        .end(() => {
+          agent
+            .patch(`/api/users/${users[0]}`)
+            .send({})
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to edit another user', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .patch(`/api/users/${users[0]}`)
+            .send({})
+            .end((err, res) => {
+              agent
+                .get('/api/users/logout')
+                .end(() => {
+                  res.should.have.status(200);
+                  res.body.should.be.a('object');
+                  res.body.should.have.property('username');
+
+                  done();
+                });
+            });
+        });
+    });
   });
 
   describe('POST /api/users/:id/role', () => {
@@ -447,7 +486,7 @@ describe('User', () => {
     it('it should not be possible to add a role by a user without proper permissions', (done) => {
       agent
         .post('/api/users/login')
-        .send(user)
+        .send(user1)
         .end(() => {
           agent
             .post(`/api/users/${users[0]}/role`)

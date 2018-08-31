@@ -2,9 +2,9 @@ import passport from 'passport';
 import express from 'express';
 
 import {
+  isSelfOrHasCapability,
   hasCapability,
   hasRole,
-  isSelf,
 } from '../helpers/auth';
 import { hashPassword } from '../helpers/utils';
 import models from '../config/sequelize';
@@ -86,7 +86,7 @@ router.get('/:id', (req, res) => {
     .then(result => res.json(result));
 });
 
-router.patch('/:id', isSelf, (req, res) => {
+router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
   delete (req.body.createdAt);
   delete (req.body.updatedAt);
   delete (req.body.lastLogin);
