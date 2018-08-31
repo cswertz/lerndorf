@@ -2,6 +2,8 @@ import express from 'express';
 
 import models from '../config/sequelize';
 
+import { hasCapability } from '../helpers/auth';
+
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -72,6 +74,50 @@ router.delete('/:id', (req, res) => {
   })
     .then((result) => {
       res.json({ deleted: result });
+    });
+});
+
+router.post('/:id/capability', hasCapability('add_capability_to_role'), (req, res) => {
+  req.checkBody('id', 'id is required').notEmpty();
+
+  req.getValidationResult().then((errors) => {
+    if (!errors.isEmpty()) {
+      res.status(400).send({
+        error: 'There have been validation errors.',
+        errors: errors.array(),
+      });
+      return;
+    }
+
+    models.Capability.findById(req.body.id)
+      .then((capability) => {
+        if (capability) {
+          models.Role.findById(req.params.id)
+            .then((result) => {
+              if (result) {
+                result.addCapability(capability.id);
+
+                return res.json(result);
+              }
+
+              return res.status(400).send({
+                error: 'Role does not exist.',
+              });
+            });
+        } else {
+          res.status(400).send({
+            error: 'Capability does not exist.',
+          });
+        }
+      });
+  });
+});
+
+router.delete('/:id/capability/:capability', hasCapability('remove_capability_from_role'), (req, res) => {
+  models.Role.findById(req.params.id)
+    .then((result) => {
+      result.removeCapability(req.params.capability);
+      res.status(200).send({});
     });
 });
 

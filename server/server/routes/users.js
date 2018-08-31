@@ -173,7 +173,7 @@ router.post('/:id/role', hasCapability('add_role_to_user'), (req, res) => {
 router.delete('/:id/role/:role', hasCapability('delete_role_from_user'), (req, res) => {
   models.User.findById(req.params.id)
     .then((result) => {
-      result.removeRole(req.params.roll);
+      result.removeRole(req.params.role);
       res.status(200).send({});
     });
 });
