@@ -426,7 +426,6 @@ describe('User', () => {
             });
         });
     });
-
     it('it should not allow a user without the proper permissions to edit another user', (done) => {
       agent
         .post('/api/users/login')
@@ -576,7 +575,23 @@ describe('User', () => {
         });
     });
 
-    it('it should be possible to remove a role by an admin user', (done) => {
+    it('it should not be possible to remove a role without proper capabilities', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(user1)
+        .end(() => {
+          agent
+            .delete(`/api/users/${users[0]}/role/${1}`)
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+
+              done();
+            });
+        });
+    });
+
+    it('it should be possible to remove a role with proper capabilities', (done) => {
       agent
         .post('/api/users/login')
         .send(admin)
