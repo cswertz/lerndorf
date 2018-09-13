@@ -1,3 +1,57 @@
+const roleslanguages = [
+  {
+    slug: 'admin',
+    code: 'en',
+    vocable: 'admin'
+  },
+  {
+    slug: 'admin',
+    code: 'de',
+    vocable: 'AdministratorIn'
+  },
+  {
+    slug: 'guest',
+    code: 'en',
+    vocable: 'guest'
+  },
+  {
+    slug: 'guest',
+    code: 'de',
+    vocable: 'Gast'
+  },
+  {
+    slug: 'user',
+    code: 'en',
+    vocable: 'user',
+  },
+  {
+    slug: 'user',
+    code: 'de',
+    vocable: 'BenutzerIn',
+  },
+  {
+    slug: 'editor',
+    code: 'en',
+    vocable: 'author',
+  },
+  {
+    slug: 'editor',
+    code: 'de',
+    vocable: 'AutorIn',
+  },
+  {
+    slug: 'lector',
+    code: 'en',
+    vocable: 'Reviewer',
+  },
+  {
+    slug: 'lector',
+    code: 'de',
+    vocable: 'GutachterIn',
+  },
+];
+
+
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.rawSelect('Roles', {
     where: {
