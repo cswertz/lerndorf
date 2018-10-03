@@ -44,15 +44,33 @@ const passportConfig = (passport) => {
           });
         }
 
-        const hashedPassword = hashPassword(password);
-        const user = {
-          username,
-          password: hashedPassword,
-          email: req.body.email,
-        };
+        return models.User.findOne({
+          where: {
+            email: req.body.email,
+          },
+        }).then((resultEmail) => {
+          if (resultEmail) {
+            return done(false, {
+              error: 'That username is already taken',
+              errors: [
+                {
+                  param: 'email',
+                  msg: 'That email address is already in use',
+                },
+              ],
+            });
+          }
 
-        return models.User.create(user)
-          .then(newUser => done(newUser));
+          const hashedPassword = hashPassword(password);
+          const user = {
+            username,
+            password: hashedPassword,
+            email: req.body.email,
+          };
+
+          return models.User.create(user)
+            .then(newUser => done(newUser));
+        });
       });
     },
   ));

@@ -13,6 +13,11 @@ describe('User', () => {
     password: 'password',
     email: 'username@host.com',
   };
+  const userSameEmail = {
+    username: 'username_different',
+    password: 'password',
+    email: 'username@host.com',
+  };
   const user1 = {
     username: 'username1',
     password: 'password',
@@ -214,6 +219,21 @@ describe('User', () => {
       chai.request(server)
         .post('/api/users')
         .send(user)
+        .end((err, res) => {
+          res.should.have.status(409);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          res.body.should.have.property('errors');
+          res.body.errors.length.should.be.eql(1);
+
+          done();
+        });
+    });
+
+    it('it should not add a second user with the same email address', (done) => {
+      chai.request(server)
+        .post('/api/users')
+        .send(userSameEmail)
         .end((err, res) => {
           res.should.have.status(409);
           res.body.should.be.a('object');
