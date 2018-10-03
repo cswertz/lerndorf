@@ -216,6 +216,10 @@ describe('User', () => {
         .send(user)
         .end((err, res) => {
           res.should.have.status(409);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          res.body.should.have.property('errors');
+          res.body.errors.length.should.be.eql(1);
 
           done();
         });

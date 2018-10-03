@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
+
+import user from './user';
 
 import {
   LOGIN,
   LOGOUT,
 } from '../actions/constants';
-
 
 function lerndorf(state = [], action) {
   switch (action.type) {
@@ -23,7 +25,9 @@ function lerndorf(state = [], action) {
 }
 
 const lerndorfApp = combineReducers({
+  form: formReducer,
   lerndorf,
+  user,
 });
 
 export default lerndorfApp;

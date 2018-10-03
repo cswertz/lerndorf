@@ -1,4 +1,6 @@
-import LOGIN from './constants';
+import { LOGIN } from './constants';
+
+export * from './user';
 
 export function login(user, password) {
   return {

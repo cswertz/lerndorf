@@ -35,6 +35,12 @@ const passportConfig = (passport) => {
         if (result) {
           return done(false, {
             error: 'That username is already taken',
+            errors: [
+              {
+                param: 'username',
+                msg: 'That username is already taken',
+              },
+            ],
           });
         }
 
