@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Register from './containers/users/Register';
+import Login from './containers/users/Login';
 import Home from './Home';
 
 import * as AppActions from './actions';
@@ -22,6 +23,16 @@ const Router = ({
         <Register
           errors={user.errors}
           handleSubmit={actions.userRegister}
+        />
+      )}
+    />
+    <Route
+      exact
+      path="/login"
+      render={() => (
+        <Login
+          errors={user.errors}
+          handleSubmit={actions.userLogin}
         />
       )}
     />
