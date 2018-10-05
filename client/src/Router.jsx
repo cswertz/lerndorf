@@ -25,6 +25,7 @@ const Router = ({
             title="Home"
             active="home"
             user={user}
+            logout={actions.userLogout}
           />
           <Home
             loggedIn={user.loggedIn}
@@ -41,6 +42,7 @@ const Router = ({
             title="Register"
             active="register"
             user={user}
+            logout={actions.userLogout}
           />
           <Register
             errors={user.errors}
@@ -58,6 +60,7 @@ const Router = ({
             title="Login"
             active="login"
             user={user}
+            logout={actions.userLogout}
           />
           <Login
             errors={user.errors}
@@ -79,6 +82,7 @@ Router.propTypes = {
   }).isRequired,
   actions: PropTypes.shape({
     userRegister: PropTypes.func.isRequired,
+    userLogout: PropTypes.func.isRequired,
   }).isRequired,
 };
 

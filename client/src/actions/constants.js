@@ -1,5 +1,4 @@
-export const LOGIN = 'LOGIN';
-export const LOGOUT = 'LOGOUT';
+export const USER_LOGOUT_SUCCESS = 'USER_LOGOUT_SUCCESS';
 
 export const USER_REGISTER_FAILED = 'USER_REGISTER_FAILED';
 

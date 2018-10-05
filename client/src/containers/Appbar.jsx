@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,9 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
+//import Switch from '@material-ui/core/Switch';
+//import FormControlLabel from '@material-ui/core/FormControlLabel';
+//import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
@@ -28,7 +29,6 @@ const styles = {
 
 class MenuAppBar extends Component {
   state = {
-    auth: true,
     anchorEl: null,
   };
 
@@ -40,15 +40,19 @@ class MenuAppBar extends Component {
     this.setState({ anchorEl: null });
   };
 
+  handleLogout = () => {
+    this.setState({ anchorEl: null });
+    this.props.logout(this.props.history);
+  }
+
   render() {
     const {
       classes,
       title,
       user,
     } = this.props;
-    const { auth, anchorEl } = this.state;
+    const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
-    console.log(this.props);
 
     return (
       <div className={classes.root}>
@@ -86,6 +90,7 @@ class MenuAppBar extends Component {
                 >
                   <MenuItem onClick={this.handleClose}>Profile</MenuItem>
                   <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                  <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                 </Menu>
               </div>
             )}
@@ -102,6 +107,12 @@ MenuAppBar.propTypes = {
     loggedIn: PropTypes.bool.isRequired,
   }).isRequired,
   title: PropTypes.string.isRequired,
+  logout: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
-export default withStyles(styles)(MenuAppBar);
+const MenuAppBarWithRouter = withRouter(MenuAppBar);
+
+export default withStyles(styles)(MenuAppBarWithRouter);

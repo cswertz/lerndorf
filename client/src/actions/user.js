@@ -17,6 +17,10 @@ export const userLoginSuccess = user => ({
   user,
 });
 
+export const userLogoutSUccess = () => ({
+  type: types.USER_LOGOUT_SUCCESS,
+});
+
 export const userRegister = (data, history) => (
   dispatch => fetch('/api/users', {
     method: 'post',
@@ -58,12 +62,19 @@ export const userLogin = (data, history) => (
         if (json.error) {
           dispatch(userLoginFailed(json.error, json.errors));
         } else {
-          history.push('/');
           dispatch(userLoginSuccess(json));
+          history.push('/');
         }
       }
     })
     .catch((error) => {
       console.log('Error during login:', error);
     })
+);
+
+export const userLogout = history => (
+  (dispatch) => {
+    dispatch(userLogoutSUccess());
+    history.push('/');
+  }
 );

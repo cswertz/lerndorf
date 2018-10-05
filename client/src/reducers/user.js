@@ -1,7 +1,8 @@
 import {
+  USER_LOGOUT_SUCCESS,
+  USER_REGISTER_FAILED,
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAILED,
-  USER_REGISTER_FAILED,
 } from '../actions/constants';
 
 const initialState = {
@@ -25,6 +26,12 @@ const initialState = {
 
 const user = (state = initialState, action) => {
   switch (action.type) {
+    case USER_LOGOUT_SUCCESS: {
+      return Object.assign({}, state, {
+        loggedIn: false,
+      });
+    }
+
     case USER_LOGIN_SUCCESS: {
       return Object.assign({}, state, {
         loggedIn: true,
