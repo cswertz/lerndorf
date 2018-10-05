@@ -7,6 +7,9 @@ import React from 'react';
 import LanguagesEdit from './containers/languages/Edit';
 import LanguagesAdd from './containers/languages/Add';
 import Languages from './containers/languages/List';
+
+import Taxonomies from './containers/taxonomies/List';
+
 import Register from './containers/users/Register';
 import UserEdit from './containers/users/Edit';
 import Login from './containers/users/Login';
@@ -16,6 +19,7 @@ import Home from './components/Home';
 import * as AppActions from './actions';
 
 const Router = ({
+  taxonomies,
   languages,
   actions,
   user,
@@ -150,12 +154,40 @@ const Router = ({
         </div>
       )}
     />
+
+    <Route
+      exact
+      path="/taxonomies"
+      render={() => (
+        <div className="TaxonomiesWrapper">
+          <Appbar
+            title="Taxonomies"
+            active="taxonomies"
+            user={user}
+            logout={actions.userLogout}
+          />
+          <Taxonomies
+            itemsDelete={actions.taxonomiesDelete}
+            itemsFetch={actions.taxonomiesFetch}
+            items={taxonomies}
+          />
+        </div>
+      )}
+    />
   </Switch>
 );
 
 Router.propTypes = {
+  taxonomies: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    errors: PropTypes.shape().isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   languages: PropTypes.shape({
     languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    id: PropTypes.shape({}).isRequired,
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
@@ -178,6 +210,7 @@ Router.propTypes = {
 const mapStateToProps = state => ({
   user: state.user,
   languages: state.languages,
+  taxonomies: state.taxonomies,
 });
 
 const mapDispatchToProps = dispatch => ({
