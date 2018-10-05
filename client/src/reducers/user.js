@@ -1,13 +1,12 @@
 import {
-  LOGIN_SUCCESS,
-  LOGIN_FAILED,
+  USER_LOGIN_SUCCESS,
+  USER_LOGIN_FAILED,
   USER_REGISTER_FAILED,
-  USER_REGISTER_SUCCESS,
 } from '../actions/constants';
 
 const initialState = {
+  loggedIn: false,
   user: {
-    loggedIn: false,
     username: 'Guest',
   },
   errors: {
@@ -26,32 +25,27 @@ const initialState = {
 
 const user = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_SUCCESS: {
-      console.log('Login success:', action);
+    case USER_LOGIN_SUCCESS: {
       return Object.assign({}, state, {
-        user: {
-          loggedIn: true,
-          username: action.username,
-        },
-        errors: {
+        loggedIn: true,
+        user: action.user,
+        errors: Object.assign({}, state.errors, {
           login: {
             error: false,
           },
-        },
+        }),
       });
     }
 
-    case LOGIN_FAILED: {
-      console.log('Login failed:', action);
+    case USER_LOGIN_FAILED: {
       return Object.assign({}, state, {
-        user: {
-          loggedIn: false,
-        },
-        errors: {
+        loggedIn: false,
+        errors: Object.assign({}, state.errors, {
           login: {
             error: true,
+            errorMessage: action.error,
           },
-        },
+        }),
       });
     }
 

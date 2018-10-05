@@ -22,6 +22,7 @@
       "required": {
         "some": [ "nesting", "id"  ]
       }
-    }]
+    }],
+    "react/jsx-one-expression-per-line": [0]
   }
 }

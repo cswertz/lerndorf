@@ -1,12 +1,9 @@
+import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from '@material-ui/core/styles';
-
-// import LoginForm from '../../components/users/LoginForm';
-
-import logo from '../../logo.svg';
+import LoginForm from '../../components/users/LoginForm';
 
 const styles = theme => ({
   textField: {
@@ -45,19 +42,16 @@ class Login extends Component {
 
   render() {
     const {
+      errors,
       classes,
     } = this.props;
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-
-        <div className={classes.container}>
-          Login Placeholder.
-        </div>
+      <div className={classes.container}>
+        <LoginForm
+          errors={errors.login}
+          handleSubmit={this.handleSubmit}
+        />
       </div>
     );
   }
