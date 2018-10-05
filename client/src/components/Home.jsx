@@ -14,6 +14,11 @@ const Home = ({
         Please <Link to="/login">Login</Link> or <Link to="/register">Register</Link>.
       </div>
     )}
+    {loggedIn && (
+      <div>
+        <Link to="/languages">Languages</Link>
+      </div>
+    )}
   </div>
 );
 

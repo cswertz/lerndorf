@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Languages from './containers/languages/List';
 import Register from './containers/users/Register';
 import UserEdit from './containers/users/Edit';
 import Login from './containers/users/Login';
@@ -13,6 +14,7 @@ import Home from './components/Home';
 import * as AppActions from './actions';
 
 const Router = ({
+  languages,
   actions,
   user,
 }) => (
@@ -89,6 +91,24 @@ const Router = ({
         </div>
       )}
     />
+    <Route
+      exact
+      path="/languages"
+      render={() => (
+        <div className="LanguagesWrapper">
+          <Appbar
+            title="Languages"
+            active="languages"
+            user={user}
+            logout={actions.userLogout}
+          />
+          <Languages
+            languagesFetch={actions.languagesFetch}
+            languages={languages}
+          />
+        </div>
+      )}
+    />
   </Switch>
 );
 
@@ -101,14 +121,21 @@ Router.propTypes = {
       edit: PropTypes.shape({}).isRequired,
     }).isRequired,
   }).isRequired,
+  languages: PropTypes.shape({
+    fetched: PropTypes.bool.isRequired,
+    fetching: PropTypes.bool.isRequired,
+    languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  }).isRequired,
   actions: PropTypes.shape({
     userRegister: PropTypes.func.isRequired,
     userLogout: PropTypes.func.isRequired,
+    languagesFetch: PropTypes.func.isRequired,
   }).isRequired,
 };
 
 const mapStateToProps = state => ({
   user: state.user,
+  languages: state.languages,
 });
 
 const mapDispatchToProps = dispatch => ({
