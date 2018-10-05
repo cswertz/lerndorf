@@ -1,4 +1,4 @@
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -6,7 +6,8 @@ import React from 'react';
 
 import Register from './containers/users/Register';
 import Login from './containers/users/Login';
-import Home from './Home';
+import Appbar from './containers/Appbar';
+import Home from './components/Home';
 
 import * as AppActions from './actions';
 
@@ -15,25 +16,54 @@ const Router = ({
   user,
 }) => (
   <Switch>
-    <Route exact path="/" component={Home} />
+    <Route
+      exact
+      path="/"
+      render={() => (
+        <div className="RegisterWrapper">
+          <Appbar
+            title="Home"
+            active="home"
+            user={user}
+          />
+          <Home
+            loggedIn={user.loggedIn}
+          />
+        </div>
+      )}
+    />
     <Route
       exact
       path="/register"
       render={() => (
-        <Register
-          errors={user.errors}
-          handleSubmit={actions.userRegister}
-        />
+        <div className="RegisterWrapper">
+          <Appbar
+            title="Register"
+            active="register"
+            user={user}
+          />
+          <Register
+            errors={user.errors}
+            handleSubmit={actions.userRegister}
+          />
+        </div>
       )}
     />
     <Route
       exact
       path="/login"
       render={() => (
-        <Login
-          errors={user.errors}
-          handleSubmit={actions.userLogin}
-        />
+        <div className="LoginWrapper">
+          <Appbar
+            title="Login"
+            active="login"
+            user={user}
+          />
+          <Login
+            errors={user.errors}
+            handleSubmit={actions.userLogin}
+          />
+        </div>
       )}
     />
   </Switch>
@@ -41,8 +71,10 @@ const Router = ({
 
 Router.propTypes = {
   user: PropTypes.shape({
+    loggedIn: PropTypes.bool.isRequired,
     errors: PropTypes.shape({
       registration: PropTypes.shape({}).isRequired,
+      login: PropTypes.shape({}).isRequired,
     }).isRequired,
   }).isRequired,
   actions: PropTypes.shape({
@@ -58,7 +90,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(AppActions, dispatch),
 });
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Router);
+)(Router));

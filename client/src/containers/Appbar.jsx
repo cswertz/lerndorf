@@ -32,10 +32,6 @@ class MenuAppBar extends Component {
     anchorEl: null,
   };
 
-  handleChange = event => {
-    this.setState({ auth: event.target.checked });
-  };
-
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
@@ -45,29 +41,26 @@ class MenuAppBar extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      title,
+      user,
+    } = this.props;
     const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
+    console.log(this.props);
 
     return (
       <div className={classes.root}>
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Switch checked={auth} onChange={this.handleChange} aria-label="LoginSwitch" />
-            }
-            label={auth ? 'Logout' : 'Login'}
-          />
-        </FormGroup>
         <AppBar position="static">
           <Toolbar>
             <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
               <MenuIcon />
             </IconButton>
             <Typography variant="title" color="inherit" className={classes.flex}>
-              Home
+              {title}
             </Typography>
-            {auth && (
+            {user.loggedIn && (
               <div>
                 <IconButton
                   aria-owns={open ? 'menu-appbar' : null}
@@ -105,6 +98,10 @@ class MenuAppBar extends Component {
 
 MenuAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  user: PropTypes.shape({
+    loggedIn: PropTypes.bool.isRequired,
+  }).isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(MenuAppBar);

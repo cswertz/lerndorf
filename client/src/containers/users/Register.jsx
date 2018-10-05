@@ -1,12 +1,9 @@
+import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from '@material-ui/core/styles';
-
 import RegisterForm from '../../components/users/RegisterForm';
-
-import logo from '../../logo.svg';
 
 const styles = theme => ({
   textField: {
@@ -65,18 +62,11 @@ class Register extends Component {
     } = this.props;
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-
-        <div className={classes.container}>
-          <RegisterForm
-            errors={errors.registration}
-            handleSubmit={this.handleSubmit}
-          />
-        </div>
+      <div className={classes.container}>
+        <RegisterForm
+          errors={errors.registration}
+          handleSubmit={this.handleSubmit}
+        />
       </div>
     );
   }
