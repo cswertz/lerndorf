@@ -84,10 +84,21 @@ export const userLogin = (data, history) => (
 );
 
 export const userLogout = history => (
-  (dispatch) => {
-    dispatch(userLogoutSUccess());
-    history.push('/');
-  }
+  dispatch => fetch('/api/users/logout', {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then(() => {
+      dispatch(userLogoutSUccess());
+      history.push('/');
+    })
+    .catch((error) => {
+      console.log('Error during editing:', error);
+    })
 );
 
 export const userEdit = (id, data, history) => (
