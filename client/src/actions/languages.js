@@ -15,6 +15,10 @@ export const languagesAddSuccess = () => ({
   type: types.LANGUAGES_ADD_SUCCESS,
 });
 
+export const languagesDeleteSuccess = () => ({
+  type: types.LANGUAGES_DELETE_SUCCESS,
+});
+
 export const languagesFetch = () => (
   dispatch => fetch('/api/languages', {
     method: 'GET',
@@ -59,6 +63,23 @@ export const languagesAdd = (data, history) => (
           history.push('/languages');
         }
       }
+    })
+    .catch((error) => {
+      console.log('Error during adding language:', error);
+    })
+);
+
+export const languagesDelete = id => (
+  dispatch => fetch(`/api/languages/${id}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then(() => {
+      dispatch(languagesDeleteSuccess());
     })
     .catch((error) => {
       console.log('Error during adding language:', error);

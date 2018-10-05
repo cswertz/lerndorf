@@ -1,4 +1,5 @@
 import {
+  LANGUAGES_DELETE_SUCCESS,
   LANGUAGES_FETCH_SUCCESS,
   LANGUAGES_ADD_SUCCESS,
   LANGUAGES_ADD_FAILED,
@@ -25,6 +26,7 @@ const initialState = {
 
 const languages = (state = initialState, action) => {
   switch (action.type) {
+    case LANGUAGES_DELETE_SUCCESS:
     case LANGUAGES_ADD_SUCCESS: {
       return Object.assign({}, state, {
         fetched: false,

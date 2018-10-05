@@ -14,6 +14,7 @@ import React from 'react';
 const styles = () => ({});
 
 const LanguageList = ({
+  languagesDelete,
   languages,
   classes,
 }) => {
@@ -29,7 +30,9 @@ const LanguageList = ({
             <EditIcon />
           </IconButton>
           <IconButton aria-label="Delete">
-            <DeleteIcon />
+            <DeleteIcon
+              onClick={() => languagesDelete(item.id)}
+            />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
@@ -49,8 +52,9 @@ const LanguageList = ({
 };
 
 LanguageList.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
   languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  languagesDelete: PropTypes.func.isRequired,
+  classes: PropTypes.shape({}).isRequired,
 };
 
 export default withStyles(styles)(LanguageList);

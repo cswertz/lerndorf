@@ -15,6 +15,12 @@ const styles = () => ({
 });
 
 class Languages extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
   componentDidMount() {
     const {
       languages,
@@ -26,17 +32,36 @@ class Languages extends Component {
     }
   }
 
+  componentDidUpdate() {
+    const {
+      languages,
+      languagesFetch,
+    } = this.props;
+
+    if (!languages.fetched && !languages.fetching) {
+      languagesFetch();
+    }
+  }
+
+  handleDelete(id) {
+    const {
+      languagesDelete,
+    } = this.props;
+
+    languagesDelete(id);
+  }
+
   render() {
     const {
-      // errors,
-      classes,
       languages,
+      classes,
       history,
     } = this.props;
 
     return (
       <div className={classes.container}>
         <List
+          languagesDelete={this.handleDelete}
           languages={languages.languages}
         />
         <Grid>
@@ -53,10 +78,10 @@ class Languages extends Component {
 }
 
 Languages.propTypes = {
+  languagesDelete: PropTypes.func.isRequired,
   languagesFetch: PropTypes.func.isRequired,
   languages: PropTypes.shape({}).isRequired,
   classes: PropTypes.shape({}).isRequired,
-  // errors: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

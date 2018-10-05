@@ -104,6 +104,7 @@ const Router = ({
             logout={actions.userLogout}
           />
           <Languages
+            languagesDelete={actions.languagesDelete}
             languagesFetch={actions.languagesFetch}
             languages={languages}
           />
