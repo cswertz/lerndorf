@@ -15,6 +15,7 @@ export default {
         model: 'Taxonomies',
         key: 'id',
       },
+      onDelete: 'cascade',
     },
 
     active: {
