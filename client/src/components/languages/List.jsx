@@ -22,7 +22,7 @@ const LanguageList = ({
     languageItems = languages.map(item => (
       <ListItem key={item.id}>
         <ListItemText
-          primary={item.name}
+          primary={`${item.name} (${item.code})`}
         />
         <ListItemSecondaryAction>
           <IconButton aria-label="Edit">
@@ -44,7 +44,6 @@ const LanguageList = ({
       <List dense={false}>
         {languageItems}
       </List>
-      <Link to="/languages/add">Add new Language</Link>
     </div>
   );
 };

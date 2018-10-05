@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import LanguagesAdd from './containers/languages/Add';
 import Languages from './containers/languages/List';
 import Register from './containers/users/Register';
 import UserEdit from './containers/users/Edit';
@@ -109,10 +110,39 @@ const Router = ({
         </div>
       )}
     />
+    <Route
+      exact
+      path="/languages/add"
+      render={() => (
+        <div className="LanguagesWrapper">
+          <Appbar
+            title="Add Language"
+            active="languages"
+            user={user}
+            logout={actions.userLogout}
+          />
+          <LanguagesAdd
+            handleSubmit={actions.languagesAdd}
+            errors={languages.errors}
+          />
+        </div>
+      )}
+    />
   </Switch>
 );
 
 Router.propTypes = {
+  languages: PropTypes.shape({
+    languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
+  actions: PropTypes.shape({
+    languagesFetch: PropTypes.func.isRequired,
+    languagesAdd: PropTypes.func.isRequired,
+    userRegister: PropTypes.func.isRequired,
+    userLogout: PropTypes.func.isRequired,
+  }).isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,
     errors: PropTypes.shape({
@@ -120,16 +150,6 @@ Router.propTypes = {
       login: PropTypes.shape({}).isRequired,
       edit: PropTypes.shape({}).isRequired,
     }).isRequired,
-  }).isRequired,
-  languages: PropTypes.shape({
-    fetched: PropTypes.bool.isRequired,
-    fetching: PropTypes.bool.isRequired,
-    languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  }).isRequired,
-  actions: PropTypes.shape({
-    userRegister: PropTypes.func.isRequired,
-    userLogout: PropTypes.func.isRequired,
-    languagesFetch: PropTypes.func.isRequired,
   }).isRequired,
 };
 

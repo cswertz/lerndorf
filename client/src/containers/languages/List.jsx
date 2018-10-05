@@ -1,5 +1,7 @@
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -13,13 +15,6 @@ const styles = () => ({
 });
 
 class Languages extends Component {
-  constructor(props) {
-    super(props);
-
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    console.log('foo');
-  }
-
   componentDidMount() {
     const {
       languages,
@@ -36,6 +31,7 @@ class Languages extends Component {
       // errors,
       classes,
       languages,
+      history,
     } = this.props;
 
     return (
@@ -43,6 +39,14 @@ class Languages extends Component {
         <List
           languages={languages.languages}
         />
+        <Grid>
+          <Button
+            onClick={() => history.push('/languages/add')}
+            variant="contained"
+          >
+            Add new language
+          </Button>
+        </Grid>
       </div>
     );
   }
