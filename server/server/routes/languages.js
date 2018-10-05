@@ -38,8 +38,8 @@ router.post('/', (req, res) => {
       .catch(err => res.status(422).send({
         error: 'There have been database errors.',
         errors: err.errors.map(error => ({
-          message: error.message,
-          type: error.type,
+          param: error.path,
+          msg: error.message,
         })),
       }));
   });
