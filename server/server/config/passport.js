@@ -83,7 +83,26 @@ const passportConfig = (passport) => {
     },
     (req, username, password, done) => {
       models.User.findOne({
-        attributes: ['id', 'username', 'password'],
+        attributes: [
+          'id',
+          'username',
+          'password',
+          'titlePrefix',
+          'titleSuffix',
+          'description',
+          'firstName',
+          'birthdate',
+          'lastName',
+          'studyId',
+          'country',
+          'website',
+          'picture',
+          'street',
+          'email',
+          'phone',
+          'city',
+          'zip',
+        ],
         where: {
           username,
         },
