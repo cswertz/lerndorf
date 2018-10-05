@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import LanguagesEdit from './containers/languages/Edit';
 import LanguagesAdd from './containers/languages/Add';
 import Languages from './containers/languages/List';
 import Register from './containers/users/Register';
@@ -125,6 +126,26 @@ const Router = ({
           <LanguagesAdd
             handleSubmit={actions.languagesAdd}
             errors={languages.errors}
+          />
+        </div>
+      )}
+    />
+    <Route
+      exact
+      path="/languages/edit/:id"
+      render={() => (
+        <div className="LanguagesWrapper">
+          <Appbar
+            title="Edit Language"
+            active="languages"
+            user={user}
+            logout={actions.userLogout}
+          />
+          <LanguagesEdit
+            languagesFetch={actions.languagesFetch}
+            handleSubmit={actions.languagesEdit}
+            errors={languages.errors}
+            languages={languages}
           />
         </div>
       )}

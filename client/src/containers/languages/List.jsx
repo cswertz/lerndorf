@@ -63,6 +63,7 @@ class Languages extends Component {
         <List
           languagesDelete={this.handleDelete}
           languages={languages.languages}
+          history={history}
         />
         <Grid>
           <Button

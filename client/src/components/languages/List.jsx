@@ -17,6 +17,7 @@ const LanguageList = ({
   languagesDelete,
   languages,
   classes,
+  history,
 }) => {
   let languageItems = null;
   if (languages.length > 0) {
@@ -27,7 +28,9 @@ const LanguageList = ({
         />
         <ListItemSecondaryAction>
           <IconButton aria-label="Edit">
-            <EditIcon />
+            <EditIcon
+              onClick={() => history.push(`/languages/edit/${item.id}`)}
+            />
           </IconButton>
           <IconButton aria-label="Delete">
             <DeleteIcon
@@ -55,6 +58,9 @@ LanguageList.propTypes = {
   languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   languagesDelete: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default withStyles(styles)(LanguageList);

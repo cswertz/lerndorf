@@ -15,6 +15,10 @@ export const languagesAddSuccess = () => ({
   type: types.LANGUAGES_ADD_SUCCESS,
 });
 
+export const languagesEditSuccess = () => ({
+  type: types.LANGUAGES_EDIT_SUCCESS,
+});
+
 export const languagesDeleteSuccess = () => ({
   type: types.LANGUAGES_DELETE_SUCCESS,
 });
@@ -80,6 +84,32 @@ export const languagesDelete = id => (
   })
     .then(() => {
       dispatch(languagesDeleteSuccess());
+    })
+    .catch((error) => {
+      console.log('Error during adding language:', error);
+    })
+);
+
+export const languagesEdit = (id, data, history) => (
+  dispatch => fetch(`/api/languages/${id}`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(data),
+  })
+    .then(response => response.json())
+    .then((json) => {
+      if (json) {
+        if (json.error) {
+          // dispatch(languagesEditFailed(json.error, json.errors));
+        } else {
+          dispatch(languagesEditSuccess());
+          history.push('/languages');
+        }
+      }
     })
     .catch((error) => {
       console.log('Error during adding language:', error);

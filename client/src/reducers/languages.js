@@ -1,6 +1,7 @@
 import {
   LANGUAGES_DELETE_SUCCESS,
   LANGUAGES_FETCH_SUCCESS,
+  LANGUAGES_EDIT_SUCCESS,
   LANGUAGES_ADD_SUCCESS,
   LANGUAGES_ADD_FAILED,
   LANGUAGES_FETCH,
@@ -10,6 +11,7 @@ const initialState = {
   fetching: false,
   fetched: false,
   languages: [],
+  id: {},
   errors: {
     add: {
       error: false,
@@ -27,6 +29,7 @@ const initialState = {
 const languages = (state = initialState, action) => {
   switch (action.type) {
     case LANGUAGES_DELETE_SUCCESS:
+    case LANGUAGES_EDIT_SUCCESS:
     case LANGUAGES_ADD_SUCCESS: {
       return Object.assign({}, state, {
         fetched: false,
@@ -59,10 +62,17 @@ const languages = (state = initialState, action) => {
     }
 
     case LANGUAGES_FETCH_SUCCESS: {
+      const ids = {};
+
+      action.languages.forEach((item) => {
+        ids[item.id] = item;
+      });
+
       return Object.assign({}, state, {
         fetched: true,
         fetching: false,
         languages: action.languages,
+        id: ids,
       });
     }
 
