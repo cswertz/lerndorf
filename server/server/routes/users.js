@@ -127,7 +127,25 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
   })
     .then(() => {
       models.User.findById(req.params.id, {
-        attributes: ['username'],
+        attributes: [
+          'id',
+          'username',
+          'titlePrefix',
+          'titleSuffix',
+          'description',
+          'firstName',
+          'birthdate',
+          'lastName',
+          'studyId',
+          'country',
+          'website',
+          'picture',
+          'street',
+          'email',
+          'phone',
+          'city',
+          'zip',
+        ],
       })
         .then(result => res.json(result));
     });
