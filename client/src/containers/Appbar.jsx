@@ -45,6 +45,11 @@ class MenuAppBar extends Component {
     this.props.logout(this.props.history);
   }
 
+  handleUserEdit = () => {
+    this.setState({ anchorEl: null });
+    this.props.history.push('/user/edit');
+  }
+
   render() {
     const {
       classes,
@@ -88,8 +93,7 @@ class MenuAppBar extends Component {
                   open={open}
                   onClose={this.handleClose}
                 >
-                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                  <MenuItem onClick={this.handleUserEdit}>Profile</MenuItem>
                   <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                 </Menu>
               </div>

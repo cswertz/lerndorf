@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Register from './containers/users/Register';
+import UserEdit from './containers/users/Edit';
 import Login from './containers/users/Login';
 import Appbar from './containers/Appbar';
 import Home from './components/Home';
@@ -69,6 +70,25 @@ const Router = ({
         </div>
       )}
     />
+    <Route
+      exact
+      path="/user/edit"
+      render={() => (
+        <div className="UserEditWrapper">
+          <Appbar
+            title="Edit your data"
+            active="user"
+            user={user}
+            logout={actions.userLogout}
+          />
+          <UserEdit
+            errors={user.errors}
+            handleSubmit={actions.userEdit}
+            user={user.user}
+          />
+        </div>
+      )}
+    />
   </Switch>
 );
 
@@ -78,6 +98,7 @@ Router.propTypes = {
     errors: PropTypes.shape({
       registration: PropTypes.shape({}).isRequired,
       login: PropTypes.shape({}).isRequired,
+      edit: PropTypes.shape({}).isRequired,
     }).isRequired,
   }).isRequired,
   actions: PropTypes.shape({

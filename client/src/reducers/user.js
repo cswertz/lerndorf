@@ -1,7 +1,8 @@
 import {
-  USER_LOGOUT_SUCCESS,
   USER_REGISTER_FAILED,
+  USER_LOGOUT_SUCCESS,
   USER_LOGIN_SUCCESS,
+  USER_EDIT_SUCCESS,
   USER_LOGIN_FAILED,
 } from '../actions/constants';
 
@@ -9,6 +10,21 @@ const initialState = {
   loggedIn: false,
   user: {
     username: 'Guest',
+    titlePrefix: '',
+    titleSuffix: '',
+    description: '',
+    firstName: '',
+    birthdate: '',
+    lastName: '',
+    studyId: '',
+    country: '',
+    website: '',
+    picture: '',
+    street: '',
+    email: '',
+    phone: '',
+    city: '',
+    zip: '',
   },
   errors: {
     registration: {
@@ -17,6 +33,11 @@ const initialState = {
       errors: {},
     },
     login: {
+      errorMessage: '',
+      error: false,
+      errors: {},
+    },
+    edit: {
       errorMessage: '',
       error: false,
       errors: {},
@@ -32,10 +53,16 @@ const user = (state = initialState, action) => {
       });
     }
 
+    case USER_EDIT_SUCCESS:
     case USER_LOGIN_SUCCESS: {
+      const current = action.user;
+      if (current.birthdate) {
+        [current.birthdate] = current.birthdate.split('T');
+      }
+
       return Object.assign({}, state, {
         loggedIn: true,
-        user: action.user,
+        user: Object.assign({}, state.user, current),
         errors: Object.assign({}, state.errors, {
           login: {
             error: false,
