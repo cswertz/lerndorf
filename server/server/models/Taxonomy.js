@@ -45,10 +45,7 @@ class Taxonomy extends Model {
   }
 
   static associate(sequelize) {
-    Taxonomy.hasOne(Taxonomy, { foreignKey: 'rootId' });
-    Taxonomy.hasOne(Taxonomy, { foreignKey: 'prevId' });
-    Taxonomy.hasOne(Taxonomy, { foreignKey: 'nextId' });
-    Taxonomy.hasOne(Taxonomy, { foreignKey: 'parentId' });
+    Taxonomy.hasOne(Taxonomy, { as: 'Parent', foreignKey: 'parent', onDelete: 'CASCADE' });
     Taxonomy.belongsToMany(sequelize.Language, { through: 'TaxonomyLanguage' });
   }
 }

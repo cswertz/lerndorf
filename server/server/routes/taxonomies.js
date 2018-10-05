@@ -1,12 +1,22 @@
 import express from 'express';
 
+import { hasCapability } from '../helpers/auth';
 import models from '../config/sequelize';
 
 const router = express.Router();
 
+// Get the latest version of all top Level Taxonomies
 router.get('/', (req, res) => {
   models.Taxonomy.findAll({
-    attributes: ['id', 'createdAt'],
+    where: {
+      parent: 1,
+    },
+    attributes: [
+      'id',
+      'createdAt',
+      'active',
+      'type',
+    ],
   })
     .then(results => res.json(results));
 });
@@ -36,14 +46,38 @@ router.post('/', (req, res) => {
   });
 });
 
+// Get a specific taxonomy with its direct children
 router.get('/:id', (req, res) => {
   models.Taxonomy.findById(req.params.id, {
-    attributes: ['id', 'createdAt'],
+    attributes: [
+      'id',
+      'createdAt',
+      'active',
+      'type',
+    ],
   })
-    .then(result => res.json(result));
+    .then((result) => {
+      models.Taxonomy.findAll({
+        where: {
+          parent: req.params.id,
+        },
+        attributes: [
+          'id',
+          'createdAt',
+          'active',
+          'type',
+        ],
+      })
+        .then((children) => {
+          res.json({
+            item: result,
+            children,
+          });
+        });
+    });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', hasCapability('delete_taxonomy'), (req, res) => {
   models.Taxonomy.destroy({
     where: {
       id: req.params.id,

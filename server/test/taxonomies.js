@@ -6,7 +6,7 @@ import server from '../server/';
 
 chai.should();
 chai.use(chaiHttp);
-// const agent = chai.request.agent(server);
+const agent = chai.request.agent(server);
 
 describe('Taxonomy', () => {
   const taxonomy = {
@@ -17,13 +17,30 @@ describe('Taxonomy', () => {
   };
   const taxonomies = [];
 
+  const userTaxonomy = {
+    username: 'user_taxonomy',
+    password: 'password',
+    email: 'user@taxonomy.com',
+  };
+  const admin = {
+    username: 'admin',
+    password: 'admin',
+  };
+
   before((done) => {
     models.Taxonomy.truncate({
       restartIdentity: true,
       cascade: true,
     });
 
-    done();
+    chai.request(server)
+      .post('/api/users')
+      .send(userTaxonomy)
+      .end((err, res) => {
+        res.should.have.status(200);
+
+        done();
+      });
   });
 
   after((done) => {
@@ -102,8 +119,10 @@ describe('Taxonomy', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('createdAt');
+          res.body.should.have.property('item');
+          res.body.item.should.have.property('id');
+          res.body.item.should.have.property('createdAt');
+          res.body.should.have.property('children');
 
           done();
         });
@@ -111,15 +130,51 @@ describe('Taxonomy', () => {
   });
 
   describe('DELETE /api/taxonomies/:id', () => {
-    it('it should be possible to delete a Taxonomy', (done) => {
+    it('it should not be possible to delete a Taxonomy when not logged in', (done) => {
       chai.request(server)
         .delete(`/api/taxonomies/${taxonomies[0]}`)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(401);
           res.body.should.be.a('object');
-          res.body.should.have.property('deleted');
+          res.body.should.have.property('error');
 
           done();
+        });
+    });
+
+    it('it should not allow a user without the proper permissions to edit another user', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(userTaxonomy)
+        .end(() => {
+          agent
+            .delete(`/api/taxonomies/${taxonomies[0]}`)
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to delete a taxonomy', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .delete(`/api/taxonomies/${taxonomies[0]}`)
+            .end((err, res) => {
+              agent
+                .get('/api/users/logout')
+                .end(() => {
+                  res.should.have.status(200);
+                  res.body.should.be.a('object');
+
+                  done();
+                });
+            });
         });
     });
   });
