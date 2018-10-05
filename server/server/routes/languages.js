@@ -6,7 +6,13 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   models.Language.findAll({
-    attributes: ['id', 'createdAt', 'updatedAt'],
+    attributes: [
+      'id',
+      'createdAt',
+      'updatedAt',
+      'code',
+      'name',
+    ],
   })
     .then(results => res.json(results));
 });
