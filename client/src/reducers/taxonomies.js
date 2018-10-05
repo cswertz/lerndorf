@@ -1,4 +1,5 @@
 import {
+  TAXONOMIES_ITEM_FETCH_SUCCESS,
   TAXONOMIES_DELETE_SUCCESS,
   TAXONOMIES_FETCH_SUCCESS,
   TAXONOMIES_EDIT_SUCCESS,
@@ -61,18 +62,22 @@ const taxonomies = (state = initialState, action) => {
       });
     }
 
-    case TAXONOMIES_FETCH_SUCCESS: {
-      const ids = {};
+    case TAXONOMIES_ITEM_FETCH_SUCCESS: {
+      const ids = state.id;
+      ids[action.item.id] = action.item;
+      ids[action.item.id].children = action.children;
 
-      action.items.forEach((item) => {
-        ids[item.id] = item;
+      return Object.assign({}, state, {
+        fetching: false,
+        id: ids,
       });
+    }
 
+    case TAXONOMIES_FETCH_SUCCESS: {
       return Object.assign({}, state, {
         fetched: true,
         fetching: false,
         items: action.items,
-        id: ids,
       });
     }
 

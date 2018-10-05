@@ -5,6 +5,12 @@ export const taxonomiesFetchSuccess = items => ({
   items,
 });
 
+export const taxonomiesItemFetchSuccess = (item, children) => ({
+  type: types.TAXONOMIES_ITEM_FETCH_SUCCESS,
+  item,
+  children,
+});
+
 export const taxonomiesAddFailed = (error, errors) => ({
   type: types.TAXONOMIES_ADD_FAILED,
   error,
@@ -113,5 +119,29 @@ export const taxonomiesEdit = (id, data, history) => (
     })
     .catch((error) => {
       console.log('Error during adding language:', error);
+    })
+);
+
+export const taxonomiesItemFetch = id => (
+  dispatch => fetch(`/api/taxonomies/${id}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then(response => response.json())
+    .then((json) => {
+      if (json) {
+        if (json.error) {
+          // dispatch(userEditFailed(json.error, json.errors));
+        } else {
+          dispatch(taxonomiesItemFetchSuccess(json.item, json.children));
+        }
+      }
+    })
+    .catch((error) => {
+      console.log('Error while fetching taxonomies:', error);
     })
 );

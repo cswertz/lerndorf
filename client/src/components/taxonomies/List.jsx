@@ -1,7 +1,7 @@
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ListItem from '@material-ui/core/ListItem';
@@ -27,6 +27,11 @@ const TaxonomyList = ({
           primary={`${item.type}`}
         />
         <ListItemSecondaryAction>
+          <IconButton aria-label="Show">
+            <VisibilityIcon
+              onClick={() => history.push(`/taxonomies/show/${item.id}`)}
+            />
+          </IconButton>
           <IconButton aria-label="Edit">
             <EditIcon
               onClick={() => history.push(`/taxonomies/edit/${item.id}`)}
@@ -44,9 +49,6 @@ const TaxonomyList = ({
 
   return (
     <div>
-      <Typography variant="title" className={classes.title}>
-        Available taxonomies
-      </Typography>
       <List dense={false}>
         {renderedItems}
       </List>

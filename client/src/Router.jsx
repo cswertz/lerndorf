@@ -8,6 +8,7 @@ import LanguagesEdit from './containers/languages/Edit';
 import LanguagesAdd from './containers/languages/Add';
 import Languages from './containers/languages/List';
 
+import TaxonomyChildren from './containers/taxonomies/Children';
 import Taxonomies from './containers/taxonomies/List';
 
 import Register from './containers/users/Register';
@@ -169,6 +170,26 @@ const Router = ({
           <Taxonomies
             itemsDelete={actions.taxonomiesDelete}
             itemsFetch={actions.taxonomiesFetch}
+            items={taxonomies}
+          />
+        </div>
+      )}
+    />
+
+    <Route
+      exact
+      path="/taxonomies/show/:id"
+      render={() => (
+        <div className="TaxonomiesWrapper">
+          <Appbar
+            title="Taxonomies"
+            active="taxonomies"
+            user={user}
+            logout={actions.userLogout}
+          />
+          <TaxonomyChildren
+            itemFetch={actions.taxonomiesItemFetch}
+            itemsDelete={actions.taxonomiesDelete}
             items={taxonomies}
           />
         </div>
