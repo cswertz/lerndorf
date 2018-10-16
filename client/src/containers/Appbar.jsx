@@ -47,7 +47,7 @@ class MenuAppBar extends Component {
 
   handleUserEdit = () => {
     this.setState({ anchorEl: null });
-    this.props.history.push('/user/edit');
+    this.props.history.push('/users/user/edit');
   }
 
   render() {

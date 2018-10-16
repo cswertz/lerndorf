@@ -11,7 +11,7 @@ const Home = ({
     </p>
     {!loggedIn && (
       <div>
-        Please <Link to="/login">Login</Link> or <Link to="/register">Register</Link>.
+        Please <Link to="/users/login">Login</Link> or <Link to="/users/register">Register</Link>.
       </div>
     )}
     {loggedIn && (

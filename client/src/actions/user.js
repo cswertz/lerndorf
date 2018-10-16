@@ -48,7 +48,7 @@ export const userRegister = (data, history) => (
         if (json.error) {
           dispatch(userRegisterFailed(json.error, json.errors));
         } else {
-          history.push('/login');
+          history.push('/users/login');
         }
       }
     })

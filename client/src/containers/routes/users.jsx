@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -12,10 +12,10 @@ const Router = ({
   actions,
   user,
 }) => (
-  <div>
+  <React.Fragment>
     <Route
       exact
-      path="/register"
+      path="/users/register"
       render={() => (
         <div className="RegisterWrapper">
           <Appbar
@@ -33,7 +33,7 @@ const Router = ({
     />
     <Route
       exact
-      path="/login"
+      path="/users/login"
       render={() => (
         <div className="LoginWrapper">
           <Appbar
@@ -51,7 +51,7 @@ const Router = ({
     />
     <Route
       exact
-      path="/user/edit"
+      path="/users/user/edit"
       render={() => (
         <div className="UserEditWrapper">
           <Appbar
@@ -68,7 +68,7 @@ const Router = ({
         </div>
       )}
     />
-  </div>
+  </React.Fragment>
 );
 
 Router.propTypes = {

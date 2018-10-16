@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -15,7 +15,7 @@ const Router = ({
   actions,
   user,
 }) => (
-  <div>
+  <React.Fragment>
     <Route
       exact
       path="/taxonomies"
@@ -114,7 +114,7 @@ const Router = ({
         </div>
       )}
     />
-  </div>
+  </React.Fragment>
 );
 
 Router.propTypes = {

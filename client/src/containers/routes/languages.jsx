@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -13,7 +13,7 @@ const Router = ({
   actions,
   user,
 }) => (
-  <div>
+  <React.Fragment>
     <Route
       exact
       path="/languages"
@@ -73,7 +73,7 @@ const Router = ({
         </div>
       )}
     />
-  </div>
+  </React.Fragment>
 );
 
 Router.propTypes = {

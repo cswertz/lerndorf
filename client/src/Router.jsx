@@ -1,4 +1,4 @@
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -38,22 +38,39 @@ const Router = ({
       )}
     />
 
-    <RoutesUsers
-      actions={actions}
-      user={user}
+    <Route
+      path="/languages"
+      render={() => (
+        <RoutesLanguages
+          languages={languages}
+          actions={actions}
+          user={user}
+        />
+      )}
     />
 
-    <RoutesLanguages
-      languages={languages}
-      actions={actions}
-      user={user}
+    <Route
+      path="/taxonomies"
+      render={() => (
+        <RoutesTaxonomies
+          taxonomies={taxonomies}
+          actions={actions}
+          user={user}
+        />
+      )}
     />
 
-    <RoutesTaxonomies
-      taxonomies={taxonomies}
-      actions={actions}
-      user={user}
+    <Route
+      path="/users"
+      render={() => (
+        <RoutesUsers
+          actions={actions}
+          user={user}
+        />
+      )}
     />
+
+    <Redirect to="/" />
   </Switch>
 );
 
