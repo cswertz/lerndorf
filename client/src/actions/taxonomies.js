@@ -53,7 +53,7 @@ export const taxonomiesFetch = () => (
     })
 );
 
-export const taxonomiesAdd = (data, history) => (
+export const taxonomiesAdd = (id, data, history) => (
   dispatch => fetch('/api/taxonomies', {
     method: 'post',
     headers: {
