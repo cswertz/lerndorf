@@ -18,6 +18,12 @@ describe('Language', () => {
     name: 'language1',
   };
   const languages = [];
+
+  const userLanguage = {
+    username: 'user_language',
+    password: 'password',
+    email: 'user@language.com',
+  };
   const admin = {
     username: 'admin',
     password: 'admin',
@@ -29,7 +35,14 @@ describe('Language', () => {
       cascade: true,
     });
 
-    done();
+    chai.request(server)
+      .post('/api/users')
+      .send(userLanguage)
+      .end((err, res) => {
+        res.should.have.status(200);
+
+        done();
+      });
   });
 
   after((done) => {
@@ -209,18 +222,60 @@ describe('Language', () => {
   });
 
   describe('PATCH /api/languages/:id', () => {
-    it('it should allow an empty patch', (done) => {
-      agent
+    it('it should not be possible to edit a language when not logged in', (done) => {
+      chai.request(server)
         .patch(`/api/languages/${languages[0]}`)
-        .send({})
+        .send({
+          name: 'Edited name',
+        })
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(401);
           res.body.should.be.a('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('createdAt');
-          res.body.should.have.property('updatedAt');
+          res.body.should.have.property('error');
 
           done();
+        });
+    });
+
+    it('it should not allow a user without the proper permissions to edit a language', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(userLanguage)
+        .end(() => {
+          agent
+            .patch(`/api/languages/${languages[0]}`)
+            .send({
+              name: 'Edited name',
+            })
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to edit a language', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .patch(`/api/languages/${languages[0]}`)
+            .send({
+              name: 'Edited name',
+            })
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('id');
+              res.body.should.have.property('createdAt');
+              res.body.should.have.property('updatedAt');
+
+              done();
+            });
         });
     });
   });

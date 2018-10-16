@@ -53,10 +53,12 @@ router.get('/:id', (req, res) => {
     .then(result => res.json(result));
 });
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id', hasCapability('edit_language'), (req, res) => {
   delete (req.body.createdAt);
   delete (req.body.updatedAt);
   delete (req.body.id);
+
+  console.log('Here we go');
 
   models.Language.update(req.body, {
     where: {
