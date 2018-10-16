@@ -10,6 +10,7 @@ import Languages from './containers/languages/List';
 
 import TaxonomiesAddChild from './containers/taxonomies/AddChild';
 import TaxonomyChildren from './containers/taxonomies/Children';
+import TaxonomiesEdit from './containers/taxonomies/Edit';
 import TaxonomiesAdd from './containers/taxonomies/Add';
 import Taxonomies from './containers/taxonomies/List';
 
@@ -231,6 +232,27 @@ const Router = ({
           <TaxonomiesAddChild
             handleSubmit={actions.taxonomiesAdd}
             errors={taxonomies.errors}
+          />
+        </div>
+      )}
+    />
+
+    <Route
+      exact
+      path="/taxonomies/edit/:id"
+      render={() => (
+        <div className="TaxonomiesWrapper">
+          <Appbar
+            title="Edit Taxonomy Term"
+            active="taxonomies"
+            user={user}
+            logout={actions.userLogout}
+          />
+          <TaxonomiesEdit
+            itemFetch={actions.taxonomiesItemFetch}
+            handleSubmit={actions.taxonomiesEdit}
+            errors={taxonomies.errors}
+            items={taxonomies}
           />
         </div>
       )}
