@@ -53,7 +53,7 @@ export const taxonomiesFetch = () => (
     })
 );
 
-export const taxonomiesAdd = (id, data, history) => (
+export const taxonomiesAdd = (data, history) => (
   dispatch => fetch('/api/taxonomies', {
     method: 'post',
     headers: {
@@ -70,7 +70,11 @@ export const taxonomiesAdd = (id, data, history) => (
           dispatch(taxonomiesAddFailed(json.error, json.errors));
         } else {
           dispatch(taxonomiesAddSuccess());
-          history.push('/taxonomies');
+          if (!data.parent || data.parent === 1) {
+            history.push('/taxonomies');
+          } else {
+            history.push(`/taxonomies/show/${data.parent}`);
+          }
         }
       }
     })

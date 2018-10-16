@@ -23,11 +23,15 @@ class TaxonomiesAdd extends Component {
     e.preventDefault();
 
     const {
+      match,
       history,
       handleSubmit,
     } = this.props;
+
+    const { id } = match.params;
+
     const data = {
-      parent: 1,
+      parent: id,
       type: e.target.type.value,
     };
 
@@ -57,6 +61,11 @@ TaxonomiesAdd.propTypes = {
   errors: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
+  }).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
 };
 
