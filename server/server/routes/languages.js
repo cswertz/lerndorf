@@ -1,5 +1,6 @@
 import express from 'express';
 
+import { hasCapability } from '../helpers/auth';
 import models from '../config/sequelize';
 
 const router = express.Router();
@@ -17,7 +18,7 @@ router.get('/', (req, res) => {
     .then(results => res.json(results));
 });
 
-router.post('/', (req, res) => {
+router.post('/', hasCapability('add_language'), (req, res) => {
   req.checkBody('code', 'param is required')
     .isLength({ max: 255 })
     .notEmpty();

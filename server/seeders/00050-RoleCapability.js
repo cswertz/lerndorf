@@ -21,6 +21,8 @@ const roleCapabilities = [
       'delete_any_file',
       'add_taxonomy',
       'edit_taxonomy',
+      'add_language',
+      'edit_language',
       'delete_taxonomy',
       'add_knowledge_unit',
       'edit_any_knowledge_unit',

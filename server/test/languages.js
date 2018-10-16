@@ -18,6 +18,10 @@ describe('Language', () => {
     name: 'language1',
   };
   const languages = [];
+  const admin = {
+    username: 'admin',
+    password: 'admin',
+  };
 
   before((done) => {
     models.Language.truncate({
@@ -49,101 +53,141 @@ describe('Language', () => {
   });
 
   describe('POST /api/languages', () => {
-    it('it should display an error when required fields are missing', (done) => {
+    it('it should not be possible to add a Language when not logged in', (done) => {
       chai.request(server)
         .post('/api/languages')
         .send({})
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(401);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
-          res.body.should.have.property('errors');
-          res.body.errors.length.should.be.eql(2);
 
           done();
         });
     });
 
-    it('it should display an error when code field is missing', (done) => {
-      chai.request(server)
-        .post('/api/languages')
-        .send({
-          name: 'language',
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.a('object');
-          res.body.should.have.property('error');
-          res.body.should.have.property('errors');
-          res.body.errors.length.should.be.eql(1);
+    it('it should display an error when adding a language without required fields', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post('/api/languages')
+            .send({})
+            .end((err, res) => {
+              res.should.have.status(400);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              res.body.should.have.property('errors');
 
-          done();
+              done();
+            });
         });
     });
 
-    it('it should display an error when name field is missing', (done) => {
-      chai.request(server)
-        .post('/api/languages')
-        .send({
-          code: 'lng',
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.a('object');
-          res.body.should.have.property('error');
-          res.body.should.have.property('errors');
-          res.body.errors.length.should.be.eql(1);
+    it('it should display an error when adding a language without code field', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post('/api/languages')
+            .send({
+              name: 'language',
+            })
+            .end((err, res) => {
+              res.should.have.status(400);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              res.body.should.have.property('errors');
 
-          done();
+              done();
+            });
         });
     });
 
-    it('it should add a new Language', (done) => {
-      chai.request(server)
-        .post('/api/languages')
-        .send(language)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('createdAt');
-          res.body.should.have.property('updatedAt');
+    it('it should display an error when adding a language without name field', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post('/api/languages')
+            .send({
+              code: 'lng',
+            })
+            .end((err, res) => {
+              res.should.have.status(400);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              res.body.should.have.property('errors');
 
-          languages[0] = res.body.id;
+              done();
+            });
+        });
+    });
 
-          done();
+    it('it should allow a user with the proper permissions to add a new language', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post('/api/languages')
+            .send(language)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('id');
+              res.body.should.have.property('createdAt');
+              res.body.should.have.property('updatedAt');
+
+              languages[0] = res.body.id;
+
+              done();
+            });
         });
     });
 
     it('it should not add the same Language twice', (done) => {
-      chai.request(server)
-        .post('/api/languages')
-        .send(language)
-        .end((err, res) => {
-          res.should.have.status(422);
-          res.body.should.be.a('object');
-          res.body.should.have.property('error');
-          res.body.should.have.property('errors');
-          res.body.errors.length.should.be.eql(1);
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post('/api/languages')
+            .send(language)
+            .end((err, res) => {
+              res.should.have.status(422);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              res.body.should.have.property('errors');
+              res.body.errors.length.should.be.eql(1);
 
-          done();
+              done();
+            });
         });
     });
 
     it('it should add a different Language', (done) => {
-      chai.request(server)
-        .post('/api/languages')
-        .send(language1)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('createdAt');
-          res.body.should.have.property('updatedAt');
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post('/api/languages')
+            .send(language1)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('id');
+              res.body.should.have.property('createdAt');
+              res.body.should.have.property('updatedAt');
 
-          languages[1] = res.body.id;
+              languages[0] = res.body.id;
 
-          done();
+              done();
+            });
         });
     });
   });
