@@ -3,22 +3,17 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import EditForm from '../../../components/users/roles/EditForm';
+import Show from '../../../components/users/roles/Show';
 
 const styles = () => ({
   container: {
     maxWidth: 960,
     margin: 'auto',
+    marginTop: '10px',
   },
 });
 
-class RolesEdit extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
+class RolesShow extends Component {
   componentDidMount() {
     const {
       match,
@@ -33,29 +28,10 @@ class RolesEdit extends Component {
     }
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-
-    const {
-      match,
-      history,
-      handleSubmit,
-    } = this.props;
-
-    const { id } = match.params;
-
-    const data = {
-      name: e.target.name.value,
-    };
-
-    handleSubmit(id, data, history);
-  }
-
   render() {
     const {
-      items,
       classes,
-      errors,
+      items,
       match,
     } = this.props;
 
@@ -65,20 +41,16 @@ class RolesEdit extends Component {
 
     return (
       <div className={classes.container}>
-        <EditForm
-          handleSubmit={this.handleSubmit}
-          initialValues={item}
-          errors={errors.edit}
+        <Show
+          item={item}
         />
       </div>
     );
   }
 }
 
-RolesEdit.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
+RolesShow.propTypes = {
   classes: PropTypes.shape({}).isRequired,
-  errors: PropTypes.shape({}).isRequired,
   items: PropTypes.shape({}).isRequired,
   itemFetch: PropTypes.func.isRequired,
   history: PropTypes.shape({
@@ -91,6 +63,6 @@ RolesEdit.propTypes = {
   }).isRequired,
 };
 
-const RolesEditWithRouter = withRouter(RolesEdit);
+const RolesShowWithRouter = withRouter(RolesShow);
 
-export default withStyles(styles)(RolesEditWithRouter);
+export default withStyles(styles)(RolesShowWithRouter);

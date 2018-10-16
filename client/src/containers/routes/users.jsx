@@ -6,6 +6,7 @@ import Register from '../users/Register';
 import UserEdit from '../users/Edit';
 import Login from '../users/Login';
 
+import RolesShow from '../users/roles/Show';
 import RolesEdit from '../users/roles/Edit';
 import RolesAdd from '../users/roles/Add';
 import Roles from '../users/roles/List';
@@ -128,6 +129,25 @@ const Router = ({
             itemFetch={actions.rolesItemFetch}
             handleSubmit={actions.rolesEdit}
             errors={roles.errors}
+            items={roles}
+          />
+        </div>
+      )}
+    />
+
+    <Route
+      exact
+      path="/users/roles/show/:id"
+      render={() => (
+        <div className="RolesWrapper">
+          <Appbar
+            title="Role"
+            active="user"
+            user={user}
+            logout={actions.userLogout}
+          />
+          <RolesShow
+            itemFetch={actions.rolesItemFetch}
             items={roles}
           />
         </div>

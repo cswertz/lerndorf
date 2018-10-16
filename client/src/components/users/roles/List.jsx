@@ -15,7 +15,6 @@ const styles = () => ({});
 
 const RolesList = ({
   itemsDelete,
-  classes,
   history,
   items,
 }) => {

@@ -11,7 +11,11 @@ import List from '@material-ui/core/List';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const styles = () => ({});
+const styles = () => ({
+  wrapper: {
+    marginTop: '10px',
+  },
+});
 
 const TaxonomyList = ({
   itemsDelete,
@@ -48,7 +52,7 @@ const TaxonomyList = ({
   }
 
   return (
-    <div>
+    <div className={classes.wrapper}>
       <List dense={false}>
         {renderedItems}
       </List>
