@@ -60,6 +60,7 @@ router.get('/:id', (req, res) => {
     include: [
       {
         model: models.Capability,
+        through: { attributes: [] },
         attributes: [
           'id',
           'slug',
