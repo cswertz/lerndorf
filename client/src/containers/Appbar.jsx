@@ -1,18 +1,15 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-//import Switch from '@material-ui/core/Switch';
-//import FormControlLabel from '@material-ui/core/FormControlLabel';
-//import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
+import Toolbar from '@material-ui/core/Toolbar';
+import MenuIcon from '@material-ui/icons/Menu';
+import { withRouter } from 'react-router-dom';
+import AppBar from '@material-ui/core/AppBar';
 import Menu from '@material-ui/core/Menu';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 const styles = {
   root: {
@@ -28,26 +25,43 @@ const styles = {
 };
 
 class MenuAppBar extends Component {
-  state = {
-    anchorEl: null,
-  };
+  constructor(props) {
+    super(props);
 
-  handleMenu = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
+    this.handleUserEdit = this.handleUserEdit.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleMenu = this.handleMenu.bind(this);
 
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
-
-  handleLogout = () => {
-    this.setState({ anchorEl: null });
-    this.props.logout(this.props.history);
+    this.state = {
+      anchorEl: null,
+    };
   }
 
-  handleUserEdit = () => {
+
+  handleMenu(e) {
+    this.setState({ anchorEl: e.currentTarget });
+  }
+
+  handleClose() {
     this.setState({ anchorEl: null });
-    this.props.history.push('/users/user/edit');
+  }
+
+  handleLogout() {
+    const {
+      history,
+      logout,
+    } = this.props;
+
+    this.setState({ anchorEl: null });
+    logout(history);
+  }
+
+  handleUserEdit() {
+    const { history } = this.props;
+
+    this.setState({ anchorEl: null });
+    history.push('/users/user/edit');
   }
 
   render() {
@@ -106,7 +120,7 @@ class MenuAppBar extends Component {
 }
 
 MenuAppBar.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,
   }).isRequired,

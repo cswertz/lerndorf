@@ -1,4 +1,9 @@
-import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
+import {
+  withRouter,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';

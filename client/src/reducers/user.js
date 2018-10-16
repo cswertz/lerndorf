@@ -43,6 +43,11 @@ const initialState = {
       errors: {},
     },
   },
+  menus: {
+    user: {
+      anchorEl: null,
+    },
+  },
 };
 
 const user = (state = initialState, action) => {
