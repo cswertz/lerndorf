@@ -60,101 +60,115 @@ describe('Role', () => {
   });
 
   describe('POST /api/roles', () => {
-    it('it should display an error when required fields are missing', (done) => {
-      chai.request(server)
-        .post('/api/roles')
-        .send({})
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.a('object');
-          res.body.should.have.property('error');
-          res.body.should.have.property('errors');
-          res.body.errors.length.should.be.eql(2);
-
-          done();
-        });
-    });
-
-    it('it should display an error when slug is missing', (done) => {
-      chai.request(server)
-        .post('/api/roles')
-        .send({
-          name: 'Name',
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.a('object');
-          res.body.should.have.property('error');
-          res.body.should.have.property('errors');
-          res.body.errors.length.should.be.eql(1);
-
-          done();
-        });
-    });
-
-    it('it should display an error when name is missing', (done) => {
-      chai.request(server)
-        .post('/api/roles')
-        .send({
-          slug: 'slug',
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.be.a('object');
-          res.body.should.have.property('error');
-          res.body.should.have.property('errors');
-          res.body.errors.length.should.be.eql(1);
-
-          done();
-        });
-    });
-
-    it('it should add a new Role', (done) => {
+    it('it should not be possible to add a Role when not logged in', (done) => {
       chai.request(server)
         .post('/api/roles')
         .send(role)
         .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('createdAt');
-          res.body.should.have.property('updatedAt');
-
-          roles[0] = res.body.id;
-
-          done();
-        });
-    });
-
-    it('it should not add the same Role twice', (done) => {
-      chai.request(server)
-        .post('/api/roles')
-        .send(role)
-        .end((err, res) => {
-          res.should.have.status(422);
+          res.should.have.status(401);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
-          res.body.should.have.property('errors');
-          res.body.errors.length.should.be.eql(1);
 
           done();
         });
     });
 
-    it('it should add a different Role', (done) => {
-      chai.request(server)
-        .post('/api/roles')
-        .send(role1)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('createdAt');
-          res.body.should.have.property('updatedAt');
+    it('it should not allow a user without the proper permissions to add a role', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(userRole)
+        .end(() => {
+          agent
+            .post('/api/roles')
+            .send(role)
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
 
-          roles[1] = res.body.id;
+              done();
+            });
+        });
+    });
 
-          done();
+    it('it should display an error when adding a role without required fields', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post('/api/roles')
+            .send({})
+            .end((err, res) => {
+              res.should.have.status(400);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              res.body.should.have.property('errors');
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to add a role', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post('/api/roles')
+            .send(role)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('id');
+              res.body.should.have.property('createdAt');
+
+              roles[0] = res.body.id;
+
+              done();
+            });
+        });
+    });
+
+    it('it should not allow a user with the proper permissions to add a role twice', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post('/api/roles')
+            .send(role)
+            .end((err, res) => {
+              res.should.have.status(422);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              res.body.should.have.property('errors');
+              res.body.errors.length.should.be.eql(1);
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to add a different role', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post('/api/roles')
+            .send(role1)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('id');
+              res.body.should.have.property('createdAt');
+
+              roles[1] = res.body.id;
+
+              done();
+            });
         });
     });
   });

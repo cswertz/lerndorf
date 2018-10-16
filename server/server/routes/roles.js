@@ -19,10 +19,7 @@ router.get('/', (req, res) => {
     .then(results => res.json(results));
 });
 
-router.post('/', (req, res) => {
-  req.checkBody('slug', 'slug is required')
-    .isLength({ max: 255 })
-    .notEmpty();
+router.post('/', hasCapability('add_role'), (req, res) => {
   req.checkBody('name', 'name is required')
     .isLength({ max: 255 })
     .notEmpty();
@@ -33,6 +30,10 @@ router.post('/', (req, res) => {
         error: 'There have been validation errors.',
         errors: errors.array(),
       });
+    }
+
+    if (!req.body.slug) {
+      req.body.slug = req.body.name.toLowerCase();
     }
 
     return models.Role.create(req.body)
