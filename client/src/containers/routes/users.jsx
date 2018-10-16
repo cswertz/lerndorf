@@ -2,73 +2,68 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import LanguagesEdit from '../languages/Edit';
-import LanguagesAdd from '../languages/Add';
-import Languages from '../languages/List';
+import Register from '../users/Register';
+import UserEdit from '../users/Edit';
+import Login from '../users/Login';
 
 import Appbar from '../Appbar';
 
 const Router = ({
-  languages,
   actions,
   user,
 }) => (
   <div>
     <Route
       exact
-      path="/languages"
+      path="/register"
       render={() => (
-        <div className="LanguagesWrapper">
+        <div className="RegisterWrapper">
           <Appbar
-            title="Languages"
-            active="languages"
+            title="Register"
+            active="register"
             user={user}
             logout={actions.userLogout}
           />
-          <Languages
-            languagesDelete={actions.languagesDelete}
-            languagesFetch={actions.languagesFetch}
-            languages={languages}
+          <Register
+            errors={user.errors}
+            handleSubmit={actions.userRegister}
           />
         </div>
       )}
     />
-
     <Route
       exact
-      path="/languages/add"
+      path="/login"
       render={() => (
-        <div className="LanguagesWrapper">
+        <div className="LoginWrapper">
           <Appbar
-            title="Add Language"
-            active="languages"
+            title="Login"
+            active="login"
             user={user}
             logout={actions.userLogout}
           />
-          <LanguagesAdd
-            handleSubmit={actions.languagesAdd}
-            errors={languages.errors}
+          <Login
+            errors={user.errors}
+            handleSubmit={actions.userLogin}
           />
         </div>
       )}
     />
-
     <Route
       exact
-      path="/languages/edit/:id"
+      path="/user/edit"
       render={() => (
-        <div className="LanguagesWrapper">
+        <div className="UserEditWrapper">
           <Appbar
-            title="Edit Language"
-            active="languages"
+            title="Edit your data"
+            active="user"
             user={user}
             logout={actions.userLogout}
           />
-          <LanguagesEdit
-            languagesFetch={actions.languagesFetch}
-            handleSubmit={actions.languagesEdit}
-            errors={languages.errors}
-            languages={languages}
+          <UserEdit
+            errors={user.errors}
+            handleSubmit={actions.userEdit}
+            user={user.user}
           />
         </div>
       )}
@@ -77,12 +72,6 @@ const Router = ({
 );
 
 Router.propTypes = {
-  languages: PropTypes.shape({
-    languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    id: PropTypes.shape({}).isRequired,
-    fetching: PropTypes.bool.isRequired,
-    fetched: PropTypes.bool.isRequired,
-  }).isRequired,
   actions: PropTypes.shape({
     languagesFetch: PropTypes.func.isRequired,
     languagesAdd: PropTypes.func.isRequired,
