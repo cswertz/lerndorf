@@ -6,6 +6,7 @@ import Register from '../users/Register';
 import UserEdit from '../users/Edit';
 import Login from '../users/Login';
 
+import RolesAdd from '../users/roles/Add';
 import Roles from '../users/roles/List';
 
 import Appbar from '../Appbar';
@@ -87,6 +88,25 @@ const Router = ({
             itemsDelete={actions.rolesDelete}
             itemsFetch={actions.rolesFetch}
             items={roles}
+          />
+        </div>
+      )}
+    />
+
+    <Route
+      exact
+      path="/users/roles/add"
+      render={() => (
+        <div className="RolesWrapper">
+          <Appbar
+            title="Add Role"
+            active="user"
+            user={user}
+            logout={actions.userLogout}
+          />
+          <RolesAdd
+            handleSubmit={actions.rolesAdd}
+            errors={roles.errors}
           />
         </div>
       )}

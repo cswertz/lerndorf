@@ -70,11 +70,7 @@ export const rolesAdd = (data, history) => (
           dispatch(rolesAddFailed(json.error, json.errors));
         } else {
           dispatch(rolesAddSuccess());
-          if (!data.parent || data.parent === 1) {
-            history.push('/roles');
-          } else {
-            history.push(`/roles/show/${data.parent}`);
-          }
+          history.push('/users/roles');
         }
       }
     })
@@ -117,7 +113,7 @@ export const rolesEdit = (id, data, history) => (
           // dispatch(rolesEditFailed(json.error, json.errors));
         } else {
           dispatch(rolesEditSuccess());
-          history.push('/roles');
+          history.push('/users/roles');
         }
       }
     })

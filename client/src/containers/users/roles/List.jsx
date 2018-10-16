@@ -71,7 +71,7 @@ class Roles extends Component {
         />
         <Grid>
           <Button
-            onClick={() => history.push('/taxonomies/add')}
+            onClick={() => history.push('/users/roles/add')}
             variant="contained"
           >
             Add new role
