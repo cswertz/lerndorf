@@ -6,6 +6,7 @@ import Register from '../users/Register';
 import UserEdit from '../users/Edit';
 import Login from '../users/Login';
 
+import RolesEdit from '../users/roles/Edit';
 import RolesAdd from '../users/roles/Add';
 import Roles from '../users/roles/List';
 
@@ -111,6 +112,27 @@ const Router = ({
         </div>
       )}
     />
+
+    <Route
+      exact
+      path="/users/roles/edit/:id"
+      render={() => (
+        <div className="RolesWrapper">
+          <Appbar
+            title="Edit Role"
+            active="user"
+            user={user}
+            logout={actions.userLogout}
+          />
+          <RolesEdit
+            itemFetch={actions.rolesItemFetch}
+            handleSubmit={actions.rolesEdit}
+            errors={roles.errors}
+            items={roles}
+          />
+        </div>
+      )}
+    />
   </React.Fragment>
 );
 
@@ -123,9 +145,12 @@ Router.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
-    userRegister: PropTypes.func.isRequired,
+    rolesItemFetch: PropTypes.func.isRequired,
     rolesDelete: PropTypes.func.isRequired,
     rolesFetch: PropTypes.func.isRequired,
+    rolesEdit: PropTypes.func.isRequired,
+    rolesAdd: PropTypes.func.isRequired,
+    userRegister: PropTypes.func.isRequired,
     userLogout: PropTypes.func.isRequired,
     userLogin: PropTypes.func.isRequired,
     userEdit: PropTypes.func.isRequired,

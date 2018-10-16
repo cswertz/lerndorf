@@ -28,10 +28,8 @@ const renderTextField = ({
   const customOptions = custom;
   delete customOptions.errorText;
 
-  console.log(error);
-
   let helperText = label;
-  if (errorText && touched) {
+  if (errorText) {
     helperText = errorText;
   }
   if (touched && error) {
@@ -57,7 +55,8 @@ const renderTextField = ({
 const validate = (values) => {
   const errors = {};
   const requiredFields = [
-    'name',
+    'type',
+    'code',
   ];
   requiredFields.forEach((field) => {
     if (!values[field]) {
@@ -68,7 +67,7 @@ const validate = (values) => {
   return errors;
 };
 
-const RolesAdd = ({
+const RolesEdit = ({
   handleSubmit,
   submitting,
   pristine,
@@ -83,8 +82,7 @@ const RolesAdd = ({
         label="Name"
         component={renderTextField}
         className={classes.textField}
-        error={errors.error}
-        errorText="This name has already been used"
+        errorText={errors.errors.name}
       />
     </div>
     <div>
@@ -93,13 +91,13 @@ const RolesAdd = ({
         variant="contained"
         disabled={pristine || submitting}
       >
-        Add Role
+        Save
       </Button>
     </div>
   </form>
 );
 
-RolesAdd.propTypes = {
+RolesEdit.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,
@@ -107,9 +105,9 @@ RolesAdd.propTypes = {
   pristine: PropTypes.bool.isRequired,
 };
 
-const RolesAddForm = reduxForm({
-  form: 'RolesAdd',
+const RolesEditForm = reduxForm({
+  form: 'RolesEdit',
   validate,
-})(RolesAdd);
+})(RolesEdit);
 
-export default withStyles(styles)(RolesAddForm);
+export default withStyles(styles)(RolesEditForm);

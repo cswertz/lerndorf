@@ -5,10 +5,9 @@ export const rolesFetchSuccess = items => ({
   items,
 });
 
-export const rolesItemFetchSuccess = (item, children) => ({
+export const rolesItemFetchSuccess = item => ({
   type: types.ROLES_ITEM_FETCH_SUCCESS,
   item,
-  children,
 });
 
 export const rolesAddFailed = (error, errors) => ({
@@ -137,7 +136,7 @@ export const rolesItemFetch = id => (
         if (json.error) {
           // dispatch(userEditFailed(json.error, json.errors));
         } else {
-          dispatch(rolesItemFetchSuccess(json.item, json.children));
+          dispatch(rolesItemFetchSuccess(json));
         }
       }
     })
