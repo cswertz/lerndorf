@@ -22,6 +22,7 @@ const Router = ({
   taxonomies,
   languages,
   actions,
+  roles,
   user,
 }) => (
   <Switch>
@@ -70,6 +71,7 @@ const Router = ({
       render={() => (
         <RoutesUsers
           actions={actions}
+          roles={roles}
           user={user}
         />
       )}
@@ -80,6 +82,13 @@ const Router = ({
 );
 
 Router.propTypes = {
+  roles: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    errors: PropTypes.shape().isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   taxonomies: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     errors: PropTypes.shape().isRequired,
@@ -94,8 +103,17 @@ Router.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
+    languagesDelete: PropTypes.func.isRequired,
     languagesFetch: PropTypes.func.isRequired,
+    languagesEdit: PropTypes.func.isRequired,
     languagesAdd: PropTypes.func.isRequired,
+    taxonomiesItemFetch: PropTypes.func.isRequired,
+    taxonomiesDelete: PropTypes.func.isRequired,
+    taxonomiesFetch: PropTypes.func.isRequired,
+    taxonomiesEdit: PropTypes.func.isRequired,
+    taxonomiesAdd: PropTypes.func.isRequired,
+    rolesDelete: PropTypes.func.isRequired,
+    rolesFetch: PropTypes.func.isRequired,
     userRegister: PropTypes.func.isRequired,
     userLogout: PropTypes.func.isRequired,
   }).isRequired,
@@ -110,9 +128,10 @@ Router.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  user: state.user,
-  languages: state.languages,
   taxonomies: state.taxonomies,
+  languages: state.languages,
+  roles: state.roles,
+  user: state.user,
 });
 
 const mapDispatchToProps = dispatch => ({

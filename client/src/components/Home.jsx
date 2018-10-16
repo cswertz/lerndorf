@@ -19,6 +19,7 @@ const Home = ({
         <ul>
           <li><Link to="/languages">Languages</Link></li>
           <li><Link to="/taxonomies">Taxonomies</Link></li>
+          <li><Link to="/users/roles">Roles</Link></li>
         </ul>
       </div>
     )}

@@ -126,9 +126,11 @@ Router.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
-    languagesFetch: PropTypes.func.isRequired,
-    languagesAdd: PropTypes.func.isRequired,
-    userRegister: PropTypes.func.isRequired,
+    taxonomiesItemFetch: PropTypes.func.isRequired,
+    taxonomiesDelete: PropTypes.func.isRequired,
+    taxonomiesFetch: PropTypes.func.isRequired,
+    taxonomiesEdit: PropTypes.func.isRequired,
+    taxonomiesAdd: PropTypes.func.isRequired,
     userLogout: PropTypes.func.isRequired,
   }).isRequired,
   user: PropTypes.shape({

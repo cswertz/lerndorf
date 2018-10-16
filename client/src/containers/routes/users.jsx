@@ -6,10 +6,13 @@ import Register from '../users/Register';
 import UserEdit from '../users/Edit';
 import Login from '../users/Login';
 
+import Roles from '../users/roles/List';
+
 import Appbar from '../Appbar';
 
 const Router = ({
   actions,
+  roles,
   user,
 }) => (
   <React.Fragment>
@@ -68,15 +71,44 @@ const Router = ({
         </div>
       )}
     />
+
+    <Route
+      exact
+      path="/users/roles"
+      render={() => (
+        <div className="UserEditWrapper">
+          <Appbar
+            title="User Roles"
+            active="user"
+            user={user}
+            logout={actions.userLogout}
+          />
+          <Roles
+            itemsDelete={actions.rolesDelete}
+            itemsFetch={actions.rolesFetch}
+            items={roles}
+          />
+        </div>
+      )}
+    />
   </React.Fragment>
 );
 
 Router.propTypes = {
+  roles: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    errors: PropTypes.shape().isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   actions: PropTypes.shape({
-    languagesFetch: PropTypes.func.isRequired,
-    languagesAdd: PropTypes.func.isRequired,
     userRegister: PropTypes.func.isRequired,
+    rolesDelete: PropTypes.func.isRequired,
+    rolesFetch: PropTypes.func.isRequired,
     userLogout: PropTypes.func.isRequired,
+    userLogin: PropTypes.func.isRequired,
+    userEdit: PropTypes.func.isRequired,
   }).isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,
