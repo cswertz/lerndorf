@@ -190,37 +190,59 @@ describe('Role', () => {
   });
 
   describe('PATCH /api/roles/:id', () => {
-    it('it should allow an empty patch', (done) => {
-      agent
+    it('it should not be possible to edit a role when not logged in', (done) => {
+      chai.request(server)
         .patch(`/api/roles/${roles[0]}`)
-        .send({})
+        .send({
+          name: 'edited',
+        })
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(401);
           res.body.should.be.a('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('createdAt');
-          res.body.should.have.property('updatedAt');
+          res.body.should.have.property('error');
 
           done();
         });
     });
 
-    it('it should allow the name to be patched', (done) => {
-      const newName = 'New name comes here';
+    it('it should not allow a user without the proper permissions to edit a taxonomy', (done) => {
       agent
-        .patch(`/api/roles/${roles[0]}`)
-        .send({
-          name: newName,
-        })
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('name');
-          res.body.should.have.property('createdAt');
-          res.body.should.have.property('updatedAt');
+        .post('/api/users/login')
+        .send(userRole)
+        .end(() => {
+          agent
+            .patch(`/api/roles/${roles[0]}`)
+            .send({
+              name: 'edited',
+            })
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
 
-          done();
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to edit a taxonomy', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .patch(`/api/roles/${roles[0]}`)
+            .send({
+              name: 'edited',
+            })
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('id');
+              res.body.should.have.property('createdAt');
+
+              done();
+            });
         });
     });
   });

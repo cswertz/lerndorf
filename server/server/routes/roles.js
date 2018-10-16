@@ -50,12 +50,28 @@ router.post('/', hasCapability('add_role'), (req, res) => {
 
 router.get('/:id', (req, res) => {
   models.Role.findById(req.params.id, {
-    attributes: ['id', 'slug', 'name', 'createdAt', 'updatedAt'],
+    attributes: [
+      'id',
+      'slug',
+      'name',
+      'createdAt',
+      'updatedAt',
+    ],
+    include: [
+      {
+        model: models.Capability,
+        attributes: [
+          'id',
+          'slug',
+          'name',
+        ],
+      },
+    ],
   })
     .then(result => res.json(result));
 });
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id', hasCapability('edit_role'), (req, res) => {
   delete (req.body.createdAt);
   delete (req.body.updatedAt);
   delete (req.body.id);
