@@ -8,17 +8,13 @@ import LanguagesEdit from './containers/languages/Edit';
 import LanguagesAdd from './containers/languages/Add';
 import Languages from './containers/languages/List';
 
-import TaxonomiesAddChild from './containers/taxonomies/AddChild';
-import TaxonomyChildren from './containers/taxonomies/Children';
-import TaxonomiesEdit from './containers/taxonomies/Edit';
-import TaxonomiesAdd from './containers/taxonomies/Add';
-import Taxonomies from './containers/taxonomies/List';
-
 import Register from './containers/users/Register';
 import UserEdit from './containers/users/Edit';
 import Login from './containers/users/Login';
 import Appbar from './containers/Appbar';
 import Home from './components/Home';
+
+import RoutesTaxonomies from './containers/routes/taxonomies';
 
 import * as AppActions from './actions';
 
@@ -159,103 +155,10 @@ const Router = ({
       )}
     />
 
-    <Route
-      exact
-      path="/taxonomies"
-      render={() => (
-        <div className="TaxonomiesWrapper">
-          <Appbar
-            title="Taxonomies"
-            active="taxonomies"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <Taxonomies
-            itemsDelete={actions.taxonomiesDelete}
-            itemsFetch={actions.taxonomiesFetch}
-            items={taxonomies}
-          />
-        </div>
-      )}
-    />
-
-    <Route
-      exact
-      path="/taxonomies/show/:id"
-      render={() => (
-        <div className="TaxonomiesWrapper">
-          <Appbar
-            title="Taxonomies"
-            active="taxonomies"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <TaxonomyChildren
-            itemFetch={actions.taxonomiesItemFetch}
-            itemsDelete={actions.taxonomiesDelete}
-            items={taxonomies}
-          />
-        </div>
-      )}
-    />
-
-    <Route
-      exact
-      path="/taxonomies/add"
-      render={() => (
-        <div className="TaxonomiesWrapper">
-          <Appbar
-            title="Add Taxonomy"
-            active="taxonomies"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <TaxonomiesAdd
-            handleSubmit={actions.taxonomiesAdd}
-            errors={taxonomies.errors}
-          />
-        </div>
-      )}
-    />
-
-    <Route
-      exact
-      path="/taxonomies/:id/add"
-      render={() => (
-        <div className="TaxonomiesWrapper">
-          <Appbar
-            title="Add Taxonomy"
-            active="taxonomies"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <TaxonomiesAddChild
-            handleSubmit={actions.taxonomiesAdd}
-            errors={taxonomies.errors}
-          />
-        </div>
-      )}
-    />
-
-    <Route
-      exact
-      path="/taxonomies/edit/:id"
-      render={() => (
-        <div className="TaxonomiesWrapper">
-          <Appbar
-            title="Edit Taxonomy Term"
-            active="taxonomies"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <TaxonomiesEdit
-            itemFetch={actions.taxonomiesItemFetch}
-            handleSubmit={actions.taxonomiesEdit}
-            errors={taxonomies.errors}
-            items={taxonomies}
-          />
-        </div>
-      )}
+    <RoutesTaxonomies
+      taxonomies={taxonomies}
+      actions={actions}
+      user={user}
     />
   </Switch>
 );
