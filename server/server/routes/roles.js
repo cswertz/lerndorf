@@ -8,7 +8,13 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   models.Role.findAll({
-    attributes: ['id', 'createdAt', 'updatedAt'],
+    attributes: [
+      'id',
+      'name',
+      'slug',
+      'createdAt',
+      'updatedAt',
+    ],
   })
     .then(results => res.json(results));
 });
@@ -66,7 +72,7 @@ router.patch('/:id', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', hasCapability('delete_role'), (req, res) => {
   models.Role.destroy({
     where: {
       id: req.params.id,

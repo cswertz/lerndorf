@@ -8,11 +8,6 @@ chai.use(chaiHttp);
 const agent = chai.request.agent(server);
 
 describe('Role', () => {
-  const admin = {
-    username: 'admin',
-    password: 'admin',
-  };
-
   const role = {
     slug: 'edit_users_test',
     name: 'Edit Users Test',
@@ -22,6 +17,27 @@ describe('Role', () => {
     name: 'Delete Users Test',
   };
   const roles = [];
+
+  const userRole = {
+    username: 'user_role',
+    password: 'password',
+    email: 'user@role.com',
+  };
+  const admin = {
+    username: 'admin',
+    password: 'admin',
+  };
+
+  before((done) => {
+    chai.request(server)
+      .post('/api/users')
+      .send(userRole)
+      .end((err, res) => {
+        res.should.have.status(200);
+
+        done();
+      });
+  });
 
   after((done) => {
     server.close();
@@ -196,15 +212,51 @@ describe('Role', () => {
   });
 
   describe('DELETE /api/roles/:id', () => {
-    it('it should be possible to delete a Role', (done) => {
+    it('it should not be possible to delete a Taxonomy when not logged in', (done) => {
       chai.request(server)
         .delete(`/api/roles/${roles[0]}`)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(401);
           res.body.should.be.a('object');
-          res.body.should.have.property('deleted');
+          res.body.should.have.property('error');
 
           done();
+        });
+    });
+
+    it('it should not allow a user without the proper permissions to delete a taxonomy', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(userRole)
+        .end(() => {
+          agent
+            .delete(`/api/roles/${roles[0]}`)
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to delete a taxonomy', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .delete(`/api/roles/${roles[0]}`)
+            .end((err, res) => {
+              agent
+                .get('/api/users/logout')
+                .end(() => {
+                  res.should.have.status(200);
+                  res.body.should.be.a('object');
+
+                  done();
+                });
+            });
         });
     });
   });
