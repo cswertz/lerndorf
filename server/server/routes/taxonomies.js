@@ -81,6 +81,24 @@ router.get('/:id', (req, res) => {
     });
 });
 
+router.patch('/:id', hasCapability('edit_taxonomy'), (req, res) => {
+  delete (req.body.createdAt);
+  delete (req.body.updatedAt);
+  delete (req.body.id);
+
+  models.Taxonomy.update(req.body, {
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then(() => {
+      models.Taxonomy.findById(req.params.id, {
+        attributes: ['id', 'createdAt'],
+      })
+        .then(result => res.json(result));
+    });
+});
+
 router.delete('/:id', hasCapability('delete_taxonomy'), (req, res) => {
   models.Taxonomy.destroy({
     where: {

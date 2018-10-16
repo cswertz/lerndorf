@@ -157,6 +157,64 @@ describe('Taxonomy', () => {
     });
   });
 
+  describe('PATCH /api/taxonomies/:id', () => {
+    it('it should not be possible to edit a Taxonomy when not logged in', (done) => {
+      chai.request(server)
+        .patch(`/api/taxonomies/${taxonomies[0]}`)
+        .send({
+          type: 'edited',
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+
+          done();
+        });
+    });
+
+    it('it should not allow a user without the proper permissions to edit a taxonomy', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(userTaxonomy)
+        .end(() => {
+          agent
+            .patch(`/api/taxonomies/${taxonomies[0]}`)
+            .send({
+              type: 'edited',
+            })
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to edit a taxonomy', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .patch(`/api/taxonomies/${taxonomies[0]}`)
+            .send({
+              type: 'edited',
+            })
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('id');
+              res.body.should.have.property('createdAt');
+
+              done();
+            });
+        });
+    });
+  });
+
   describe('GET /api/taxonomies/:id', () => {
     it('it should display Taxonomy information', (done) => {
       chai.request(server)
