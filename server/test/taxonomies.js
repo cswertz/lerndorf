@@ -64,50 +64,95 @@ describe('Taxonomy', () => {
   });
 
   describe('POST /api/taxonomies', () => {
-    it('it should display an error when required fields are missing', (done) => {
+    it('it should not be possible to add a Taxonomy when not logged in', (done) => {
       chai.request(server)
         .post('/api/taxonomies')
         .send({})
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(401);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
-          res.body.should.have.property('errors');
-          res.body.errors.length.should.be.eql(1);
 
           done();
         });
     });
 
-    it('it should add a new Taxonomy', (done) => {
-      chai.request(server)
-        .post('/api/taxonomies')
-        .send(taxonomy)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('createdAt');
+    it('it should display an error when adding a taxonomy without required fields', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post('/api/taxonomies')
+            .send({})
+            .end((err, res) => {
+              res.should.have.status(400);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              res.body.should.have.property('errors');
 
-          taxonomies[0] = res.body.id;
-
-          done();
+              done();
+            });
         });
     });
 
-    it('it should add a different Taxonomy', (done) => {
-      chai.request(server)
-        .post('/api/taxonomies')
-        .send(taxonomy1)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('createdAt');
 
-          taxonomies[1] = res.body.id;
+    it('it should not allow a user without the proper permissions to add a taxonomy', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(userTaxonomy)
+        .end(() => {
+          agent
+            .post('/api/taxonomies')
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
 
-          done();
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to add a taxonomy', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post('/api/taxonomies')
+            .send(taxonomy)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('id');
+              res.body.should.have.property('createdAt');
+
+              taxonomies[0] = res.body.id;
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to add a different taxonomy', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post('/api/taxonomies')
+            .send(taxonomy1)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('id');
+              res.body.should.have.property('createdAt');
+
+              taxonomies[0] = res.body.id;
+
+              done();
+            });
         });
     });
   });
@@ -142,7 +187,7 @@ describe('Taxonomy', () => {
         });
     });
 
-    it('it should not allow a user without the proper permissions to edit another user', (done) => {
+    it('it should not allow a user without the proper permissions to delete a taxonomy', (done) => {
       agent
         .post('/api/users/login')
         .send(userTaxonomy)

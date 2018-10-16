@@ -21,10 +21,14 @@ router.get('/', (req, res) => {
     .then(results => res.json(results));
 });
 
-router.post('/', (req, res) => {
+router.post('/', hasCapability('add_taxonomy'), (req, res) => {
   req.checkBody('type', 'type is required')
     .isLength({ max: 255 })
     .notEmpty();
+
+  if (!req.body.parent) {
+    req.body.parent = 1;
+  }
 
   req.getValidationResult().then((errors) => {
     if (!errors.isEmpty()) {
@@ -39,8 +43,8 @@ router.post('/', (req, res) => {
       .catch(err => res.status(422).send({
         error: 'There have been database errors.',
         errors: err.errors.map(error => ({
-          message: error.message,
-          type: error.type,
+          param: error.path,
+          msg: error.message,
         })),
       }));
   });
