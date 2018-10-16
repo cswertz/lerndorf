@@ -4,10 +4,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import LanguagesEdit from './containers/languages/Edit';
-import LanguagesAdd from './containers/languages/Add';
-import Languages from './containers/languages/List';
-
 import Register from './containers/users/Register';
 import UserEdit from './containers/users/Edit';
 import Login from './containers/users/Login';
@@ -15,6 +11,7 @@ import Appbar from './containers/Appbar';
 import Home from './components/Home';
 
 import RoutesTaxonomies from './containers/routes/taxonomies';
+import RoutesLanguages from './containers/routes/languages';
 
 import * as AppActions from './actions';
 
@@ -97,62 +94,11 @@ const Router = ({
         </div>
       )}
     />
-    <Route
-      exact
-      path="/languages"
-      render={() => (
-        <div className="LanguagesWrapper">
-          <Appbar
-            title="Languages"
-            active="languages"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <Languages
-            languagesDelete={actions.languagesDelete}
-            languagesFetch={actions.languagesFetch}
-            languages={languages}
-          />
-        </div>
-      )}
-    />
-    <Route
-      exact
-      path="/languages/add"
-      render={() => (
-        <div className="LanguagesWrapper">
-          <Appbar
-            title="Add Language"
-            active="languages"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <LanguagesAdd
-            handleSubmit={actions.languagesAdd}
-            errors={languages.errors}
-          />
-        </div>
-      )}
-    />
-    <Route
-      exact
-      path="/languages/edit/:id"
-      render={() => (
-        <div className="LanguagesWrapper">
-          <Appbar
-            title="Edit Language"
-            active="languages"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <LanguagesEdit
-            languagesFetch={actions.languagesFetch}
-            handleSubmit={actions.languagesEdit}
-            errors={languages.errors}
-            languages={languages}
-          />
-        </div>
-      )}
+
+    <RoutesLanguages
+      languages={languages}
+      actions={actions}
+      user={user}
     />
 
     <RoutesTaxonomies
