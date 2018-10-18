@@ -2,13 +2,13 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Wrapper from '../../components/routes/wrapper';
+
 import LanguagesEdit from '../languages/Edit';
 import LanguagesAdd from '../languages/Add';
 import Languages from '../languages/List';
 
-import Appbar from '../Appbar';
-
-const Router = ({
+const LanguagesRouter = ({
   languages,
   actions,
   user,
@@ -18,19 +18,20 @@ const Router = ({
       exact
       path="/languages"
       render={() => (
-        <div className="LanguagesWrapper">
-          <Appbar
-            title="Languages"
-            active="languages"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <Languages
-            languagesDelete={actions.languagesDelete}
-            languagesFetch={actions.languagesFetch}
-            languages={languages}
-          />
-        </div>
+        <Wrapper
+          className="LanguagesWrapper"
+          logout={actions.userLogout}
+          active="languages"
+          title="Languages"
+          user={user}
+          element={(
+            <Languages
+              languagesDelete={actions.languagesDelete}
+              languagesFetch={actions.languagesFetch}
+              languages={languages}
+            />
+          )}
+        />
       )}
     />
 
@@ -38,18 +39,19 @@ const Router = ({
       exact
       path="/languages/add"
       render={() => (
-        <div className="LanguagesWrapper">
-          <Appbar
-            title="Add Language"
-            active="languages"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <LanguagesAdd
-            handleSubmit={actions.languagesAdd}
-            errors={languages.errors}
-          />
-        </div>
+        <Wrapper
+          className="LanguagesWrapper"
+          logout={actions.userLogout}
+          title="Add Language"
+          active="languages"
+          user={user}
+          element={(
+            <LanguagesAdd
+              handleSubmit={actions.languagesAdd}
+              errors={languages.errors}
+            />
+          )}
+        />
       )}
     />
 
@@ -57,26 +59,27 @@ const Router = ({
       exact
       path="/languages/edit/:id"
       render={() => (
-        <div className="LanguagesWrapper">
-          <Appbar
-            title="Edit Language"
-            active="languages"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <LanguagesEdit
-            languagesFetch={actions.languagesFetch}
-            handleSubmit={actions.languagesEdit}
-            errors={languages.errors}
-            languages={languages}
-          />
-        </div>
+        <Wrapper
+          className="LanguagesWrapper"
+          logout={actions.userLogout}
+          title="Edit Language"
+          active="languages"
+          user={user}
+          element={(
+            <LanguagesEdit
+              languagesFetch={actions.languagesFetch}
+              handleSubmit={actions.languagesEdit}
+              errors={languages.errors}
+              languages={languages}
+            />
+          )}
+        />
       )}
     />
   </React.Fragment>
 );
 
-Router.propTypes = {
+LanguagesRouter.propTypes = {
   languages: PropTypes.shape({
     languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     id: PropTypes.shape({}).isRequired,
@@ -100,4 +103,4 @@ Router.propTypes = {
   }).isRequired,
 };
 
-export default Router;
+export default LanguagesRouter;

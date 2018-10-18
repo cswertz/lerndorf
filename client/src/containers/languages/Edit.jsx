@@ -1,16 +1,8 @@
-import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import EditForm from '../../components/languages/EditForm';
-
-const styles = () => ({
-  container: {
-    maxWidth: 960,
-    margin: 'auto',
-  },
-});
 
 class LanguagesEdit extends Component {
   constructor(props) {
@@ -54,7 +46,6 @@ class LanguagesEdit extends Component {
   render() {
     const {
       languages,
-      classes,
       errors,
       match,
     } = this.props;
@@ -63,13 +54,11 @@ class LanguagesEdit extends Component {
     const language = languages.id[id];
 
     return (
-      <div className={classes.container}>
-        <EditForm
-          handleSubmit={this.handleSubmit}
-          initialValues={language}
-          errors={errors.edit}
-        />
-      </div>
+      <EditForm
+        handleSubmit={this.handleSubmit}
+        initialValues={language}
+        errors={errors.edit}
+      />
     );
   }
 }
@@ -78,7 +67,6 @@ LanguagesEdit.propTypes = {
   languagesFetch: PropTypes.func.isRequired,
   languages: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  classes: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
@@ -92,4 +80,4 @@ LanguagesEdit.propTypes = {
 
 const LanguagesEditWithRouter = withRouter(LanguagesEdit);
 
-export default withStyles(styles)(LanguagesEditWithRouter);
+export default LanguagesEditWithRouter;
