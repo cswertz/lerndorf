@@ -38,7 +38,7 @@ const UsersList = ({
           </IconButton>
           <IconButton aria-label="Edit">
             <EditIcon
-              onClick={() => history.push(`/taxonomies/edit/${item.id}`)}
+              onClick={() => history.push(`/users/edit/${item.id}`)}
             />
           </IconButton>
           <IconButton aria-label="Delete">

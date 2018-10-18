@@ -5,14 +5,14 @@ export const usersFetchSuccess = items => ({
   items,
 });
 
-export const usersItemFetchSuccess = (item, children) => ({
+export const usersItemFetchSuccess = item => ({
   type: types.USERS_ITEM_FETCH_SUCCESS,
   item,
-  children,
 });
 
-export const usersEditSuccess = () => ({
+export const usersEditSuccess = id => ({
   type: types.USERS_EDIT_SUCCESS,
+  id,
 });
 
 export const usersDeleteSuccess = () => ({
@@ -76,8 +76,8 @@ export const usersEdit = (id, data, history) => (
         if (json.error) {
           // dispatch(usersEditFailed(json.error, json.errors));
         } else {
-          dispatch(usersEditSuccess());
-          history.push('/users');
+          dispatch(usersEditSuccess(id));
+          history.push(`/users/edit/${id}`);
         }
       }
     })
@@ -101,7 +101,7 @@ export const usersItemFetch = id => (
         if (json.error) {
           // dispatch(userEditFailed(json.error, json.errors));
         } else {
-          dispatch(usersItemFetchSuccess(json.item, json.children));
+          dispatch(usersItemFetchSuccess(json));
         }
       }
     })

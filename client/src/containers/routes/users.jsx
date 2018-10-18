@@ -2,6 +2,7 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import UsersEdit from '../users/AdminEdit';
 import Register from '../users/Register';
 import UserEdit from '../users/Edit';
 import Login from '../users/Login';
@@ -35,8 +36,9 @@ const Router = ({
           />
           <Users
             items={users}
-            itemsFetch={actions.usersFetch}
+            itemFetch={actions.usersItemFetch}
             itemsDelete={actions.usersDelete}
+            itemsFetch={actions.usersFetch}
           />
         </div>
       )}
@@ -95,6 +97,27 @@ const Router = ({
             errors={user.errors}
             handleSubmit={actions.userEdit}
             user={user.user}
+          />
+        </div>
+      )}
+    />
+
+    <Route
+      exact
+      path="/users/edit/:id"
+      render={() => (
+        <div className="UserEditWrapper">
+          <Appbar
+            title="Edit User"
+            active="user"
+            user={user}
+            logout={actions.userLogout}
+          />
+          <UsersEdit
+            itemFetch={actions.usersItemFetch}
+            handleSubmit={actions.usersEdit}
+            errors={user.errors}
+            items={users}
           />
         </div>
       )}
@@ -192,6 +215,8 @@ Router.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
+    usersItemFetch: PropTypes.func.isRequired,
+    usersFetch: PropTypes.func.isRequired,
     removeCapability: PropTypes.func.isRequired,
     addCapability: PropTypes.func.isRequired,
     capabilitiesFetch: PropTypes.func.isRequired,

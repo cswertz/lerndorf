@@ -49,7 +49,6 @@ const users = (state = initialState, action) => {
     case USERS_ITEM_FETCH_SUCCESS: {
       const ids = state.id;
       ids[action.item.id] = action.item;
-      ids[action.item.id].children = action.children;
 
       return Object.assign({}, state, {
         fetching: false,
