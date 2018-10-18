@@ -120,8 +120,12 @@ const UsersRouter = ({
             <UsersEdit
               itemFetch={actions.usersItemFetch}
               handleSubmit={actions.usersEdit}
+              rolesFetch={actions.rolesFetch}
+              remove={actions.removeRole}
+              add={actions.addRole}
               errors={user.errors}
               items={users}
+              roles={roles}
             />
           )}
         />

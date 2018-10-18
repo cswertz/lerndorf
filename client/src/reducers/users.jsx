@@ -1,4 +1,5 @@
 import {
+  USERS_ROLES_UPDATE_SUCCESS,
   USERS_ITEM_FETCH_SUCCESS,
   USER_REGISTER_SUCCESS,
   USERS_DELETE_SUCCESS,
@@ -28,6 +29,7 @@ const initialState = {
 
 const users = (state = initialState, action) => {
   switch (action.type) {
+    case USERS_ROLES_UPDATE_SUCCESS:
     case USER_REGISTER_SUCCESS:
     case USERS_DELETE_SUCCESS:
     case USERS_EDIT_SUCCESS: {

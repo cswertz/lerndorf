@@ -19,6 +19,10 @@ export const usersDeleteSuccess = () => ({
   type: types.USERS_DELETE_SUCCESS,
 });
 
+export const usersRolesUpdateSuccess = () => ({
+  type: types.USERS_ROLES_UPDATE_SUCCESS,
+});
+
 export const usersFetch = () => (
   dispatch => fetch('/api/users', {
     method: 'GET',
@@ -107,5 +111,56 @@ export const usersItemFetch = id => (
     })
     .catch((error) => {
       console.log('Error while fetching users:', error);
+    })
+);
+
+export const addRole = (id, role) => (
+  dispatch => fetch(`/api/users/${id}/role`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({
+      id: role,
+    }),
+  })
+    .then(response => response.json())
+    .then((json) => {
+      if (json) {
+        if (json.error) {
+          // dispatch(rolesEditFailed(json.error, json.errors));
+        } else {
+          dispatch(usersRolesUpdateSuccess());
+        }
+      }
+    })
+    .catch((error) => {
+      console.log('Error during adding role:', error);
+    })
+);
+
+export const removeRole = (id, role) => (
+  dispatch => fetch(`/api/users/${id}/role/${role}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then(response => response.json())
+    .then((json) => {
+      if (json) {
+        if (json.error) {
+          // dispatch(rolesEditFailed(json.error, json.errors));
+        } else {
+          dispatch(usersRolesUpdateSuccess());
+        }
+      }
+    })
+    .catch((error) => {
+      console.log('Error during adding language:', error);
     })
 );

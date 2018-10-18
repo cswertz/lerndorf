@@ -4,24 +4,41 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import AdminEditForm from '../../components/users/EditForm';
+import Roles from '../../components/users/Roles';
 
 class Edit extends Component {
   constructor(props) {
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.fetchUser = this.fetchUser.bind(this);
+    this.rolesFetch = this.rolesFetch.bind(this);
+    this.userFetch = this.userFetch.bind(this);
+    this.removeRole = this.removeRole.bind(this);
+    this.addRole = this.addRole.bind(this);
   }
 
   componentDidMount() {
-    this.fetchUser();
+    this.userFetch();
+    this.rolesFetch();
   }
 
   componentDidUpdate() {
-    this.fetchUser();
+    this.userFetch();
+    this.rolesFetch();
   }
 
-  fetchUser() {
+  rolesFetch() {
+    const {
+      roles,
+      rolesFetch,
+    } = this.props;
+
+    if (!roles.fetching && !roles.fetched) {
+      rolesFetch();
+    }
+  }
+
+  userFetch() {
     const {
       match,
       items,
@@ -69,16 +86,48 @@ class Edit extends Component {
     handleSubmit(id, data, history);
   }
 
+  addRole(e, role) {
+    e.preventDefault();
+
+    const {
+      match,
+      add,
+    } = this.props;
+    const { id } = match.params;
+
+    add(id, role);
+  }
+
+  removeRole(e, role) {
+    e.preventDefault();
+
+    const {
+      match,
+      remove,
+    } = this.props;
+    const { id } = match.params;
+
+    remove(id, role);
+  }
+
   render() {
     const {
       items,
       match,
+      roles,
       errors,
     } = this.props;
     const { id } = match.params;
-    if (!items.id[id]) return null;
-
     const user = items.id[id];
+
+    if (!items.id[id] || !roles.fetched) return null;
+
+    const availableIds = user.Roles.map(role => role.id);
+
+    const owned = roles.items.filter(role => availableIds.indexOf(role.id) > -1);
+    const available = roles.items
+      .filter(role => availableIds.indexOf(role.id) < 0);
+
     return (
       <div>
         <Typography variant="headline">
@@ -90,6 +139,12 @@ class Edit extends Component {
           errors={errors.edit}
           handleSubmit={this.handleSubmit}
         />
+        <Roles
+          remove={this.removeRole}
+          add={this.addRole}
+          available={available}
+          owned={owned}
+        />
       </div>
     );
   }
@@ -98,8 +153,12 @@ class Edit extends Component {
 Edit.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   errors: PropTypes.shape({}).isRequired,
+  rolesFetch: PropTypes.func.isRequired,
+  roles: PropTypes.shape({}).isRequired,
   items: PropTypes.shape({}).isRequired,
   itemFetch: PropTypes.func.isRequired,
+  remove: PropTypes.func.isRequired,
+  add: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

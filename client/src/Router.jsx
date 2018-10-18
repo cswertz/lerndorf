@@ -105,6 +105,8 @@ Router.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
+    removeRole: PropTypes.func.isRequired,
+    addRole: PropTypes.func.isRequired,
     removeCapability: PropTypes.func.isRequired,
     addCapability: PropTypes.func.isRequired,
     languagesDelete: PropTypes.func.isRequired,
