@@ -14,6 +14,7 @@ import Roles from '../users/roles/List';
 import Appbar from '../Appbar';
 
 const Router = ({
+  capabilities,
   actions,
   roles,
   user,
@@ -126,8 +127,12 @@ const Router = ({
             logout={actions.userLogout}
           />
           <RolesEdit
+            removeCapability={actions.removeCapability}
+            addCapability={actions.addCapability}
+            capabilitiesFetch={actions.capabilitiesFetch}
             itemFetch={actions.rolesItemFetch}
             handleSubmit={actions.rolesEdit}
+            capabilities={capabilities}
             errors={roles.errors}
             items={roles}
           />
@@ -141,7 +146,7 @@ const Router = ({
       render={() => (
         <div className="RolesWrapper">
           <Appbar
-            title="Role"
+            title="Roles"
             active="user"
             user={user}
             logout={actions.userLogout}
@@ -157,14 +162,15 @@ const Router = ({
 );
 
 Router.propTypes = {
-  roles: PropTypes.shape({
+  capabilities: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    errors: PropTypes.shape().isRequired,
-    id: PropTypes.shape({}).isRequired,
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
+    removeCapability: PropTypes.func.isRequired,
+    addCapability: PropTypes.func.isRequired,
+    capabilitiesFetch: PropTypes.func.isRequired,
     rolesItemFetch: PropTypes.func.isRequired,
     rolesDelete: PropTypes.func.isRequired,
     rolesFetch: PropTypes.func.isRequired,
@@ -174,6 +180,13 @@ Router.propTypes = {
     userLogout: PropTypes.func.isRequired,
     userLogin: PropTypes.func.isRequired,
     userEdit: PropTypes.func.isRequired,
+  }).isRequired,
+  roles: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    errors: PropTypes.shape().isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
   }).isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,

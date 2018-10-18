@@ -1,4 +1,5 @@
 import {
+  ROLES_CAPABILITIES_UPDATE_SUCCESS,
   ROLES_ITEM_FETCH_SUCCESS,
   ROLES_DELETE_SUCCESS,
   ROLES_FETCH_SUCCESS,
@@ -29,13 +30,16 @@ const initialState = {
 
 const roles = (state = initialState, action) => {
   switch (action.type) {
+    case ROLES_CAPABILITIES_UPDATE_SUCCESS:
     case ROLES_DELETE_SUCCESS:
     case ROLES_EDIT_SUCCESS:
     case ROLES_ADD_SUCCESS: {
+      console.log('updated');
       return Object.assign({}, state, {
         fetched: false,
         fetching: false,
         id: {},
+        items: [],
       });
     }
 

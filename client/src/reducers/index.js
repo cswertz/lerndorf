@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
+import capabilities from './capabilities';
 import taxonomies from './taxonomies';
 import languages from './languages';
 import roles from './roles';
@@ -8,6 +9,7 @@ import user from './user';
 
 const lerndorfApp = combineReducers({
   form: formReducer,
+  capabilities,
   taxonomies,
   languages,
   roles,

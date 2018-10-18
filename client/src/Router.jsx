@@ -19,6 +19,7 @@ import RoutesUsers from './containers/routes/users';
 import * as AppActions from './actions';
 
 const Router = ({
+  capabilities,
   taxonomies,
   languages,
   actions,
@@ -70,6 +71,7 @@ const Router = ({
       path="/users"
       render={() => (
         <RoutesUsers
+          capabilities={capabilities}
           actions={actions}
           roles={roles}
           user={user}
@@ -82,10 +84,8 @@ const Router = ({
 );
 
 Router.propTypes = {
-  roles: PropTypes.shape({
+  capabilities: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    errors: PropTypes.shape().isRequired,
-    id: PropTypes.shape({}).isRequired,
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
@@ -103,6 +103,8 @@ Router.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
+    removeCapability: PropTypes.func.isRequired,
+    addCapability: PropTypes.func.isRequired,
     languagesDelete: PropTypes.func.isRequired,
     languagesFetch: PropTypes.func.isRequired,
     languagesEdit: PropTypes.func.isRequired,
@@ -120,6 +122,13 @@ Router.propTypes = {
     userRegister: PropTypes.func.isRequired,
     userLogout: PropTypes.func.isRequired,
   }).isRequired,
+  roles: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    errors: PropTypes.shape().isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,
     errors: PropTypes.shape({
@@ -131,6 +140,7 @@ Router.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  capabilities: state.capabilities,
   taxonomies: state.taxonomies,
   languages: state.languages,
   roles: state.roles,
