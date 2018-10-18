@@ -1,7 +1,8 @@
-import { withStyles } from '@material-ui/core/styles';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
+
+import Wrapper from '../../components/routes/wrapper';
 
 import UsersEdit from '../users/AdminEdit';
 import Register from '../users/Register';
@@ -14,19 +15,8 @@ import RolesEdit from '../users/roles/Edit';
 import RolesAdd from '../users/roles/Add';
 import Roles from '../users/roles/List';
 
-import Appbar from '../Appbar';
-
-const styles = () => ({
-  container: {
-    maxWidth: 960,
-    margin: 'auto',
-    marginTop: '10px',
-  },
-});
-
 const Router = ({
   capabilities,
-  classes,
   actions,
   roles,
   users,
@@ -37,22 +27,21 @@ const Router = ({
       exact
       path="/users"
       render={() => (
-        <div className="UsersListWrapper">
-          <Appbar
-            logout={actions.userLogout}
-            active="users"
-            title="Users"
-            user={user}
-          />
-          <div className={classes.container}>
+        <Wrapper
+          className="UsersListWrapper"
+          logout={actions.userLogout}
+          active="users"
+          title="Users"
+          user={user}
+          element={(
             <Users
               itemFetch={actions.usersItemFetch}
               itemsDelete={actions.usersDelete}
               itemsFetch={actions.usersFetch}
               items={users}
             />
-          </div>
-        </div>
+          )}
+        />
       )}
     />
 
@@ -60,21 +49,19 @@ const Router = ({
       exact
       path="/users/register"
       render={() => (
-        <div className="RegisterWrapper">
-          <Appbar
-            logout={actions.userLogout}
-            active="register"
-            title="Register"
-            user={user}
-          />
-          <div className={classes.container}>
+        <Wrapper
+          className="RegisterWrapper"
+          logout={actions.userLogout}
+          active="register"
+          title="Register"
+          user={user}
+          element={(
             <Register
               handleSubmit={actions.userRegister}
-
               errors={user.errors}
             />
-          </div>
-        </div>
+          )}
+        />
       )}
     />
 
@@ -82,20 +69,19 @@ const Router = ({
       exact
       path="/users/login"
       render={() => (
-        <div className="LoginWrapper">
-          <Appbar
-            title="Login"
-            active="login"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <div className={classes.container}>
+        <Wrapper
+          className="LoginWrapper"
+          logout={actions.userLogout}
+          active="login"
+          title="Login"
+          user={user}
+          element={(
             <Login
               errors={user.errors}
               handleSubmit={actions.userLogin}
             />
-          </div>
-        </div>
+          )}
+        />
       )}
     />
 
@@ -103,21 +89,20 @@ const Router = ({
       exact
       path="/users/user/edit"
       render={() => (
-        <div className="UserEditWrapper">
-          <Appbar
-            title="Edit your data"
-            active="user"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <div className={classes.container}>
+        <Wrapper
+          className="UserEditWrapper"
+          logout={actions.userLogout}
+          title="Edit your data"
+          active="user"
+          user={user}
+          element={(
             <UserEdit
               errors={user.errors}
               handleSubmit={actions.userEdit}
               user={user.user}
             />
-          </div>
-        </div>
+          )}
+        />
       )}
     />
 
@@ -125,22 +110,21 @@ const Router = ({
       exact
       path="/users/edit/:id"
       render={() => (
-        <div className="UserEditWrapper">
-          <Appbar
-            title="Edit User"
-            active="user"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <div className={classes.container}>
+        <Wrapper
+          className="UserEditWrapper"
+          logout={actions.userLogout}
+          title="Edit User"
+          active="user"
+          user={user}
+          element={(
             <UsersEdit
               itemFetch={actions.usersItemFetch}
               handleSubmit={actions.usersEdit}
               errors={user.errors}
               items={users}
             />
-          </div>
-        </div>
+          )}
+        />
       )}
     />
 
@@ -148,21 +132,20 @@ const Router = ({
       exact
       path="/users/roles"
       render={() => (
-        <div className="UserRoleWrapper">
-          <Appbar
-            title="User Roles"
-            active="user"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <div className={classes.container}>
+        <Wrapper
+          className="UserRoleWrapper"
+          logout={actions.userLogout}
+          title="User Roles"
+          active="user"
+          user={user}
+          element={(
             <Roles
               itemsDelete={actions.rolesDelete}
               itemsFetch={actions.rolesFetch}
               items={roles}
             />
-          </div>
-        </div>
+          )}
+        />
       )}
     />
 
@@ -170,20 +153,19 @@ const Router = ({
       exact
       path="/users/roles/add"
       render={() => (
-        <div className="RolesWrapper">
-          <Appbar
-            title="Add Role"
-            active="user"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <div className={classes.container}>
+        <Wrapper
+          className="RolesWrapper"
+          logout={actions.userLogout}
+          title="Add Role"
+          active="user"
+          user={user}
+          element={(
             <RolesAdd
               handleSubmit={actions.rolesAdd}
               errors={roles.errors}
             />
-          </div>
-        </div>
+          )}
+        />
       )}
     />
 
@@ -191,14 +173,13 @@ const Router = ({
       exact
       path="/users/roles/edit/:id"
       render={() => (
-        <div className="RolesWrapper">
-          <Appbar
-            title="Edit Role"
-            active="user"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <div className={classes.container}>
+        <Wrapper
+          className="RolesWrapper"
+          logout={actions.userLogout}
+          title="Edit Role"
+          active="user"
+          user={user}
+          element={(
             <RolesEdit
               removeCapability={actions.removeCapability}
               addCapability={actions.addCapability}
@@ -209,8 +190,8 @@ const Router = ({
               errors={roles.errors}
               items={roles}
             />
-          </div>
-        </div>
+          )}
+        />
       )}
     />
 
@@ -218,20 +199,19 @@ const Router = ({
       exact
       path="/users/roles/show/:id"
       render={() => (
-        <div className="RolesWrapper">
-          <Appbar
-            title="Roles"
-            active="user"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <div className={classes.container}>
+        <Wrapper
+          className="RolesWrapper"
+          logout={actions.userLogout}
+          title="Roles"
+          active="user"
+          user={user}
+          element={(
             <RolesShow
               itemFetch={actions.rolesItemFetch}
               items={roles}
             />
-          </div>
-        </div>
+          )}
+        />
       )}
     />
   </React.Fragment>
@@ -284,4 +264,4 @@ Router.propTypes = {
   }).isRequired,
 };
 
-export default withStyles(styles)(Router);
+export default Router;
