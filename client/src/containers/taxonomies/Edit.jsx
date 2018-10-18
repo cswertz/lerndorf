@@ -1,16 +1,8 @@
-import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import EditForm from '../../components/taxonomies/EditForm';
-
-const styles = () => ({
-  container: {
-    maxWidth: 960,
-    margin: 'auto',
-  },
-});
 
 class TaxonomiesEdit extends Component {
   constructor(props) {
@@ -53,9 +45,8 @@ class TaxonomiesEdit extends Component {
 
   render() {
     const {
-      items,
-      classes,
       errors,
+      items,
       match,
     } = this.props;
 
@@ -63,20 +54,17 @@ class TaxonomiesEdit extends Component {
     const item = items.id[id];
 
     return (
-      <div className={classes.container}>
-        <EditForm
-          handleSubmit={this.handleSubmit}
-          initialValues={item}
-          errors={errors.edit}
-        />
-      </div>
+      <EditForm
+        handleSubmit={this.handleSubmit}
+        initialValues={item}
+        errors={errors.edit}
+      />
     );
   }
 }
 
 TaxonomiesEdit.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  classes: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,
   items: PropTypes.shape({}).isRequired,
   itemFetch: PropTypes.func.isRequired,
@@ -92,4 +80,4 @@ TaxonomiesEdit.propTypes = {
 
 const TaxonomiesEditWithRouter = withRouter(TaxonomiesEdit);
 
-export default withStyles(styles)(TaxonomiesEditWithRouter);
+export default TaxonomiesEditWithRouter;

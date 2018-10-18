@@ -1,16 +1,8 @@
-import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import AddForm from '../../components/taxonomies/AddForm';
-
-const styles = () => ({
-  container: {
-    maxWidth: 960,
-    margin: 'auto',
-  },
-});
 
 class TaxonomiesAdd extends Component {
   constructor(props) {
@@ -40,24 +32,20 @@ class TaxonomiesAdd extends Component {
 
   render() {
     const {
-      classes,
       errors,
     } = this.props;
 
     return (
-      <div className={classes.container}>
-        <AddForm
-          handleSubmit={this.handleSubmit}
-          errors={errors.add}
-        />
-      </div>
+      <AddForm
+        handleSubmit={this.handleSubmit}
+        errors={errors.add}
+      />
     );
   }
 }
 
 TaxonomiesAdd.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  classes: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
@@ -71,4 +59,4 @@ TaxonomiesAdd.propTypes = {
 
 const TaxonomiesAddWithRouter = withRouter(TaxonomiesAdd);
 
-export default withStyles(styles)(TaxonomiesAddWithRouter);
+export default TaxonomiesAddWithRouter;

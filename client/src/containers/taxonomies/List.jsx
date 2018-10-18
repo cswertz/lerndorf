@@ -1,4 +1,3 @@
-import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
@@ -7,13 +6,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import List from '../../components/taxonomies/List';
-
-const styles = () => ({
-  container: {
-    maxWidth: 960,
-    margin: 'auto',
-  },
-});
 
 class Taxonomies extends Component {
   constructor(props) {
@@ -54,14 +46,13 @@ class Taxonomies extends Component {
 
   render() {
     const {
-      items,
-      classes,
       history,
+      items,
     } = this.props;
 
     return (
-      <div className={classes.container}>
-        <Typography variant="title" className={classes.title}>
+      <div>
+        <Typography variant="title">
           Available taxonomies
         </Typography>
         <List
@@ -94,4 +85,4 @@ Taxonomies.propTypes = {
 
 const TaxonomiesWithRouter = withRouter(Taxonomies);
 
-export default withStyles(styles)(TaxonomiesWithRouter);
+export default TaxonomiesWithRouter;

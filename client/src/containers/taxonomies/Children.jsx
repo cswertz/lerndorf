@@ -1,4 +1,3 @@
-import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
@@ -7,13 +6,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import List from '../../components/taxonomies/List';
-
-const styles = () => ({
-  container: {
-    maxWidth: 960,
-    margin: 'auto',
-  },
-});
 
 class Taxonomies extends Component {
   constructor(props) {
@@ -55,10 +47,9 @@ class Taxonomies extends Component {
 
   render() {
     const {
+      history,
       match,
       items,
-      classes,
-      history,
     } = this.props;
 
     const { id } = match.params;
@@ -75,14 +66,14 @@ class Taxonomies extends Component {
         />
       );
       title = (
-        <Typography variant="title" className={classes.title}>
+        <Typography variant="title">
           Taxonomy: {'"'}{item.type}{'"'}
         </Typography>
       );
     }
 
     return (
-      <div className={classes.container}>
+      <div>
         {title}
         {rendered}
         <Grid>
@@ -102,7 +93,6 @@ Taxonomies.propTypes = {
   itemsDelete: PropTypes.func.isRequired,
   itemFetch: PropTypes.func.isRequired,
   items: PropTypes.shape({}).isRequired,
-  classes: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
@@ -115,4 +105,4 @@ Taxonomies.propTypes = {
 
 const TaxonomiesWithRouter = withRouter(Taxonomies);
 
-export default withStyles(styles)(TaxonomiesWithRouter);
+export default TaxonomiesWithRouter;
