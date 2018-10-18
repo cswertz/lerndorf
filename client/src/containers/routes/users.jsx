@@ -15,7 +15,7 @@ import RolesEdit from '../users/roles/Edit';
 import RolesAdd from '../users/roles/Add';
 import Roles from '../users/roles/List';
 
-const Router = ({
+const UsersRouter = ({
   capabilities,
   actions,
   roles,
@@ -217,8 +217,7 @@ const Router = ({
   </React.Fragment>
 );
 
-Router.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
+UsersRouter.propTypes = {
   capabilities: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     fetching: PropTypes.bool.isRequired,
@@ -264,4 +263,4 @@ Router.propTypes = {
   }).isRequired,
 };
 
-export default Router;
+export default UsersRouter;
