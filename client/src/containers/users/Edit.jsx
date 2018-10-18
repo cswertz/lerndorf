@@ -1,21 +1,8 @@
-import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import EditForm from '../../components/users/EditForm';
-
-const styles = theme => ({
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
-  },
-  container: {
-    maxWidth: 960,
-    margin: 'auto',
-  },
-});
 
 class Edit extends Component {
   constructor(props) {
@@ -64,24 +51,20 @@ class Edit extends Component {
     const {
       user,
       errors,
-      classes,
     } = this.props;
 
     return (
-      <div className={classes.container}>
-        <EditForm
-          user={user}
-          initialValues={user}
-          errors={errors.edit}
-          handleSubmit={this.handleSubmit}
-        />
-      </div>
+      <EditForm
+        user={user}
+        initialValues={user}
+        errors={errors.edit}
+        handleSubmit={this.handleSubmit}
+      />
     );
   }
 }
 
 Edit.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   errors: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
@@ -92,4 +75,4 @@ Edit.propTypes = {
 
 const EditWithRouter = withRouter(Edit);
 
-export default withStyles(styles)(EditWithRouter);
+export default EditWithRouter;

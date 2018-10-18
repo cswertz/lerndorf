@@ -1,21 +1,8 @@
-import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import LoginForm from '../../components/users/LoginForm';
-
-const styles = theme => ({
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
-  },
-  container: {
-    maxWidth: 960,
-    margin: 'auto',
-  },
-});
 
 class Login extends Component {
   constructor(props) {
@@ -43,22 +30,18 @@ class Login extends Component {
   render() {
     const {
       errors,
-      classes,
     } = this.props;
 
     return (
-      <div className={classes.container}>
-        <LoginForm
-          errors={errors.login}
-          handleSubmit={this.handleSubmit}
-        />
-      </div>
+      <LoginForm
+        errors={errors.login}
+        handleSubmit={this.handleSubmit}
+      />
     );
   }
 }
 
 Login.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   errors: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
@@ -68,4 +51,4 @@ Login.propTypes = {
 
 const LoginWithRouter = withRouter(Login);
 
-export default withStyles(styles)(LoginWithRouter);
+export default LoginWithRouter;

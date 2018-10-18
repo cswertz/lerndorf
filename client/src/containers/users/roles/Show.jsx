@@ -1,17 +1,8 @@
-import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Show from '../../../components/users/roles/Show';
-
-const styles = () => ({
-  container: {
-    maxWidth: 960,
-    margin: 'auto',
-    marginTop: '10px',
-  },
-});
 
 class RolesShow extends Component {
   componentDidMount() {
@@ -30,7 +21,6 @@ class RolesShow extends Component {
 
   render() {
     const {
-      classes,
       items,
       match,
     } = this.props;
@@ -40,17 +30,14 @@ class RolesShow extends Component {
     if (!item) return null;
 
     return (
-      <div className={classes.container}>
-        <Show
-          item={item}
-        />
-      </div>
+      <Show
+        item={item}
+      />
     );
   }
 }
 
 RolesShow.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
   items: PropTypes.shape({}).isRequired,
   itemFetch: PropTypes.func.isRequired,
   history: PropTypes.shape({
@@ -65,4 +52,4 @@ RolesShow.propTypes = {
 
 const RolesShowWithRouter = withRouter(RolesShow);
 
-export default withStyles(styles)(RolesShowWithRouter);
+export default RolesShowWithRouter;

@@ -1,23 +1,9 @@
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import AdminEditForm from '../../components/users/EditForm';
-
-const styles = theme => ({
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
-  },
-  container: {
-    maxWidth: 960,
-    margin: 'auto',
-    marginTop: '10px',
-  },
-});
 
 class Edit extends Component {
   constructor(props) {
@@ -88,15 +74,14 @@ class Edit extends Component {
       items,
       match,
       errors,
-      classes,
     } = this.props;
     const { id } = match.params;
     if (!items.id[id]) return null;
 
     const user = items.id[id];
     return (
-      <div className={classes.container}>
-        <Typography variant="title" className={classes.title}>
+      <div>
+        <Typography variant="headline">
           {user.username}
         </Typography>
         <AdminEditForm
@@ -111,7 +96,6 @@ class Edit extends Component {
 }
 
 Edit.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   errors: PropTypes.shape({}).isRequired,
   items: PropTypes.shape({}).isRequired,
@@ -128,4 +112,4 @@ Edit.propTypes = {
 
 const EditWithRouter = withRouter(Edit);
 
-export default withStyles(styles)(EditWithRouter);
+export default EditWithRouter;

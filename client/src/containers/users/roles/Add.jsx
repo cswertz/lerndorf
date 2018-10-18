@@ -1,16 +1,8 @@
-import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import AddForm from '../../../components/users/roles/AddForm';
-
-const styles = () => ({
-  container: {
-    maxWidth: 960,
-    margin: 'auto',
-  },
-});
 
 class RolesAdd extends Component {
   constructor(props) {
@@ -35,25 +27,20 @@ class RolesAdd extends Component {
 
   render() {
     const {
-      classes,
       errors,
     } = this.props;
-    console.log(errors.add);
 
     return (
-      <div className={classes.container}>
-        <AddForm
-          handleSubmit={this.handleSubmit}
-          errors={errors.add}
-        />
-      </div>
+      <AddForm
+        handleSubmit={this.handleSubmit}
+        errors={errors.add}
+      />
     );
   }
 }
 
 RolesAdd.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  classes: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
@@ -62,4 +49,4 @@ RolesAdd.propTypes = {
 
 const RolesAddWithRouter = withRouter(RolesAdd);
 
-export default withStyles(styles)(RolesAddWithRouter);
+export default RolesAddWithRouter;

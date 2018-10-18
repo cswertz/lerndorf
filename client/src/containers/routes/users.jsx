@@ -1,3 +1,4 @@
+import { withStyles } from '@material-ui/core/styles';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -15,8 +16,17 @@ import Roles from '../users/roles/List';
 
 import Appbar from '../Appbar';
 
+const styles = () => ({
+  container: {
+    maxWidth: 960,
+    margin: 'auto',
+    marginTop: '10px',
+  },
+});
+
 const Router = ({
   capabilities,
+  classes,
   actions,
   roles,
   users,
@@ -27,19 +37,21 @@ const Router = ({
       exact
       path="/users"
       render={() => (
-        <div className="UserlistWrapper">
+        <div className="UsersListWrapper">
           <Appbar
-            title="Users"
-            active="users"
-            user={user}
             logout={actions.userLogout}
+            active="users"
+            title="Users"
+            user={user}
           />
-          <Users
-            items={users}
-            itemFetch={actions.usersItemFetch}
-            itemsDelete={actions.usersDelete}
-            itemsFetch={actions.usersFetch}
-          />
+          <div className={classes.container}>
+            <Users
+              itemFetch={actions.usersItemFetch}
+              itemsDelete={actions.usersDelete}
+              itemsFetch={actions.usersFetch}
+              items={users}
+            />
+          </div>
         </div>
       )}
     />
@@ -50,15 +62,18 @@ const Router = ({
       render={() => (
         <div className="RegisterWrapper">
           <Appbar
-            title="Register"
-            active="register"
-            user={user}
             logout={actions.userLogout}
+            active="register"
+            title="Register"
+            user={user}
           />
-          <Register
-            errors={user.errors}
-            handleSubmit={actions.userRegister}
-          />
+          <div className={classes.container}>
+            <Register
+              handleSubmit={actions.userRegister}
+
+              errors={user.errors}
+            />
+          </div>
         </div>
       )}
     />
@@ -74,10 +89,12 @@ const Router = ({
             user={user}
             logout={actions.userLogout}
           />
-          <Login
-            errors={user.errors}
-            handleSubmit={actions.userLogin}
-          />
+          <div className={classes.container}>
+            <Login
+              errors={user.errors}
+              handleSubmit={actions.userLogin}
+            />
+          </div>
         </div>
       )}
     />
@@ -93,11 +110,13 @@ const Router = ({
             user={user}
             logout={actions.userLogout}
           />
-          <UserEdit
-            errors={user.errors}
-            handleSubmit={actions.userEdit}
-            user={user.user}
-          />
+          <div className={classes.container}>
+            <UserEdit
+              errors={user.errors}
+              handleSubmit={actions.userEdit}
+              user={user.user}
+            />
+          </div>
         </div>
       )}
     />
@@ -113,12 +132,14 @@ const Router = ({
             user={user}
             logout={actions.userLogout}
           />
-          <UsersEdit
-            itemFetch={actions.usersItemFetch}
-            handleSubmit={actions.usersEdit}
-            errors={user.errors}
-            items={users}
-          />
+          <div className={classes.container}>
+            <UsersEdit
+              itemFetch={actions.usersItemFetch}
+              handleSubmit={actions.usersEdit}
+              errors={user.errors}
+              items={users}
+            />
+          </div>
         </div>
       )}
     />
@@ -127,18 +148,20 @@ const Router = ({
       exact
       path="/users/roles"
       render={() => (
-        <div className="UserEditWrapper">
+        <div className="UserRoleWrapper">
           <Appbar
             title="User Roles"
             active="user"
             user={user}
             logout={actions.userLogout}
           />
-          <Roles
-            itemsDelete={actions.rolesDelete}
-            itemsFetch={actions.rolesFetch}
-            items={roles}
-          />
+          <div className={classes.container}>
+            <Roles
+              itemsDelete={actions.rolesDelete}
+              itemsFetch={actions.rolesFetch}
+              items={roles}
+            />
+          </div>
         </div>
       )}
     />
@@ -154,10 +177,12 @@ const Router = ({
             user={user}
             logout={actions.userLogout}
           />
-          <RolesAdd
-            handleSubmit={actions.rolesAdd}
-            errors={roles.errors}
-          />
+          <div className={classes.container}>
+            <RolesAdd
+              handleSubmit={actions.rolesAdd}
+              errors={roles.errors}
+            />
+          </div>
         </div>
       )}
     />
@@ -173,16 +198,18 @@ const Router = ({
             user={user}
             logout={actions.userLogout}
           />
-          <RolesEdit
-            removeCapability={actions.removeCapability}
-            addCapability={actions.addCapability}
-            capabilitiesFetch={actions.capabilitiesFetch}
-            itemFetch={actions.rolesItemFetch}
-            handleSubmit={actions.rolesEdit}
-            capabilities={capabilities}
-            errors={roles.errors}
-            items={roles}
-          />
+          <div className={classes.container}>
+            <RolesEdit
+              removeCapability={actions.removeCapability}
+              addCapability={actions.addCapability}
+              capabilitiesFetch={actions.capabilitiesFetch}
+              itemFetch={actions.rolesItemFetch}
+              handleSubmit={actions.rolesEdit}
+              capabilities={capabilities}
+              errors={roles.errors}
+              items={roles}
+            />
+          </div>
         </div>
       )}
     />
@@ -198,10 +225,12 @@ const Router = ({
             user={user}
             logout={actions.userLogout}
           />
-          <RolesShow
-            itemFetch={actions.rolesItemFetch}
-            items={roles}
-          />
+          <div className={classes.container}>
+            <RolesShow
+              itemFetch={actions.rolesItemFetch}
+              items={roles}
+            />
+          </div>
         </div>
       )}
     />
@@ -209,6 +238,7 @@ const Router = ({
 );
 
 Router.propTypes = {
+  classes: PropTypes.shape({}).isRequired,
   capabilities: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     fetching: PropTypes.bool.isRequired,
@@ -254,4 +284,4 @@ Router.propTypes = {
   }).isRequired,
 };
 
-export default Router;
+export default withStyles(styles)(Router);

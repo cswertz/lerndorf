@@ -1,18 +1,9 @@
-import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Capabilities from '../../../components/users/roles/Capabilities';
 import EditForm from '../../../components/users/roles/EditForm';
-
-const styles = () => ({
-  container: {
-    maxWidth: 960,
-    margin: 'auto',
-    marginTop: '10px',
-  },
-});
 
 class RolesEdit extends Component {
   constructor(props) {
@@ -92,7 +83,6 @@ class RolesEdit extends Component {
   render() {
     const {
       capabilities,
-      classes,
       errors,
       items,
       match,
@@ -109,7 +99,7 @@ class RolesEdit extends Component {
       .filter(capability => availableIds.indexOf(capability.id) < 0);
 
     return (
-      <div className={classes.container}>
+      <div>
         <EditForm
           handleSubmit={this.handleSubmit}
           initialValues={item}
@@ -148,4 +138,4 @@ RolesEdit.propTypes = {
 
 const RolesEditWithRouter = withRouter(RolesEdit);
 
-export default withStyles(styles)(RolesEditWithRouter);
+export default RolesEditWithRouter;

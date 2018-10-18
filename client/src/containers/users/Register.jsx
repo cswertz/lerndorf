@@ -1,22 +1,8 @@
-import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import RegisterForm from '../../components/users/RegisterForm';
-
-const styles = theme => ({
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
-  },
-  container: {
-    maxWidth: 960,
-    margin: 'auto',
-    marginTop: '10px',
-  },
-});
 
 class Register extends Component {
   constructor(props) {
@@ -59,22 +45,18 @@ class Register extends Component {
   render() {
     const {
       errors,
-      classes,
     } = this.props;
 
     return (
-      <div className={classes.container}>
-        <RegisterForm
-          errors={errors.registration}
-          handleSubmit={this.handleSubmit}
-        />
-      </div>
+      <RegisterForm
+        errors={errors.registration}
+        handleSubmit={this.handleSubmit}
+      />
     );
   }
 }
 
 Register.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   errors: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
@@ -84,4 +66,4 @@ Register.propTypes = {
 
 const RegisterWithRouter = withRouter(Register);
 
-export default withStyles(styles)(RegisterWithRouter);
+export default RegisterWithRouter;

@@ -1,4 +1,3 @@
-import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
@@ -7,13 +6,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import List from '../../../components/users/roles/List';
-
-const styles = () => ({
-  container: {
-    maxWidth: 960,
-    margin: 'auto',
-  },
-});
 
 class Roles extends Component {
   constructor(props) {
@@ -55,13 +47,12 @@ class Roles extends Component {
   render() {
     const {
       items,
-      classes,
       history,
     } = this.props;
 
     return (
-      <div className={classes.container}>
-        <Typography variant="title" className={classes.title}>
+      <div>
+        <Typography variant="headline">
           Available roles
         </Typography>
         <List
@@ -86,7 +77,6 @@ Roles.propTypes = {
   itemsDelete: PropTypes.func.isRequired,
   itemsFetch: PropTypes.func.isRequired,
   items: PropTypes.shape({}).isRequired,
-  classes: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
@@ -94,4 +84,4 @@ Roles.propTypes = {
 
 const RolesWithRouter = withRouter(Roles);
 
-export default withStyles(styles)(RolesWithRouter);
+export default RolesWithRouter;
