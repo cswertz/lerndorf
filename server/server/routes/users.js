@@ -151,7 +151,7 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
     });
 });
 
-router.delete('/:id', hasCapability('delete_user'), (req, res) => {
+router.delete('/:id', isSelfOrHasCapability('delete_user'), (req, res) => {
   const { id } = req.params;
 
   isLastAdmin(id, (last) => {
