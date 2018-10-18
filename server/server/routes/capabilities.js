@@ -6,11 +6,16 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   models.Capability.findAll({
-    attributes: ['id', 'createdAt', 'updatedAt'],
+    attributes: [
+      'id',
+      'slug',
+      'name',
+    ],
   })
     .then(results => res.json(results));
 });
 
+/*
 router.post('/', (req, res) => {
   req.checkBody('slug', 'slug is required')
     .isLength({ max: 255 })
@@ -74,5 +79,6 @@ router.delete('/:id', (req, res) => {
       res.json({ deleted: result });
     });
 });
+*/
 
 export default router;

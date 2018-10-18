@@ -5,9 +5,10 @@ import server from '../server/';
 
 chai.should();
 chai.use(chaiHttp);
-const agent = chai.request.agent(server);
+// const agent = chai.request.agent(server);
 
 describe('Capability', () => {
+  /*
   const capability = {
     slug: 'edit_users_test',
     name: 'Edit Users Test',
@@ -17,6 +18,7 @@ describe('Capability', () => {
     name: 'Delete Users Test',
   };
   const capabilities = [];
+  */
 
   after((done) => {
     server.close();
@@ -38,6 +40,7 @@ describe('Capability', () => {
     });
   });
 
+  /*
   describe('POST /api/capabilities', () => {
     it('it should display an error when required fields are missing', (done) => {
       chai.request(server)
@@ -184,4 +187,5 @@ describe('Capability', () => {
         });
     });
   });
+  */
 });
