@@ -58,8 +58,6 @@ router.patch('/:id', hasCapability('edit_language'), (req, res) => {
   delete (req.body.updatedAt);
   delete (req.body.id);
 
-  console.log('Here we go');
-
   models.Language.update(req.body, {
     where: {
       id: req.params.id,
