@@ -6,6 +6,10 @@ export const userRegisterFailed = (error, errors) => ({
   errors,
 });
 
+export const userRegisterSuccess = () => ({
+  type: types.USER_REGISTER_SUCCESS,
+});
+
 export const userEditFailed = (error, errors) => ({
   type: types.USER_EDIT_FAILED,
   error,
@@ -48,6 +52,7 @@ export const userRegister = (data, history) => (
         if (json.error) {
           dispatch(userRegisterFailed(json.error, json.errors));
         } else {
+          dispatch(userRegisterSuccess());
           history.push('/users/login');
         }
       }

@@ -24,6 +24,7 @@ const Router = ({
   languages,
   actions,
   roles,
+  users,
   user,
 }) => (
   <Switch>
@@ -74,6 +75,7 @@ const Router = ({
           capabilities={capabilities}
           actions={actions}
           roles={roles}
+          users={users}
           user={user}
         />
       )}
@@ -129,6 +131,13 @@ Router.propTypes = {
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
+  users: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    errors: PropTypes.shape().isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,
     errors: PropTypes.shape({
@@ -144,6 +153,7 @@ const mapStateToProps = state => ({
   taxonomies: state.taxonomies,
   languages: state.languages,
   roles: state.roles,
+  users: state.users,
   user: state.user,
 });
 

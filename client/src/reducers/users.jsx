@@ -1,12 +1,10 @@
 import {
-  ROLES_CAPABILITIES_UPDATE_SUCCESS,
-  ROLES_ITEM_FETCH_SUCCESS,
-  ROLES_DELETE_SUCCESS,
-  ROLES_FETCH_SUCCESS,
-  ROLES_EDIT_SUCCESS,
-  ROLES_ADD_SUCCESS,
-  ROLES_ADD_FAILED,
-  ROLES_FETCH,
+  USERS_ITEM_FETCH_SUCCESS,
+  USER_REGISTER_SUCCESS,
+  USERS_DELETE_SUCCESS,
+  USERS_FETCH_SUCCESS,
+  USERS_EDIT_SUCCESS,
+  USERS_FETCH,
 } from '../actions/constants';
 
 const initialState = {
@@ -28,12 +26,11 @@ const initialState = {
   id: {},
 };
 
-const roles = (state = initialState, action) => {
+const users = (state = initialState, action) => {
   switch (action.type) {
-    case ROLES_CAPABILITIES_UPDATE_SUCCESS:
-    case ROLES_DELETE_SUCCESS:
-    case ROLES_EDIT_SUCCESS:
-    case ROLES_ADD_SUCCESS: {
+    case USER_REGISTER_SUCCESS:
+    case USERS_DELETE_SUCCESS:
+    case USERS_EDIT_SUCCESS: {
       return Object.assign({}, state, {
         fetched: false,
         fetching: false,
@@ -42,31 +39,14 @@ const roles = (state = initialState, action) => {
       });
     }
 
-    case ROLES_ADD_FAILED: {
-      const errors = {};
-      action.errors.forEach((item) => {
-        errors[item.param] = item.msg;
-      });
-
-      return Object.assign({}, state, {
-        errors: Object.assign({}, state.errors, {
-          add: {
-            error: true,
-            errorMessage: action.error,
-            errors,
-          },
-        }),
-      });
-    }
-
-    case ROLES_FETCH: {
+    case USERS_FETCH: {
       return Object.assign({}, state, {
         fetched: false,
         fetching: true,
       });
     }
 
-    case ROLES_ITEM_FETCH_SUCCESS: {
+    case USERS_ITEM_FETCH_SUCCESS: {
       const ids = state.id;
       ids[action.item.id] = action.item;
       ids[action.item.id].children = action.children;
@@ -77,7 +57,7 @@ const roles = (state = initialState, action) => {
       });
     }
 
-    case ROLES_FETCH_SUCCESS: {
+    case USERS_FETCH_SUCCESS: {
       return Object.assign({}, state, {
         fetched: true,
         fetching: false,
@@ -90,4 +70,4 @@ const roles = (state = initialState, action) => {
   }
 };
 
-export default roles;
+export default users;

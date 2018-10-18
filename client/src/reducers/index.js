@@ -5,6 +5,7 @@ import capabilities from './capabilities';
 import taxonomies from './taxonomies';
 import languages from './languages';
 import roles from './roles';
+import users from './users';
 import user from './user';
 
 const lerndorfApp = combineReducers({
@@ -13,6 +14,7 @@ const lerndorfApp = combineReducers({
   taxonomies,
   languages,
   roles,
+  users,
   user,
 });
 

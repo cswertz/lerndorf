@@ -5,6 +5,7 @@ import React from 'react';
 import Register from '../users/Register';
 import UserEdit from '../users/Edit';
 import Login from '../users/Login';
+import Users from '../users/List';
 
 import RolesShow from '../users/roles/Show';
 import RolesEdit from '../users/roles/Edit';
@@ -17,9 +18,30 @@ const Router = ({
   capabilities,
   actions,
   roles,
+  users,
   user,
 }) => (
   <React.Fragment>
+    <Route
+      exact
+      path="/users"
+      render={() => (
+        <div className="UserlistWrapper">
+          <Appbar
+            title="Users"
+            active="users"
+            user={user}
+            logout={actions.userLogout}
+          />
+          <Users
+            items={users}
+            itemsFetch={actions.usersFetch}
+            itemsDelete={actions.usersDelete}
+          />
+        </div>
+      )}
+    />
+
     <Route
       exact
       path="/users/register"
@@ -38,6 +60,7 @@ const Router = ({
         </div>
       )}
     />
+
     <Route
       exact
       path="/users/login"
@@ -56,6 +79,7 @@ const Router = ({
         </div>
       )}
     />
+
     <Route
       exact
       path="/users/user/edit"
@@ -182,6 +206,13 @@ Router.propTypes = {
     userEdit: PropTypes.func.isRequired,
   }).isRequired,
   roles: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    errors: PropTypes.shape().isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
+  users: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     errors: PropTypes.shape().isRequired,
     id: PropTypes.shape({}).isRequired,

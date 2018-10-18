@@ -1,4 +1,5 @@
 import {
+  USER_REGISTER_SUCCESS,
   USER_REGISTER_FAILED,
   USER_LOGOUT_SUCCESS,
   USER_LOGIN_SUCCESS,
@@ -52,6 +53,17 @@ const initialState = {
 
 const user = (state = initialState, action) => {
   switch (action.type) {
+    case USER_REGISTER_SUCCESS: {
+      return Object.assign({}, state, {
+        errors: Object.assign({}, state.errors, {
+          registration: {
+            error: false,
+            errors: {},
+          },
+        }),
+      });
+    }
+
     case USER_LOGOUT_SUCCESS: {
       return Object.assign({}, state, {
         loggedIn: false,
