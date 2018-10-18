@@ -81,9 +81,7 @@ router.post('/', (req, res) => {
   });
 });
 
-router.get('/:id', (req, res) => {
-  // TODO: Return id, username, lastLogin to non self and non edit users
-  // TODO: Return this only to self and to user with edit_user role
+router.get('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
   models.User.findById(req.params.id, {
     attributes: [
       'id',
@@ -91,6 +89,9 @@ router.get('/:id', (req, res) => {
       'titlePrefix',
       'titleSuffix',
       'description',
+      'lastLogin',
+      'createdAt',
+      'updatedAt',
       'firstName',
       'birthdate',
       'lastName',

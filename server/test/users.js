@@ -314,21 +314,55 @@ describe('User', () => {
   });
 
   describe('GET /api/users/:id', () => {
-    it('it should display user information', (done) => {
+    it('it should not be possible to get user details when not logged in', (done) => {
       chai.request(server)
         .get(`/api/users/${users[0]}`)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(401);
           res.body.should.be.a('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('Roles');
-          res.body.should.have.property('username');
-          res.body.should.have.property('lastLogin');
-          res.body.should.have.property('createdAt');
-          res.body.should.have.property('updatedAt');
-          res.body.should.not.have.property('password');
+          res.body.should.have.property('error');
 
           done();
+        });
+    });
+
+    it('it should not be possible to get user details without proper capability', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(userUsers)
+        .end(() => {
+          agent
+            .get(`/api/users/${users[0]}`)
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to get the users details', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .get(`/api/users/${users[0]}`)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('id');
+              res.body.should.have.property('Roles');
+              res.body.should.have.property('username');
+              res.body.should.have.property('lastLogin');
+              res.body.should.have.property('createdAt');
+              res.body.should.have.property('updatedAt');
+              res.body.should.not.have.property('password');
+
+              done();
+            });
         });
     });
   });
