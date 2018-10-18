@@ -2,13 +2,13 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Wrapper from '../../components/routes/wrapper';
+
 import TaxonomiesAddChild from '../taxonomies/AddChild';
 import TaxonomyChildren from '../taxonomies/Children';
 import TaxonomiesEdit from '../taxonomies/Edit';
 import TaxonomiesAdd from '../taxonomies/Add';
 import Taxonomies from '../taxonomies/List';
-
-import Appbar from '../Appbar';
 
 const Router = ({
   taxonomies,
@@ -20,19 +20,20 @@ const Router = ({
       exact
       path="/taxonomies"
       render={() => (
-        <div className="TaxonomiesWrapper">
-          <Appbar
-            title="Taxonomies"
-            active="taxonomies"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <Taxonomies
-            itemsDelete={actions.taxonomiesDelete}
-            itemsFetch={actions.taxonomiesFetch}
-            items={taxonomies}
-          />
-        </div>
+        <Wrapper
+          className="TaxonomiesWrapper"
+          logout={actions.userLogout}
+          active="taxonomies"
+          title="Taxonomies"
+          user={user}
+          element={(
+            <Taxonomies
+              itemsDelete={actions.taxonomiesDelete}
+              itemsFetch={actions.taxonomiesFetch}
+              items={taxonomies}
+            />
+          )}
+        />
       )}
     />
 
@@ -40,19 +41,20 @@ const Router = ({
       exact
       path="/taxonomies/show/:id"
       render={() => (
-        <div className="TaxonomiesWrapper">
-          <Appbar
-            title="Taxonomies"
-            active="taxonomies"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <TaxonomyChildren
-            itemFetch={actions.taxonomiesItemFetch}
-            itemsDelete={actions.taxonomiesDelete}
-            items={taxonomies}
-          />
-        </div>
+        <Wrapper
+          className="TaxonomiesWrapper"
+          logout={actions.userLogout}
+          active="taxonomies"
+          title="Taxonomies"
+          user={user}
+          element={(
+            <TaxonomyChildren
+              itemFetch={actions.taxonomiesItemFetch}
+              itemsDelete={actions.taxonomiesDelete}
+              items={taxonomies}
+            />
+          )}
+        />
       )}
     />
 
@@ -60,18 +62,19 @@ const Router = ({
       exact
       path="/taxonomies/add"
       render={() => (
-        <div className="TaxonomiesWrapper">
-          <Appbar
-            title="Add Taxonomy"
-            active="taxonomies"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <TaxonomiesAdd
-            handleSubmit={actions.taxonomiesAdd}
-            errors={taxonomies.errors}
-          />
-        </div>
+        <Wrapper
+          className="TaxonomiesWrapper"
+          logout={actions.userLogout}
+          active="taxonomies"
+          title="Add Taxonomy"
+          user={user}
+          element={(
+            <TaxonomiesAdd
+              handleSubmit={actions.taxonomiesAdd}
+              errors={taxonomies.errors}
+            />
+          )}
+        />
       )}
     />
 
@@ -79,18 +82,19 @@ const Router = ({
       exact
       path="/taxonomies/:id/add"
       render={() => (
-        <div className="TaxonomiesWrapper">
-          <Appbar
-            title="Add Taxonomy"
-            active="taxonomies"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <TaxonomiesAddChild
-            handleSubmit={actions.taxonomiesAdd}
-            errors={taxonomies.errors}
-          />
-        </div>
+        <Wrapper
+          className="TaxonomiesWrapper"
+          logout={actions.userLogout}
+          active="taxonomies"
+          title="Add Taxonomy"
+          user={user}
+          element={(
+            <TaxonomiesAddChild
+              handleSubmit={actions.taxonomiesAdd}
+              errors={taxonomies.errors}
+            />
+          )}
+        />
       )}
     />
 
@@ -98,20 +102,21 @@ const Router = ({
       exact
       path="/taxonomies/edit/:id"
       render={() => (
-        <div className="TaxonomiesWrapper">
-          <Appbar
-            title="Edit Taxonomy Term"
-            active="taxonomies"
-            user={user}
-            logout={actions.userLogout}
-          />
-          <TaxonomiesEdit
-            itemFetch={actions.taxonomiesItemFetch}
-            handleSubmit={actions.taxonomiesEdit}
-            errors={taxonomies.errors}
-            items={taxonomies}
-          />
-        </div>
+        <Wrapper
+          className="TaxonomiesWrapper"
+          logout={actions.userLogout}
+          active="taxonomies"
+          title="Edit Taxonomy Term"
+          user={user}
+          element={(
+            <TaxonomiesEdit
+              itemFetch={actions.taxonomiesItemFetch}
+              handleSubmit={actions.taxonomiesEdit}
+              errors={taxonomies.errors}
+              items={taxonomies}
+            />
+          )}
+        />
       )}
     />
   </React.Fragment>
