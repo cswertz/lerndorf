@@ -40,7 +40,7 @@ router.get('/logout', (req, res) => {
 });
 
 /* User management */
-router.get('/', (req, res) => {
+router.get('/', hasCapability('edit_user'), (req, res) => {
   models.User.findAll({
     attributes: ['id', 'username'],
   })

@@ -23,11 +23,28 @@ describe('User', () => {
     password: 'password',
     email: 'username1@host.com',
   };
+
+  const userUsers = {
+    username: 'user_users',
+    password: 'password',
+    email: 'user@users.com',
+  };
   const admin = {
     username: 'admin',
     password: 'admin',
   };
   const users = [];
+
+  before((done) => {
+    chai.request(server)
+      .post('/api/users')
+      .send(userUsers)
+      .end((err, res) => {
+        res.should.have.status(200);
+
+        done();
+      });
+  });
 
   after((done) => {
     server.close();
@@ -36,15 +53,48 @@ describe('User', () => {
   });
 
   describe('GET /api/users', () => {
-    it('it should GET all the users', (done) => {
+    it('it should not be possible to get users when not logged in', (done) => {
       chai.request(server)
         .get('/api/users')
         .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('array');
-          res.body.length.should.not.be.eql(0);
+          res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
 
           done();
+        });
+    });
+
+    it('it should not be possible to get users without proper capability', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(userUsers)
+        .end(() => {
+          agent
+            .get('/api/users')
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to get the users', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .get('/api/users')
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('array');
+
+              done();
+            });
         });
     });
   });
