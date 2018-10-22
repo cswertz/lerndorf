@@ -122,7 +122,6 @@ RolesEdit.propTypes = {
   removeCapability: PropTypes.func.isRequired,
   addCapability: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  classes: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,
   items: PropTypes.shape({}).isRequired,
   itemFetch: PropTypes.func.isRequired,

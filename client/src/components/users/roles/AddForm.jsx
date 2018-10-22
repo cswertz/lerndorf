@@ -28,8 +28,6 @@ const renderTextField = ({
   const customOptions = custom;
   delete customOptions.errorText;
 
-  console.log(error);
-
   let helperText = label;
   if (errorText && touched) {
     helperText = errorText;

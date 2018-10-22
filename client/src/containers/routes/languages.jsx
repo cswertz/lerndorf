@@ -87,7 +87,7 @@ LanguagesRouter.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
-    languageDelete: PropTypes.func.isRequired,
+    languagesDelete: PropTypes.func.isRequired,
     languagesFetch: PropTypes.func.isRequired,
     languagesEdit: PropTypes.func.isRequired,
     languagesAdd: PropTypes.func.isRequired,

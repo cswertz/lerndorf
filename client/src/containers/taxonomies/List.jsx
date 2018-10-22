@@ -77,7 +77,6 @@ Taxonomies.propTypes = {
   itemsDelete: PropTypes.func.isRequired,
   itemsFetch: PropTypes.func.isRequired,
   items: PropTypes.shape({}).isRequired,
-  classes: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

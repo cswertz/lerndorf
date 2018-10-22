@@ -21,7 +21,7 @@ const RolesShow = ({
 
   return (
     <div>
-      {item.name}
+      Capabilities of role {'"'}{item.name}{'"'}
       <List dense>
         {capabilities}
       </List>
