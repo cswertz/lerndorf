@@ -16,12 +16,7 @@ const Home = ({
     )}
     {loggedIn && (
       <div>
-        <ul>
-          <li><Link to="/languages">Languages</Link></li>
-          <li><Link to="/taxonomies">Taxonomies</Link></li>
-          <li><Link to="/users/roles">Roles</Link></li>
-          <li><Link to="/users">Users</Link></li>
-        </ul>
+        You are logged in.
       </div>
     )}
   </div>

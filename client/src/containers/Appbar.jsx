@@ -4,12 +4,13 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import Toolbar from '@material-ui/core/Toolbar';
-import MenuIcon from '@material-ui/icons/Menu';
 import { withRouter } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Menu from '@material-ui/core/Menu';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+import MainMenu from './MainMenu';
 
 const styles = {
   root: {
@@ -77,9 +78,9 @@ class MenuAppBar extends Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
+            <MainMenu
+              user={user}
+            />
             <Typography variant="title" color="inherit" className={classes.flex}>
               {title}
             </Typography>
@@ -87,8 +88,8 @@ class MenuAppBar extends Component {
               <div>
                 <IconButton
                   aria-owns={open ? 'menu-appbar' : null}
-                  aria-haspopup="true"
                   onClick={this.handleMenu}
+                  aria-haspopup="true"
                   color="inherit"
                 >
                   <AccountCircle />
