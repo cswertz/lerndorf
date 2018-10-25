@@ -12,6 +12,8 @@ import Menu from '@material-ui/core/Menu';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { hasCapability } from '../utils/user';
+
 const styles = {
   root: {
     flexGrow: 1,
@@ -30,8 +32,8 @@ class MainMenu extends Component {
     super(props);
 
     this.handleClose = this.handleClose.bind(this);
-    this.handleMenu = this.handleMenu.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleMenu = this.handleMenu.bind(this);
 
     this.state = {
       anchorEl: null,
@@ -39,6 +41,17 @@ class MainMenu extends Component {
         administration: false,
       },
     };
+  }
+
+  componentDidMount() {
+    const {
+      fetchRoles,
+      user,
+    } = this.props;
+
+    if (!user.fetchingRoles && !user.fetchedRoles && user.user.username !== 'Guest') {
+      fetchRoles(user.user.id);
+    }
   }
 
   handleMenu(e) {
@@ -74,6 +87,7 @@ class MainMenu extends Component {
       open,
     } = this.state;
     const opened = Boolean(anchorEl);
+    console.log('xxxx', user);
 
     return (
       <React.Fragment>
@@ -107,53 +121,65 @@ class MainMenu extends Component {
           >
             Home
           </ListItem>
-          <ListItem
-            onClick={() => this.handleClick('administration')}
-            button
-          >
-            <ListItemText
-              primary="Administration"
-            />
-            {open.administration ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse
-            in={open.administration}
-          >
-            <List component="div" disablePadding>
+          {hasCapability(user.capabilities, ['edit_user', 'edit_language', 'edit_taxonomy', 'edit_user']) && (
+            <div>
               <ListItem
+                onClick={() => this.handleClick('administration')}
                 button
-                className={classes.nested}
-                component={Link}
-                to="/languages"
               >
-                <ListItemText inset primary="Manage Languages" />
+                <ListItemText
+                  primary="Administration"
+                />
+                {open.administration ? <ExpandLess /> : <ExpandMore />}
               </ListItem>
-              <ListItem
-                button
-                className={classes.nested}
-                component={Link}
-                to="/taxonomies"
+              <Collapse
+                in={open.administration}
               >
-                <ListItemText inset primary="Manage Taxonomies" />
-              </ListItem>
-              <ListItem
-                button
-                className={classes.nested}
-                component={Link}
-                to="/users/roles"
-              >
-                <ListItemText inset primary="Manage Roles" />
-              </ListItem>
-              <ListItem
-                button
-                className={classes.nested}
-                component={Link}
-                to="/users"
-              >
-                <ListItemText inset primary="Manage Users" />
-              </ListItem>
-            </List>
-          </Collapse>
+                <List component="div" disablePadding>
+                  {hasCapability(user.capabilities, ['edit_language']) && (
+                    <ListItem
+                      button
+                      className={classes.nested}
+                      component={Link}
+                      to="/languages"
+                    >
+                      <ListItemText inset primary="Manage Languages" />
+                    </ListItem>
+                  )}
+                  {hasCapability(user.capabilities, ['edit_taxonomy']) && (
+                    <ListItem
+                      button
+                      className={classes.nested}
+                      component={Link}
+                      to="/taxonomies"
+                    >
+                      <ListItemText inset primary="Manage Taxonomies" />
+                    </ListItem>
+                  )}
+                  {hasCapability(user.capabilities, ['edit_role']) && (
+                    <ListItem
+                      button
+                      className={classes.nested}
+                      component={Link}
+                      to="/users/roles"
+                    >
+                      <ListItemText inset primary="Manage Roles" />
+                    </ListItem>
+                  )}
+                  {hasCapability(user.capabilities, ['edit_user']) && (
+                    <ListItem
+                      button
+                      className={classes.nested}
+                      component={Link}
+                      to="/users"
+                    >
+                      <ListItemText inset primary="Manage Users" />
+                    </ListItem>
+                  )}
+                </List>
+              </Collapse>
+            </div>
+          )}
           <ListItem
             onClick={() => this.handleClick('authoring')}
             button
@@ -193,6 +219,7 @@ class MainMenu extends Component {
 
 MainMenu.propTypes = {
   classes: PropTypes.shape({}).isRequired,
+  fetchRoles: PropTypes.func.isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,
   }).isRequired,

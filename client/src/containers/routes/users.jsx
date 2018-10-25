@@ -28,6 +28,7 @@ const UsersRouter = ({
       path="/users"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="UsersListWrapper"
           logout={actions.userLogout}
           active="users"
@@ -50,6 +51,7 @@ const UsersRouter = ({
       path="/users/register"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="RegisterWrapper"
           logout={actions.userLogout}
           active="register"
@@ -70,6 +72,7 @@ const UsersRouter = ({
       path="/users/login"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="LoginWrapper"
           logout={actions.userLogout}
           active="login"
@@ -90,6 +93,7 @@ const UsersRouter = ({
       path="/users/user/edit"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="UserEditWrapper"
           logout={actions.userLogout}
           title="Edit your data"
@@ -111,6 +115,7 @@ const UsersRouter = ({
       path="/users/edit/:id"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="UserEditWrapper"
           logout={actions.userLogout}
           title="Edit User"
@@ -137,6 +142,7 @@ const UsersRouter = ({
       path="/users/roles"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="UserRoleWrapper"
           logout={actions.userLogout}
           title="User Roles"
@@ -158,6 +164,7 @@ const UsersRouter = ({
       path="/users/roles/add"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="RolesWrapper"
           logout={actions.userLogout}
           title="Add Role"
@@ -178,6 +185,7 @@ const UsersRouter = ({
       path="/users/roles/edit/:id"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="RolesWrapper"
           logout={actions.userLogout}
           title="Edit Role"
@@ -204,6 +212,7 @@ const UsersRouter = ({
       path="/users/roles/show/:id"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="RolesWrapper"
           logout={actions.userLogout}
           title="Roles"
@@ -228,6 +237,7 @@ UsersRouter.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
+    fetchRoles: PropTypes.func.isRequired,
     usersItemFetch: PropTypes.func.isRequired,
     usersFetch: PropTypes.func.isRequired,
     removeCapability: PropTypes.func.isRequired,

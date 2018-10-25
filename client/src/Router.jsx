@@ -38,6 +38,7 @@ const Router = ({
             active="home"
             user={user}
             logout={actions.userLogout}
+            fetchRoles={actions.userFetchRoles}
           />
           <Home
             loggedIn={user.loggedIn}

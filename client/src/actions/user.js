@@ -36,6 +36,11 @@ export const userLogoutSUccess = () => ({
   type: types.USER_LOGOUT_SUCCESS,
 });
 
+export const userRolesFetchSuccess = roles => ({
+  type: types.USER_ROLES_FETCH_SUCCESS,
+  roles,
+});
+
 export const userRegister = (data, history) => (
   dispatch => fetch('/api/users', {
     method: 'post',
@@ -124,6 +129,30 @@ export const userEdit = (id, data, history) => (
         } else {
           dispatch(userEditSuccess(json));
           history.push('/user/edit');
+        }
+      }
+    })
+    .catch((error) => {
+      console.log('Error during editing:', error);
+    })
+);
+
+export const userFetchRoles = id => (
+  dispatch => fetch(`/api/users/${id}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then(response => response.json())
+    .then((json) => {
+      if (json) {
+        if (json.error) {
+          // dispatch(userEditFailed(json.error, json.errors));
+        } else {
+          dispatch(userRolesFetchSuccess(json));
         }
       }
     })

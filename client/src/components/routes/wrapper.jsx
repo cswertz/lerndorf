@@ -13,6 +13,7 @@ const styles = () => ({
 });
 
 const Wrapper = ({
+  fetchRoles,
   className,
   classes,
   element,
@@ -23,6 +24,7 @@ const Wrapper = ({
 }) => (
   <div className={className}>
     <Appbar
+      fetchRoles={fetchRoles}
       logout={logout}
       active={active}
       title={title}
@@ -37,6 +39,7 @@ const Wrapper = ({
 Wrapper.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   className: PropTypes.string.isRequired,
+  fetchRoles: PropTypes.func.isRequired,
   element: PropTypes.element.isRequired,
   user: PropTypes.shape({}).isRequired,
   active: PropTypes.string.isRequired,

@@ -1,10 +1,14 @@
+import { REHYDRATE } from 'redux-persist';
+
 import {
+  USER_ROLES_FETCH_SUCCESS,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAILED,
   USER_LOGOUT_SUCCESS,
   USER_LOGIN_SUCCESS,
   USER_EDIT_SUCCESS,
   USER_LOGIN_FAILED,
+  USER_ROLES_FETCH,
 } from '../actions/constants';
 
 const initialState = {
@@ -27,6 +31,9 @@ const initialState = {
     city: '',
     zip: '',
   },
+  fetchingRoles: false,
+  fetchedRoles: false,
+  capabilities: [],
   errors: {
     registration: {
       errorMessage: '',
@@ -53,6 +60,26 @@ const initialState = {
 
 const user = (state = initialState, action) => {
   switch (action.type) {
+    case USER_ROLES_FETCH: {
+      return Object.assign({}, state, {
+        fetchingRoles: true,
+        fetchedRoles: false,
+      });
+    }
+
+    case USER_ROLES_FETCH_SUCCESS: {
+      let capabilities = action.roles.Roles.map(
+        role => role.Capabilities.map(capability => capability.slug),
+      );
+      capabilities = [].concat(...capabilities);
+
+      return Object.assign({}, state, {
+        fetchingRoles: false,
+        fetchedRoles: true,
+        capabilities,
+      });
+    }
+
     case USER_REGISTER_SUCCESS: {
       return Object.assign({}, state, {
         errors: Object.assign({}, state.errors, {
@@ -114,6 +141,14 @@ const user = (state = initialState, action) => {
             errors,
           },
         }),
+      });
+    }
+
+    case REHYDRATE: {
+      return Object.assign({}, action.payload.user, {
+        fetchedRoles: false,
+        fetchingRoles: false,
+        capabilities: [],
       });
     }
 

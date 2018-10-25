@@ -67,6 +67,7 @@ class MenuAppBar extends Component {
 
   render() {
     const {
+      fetchRoles,
       classes,
       title,
       user,
@@ -79,6 +80,7 @@ class MenuAppBar extends Component {
         <AppBar position="static">
           <Toolbar>
             <MainMenu
+              fetchRoles={fetchRoles}
               user={user}
             />
             <Typography variant="title" color="inherit" className={classes.flex}>
@@ -122,11 +124,12 @@ class MenuAppBar extends Component {
 
 MenuAppBar.propTypes = {
   classes: PropTypes.shape({}).isRequired,
+  fetchRoles: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  logout: PropTypes.func.isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,
   }).isRequired,
-  title: PropTypes.string.isRequired,
-  logout: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
