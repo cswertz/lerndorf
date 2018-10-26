@@ -29,7 +29,9 @@ router.post('/', (req, res) => {
     }
 
     return models.KnowledgeUnit.create(req.body)
-      .then(result => res.json(result))
+      .then(result => {
+        return res.json(result);
+      })
       .catch(err => res.status(422).send({
         error: 'There have been database errors.',
         errors: err.errors.map(error => ({

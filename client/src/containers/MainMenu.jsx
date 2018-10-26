@@ -87,7 +87,6 @@ class MainMenu extends Component {
       open,
     } = this.state;
     const opened = Boolean(anchorEl);
-    console.log('xxxx', user);
 
     return (
       <React.Fragment>
@@ -197,7 +196,7 @@ class MainMenu extends Component {
                 button
                 className={classes.nested}
                 component={Link}
-                to="/knowledge-unit"
+                to="/knowledge-units/add"
               >
                 <ListItemText inset primary="Add Knowledge Unit" />
               </ListItem>
@@ -205,7 +204,7 @@ class MainMenu extends Component {
                 button
                 className={classes.nested}
                 component={Link}
-                to="/learning-unit"
+                to="/learning-units/add"
               >
                 <ListItemText inset primary="Add Learning Unit" />
               </ListItem>

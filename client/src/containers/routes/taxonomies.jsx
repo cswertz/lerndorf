@@ -21,6 +21,7 @@ const Router = ({
       path="/taxonomies"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="TaxonomiesWrapper"
           logout={actions.userLogout}
           active="taxonomies"
@@ -42,6 +43,7 @@ const Router = ({
       path="/taxonomies/show/:id"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="TaxonomiesWrapper"
           logout={actions.userLogout}
           active="taxonomies"
@@ -63,6 +65,7 @@ const Router = ({
       path="/taxonomies/add"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="TaxonomiesWrapper"
           logout={actions.userLogout}
           active="taxonomies"
@@ -83,6 +86,7 @@ const Router = ({
       path="/taxonomies/:id/add"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="TaxonomiesWrapper"
           logout={actions.userLogout}
           active="taxonomies"
@@ -103,6 +107,7 @@ const Router = ({
       path="/taxonomies/edit/:id"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="TaxonomiesWrapper"
           logout={actions.userLogout}
           active="taxonomies"

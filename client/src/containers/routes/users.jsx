@@ -237,7 +237,7 @@ UsersRouter.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
-    fetchRoles: PropTypes.func.isRequired,
+    userFetchRoles: PropTypes.func.isRequired,
     usersItemFetch: PropTypes.func.isRequired,
     usersFetch: PropTypes.func.isRequired,
     removeCapability: PropTypes.func.isRequired,

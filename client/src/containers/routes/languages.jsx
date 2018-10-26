@@ -19,6 +19,7 @@ const LanguagesRouter = ({
       path="/languages"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="LanguagesWrapper"
           logout={actions.userLogout}
           active="languages"
@@ -40,6 +41,7 @@ const LanguagesRouter = ({
       path="/languages/add"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="LanguagesWrapper"
           logout={actions.userLogout}
           title="Add Language"
@@ -60,6 +62,7 @@ const LanguagesRouter = ({
       path="/languages/edit/:id"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="LanguagesWrapper"
           logout={actions.userLogout}
           title="Edit Language"

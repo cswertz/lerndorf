@@ -12,6 +12,7 @@ import React from 'react';
 import Appbar from './containers/Appbar';
 import Home from './components/Home';
 
+import RoutesKnowledgeUnits from './containers/routes/learningUnits';
 import RoutesTaxonomies from './containers/routes/taxonomies';
 import RoutesLanguages from './containers/routes/languages';
 import RoutesUsers from './containers/routes/users';
@@ -19,6 +20,7 @@ import RoutesUsers from './containers/routes/users';
 import * as AppActions from './actions';
 
 const Router = ({
+  learningUnits,
   capabilities,
   taxonomies,
   languages,
@@ -82,11 +84,31 @@ const Router = ({
       )}
     />
 
+    <Route
+      path="/learning-units"
+      render={() => (
+        <RoutesKnowledgeUnits
+          learningUnits={learningUnits}
+          capabilities={capabilities}
+          languages={languages}
+          actions={actions}
+          user={user}
+        />
+      )}
+    />
+
     <Redirect to="/" />
   </Switch>
 );
 
 Router.propTypes = {
+  learningUnits: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    errors: PropTypes.shape().isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   capabilities: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     fetching: PropTypes.bool.isRequired,
@@ -106,6 +128,7 @@ Router.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
+    userFetchRoles: PropTypes.func.isRequired,
     removeRole: PropTypes.func.isRequired,
     addRole: PropTypes.func.isRequired,
     removeCapability: PropTypes.func.isRequired,
@@ -152,6 +175,7 @@ Router.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  learningUnits: state.learningUnits,
   capabilities: state.capabilities,
   taxonomies: state.taxonomies,
   languages: state.languages,

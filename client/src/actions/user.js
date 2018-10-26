@@ -146,11 +146,17 @@ export const userFetchRoles = id => (
     },
     credentials: 'include',
   })
-    .then(response => response.json())
+    .then((response) => {
+      if (response.status === 401) {
+        dispatch(userLogoutSUccess());
+      }
+      return response.json();
+    })
     .then((json) => {
       if (json) {
         if (json.error) {
           // dispatch(userEditFailed(json.error, json.errors));
+
         } else {
           dispatch(userRolesFetchSuccess(json));
         }
