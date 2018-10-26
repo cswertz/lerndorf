@@ -1,5 +1,6 @@
 import express from 'express';
 
+import { hasCapability } from '../helpers/auth';
 import models from '../config/sequelize';
 
 const router = express.Router();
@@ -7,16 +8,40 @@ const router = express.Router();
 router.get('/', (req, res) => {
   models.LearningUnit.findAll({
     attributes: ['id', 'createdAt'],
+    include: [
+      {
+        model: models.User,
+        attributes: [
+          'id',
+          'username',
+        ],
+      },
+      {
+        model: models.Language,
+        attributes: [
+          'id',
+          'code',
+          'name',
+        ],
+        through: {
+          attributes: [
+            'title',
+          ],
+        },
+      },
+    ],
   })
     .then(results => res.json(results));
 });
 
-router.post('/', (req, res) => {
-  /*
-  req.checkBody('param', 'param is required')
+router.post('/', hasCapability('add_learning_unit'), (req, res) => {
+  req.checkBody('title', 'title is required')
     .isLength({ max: 255 })
     .notEmpty();
-  */
+
+  req.checkBody('language', 'language is required')
+    .isInt()
+    .notEmpty();
 
   req.getValidationResult().then((errors) => {
     if (!errors.isEmpty()) {
@@ -27,7 +52,19 @@ router.post('/', (req, res) => {
     }
 
     return models.LearningUnit.create(req.body)
-      .then(result => res.json(result))
+      .then((learningUnit) => {
+        learningUnit.setUser(req.user);
+
+        const learningUnitLanguageData = {
+          LearningUnitId: learningUnit.id,
+          LanguageId: req.body.language,
+          title: req.body.title,
+          UserId: req.user.id,
+        };
+
+        models.LearningUnitLanguage.create(learningUnitLanguageData)
+          .then(() => res.json(learningUnit));
+      })
       .catch(err => res.status(422).send({
         error: 'There have been database errors.',
         errors: err.errors.map(error => ({

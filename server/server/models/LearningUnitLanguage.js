@@ -45,7 +45,10 @@ class LearningUnitLanguage extends Model {
         allowNull: false,
         notEmpty: true,
       },
-    }, { sequelize });
+    }, {
+      sequelize,
+      freezeTableName: true,
+    });
   }
 
   static associate(sequelize) {
