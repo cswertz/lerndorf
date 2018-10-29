@@ -120,6 +120,13 @@ class MainMenu extends Component {
           >
             Home
           </ListItem>
+          <ListItem
+            button
+            component={Link}
+            to="/learning-units"
+          >
+            Learning Units
+          </ListItem>
           {hasCapability(user.capabilities, ['edit_user', 'edit_language', 'edit_taxonomy', 'edit_user']) && (
             <div>
               <ListItem

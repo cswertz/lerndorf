@@ -1,8 +1,8 @@
 import * as types from './constants';
 
-export const learningUnitsFetchSuccess = learningUnits => ({
+export const learningUnitsFetchSuccess = items => ({
   type: types.LEARNINGUNITS_FETCH_SUCCESS,
-  learningUnits,
+  items,
 });
 
 export const learningUnitsAddFailed = (error, errors) => ({

@@ -6,7 +6,7 @@ import Wrapper from '../../components/routes/wrapper';
 
 // import LearningUnitsEdit from '../learningUnits/Edit';
 import LearningUnitsAdd from '../learningUnits/Add';
-// import LearningUnits from '../learningUnits/List';
+import LearningUnits from '../learningUnits/List';
 
 const LearningUnitsRouter = ({
   learningUnits,
@@ -15,7 +15,6 @@ const LearningUnitsRouter = ({
   user,
 }) => (
   <React.Fragment>
-    {/*
     <Route
       exact
       path="/learning-units"
@@ -25,7 +24,7 @@ const LearningUnitsRouter = ({
           className="LearningUnitsWrapper"
           logout={actions.userLogout}
           active="learningUnits"
-          title="LearningUnits"
+          title="Learning Units"
           user={user}
           element={(
             <LearningUnits
@@ -37,7 +36,7 @@ const LearningUnitsRouter = ({
         />
       )}
     />
-    */}
+
     <Route
       exact
       path="/learning-units/add"
@@ -101,10 +100,11 @@ LearningUnitsRouter.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
-    learningUnitsDelete: PropTypes.func.isRequired,
-    learningUnitsFetch: PropTypes.func.isRequired,
-    learningUnitsEdit: PropTypes.func.isRequired,
-    learningUnitsAdd: PropTypes.func.isRequired,
+    knowledgeUnitsItemFetch: PropTypes.func.isRequired,
+    knowledgeUnitsDelete: PropTypes.func.isRequired,
+    knowledgeUnitsFetch: PropTypes.func.isRequired,
+    knowledgeUnitsEdit: PropTypes.func.isRequired,
+    knowledgeUnitssAdd: PropTypes.func.isRequired,
     userLogout: PropTypes.func.isRequired,
   }).isRequired,
   user: PropTypes.shape({
