@@ -186,6 +186,12 @@ module.exports = {
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
+    {
+      slug: 'delete_any_learning_unit',
+      name: 'Delete Any Learning Unit',
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
   ], {}),
 
   down: queryInterface => queryInterface.bulkDelete('Capabilities', {

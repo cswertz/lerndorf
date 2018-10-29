@@ -164,9 +164,12 @@ describe('LearningUnit', () => {
         .get(`/api/learningUnits/${learningUnits[0]}`)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('createdAt');
+          res.body.should.be.a('array');
+          res.body[0].should.have.property('id');
+          res.body[0].should.have.property('title');
+          res.body[0].should.have.property('Language');
+          res.body[0].should.have.property('User');
+          res.body[0].should.have.property('LearningUnit');
 
           done();
         });
@@ -174,15 +177,51 @@ describe('LearningUnit', () => {
   });
 
   describe('DELETE /api/learningUnits/:id', () => {
-    it('it should be possible to delete a LearningUnit', (done) => {
+    it('it should not be possible to delete a Learning unit when not logged in', (done) => {
       chai.request(server)
         .delete(`/api/learningUnits/${learningUnits[0]}`)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(401);
           res.body.should.be.a('object');
-          res.body.should.have.property('deleted');
+          res.body.should.have.property('error');
 
           done();
+        });
+    });
+
+    it('it should not allow a user without the proper permissions to delete a learning Unit', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(userLearningUnit)
+        .end(() => {
+          agent
+            .delete(`/api/learningUnits/${learningUnits[0]}`)
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to delete a learning Unit', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .delete(`/api/learningUnits/${learningUnits[0]}`)
+            .end((err, res) => {
+              agent
+                .get('/api/users/logout')
+                .end(() => {
+                  res.should.have.status(200);
+                  res.body.should.be.a('object');
+
+                  done();
+                });
+            });
         });
     });
   });

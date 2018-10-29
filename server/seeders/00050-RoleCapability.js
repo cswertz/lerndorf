@@ -32,6 +32,7 @@ const roleCapabilities = [
       'view_non_public_knowledge_unit',
       'add_learning_unit',
       'edit_any_learning_unit',
+      'delete_any_learning_unit',
       'add_role_to_user',
       'delete_role_from_user',
       'delete_self',

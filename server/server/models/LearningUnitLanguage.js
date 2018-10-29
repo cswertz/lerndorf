@@ -53,6 +53,7 @@ class LearningUnitLanguage extends Model {
 
   static associate(sequelize) {
     LearningUnitLanguage.belongsTo(sequelize.User);
+    LearningUnitLanguage.belongsTo(sequelize.Language);
     LearningUnitLanguage.belongsTo(sequelize.LearningUnit);
   }
 }

@@ -76,13 +76,36 @@ router.post('/', hasCapability('add_learning_unit'), (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  models.LearningUnit.findById(req.params.id, {
-    attributes: ['id', 'createdAt'],
+  models.LearningUnitLanguage.findAll({
+    where: {
+      LearningUnitId: req.params.id,
+    },
+    attributes: ['id', 'title'],
+    include: [
+      {
+        model: models.User,
+        attributes: ['id', 'username'],
+      },
+      {
+        model: models.Language,
+        attributes: ['id', 'code', 'name'],
+      },
+      {
+        model: models.LearningUnit,
+        attributes: ['id'],
+        include: [
+          {
+            model: models.User,
+            attributes: ['id', 'username'],
+          },
+        ],
+      },
+    ],
   })
     .then(result => res.json(result));
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', hasCapability('delete_any_learning_unit'), (req, res) => {
   models.LearningUnit.destroy({
     where: {
       id: req.params.id,
