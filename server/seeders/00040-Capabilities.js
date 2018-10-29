@@ -133,6 +133,12 @@ module.exports = {
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
     {
+      slug: 'delete_language',
+      name: 'Delete Language',
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    {
       slug: 'delete_taxonomy',
       name: 'Delete Taxonomy',
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),

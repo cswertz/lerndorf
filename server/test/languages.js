@@ -281,15 +281,47 @@ describe('Language', () => {
   });
 
   describe('DELETE /api/languages/:id', () => {
-    it('it should be possible to delete a Language', (done) => {
+    it('it should not be possible to delete a Language when not logged in', (done) => {
       chai.request(server)
         .delete(`/api/languages/${languages[0]}`)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(401);
           res.body.should.be.a('object');
-          res.body.should.have.property('deleted');
+          res.body.should.have.property('error');
 
           done();
+        });
+    });
+
+    it('it should not allow a user without the proper permissions to delete a taxonomy', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(userLanguage)
+        .end(() => {
+          agent
+            .delete(`/api/languages/${languages[0]}`)
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to delete a taxonomy', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .delete(`/api/languages/${languages[0]}`)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+
+              done();
+            });
         });
     });
   });

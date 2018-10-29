@@ -71,7 +71,7 @@ router.patch('/:id', hasCapability('edit_language'), (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', hasCapability('delete_language'), (req, res) => {
   models.Language.destroy({
     where: {
       id: req.params.id,
