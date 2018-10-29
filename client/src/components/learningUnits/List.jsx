@@ -7,6 +7,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ListItem from '@material-ui/core/ListItem';
 import EditIcon from '@material-ui/icons/Edit';
 import List from '@material-ui/core/List';
+import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -28,7 +29,9 @@ const LearningUnitsList = ({
     learningUnitItems = learningUnits.map((item) => {
       const languages = item.Languages.map(language => (
         <ListItem
+          component={Link}
           key={`${item.id}${language.id}`}
+          to={`learning-units/show/${language.id}/${item.id}`}
         >
           <ListItemText
             primary={`${language.LearningUnitLanguage.title} (${language.name})`}

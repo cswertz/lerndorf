@@ -5,6 +5,7 @@ import React from 'react';
 import Wrapper from '../../components/routes/wrapper';
 
 // import LearningUnitsEdit from '../learningUnits/Edit';
+import LearningUnitsShow from '../learningUnits/Show';
 import LearningUnitsAdd from '../learningUnits/Add';
 import LearningUnits from '../learningUnits/List';
 
@@ -60,29 +61,28 @@ const LearningUnitsRouter = ({
       )}
     />
 
-    {/*
     <Route
       exact
-      path="/learning-units/edit/:id"
+      path="/learning-units/show/:languageId/:id"
       render={() => (
         <Wrapper
+          fetchRoles={actions.userFetchRoles}
           className="LearningUnitsWrapper"
           logout={actions.userLogout}
-          title="Edit Language"
+          title="Learning Unit"
           active="learningUnits"
           user={user}
           element={(
-            <LearningUnitsEdit
-              learningUnitsFetch={actions.learningUnitsFetch}
+            <LearningUnitsShow
+              itemFetch={actions.learningUnitsItemFetch}
               handleSubmit={actions.learningUnitsEdit}
               errors={learningUnits.errors}
-              learningUnits={learningUnits}
+              items={learningUnits}
             />
           )}
         />
       )}
     />
-    */}
   </React.Fragment>
 );
 
@@ -100,11 +100,11 @@ LearningUnitsRouter.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
-    knowledgeUnitsItemFetch: PropTypes.func.isRequired,
-    knowledgeUnitsDelete: PropTypes.func.isRequired,
-    knowledgeUnitsFetch: PropTypes.func.isRequired,
-    knowledgeUnitsEdit: PropTypes.func.isRequired,
-    knowledgeUnitssAdd: PropTypes.func.isRequired,
+    learningUnitsItemFetch: PropTypes.func.isRequired,
+    learningUnitsDelete: PropTypes.func.isRequired,
+    learningUnitsFetch: PropTypes.func.isRequired,
+    learningUnitsEdit: PropTypes.func.isRequired,
+    learningUnitsAdd: PropTypes.func.isRequired,
     userLogout: PropTypes.func.isRequired,
   }).isRequired,
   user: PropTypes.shape({

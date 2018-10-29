@@ -66,7 +66,15 @@ const learningUnits = (state = initialState, action) => {
 
     case LEARNINGUNITS_ITEM_FETCH_SUCCESS: {
       const ids = state.id;
-      ids[action.item.id] = action.item;
+      action.item.forEach((item) => {
+        ids[item.id] = {};
+        ids[item.id][item.Language.id] = {
+          item,
+          title: item.title,
+          userId: item.User.id,
+          username: item.User.username,
+        };
+      });
 
       return Object.assign({}, state, {
         fetching: false,

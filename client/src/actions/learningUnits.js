@@ -23,6 +23,11 @@ export const learningUnitsDeleteSuccess = () => ({
   type: types.LEARNINGUNITS_DELETE_SUCCESS,
 });
 
+export const learningUnitsItemFetchSuccess = item => ({
+  type: types.LEARNINGUNITS_ITEM_FETCH_SUCCESS,
+  item,
+});
+
 export const learningUnitsFetch = () => (
   dispatch => fetch('/api/learningUnits', {
     method: 'GET',
@@ -39,6 +44,30 @@ export const learningUnitsFetch = () => (
           // dispatch(userEditFailed(json.error, json.errors));
         } else {
           dispatch(learningUnitsFetchSuccess(json));
+        }
+      }
+    })
+    .catch((error) => {
+      console.log('Error while fetching knowledge units:', error);
+    })
+);
+
+export const learningUnitsItemFetch = id => (
+  dispatch => fetch(`/api/learningUnits/${id}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then(response => response.json())
+    .then((json) => {
+      if (json) {
+        if (json.error) {
+          // dispatch(userEditFailed(json.error, json.errors));
+        } else {
+          dispatch(learningUnitsItemFetchSuccess(json));
         }
       }
     })
