@@ -93,7 +93,7 @@ export const knowledgeUnitsAdd = (data, history) => (
           dispatch(knowledgeUnitsAddFailed(json.error, json.errors));
         } else {
           dispatch(knowledgeUnitsAddSuccess());
-          history.push('/knowledgeUnits');
+          history.push(`/knowledge-units/${json.id}`);
         }
       }
     })

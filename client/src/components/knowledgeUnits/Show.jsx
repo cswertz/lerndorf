@@ -23,10 +23,10 @@ const KnowledgeUnitsShow = ({
       <Grid>
         <Button
           component={Link}
-          to={`/knowledge-units/add/${item.item.KnowledgeUnit.id}`}
+          to={`/knowledge-units/${item.id}/add/text`}
           variant="contained"
         >
-          Add new Knowledge Unit
+          Add Text
         </Button>
       </Grid>
     </div>

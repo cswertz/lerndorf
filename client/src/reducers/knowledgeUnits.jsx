@@ -66,15 +66,7 @@ const knowledgeUnits = (state = initialState, action) => {
 
     case KNOWLEDGEUNITS_ITEM_FETCH_SUCCESS: {
       const ids = state.id;
-      action.item.forEach((item) => {
-        ids[item.id] = {};
-        ids[item.id][item.Language.id] = {
-          item,
-          title: item.title,
-          userId: item.User.id,
-          username: item.User.username,
-        };
-      });
+      ids[action.item.id] = action.item;
 
       return Object.assign({}, state, {
         fetching: false,

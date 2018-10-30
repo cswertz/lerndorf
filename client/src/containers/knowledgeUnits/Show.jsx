@@ -2,7 +2,7 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Show from '../../components/learningUnits/Show';
+import Show from '../../components/knowledgeUnits/Show';
 
 class KnowledgeUnitsShow extends Component {
   componentDidMount() {
@@ -29,12 +29,12 @@ class KnowledgeUnitsShow extends Component {
 
     const {
       id,
-      languageId,
     } = match.params;
     let item = items.id[id];
     if (!item) return null;
 
-    item = items.id[id][languageId];
+    item = items.id[id];
+    console.log(item);
     return (
       <Show
         item={item}
@@ -51,7 +51,6 @@ KnowledgeUnitsShow.propTypes = {
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      languageId: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,

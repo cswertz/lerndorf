@@ -5,7 +5,7 @@ import React from 'react';
 import Wrapper from '../../components/routes/wrapper';
 
 // import KnowledgeUnitsEdit from '../knowledgeUnits/Edit';
-// import KnowledgeUnitsShow from '../knowledgeUnits/Show';
+import KnowledgeUnitsShow from '../knowledgeUnits/Show';
 import KnowledgeUnitsAdd from '../knowledgeUnits/Add';
 // import KnowledgeUnits from '../knowledgeUnits/List';
 
@@ -60,10 +60,9 @@ const KnowledgeUnitsRouter = ({
       )}
     />
 
-    {/*
     <Route
       exact
-      path="/knowledge-units/show/:languageId/:id"
+      path="/knowledge-units/show/:id"
       render={() => (
         <Wrapper
           fetchRoles={actions.userFetchRoles}
@@ -83,7 +82,6 @@ const KnowledgeUnitsRouter = ({
         />
       )}
     />
-    */}
   </React.Fragment>
 );
 
