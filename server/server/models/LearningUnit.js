@@ -19,6 +19,8 @@ class LearningUnit extends Model {
   static associate(sequelize) {
     LearningUnit.belongsTo(sequelize.User);
 
+    LearningUnit.hasMany(sequelize.KnowledgeUnit);
+
     LearningUnit.hasOne(LearningUnit, { foreignKey: 'rootId' });
     LearningUnit.hasOne(LearningUnit, { foreignKey: 'prevId' });
     LearningUnit.hasOne(LearningUnit, { foreignKey: 'nextId' });
