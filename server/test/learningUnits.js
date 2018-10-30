@@ -96,7 +96,7 @@ describe('LearningUnit', () => {
         });
     });
 
-    it('it should display an error when adding a knowledgeUnit without required fields', (done) => {
+    it('it should display an error when adding a Learning Unit without required fields', (done) => {
       agent
         .post('/api/users/login')
         .send(admin)
