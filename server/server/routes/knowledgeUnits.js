@@ -1,22 +1,34 @@
 import express from 'express';
 
+import { hasCapability } from '../helpers/auth';
 import models from '../config/sequelize';
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
   models.KnowledgeUnit.findAll({
-    attributes: ['id', 'createdAt'],
+    where: {
+      visiblePublic: true,
+    },
+    attributes: [
+      'id',
+      'createdAt',
+    ],
+    include: [
+      {
+        model: models.User,
+        attributes: [
+          'id',
+          'username',
+        ],
+      },
+    ],
   })
     .then(results => res.json(results));
 });
 
-router.post('/', (req, res) => {
+router.post('/', hasCapability('add_knowledge_unit'), (req, res) => {
   req.checkBody('LearningUnitId', 'LearningUnitId is required')
-    .isInt()
-    .notEmpty();
-
-  req.checkBody('UserId', 'LearningUnitId is required')
     .isInt()
     .notEmpty();
 
@@ -28,10 +40,9 @@ router.post('/', (req, res) => {
       });
     }
 
+    req.body.UserId = req.user.id;
     return models.KnowledgeUnit.create(req.body)
-      .then(result => {
-        return res.json(result);
-      })
+      .then(result => res.json(result))
       .catch(err => res.status(422).send({
         error: 'There have been database errors.',
         errors: err.errors.map(error => ({
