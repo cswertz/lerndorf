@@ -1,6 +1,7 @@
-import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
+import { combineReducers } from 'redux';
 
+import knowledgeUnits from './knowledgeUnits';
 import learningUnits from './learningUnits';
 import capabilities from './capabilities';
 import taxonomies from './taxonomies';
@@ -11,6 +12,7 @@ import user from './user';
 
 const lerndorfApp = combineReducers({
   form: formReducer,
+  knowledgeUnits,
   learningUnits,
   capabilities,
   taxonomies,

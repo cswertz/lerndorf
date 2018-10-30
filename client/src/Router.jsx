@@ -12,7 +12,8 @@ import React from 'react';
 import Appbar from './containers/Appbar';
 import Home from './components/Home';
 
-import RoutesKnowledgeUnits from './containers/routes/learningUnits';
+import RoutesKnowledgeUnits from './containers/routes/knowledgeUnits';
+import RoutesLearningUnits from './containers/routes/learningUnits';
 import RoutesTaxonomies from './containers/routes/taxonomies';
 import RoutesLanguages from './containers/routes/languages';
 import RoutesUsers from './containers/routes/users';
@@ -20,6 +21,7 @@ import RoutesUsers from './containers/routes/users';
 import * as AppActions from './actions';
 
 const Router = ({
+  knowledgeUnits,
   learningUnits,
   capabilities,
   taxonomies,
@@ -87,8 +89,21 @@ const Router = ({
     <Route
       path="/learning-units"
       render={() => (
-        <RoutesKnowledgeUnits
+        <RoutesLearningUnits
           learningUnits={learningUnits}
+          capabilities={capabilities}
+          languages={languages}
+          actions={actions}
+          user={user}
+        />
+      )}
+    />
+
+    <Route
+      path="/knowledge-units"
+      render={() => (
+        <RoutesKnowledgeUnits
+          knowledgeUnits={knowledgeUnits}
           capabilities={capabilities}
           languages={languages}
           actions={actions}
@@ -103,6 +118,13 @@ const Router = ({
 
 Router.propTypes = {
   learningUnits: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    errors: PropTypes.shape().isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
+  knowledgeUnits: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     errors: PropTypes.shape().isRequired,
     id: PropTypes.shape({}).isRequired,
@@ -142,6 +164,11 @@ Router.propTypes = {
     learningUnitsFetch: PropTypes.func.isRequired,
     learningUnitsEdit: PropTypes.func.isRequired,
     learningUnitsAdd: PropTypes.func.isRequired,
+    knowledgeUnitsItemFetch: PropTypes.func.isRequired,
+    knowledgeUnitsDelete: PropTypes.func.isRequired,
+    knowledgeUnitsFetch: PropTypes.func.isRequired,
+    knowledgeUnitsEdit: PropTypes.func.isRequired,
+    knowledgeUnitsAdd: PropTypes.func.isRequired,
     taxonomiesItemFetch: PropTypes.func.isRequired,
     taxonomiesDelete: PropTypes.func.isRequired,
     taxonomiesFetch: PropTypes.func.isRequired,
@@ -180,6 +207,7 @@ Router.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  knowledgeUnits: state.knowledgeUnits,
   learningUnits: state.learningUnits,
   capabilities: state.capabilities,
   taxonomies: state.taxonomies,

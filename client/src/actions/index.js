@@ -1,3 +1,4 @@
+export * from './knowledgeUnits';
 export * from './learningUnits';
 export * from './capabilities';
 export * from './taxonomies';
