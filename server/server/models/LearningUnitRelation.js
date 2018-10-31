@@ -53,12 +53,15 @@ class LearningUnitRelation extends Model {
     }, {
       sequelize,
       updatedAt: false,
+      freezeTableName: true,
     });
   }
 
   static associate(sequelize) {
     LearningUnitRelation.belongsTo(sequelize.User);
     LearningUnitRelation.hasOne(sequelize.Taxonomy, { foreignKey: 'type' });
+    LearningUnitRelation.belongsTo(sequelize.LearningUnit, { as: 'source', foreignKey: 'sourceId' });
+    LearningUnitRelation.belongsTo(sequelize.LearningUnit, { as: 'target', foreignKey: 'targetId' });
   }
 }
 

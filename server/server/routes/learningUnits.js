@@ -3,6 +3,7 @@ import express from 'express';
 import { hasCapability } from '../helpers/auth';
 import models from '../config/sequelize';
 
+const { Op } = models.Sequelize;
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -88,6 +89,63 @@ router.post('/addTag/:learningUnitLanguageId', hasCapability('add_learning_unit'
 
   return models.LearningUnitTag.create(data)
     .then(result => res.json(result));
+});
+
+router.post('/addRelation/:id', hasCapability('add_learning_unit'), (req, res) => {
+  req.checkBody('targetId', 'target is required')
+    .isInt()
+    .notEmpty();
+
+  req.checkBody('type', 'type is required')
+    .isInt()
+    .notEmpty();
+
+  const data = {
+    targetId: req.body.targetId,
+    sourceId: req.params.id,
+    type: req.body.type,
+    UserId: req.user.id,
+  };
+
+  return models.LearningUnitRelation.create(data)
+    .then(result => res.json(result));
+});
+
+router.get('/taxonomies', (req, res) => {
+  models.Taxonomy.findAll({
+    where: {
+      '$Parent.type$': {
+        [Op.in]: [
+          'relationType',
+        ],
+      },
+    },
+    attributes: [
+      'id',
+      'type',
+    ],
+    include: [
+      {
+        as: 'Parent',
+        model: models.Taxonomy,
+        attributes: ['type'],
+      },
+    ],
+  })
+    .then((children) => {
+      const taxonomies = {};
+      for (let i = 0; i < children.length; i += 1) {
+        const current = children[i];
+        const parent = current.Parent.type;
+        if (!taxonomies[parent]) {
+          taxonomies[parent] = [];
+        }
+
+        taxonomies[parent].push(current);
+      }
+
+      res.json(taxonomies);
+    });
 });
 
 router.get('/:id', (req, res) => {

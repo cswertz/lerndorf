@@ -28,6 +28,8 @@ class LearningUnit extends Model {
     LearningUnit.belongsToMany(sequelize.Language, { through: 'LearningUnitLanguage' });
     LearningUnit.belongsToMany(sequelize.LearningUnit, { through: 'LearningUnitRelation', foreignKey: 'sourceId', as: 'Source' });
     LearningUnit.belongsToMany(sequelize.LearningUnit, { through: 'LearningUnitRelation', foreignKey: 'targetId', as: 'Target' });
+
+    LearningUnit.hasMany(sequelize.LearningUnitRelation);
   }
 }
 
