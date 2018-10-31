@@ -40,7 +40,7 @@ const LearningUnitsShow = ({
           <IconButton
             aria-label="Edit"
             component={Link}
-            to={`/learning-units/edit/${item.item.Language.id}/${item.id}`}
+            to={`/learning-units/edit/${item.item.Language.id}/${item.item.id}`}
           >
             <EditIcon />
           </IconButton>
