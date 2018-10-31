@@ -13,14 +13,13 @@ class KnowledgeUnitsAdd extends Component {
 
   componentDidMount() {
     const {
-
+      taxonomies,
+      taxonomiesFetch,
     } = this.props;
 
-    /*
-    if (!languages.fetched && !languages.fetching) {
-      languagesFetch();
+    if (!taxonomies.fetched && !taxonomies.fetching) {
+      taxonomiesFetch();
     }
-    */
   }
 
   handleSubmit(e) {
@@ -46,6 +45,11 @@ class KnowledgeUnitsAdd extends Component {
       suitableBlind: e.target.suitableBlind.checked,
       suitableDeaf: e.target.suitableDeaf.checked,
       suitableDumb: e.target.suitableDumb.checked,
+      minimumScreenResolution: e.target.minimumScreenResolution.value,
+      knowledgeType: e.target.knowledgeType.value,
+      courseLevel: e.target.courseLevel.value,
+      mediaType: e.target.mediaType.value,
+      licences: e.target.licences.value,
     };
 
     handleSubmit(data, history);
@@ -53,12 +57,14 @@ class KnowledgeUnitsAdd extends Component {
 
   render() {
     const {
+      taxonomies,
       errors,
     } = this.props;
 
     return (
       <AddForm
         handleSubmit={this.handleSubmit}
+        taxonomies={taxonomies.items}
         initialValues={{
           language: 1,
         }}
@@ -69,6 +75,8 @@ class KnowledgeUnitsAdd extends Component {
 }
 
 KnowledgeUnitsAdd.propTypes = {
+  taxonomiesFetch: PropTypes.func.isRequired,
+  taxonomies: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   errors: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({

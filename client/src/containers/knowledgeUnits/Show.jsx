@@ -32,9 +32,7 @@ class KnowledgeUnitsShow extends Component {
       id,
     } = match.params;
     let item = items.id[id];
-    console.log(id);
     if (!item) return null;
-    console.log(item);
 
     item = items.id[id];
     return (

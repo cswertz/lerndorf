@@ -68,6 +68,19 @@ describe('KnowledgeUnit', () => {
     });
   });
 
+  describe('GET /api/knowledgeUnits/taxonomies', () => {
+    it('it should GET all the relevant taxonomies for adding a knowledge Unit', (done) => {
+      chai.request(server)
+        .get('/api/knowledgeUnits/taxonomies')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+
+          done();
+        });
+    });
+  });
+
   describe('POST /api/knowledgeUnits', () => {
     it('it should not be possible to add a Knowledge Unit when not logged in', (done) => {
       chai.request(server)

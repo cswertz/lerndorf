@@ -52,6 +52,8 @@ const KnowledgeUnitsRouter = ({
           user={user}
           element={(
             <KnowledgeUnitsAdd
+              taxonomiesFetch={actions.knowledgeUnitsTaxonomiesFetch}
+              taxonomies={knowledgeUnits.taxonomies}
               handleSubmit={actions.knowledgeUnitsAdd}
               errors={knowledgeUnits.errors}
             />

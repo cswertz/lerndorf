@@ -169,11 +169,15 @@ const KnowledgeUnitsShowPaper = ({
   );
 };
 
+KnowledgeUnitsShowPaper.defaultProps = {
+  link: false,
+};
+
 KnowledgeUnitsShowPaper.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   unit: PropTypes.shape({}).isRequired,
-  link: PropTypes.bool.isRequired,
+  link: PropTypes.bool,
 };
 
 export default withStyles(styles)(KnowledgeUnitsShowPaper);

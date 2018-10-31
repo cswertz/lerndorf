@@ -3,6 +3,7 @@ import express from 'express';
 import { hasCapability } from '../helpers/auth';
 import models from '../config/sequelize';
 
+const { Op } = models.Sequelize;
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -51,6 +52,47 @@ router.post('/', hasCapability('add_knowledge_unit'), (req, res) => {
         })),
       }));
   });
+});
+
+router.get('/taxonomies', (req, res) => {
+  models.Taxonomy.findAll({
+    where: {
+      '$Parent.type$': {
+        [Op.in]: [
+          'mediaType',
+          'knowledgeType',
+          'courseLevel',
+          'licences',
+          'minimumScreenResolution',
+        ],
+      },
+    },
+    attributes: [
+      'id',
+      'type',
+    ],
+    include: [
+      {
+        as: 'Parent',
+        model: models.Taxonomy,
+        attributes: ['type'],
+      },
+    ],
+  })
+    .then((children) => {
+      const taxonomies = {};
+      for (let i = 0; i < children.length; i += 1) {
+        const current = children[i];
+        const parent = current.Parent.type;
+        if (!taxonomies[parent]) {
+          taxonomies[parent] = [];
+        }
+
+        taxonomies[parent].push(current);
+      }
+
+      res.json(taxonomies);
+    });
 });
 
 router.get('/:id', (req, res) => {

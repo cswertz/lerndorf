@@ -1,4 +1,5 @@
 import {
+  KNOWLEDGEUNITS_TAXONOMIES_FETCH_SUCCESS,
   KNOWLEDGEUNITS_ITEM_FETCH_SUCCESS,
   KNOWLEDGEUNITS_DELETE_SUCCESS,
   KNOWLEDGEUNITS_FETCH_SUCCESS,
@@ -13,6 +14,17 @@ const initialState = {
   fetching: false,
   fetched: false,
   items: [],
+  taxonomies: {
+    fetching: false,
+    fetched: false,
+    items: {
+      minimumScreenResolution: [],
+      knowledgeType: [],
+      courseLevel: [],
+      mediaType: [],
+      licences: [],
+    },
+  },
   errors: {
     add: {
       error: false,
@@ -39,6 +51,16 @@ const knowledgeUnits = (state = initialState, action) => {
         fetching: false,
         id: {},
         items: [],
+      });
+    }
+
+    case KNOWLEDGEUNITS_TAXONOMIES_FETCH_SUCCESS: {
+      return Object.assign({}, state, {
+        taxonomies: {
+          fetched: true,
+          fetching: false,
+          items: action.items,
+        },
       });
     }
 
