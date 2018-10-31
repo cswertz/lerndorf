@@ -75,6 +75,8 @@ const LearningUnitsRouter = ({
           user={user}
           element={(
             <LearningUnitsShow
+              markReviewed={actions.knowledgeUnitsMarkReviewed}
+              markLectored={actions.knowledgeUnitsMarkLectored}
               user={user}
               itemFetch={actions.learningUnitsItemFetch}
               handleSubmit={actions.learningUnitsEdit}
@@ -102,6 +104,8 @@ LearningUnitsRouter.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
+    knowledgeUnitsMarkReviewed: PropTypes.func.isRequired,
+    knowledgeUnitsMarkLectored: PropTypes.func.isRequired,
     learningUnitsItemFetch: PropTypes.func.isRequired,
     learningUnitsDelete: PropTypes.func.isRequired,
     learningUnitsFetch: PropTypes.func.isRequired,

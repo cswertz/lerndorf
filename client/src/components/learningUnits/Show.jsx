@@ -12,12 +12,16 @@ import Single from '../knowledgeUnits/Single';
 const styles = () => ({});
 
 const LearningUnitsShow = ({
+  markReviewed,
+  markLectored,
   item,
   user,
 }) => {
   const knowledgeUnits = item.item.LearningUnit.KnowledgeUnits;
   const renderedKnowledgeUnits = knowledgeUnits.map(unit => (
     <Single
+      markReviewed={markReviewed}
+      markLectored={markLectored}
       key={unit.id}
       unit={unit}
       user={user}
@@ -48,6 +52,8 @@ const LearningUnitsShow = ({
 };
 
 LearningUnitsShow.propTypes = {
+  markReviewed: PropTypes.func.isRequired,
+  markLectored: PropTypes.func.isRequired,
   user: PropTypes.shape({}).isRequired,
   item: PropTypes.shape({}).isRequired,
   classes: PropTypes.shape({}).isRequired,

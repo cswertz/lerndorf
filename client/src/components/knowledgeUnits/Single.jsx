@@ -8,6 +8,7 @@ import React from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 
+import { hasCapability } from '../../utils/user';
 import Single from '../texts/Single';
 
 const styles = theme => ({
@@ -25,9 +26,17 @@ const styles = theme => ({
   button: {
     marginTop: theme.spacing.unit,
   },
+  left: {
+    textAlign: 'left',
+  },
+  right: {
+    textAlign: 'right',
+  },
 });
 
 const KnowledgeUnitsShowPaper = ({
+  markLectored,
+  markReviewed,
   classes,
   link,
   user,
@@ -154,16 +163,41 @@ const KnowledgeUnitsShowPaper = ({
           </Grid>
         </Grid>
       </div>
-      {user.user.id === unit.author.id && (
-        <Button
-          className={classes.button}
-          variant="contained"
-          component={Link}
-          to={`/texts/add/knowledge-units/${unit.id}`}
-        >
-          Add Text
-        </Button>
-      )}
+      <Grid container direction="row">
+        <Grid item xs={6} className={classes.left}>
+          {user.user.id === unit.author.id && (
+            <Button
+              className={classes.button}
+              variant="contained"
+              component={Link}
+              to={`/texts/add/knowledge-units/${unit.id}`}
+            >
+              Add Text
+            </Button>
+          )}
+        </Grid>
+        <Grid item xs={6} className={classes.right}>
+          {hasCapability(user.capabilities, ['set_knowledge_unit_reviewed']) && (
+            <Button
+              className={classes.button}
+              variant="contained"
+              onClick={() => markReviewed(unit.id)}
+            >
+              Mark reviewed
+            </Button>
+          )}
+          &nbsp;
+          {hasCapability(user.capabilities, ['set_knowledge_unit_lectored']) && (
+            <Button
+              className={classes.button}
+              variant="contained"
+              onClick={() => markLectored(unit.id)}
+            >
+              Mark lectored
+            </Button>
+          )}
+        </Grid>
+      </Grid>
       {texts}
     </Paper>
   );
@@ -174,6 +208,8 @@ KnowledgeUnitsShowPaper.defaultProps = {
 };
 
 KnowledgeUnitsShowPaper.propTypes = {
+  markReviewed: PropTypes.func.isRequired,
+  markLectored: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   unit: PropTypes.shape({}).isRequired,

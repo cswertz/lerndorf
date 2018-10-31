@@ -75,11 +75,13 @@ const KnowledgeUnitsRouter = ({
           user={user}
           element={(
             <KnowledgeUnitsShow
-              user={user}
+              markReviewed={actions.knowledgeUnitsMarkReviewed}
+              markLectored={actions.knowledgeUnitsMarkLectored}
               itemFetch={actions.knowledgeUnitsItemFetch}
               handleSubmit={actions.knowledgeUnitsEdit}
               errors={knowledgeUnits.errors}
               items={knowledgeUnits}
+              user={user}
             />
           )}
         />
@@ -96,6 +98,8 @@ KnowledgeUnitsRouter.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
+    knowledgeUnitsMarkReviewed: PropTypes.func.isRequired,
+    knowledgeUnitsMarkLectored: PropTypes.func.isRequired,
     knowledgeUnitsItemFetch: PropTypes.func.isRequired,
     knowledgeUnitsDelete: PropTypes.func.isRequired,
     knowledgeUnitsFetch: PropTypes.func.isRequired,

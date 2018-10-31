@@ -23,6 +23,8 @@ class KnowledgeUnitsShow extends Component {
 
   render() {
     const {
+      markReviewed,
+      markLectored,
       items,
       match,
       user,
@@ -37,6 +39,8 @@ class KnowledgeUnitsShow extends Component {
     item = items.id[id];
     return (
       <Show
+        markReviewed={markReviewed}
+        markLectored={markLectored}
         item={item}
         user={user}
       />
@@ -45,6 +49,8 @@ class KnowledgeUnitsShow extends Component {
 }
 
 KnowledgeUnitsShow.propTypes = {
+  markReviewed: PropTypes.func.isRequired,
+  markLectored: PropTypes.func.isRequired,
   user: PropTypes.shape({}).isRequired,
   items: PropTypes.shape({}).isRequired,
   itemFetch: PropTypes.func.isRequired,
