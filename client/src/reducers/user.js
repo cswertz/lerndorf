@@ -92,9 +92,7 @@ const user = (state = initialState, action) => {
     }
 
     case USER_LOGOUT_SUCCESS: {
-      return Object.assign({}, state, {
-        loggedIn: false,
-      });
+      return Object.assign({}, initialState);
     }
 
     case USER_EDIT_SUCCESS:
