@@ -52,6 +52,13 @@ class KnowledgeUnitsAdd extends Component {
       licences: e.target.licences.value,
     };
 
+    data.minimumScreenResolution = (data.minimumScreenResolution.isInteger !== '')
+      ? data.minimumScreenResolution : null;
+    data.knowledgeType = (data.knowledgeType !== '') ? data.knowledgeType : null;
+    data.courseLevel = (data.courseLevel.isInteger !== '') ? data.courseLevel : null;
+    data.mediaType = (data.mediaType.isInteger !== '') ? data.mediaType : null;
+    data.licences = (data.licences.isInteger !== '') ? data.licences : null;
+
     handleSubmit(data, history);
   }
 

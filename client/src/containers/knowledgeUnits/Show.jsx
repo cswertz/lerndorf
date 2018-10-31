@@ -6,6 +6,14 @@ import Show from '../../components/knowledgeUnits/Show';
 
 class KnowledgeUnitsShow extends Component {
   componentDidMount() {
+    this.fetchItem();
+  }
+
+  componentDidUpdate() {
+    this.fetchItem();
+  }
+
+  fetchItem() {
     const {
       match,
       items,

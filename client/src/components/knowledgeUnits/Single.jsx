@@ -181,6 +181,7 @@ const KnowledgeUnitsShowPaper = ({
             <Button
               className={classes.button}
               variant="contained"
+              disabled={unit.review}
               onClick={() => markReviewed(unit.id)}
             >
               Mark reviewed
@@ -191,6 +192,7 @@ const KnowledgeUnitsShowPaper = ({
             <Button
               className={classes.button}
               variant="contained"
+              disabled={unit.lectorate}
               onClick={() => markLectored(unit.id)}
             >
               Mark lectored

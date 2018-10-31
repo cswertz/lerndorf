@@ -173,3 +173,52 @@ export const knowledgeUnitsTaxonomiesFetch = () => (
       console.log('Error while fetching knowledge units:', error);
     })
 );
+
+
+export const knowledgeUnitsMarkReviewed = id => (
+  dispatch => fetch(`/api/knowledgeUnits/markReviewed/${id}`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then(response => response.json())
+    .then((json) => {
+      if (json) {
+        if (json.error) {
+          // dispatch(knowledgeUnitsEditFailed(json.error, json.errors));
+        } else {
+          dispatch(knowledgeUnitsEditSuccess());
+        }
+      }
+    })
+    .catch((error) => {
+      console.log('Error while editing knowledge unit:', error);
+    })
+);
+
+export const knowledgeUnitsMarkLectored = id => (
+  dispatch => fetch(`/api/knowledgeUnits/markLectored/${id}`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then(response => response.json())
+    .then((json) => {
+      if (json) {
+        if (json.error) {
+          // dispatch(knowledgeUnitsEditFailed(json.error, json.errors));
+        } else {
+          dispatch(knowledgeUnitsEditSuccess());
+        }
+      }
+    })
+    .catch((error) => {
+      console.log('Error while editing knowledge unit:', error);
+    })
+);
