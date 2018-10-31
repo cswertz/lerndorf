@@ -52,6 +52,42 @@ const renderTextField = ({
   );
 };
 
+const renderImageField = ({
+  input,
+  ...custom
+}) => {
+  return (
+    <div>
+      <label
+        id="picture-label"
+        htmlFor="picture"
+        nesting="asdfasdf"
+        className={custom.classes.textField}
+      >
+        <Button
+          variant="raised"
+          component="span"
+          className={custom.classes.pictureButton}
+        >
+          Upload Profile picture
+        </Button>
+      </label>
+      <input
+        accept="image/*"
+        className={custom.classes.input}
+        style={{ display: 'none' }}
+        name="picture"
+        id="picture"
+        type="file"
+        onChange={(event) => {
+          const data = event.target.value;
+          input.onChange(data);
+        }}
+      />
+    </div>
+  );
+};
+
 const validate = (values) => {
   const errors = {};
   const requiredFields = [
@@ -190,27 +226,11 @@ const UserEdit = ({
         component={renderTextField}
         className={classes.textField}
       />
-      <label
-        id="picture-label"
-        htmlFor="picture"
-        nesting="asdfasdf"
-        className={classes.textField}
-      >
-        <Button
-          variant="raised"
-          component="span"
-          className={classes.pictureButton}
-        >
-          Upload Profile picture
-        </Button>
-      </label>
-      <input
-        accept="image/*"
-        className={classes.input}
-        style={{ display: 'none' }}
+      <Field
         name="picture"
-        id="picture"
-        type="file"
+        label="Picture"
+        component={renderImageField}
+        classes={classes}
       />
     </div>
     <div className={classes.flex}>

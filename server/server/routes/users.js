@@ -133,6 +133,16 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
     req.body.password = hashPassword(req.body.password);
   }
 
+  if (req.files) {
+    const fileName = req.files.picture.md5() + req.files.picture.name;
+    req.body.picture = fileName;
+    req.files.picture.mv(`./server/public/uploads/${fileName}`, (err) => {
+      if (err) {
+        console.log('Failed to save image:', err);
+      }
+    });
+  }
+
   models.User.update(req.body, {
     where: {
       id: req.params.id,

@@ -62,13 +62,19 @@ const passportConfig = (passport) => {
           }
 
           const hashedPassword = hashPassword(password);
-          const user = {
-            username,
-            password: hashedPassword,
-            email: req.body.email,
-          };
+          req.body.password = hashedPassword;
 
-          return models.User.create(user)
+          if (req.files) {
+            const fileName = req.files.picture.md5() + req.files.picture.name;
+            req.body.picture = fileName;
+            req.files.picture.mv(`./server/public/uploads/${fileName}`, (err) => {
+              if (err) {
+                console.log('Failed to save image:', err);
+              }
+            });
+          }
+
+          return models.User.create(req.body)
             .then(newUser => done(newUser));
         });
       });

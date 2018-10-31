@@ -1,14 +1,16 @@
+import { withRouter } from 'react-router-dom';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import Toolbar from '@material-ui/core/Toolbar';
-import { withRouter } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
+import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import MainMenu from './MainMenu';
 
@@ -74,6 +76,7 @@ class MenuAppBar extends Component {
     } = this.props;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
+    console.log(user);
 
     return (
       <div className={classes.root}>
@@ -94,7 +97,14 @@ class MenuAppBar extends Component {
                   aria-haspopup="true"
                   color="inherit"
                 >
-                  <AccountCircle />
+                  {user.user.picture !== 'undefined' ? (
+                    <Avatar
+                      src={`/static/uploads/${user.user.picture}`}
+                      alt={user.username}
+                    />
+                  ) : (
+                    <AccountCircle />
+                  )}
                 </IconButton>
                 <Menu
                   id="menu-appbar"
