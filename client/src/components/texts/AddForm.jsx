@@ -6,13 +6,12 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 
-import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CKEditor from '@ckeditor/ckeditor5-react';
 
 const styles = theme => ({
   wrapper: {
@@ -121,40 +120,6 @@ const renderEditor = ({
   />
 );
 
-const renderTextField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
-  const { errorText } = custom;
-  const customOptions = custom;
-  delete customOptions.errorText;
-
-  let helperText = label;
-  if (errorText) {
-    helperText = errorText;
-  }
-  if (touched && error) {
-    helperText = error;
-  }
-
-  let hasError = (touched && error);
-  if (errorText) {
-    hasError = true;
-  }
-
-  return (
-    <TextField
-      helperText={helperText}
-      error={(hasError && true)}
-      label={label}
-      {...input}
-      {...customOptions}
-    />
-  );
-};
-
 const validate = (values) => {
   const errors = {};
   const requiredFields = [
@@ -222,13 +187,13 @@ const TextsAdd = ({
 
 TextsAdd.propTypes = {
   languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  updateBody: PropTypes.func.isRequired,
+  initialValues: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,
+  updateBody: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
-  initialValues: PropTypes.shape({}).isRequired,
 };
 
 const TextsAddForm = reduxForm({
