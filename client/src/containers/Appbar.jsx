@@ -76,7 +76,6 @@ class MenuAppBar extends Component {
     } = this.props;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
-    console.log(user);
 
     return (
       <div className={classes.root}>
