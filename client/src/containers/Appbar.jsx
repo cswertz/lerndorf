@@ -96,7 +96,7 @@ class MenuAppBar extends Component {
                   aria-haspopup="true"
                   color="inherit"
                 >
-                  {user.user.picture !== 'undefined' ? (
+                  {user.user.picture ? (
                     <Avatar
                       src={`/static/uploads/${user.user.picture}`}
                       alt={user.username}
