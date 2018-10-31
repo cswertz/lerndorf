@@ -143,11 +143,15 @@ const user = (state = initialState, action) => {
     }
 
     case REHYDRATE: {
-      return Object.assign({}, action.payload.user, {
-        fetchedRoles: false,
-        fetchingRoles: false,
-        capabilities: [],
-      });
+      if (action.payload) {
+        return Object.assign({}, action.payload.user, {
+          fetchedRoles: false,
+          fetchingRoles: false,
+          capabilities: [],
+        });
+      }
+
+      return state;
     }
 
     default:
