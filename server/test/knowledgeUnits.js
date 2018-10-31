@@ -135,7 +135,6 @@ describe('KnowledgeUnit', () => {
               res.should.have.status(200);
               res.body.should.be.a('object');
               res.body.should.have.property('id');
-              res.body.should.have.property('createdAt');
 
               knowledgeUnits[0] = res.body.id;
 
@@ -158,7 +157,6 @@ describe('KnowledgeUnit', () => {
               res.should.have.status(200);
               res.body.should.be.a('object');
               res.body.should.have.property('id');
-              res.body.should.have.property('createdAt');
 
               knowledgeUnits[0] = res.body.id;
 
@@ -176,7 +174,6 @@ describe('KnowledgeUnit', () => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('id');
-          res.body.should.have.property('createdAt');
 
           done();
         });
