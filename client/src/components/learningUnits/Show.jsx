@@ -31,7 +31,7 @@ const LearningUnitsShow = ({
     />
   ));
   const tags = item.item.LearningUnitTags.map(tag => tag.tag).join(', ');
-  console.log(item.item.User.id, user);
+
   return (
     <div>
       <Typography variant="headline">
