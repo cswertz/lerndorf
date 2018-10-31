@@ -193,6 +193,108 @@ describe('KnowledgeUnit', () => {
     });
   });
 
+  describe('PATCH /api/knowledgeUnits/markLectored:id', () => {
+    it('it should not be possible to add mark a Knowledge Unit lectored when not logged in', (done) => {
+      chai.request(server)
+        .patch(`/api/knowledgeUnits/markLectored/${knowledgeUnits[0]}`)
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+
+          done();
+        });
+    });
+
+    it('it should not allow a user without the proper permissions to mark a Knowledge Unit lectored', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(userKnowledgeUnit)
+        .end(() => {
+          agent
+            .patch(`/api/knowledgeUnits/markLectored/${knowledgeUnits[0]}`)
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to mark a Knowledge Unit lectored', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .patch(`/api/knowledgeUnits/markLectored/${knowledgeUnits[0]}`)
+            .send({
+              LearningUnitId: learningUnits[0].id,
+            })
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('array');
+              res.body.length.should.be.eql(1);
+
+              done();
+            });
+        });
+    });
+  });
+
+  describe('PATCH /api/knowledgeUnits/markReviewed:id', () => {
+    it('it should not be possible to add mark a Knowledge Unit reviewed when not logged in', (done) => {
+      chai.request(server)
+        .patch(`/api/knowledgeUnits/markReviewed/${knowledgeUnits[0]}`)
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+
+          done();
+        });
+    });
+
+    it('it should not allow a user without the proper permissions to add a Knowledge Unit', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(userKnowledgeUnit)
+        .end(() => {
+          agent
+            .patch(`/api/knowledgeUnits/markReviewed/${knowledgeUnits[0]}`)
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to mark a Knowledge Unit reviewed', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .patch(`/api/knowledgeUnits/markReviewed/${knowledgeUnits[0]}`)
+            .send({
+              LearningUnitId: learningUnits[0].id,
+            })
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('array');
+              res.body.length.should.be.eql(1);
+
+              done();
+            });
+        });
+    });
+  });
+
   describe('DELETE /api/knowledgeUnits/:id', () => {
     it('it should be possible to delete a KnowledgeUnit', (done) => {
       chai.request(server)

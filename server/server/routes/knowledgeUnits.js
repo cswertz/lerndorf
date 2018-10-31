@@ -95,6 +95,28 @@ router.get('/taxonomies', (req, res) => {
     });
 });
 
+router.patch('/markReviewed/:id', hasCapability('set_knowledge_unit_reviewed'), (req, res) => {
+  models.KnowledgeUnit.update({
+    review: true,
+  }, {
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then(result => res.json(result));
+});
+
+router.patch('/markLectored/:id', hasCapability('set_knowledge_unit_lectored'), (req, res) => {
+  models.KnowledgeUnit.update({
+    lectorate: true,
+  }, {
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then(result => res.json(result));
+});
+
 router.get('/:id', (req, res) => {
   models.KnowledgeUnit.findById(req.params.id, {
     attributes: [
