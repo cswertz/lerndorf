@@ -186,29 +186,33 @@ class MainMenu extends Component {
               </Collapse>
             </div>
           )}
-          <ListItem
-            onClick={() => this.handleClick('authoring')}
-            button
-          >
-            <ListItemText
-              primary="Authoring"
-            />
-            {open.authoring ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse
-            in={open.authoring}
-          >
-            <List component="div" disablePadding>
+          {hasCapability(user.capabilities, ['add_learning_unit']) && (
+            <div>
               <ListItem
+                onClick={() => this.handleClick('authoring')}
                 button
-                className={classes.nested}
-                component={Link}
-                to="/learning-units/add"
               >
-                <ListItemText inset primary="Add Learning Unit" />
+                <ListItemText
+                  primary="Authoring"
+                />
+                {open.authoring ? <ExpandLess /> : <ExpandMore />}
               </ListItem>
-            </List>
-          </Collapse>
+              <Collapse
+                in={open.authoring}
+              >
+                <List component="div" disablePadding>
+                  <ListItem
+                    button
+                    className={classes.nested}
+                    component={Link}
+                    to="/learning-units/add"
+                  >
+                    <ListItemText inset primary="Add Learning Unit" />
+                  </ListItem>
+                </List>
+              </Collapse>
+            </div>
+          )}
         </Menu>
       </React.Fragment>
     );
