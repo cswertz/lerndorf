@@ -55,7 +55,79 @@ router.post('/', hasCapability('add_knowledge_unit'), (req, res) => {
 
 router.get('/:id', (req, res) => {
   models.KnowledgeUnit.findById(req.params.id, {
-    attributes: ['id', 'createdAt'],
+    attributes: [
+      'id',
+      'comment',
+      'objective',
+      'time',
+      'recommendedAge',
+      'visibleCourses',
+      'visibleLexicon',
+      'visiblePublic',
+      'lectorate',
+      'review',
+      'publish',
+      'suitableDumb',
+      'suitableDeaf',
+      'suitableBlind',
+    ],
+    include: [
+      {
+        as: 'msr',
+        model: models.Taxonomy,
+        attributes: ['id', 'type'],
+      },
+      {
+        as: 'kt',
+        model: models.Taxonomy,
+        attributes: ['id', 'type'],
+      },
+      {
+        as: 'cl',
+        model: models.Taxonomy,
+        attributes: ['id', 'type'],
+      },
+      {
+        as: 'ot',
+        model: models.Taxonomy,
+        attributes: ['id', 'type'],
+      },
+      {
+        as: 'mt',
+        model: models.Taxonomy,
+        attributes: ['id', 'type'],
+      },
+      {
+        as: 'el',
+        model: models.Taxonomy,
+        attributes: ['id', 'type'],
+      },
+      {
+        as: 'l',
+        model: models.Taxonomy,
+        attributes: ['id', 'type'],
+      },
+      {
+        as: 'author',
+        model: models.User,
+        attributes: ['id', 'username'],
+      },
+      {
+        as: 'Texts',
+        where: {
+          nextId: null,
+        },
+        required: false,
+        model: models.Text,
+        attributes: ['id', 'content', 'nextId', 'prevId', 'rootId'],
+        include: [
+          {
+            model: models.Language,
+            attributes: ['id', 'code', 'name'],
+          },
+        ],
+      },
+    ],
   })
     .then(result => res.json(result));
 });
