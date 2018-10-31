@@ -101,9 +101,12 @@ const LearningUnitsRouter = ({
           user={user}
           element={(
             <LearningUnitsEdit
+              learningUnitsAddRelation={actions.learningUnitsAddRelation}
+              taxonomiesFetch={actions.learningUnitsTaxonomiesFetch}
               learningUnitsAddTag={actions.learningUnitsAddTag}
               itemFetch={actions.learningUnitsItemFetch}
               handleSubmit={actions.learningUnitsEdit}
+              taxonomies={learningUnits.taxonomies}
               errors={learningUnits.errors}
               items={learningUnits}
               user={user}

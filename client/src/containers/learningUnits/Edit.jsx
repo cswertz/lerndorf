@@ -13,16 +13,29 @@ class LearningUnitsEdit extends Component {
   }
 
   componentDidMount() {
-    /*
+    this.fetchItem();
+  }
+
+  fetchItem() {
     const {
-      languages,
-      languagesFetch,
+      itemFetch,
+      taxonomies,
+      taxonomiesFetch,
+      match,
+      items,
     } = this.props;
 
-    if (!languages.fetched && !languages.fetching) {
-      languagesFetch();
+    const {
+      id,
+    } = match.params;
+
+    if ((!items.fetching) && !items.id[id]) {
+      itemFetch(id);
     }
-    */
+
+    if (!taxonomies.fetched && !taxonomies.fetching) {
+      taxonomiesFetch();
+    }
   }
 
   addTag(e) {
@@ -32,32 +45,48 @@ class LearningUnitsEdit extends Component {
       learningUnitsAddTag,
       history,
       match,
+      items,
     } = this.props;
     const {
       id,
       languageId,
     } = match.params;
     const tag = e.target.tag.value;
+    const learningUnitId = id;
+    const learningUnitLanguageId = items.id[id][languageId].item.id;
 
-    learningUnitsAddTag(languageId, id, tag, history);
+    learningUnitsAddTag(learningUnitLanguageId, tag, languageId, learningUnitId, history);
   }
 
-  addRelation(target, type) {
+  addRelation(e) {
+    e.preventDefault();
+
     const {
       learningUnitsAddRelation,
+      history,
+      match,
     } = this.props;
+    const {
+      id,
+      languageId,
+    } = match.params;
+    const targetId = e.target.target.value;
+    const type = e.target.target.value;
+    const learningUnitId = id;
 
-    console.log('Add relation', target, type);
+    learningUnitsAddRelation(learningUnitId, targetId, type, languageId, history);
   }
 
   render() {
     const {
+      taxonomies,
       errors,
     } = this.props;
 
     return (
       <EditForm
         addRelation={this.addRelation}
+        taxonomies={taxonomies}
         addTag={this.addTag}
         errors={errors.add}
       />
@@ -66,9 +95,13 @@ class LearningUnitsEdit extends Component {
 }
 
 LearningUnitsEdit.propTypes = {
-  // learningUnitsAddRelation: PropTypes.func.isRequired,
+  learningUnitsAddRelation: PropTypes.func.isRequired,
+  taxonomiesFetch: PropTypes.func.isRequired,
+  taxonomies: PropTypes.shape({}).isRequired,
   learningUnitsAddTag: PropTypes.func.isRequired,
+  items: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,
+  itemFetch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

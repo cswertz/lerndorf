@@ -28,6 +28,11 @@ export const learningUnitsItemFetchSuccess = item => ({
   item,
 });
 
+export const learningUnitsTaxonomiesFetchSuccess = items => ({
+  type: types.LEARNINGUNITS_TAXONOMIES_FETCH_SUCCESS,
+  items,
+});
+
 export const learningUnitsFetch = () => (
   dispatch => fetch('/api/learningUnits', {
     method: 'GET',
@@ -145,8 +150,9 @@ export const learningUnitsEdit = (id, data, history) => (
     })
 );
 
-export const learningUnitsAddTag = (languageId, id, tag, history) => (
-  dispatch => fetch(`/api/learningUnits/addTag/${id}`, {
+export const learningUnitsAddTag = (learningUnitLanguageId, tag, languageId,
+  learningUnitId, history) => (
+  dispatch => fetch(`/api/learningUnits/addTag/${learningUnitLanguageId}`, {
     method: 'post',
     headers: {
       Accept: 'application/json',
@@ -164,11 +170,64 @@ export const learningUnitsAddTag = (languageId, id, tag, history) => (
           // dispatch(learningUnitsAddFailed(json.error, json.errors));
         } else {
           dispatch(learningUnitsEditSuccess());
-          history.push(`/learning-units/show/${languageId}/${id}`);
+          history.push(`/learning-units/show/${languageId}/${learningUnitId}`);
         }
       }
     })
     .catch((error) => {
       console.log('Error while adding knowledge unit:', error);
+    })
+);
+
+export const learningUnitsAddRelation = (learningUnitId, targetId, type, languageId, history) => (
+  dispatch => fetch(`/api/learningUnits/addRelation/${learningUnitId}`, {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({
+      type,
+      targetId,
+    }),
+  })
+    .then(response => response.json())
+    .then((json) => {
+      if (json) {
+        if (json.error) {
+          // dispatch(learningUnitsAddFailed(json.error, json.errors));
+        } else {
+          dispatch(learningUnitsEditSuccess());
+          history.push(`/learning-units/show/${languageId}/${learningUnitId}`);
+        }
+      }
+    })
+    .catch((error) => {
+      console.log('Error while adding knowledge unit:', error);
+    })
+);
+
+export const learningUnitsTaxonomiesFetch = () => (
+  dispatch => fetch('/api/learningUnits/taxonomies', {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then(response => response.json())
+    .then((json) => {
+      if (json) {
+        if (json.error) {
+          // dispatch(userEditFailed(json.error, json.errors));
+        } else {
+          dispatch(learningUnitsTaxonomiesFetchSuccess(json));
+        }
+      }
+    })
+    .catch((error) => {
+      console.log('Error while fetching knowledge units:', error);
     })
 );

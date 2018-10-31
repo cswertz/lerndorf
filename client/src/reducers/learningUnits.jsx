@@ -1,4 +1,5 @@
 import {
+  LEARNINGUNITS_TAXONOMIES_FETCH_SUCCESS,
   LEARNINGUNITS_ITEM_FETCH_SUCCESS,
   LEARNINGUNITS_DELETE_SUCCESS,
   LEARNINGUNITS_FETCH_SUCCESS,
@@ -16,6 +17,13 @@ const initialState = {
   fetching: false,
   fetched: false,
   items: [],
+  taxonomies: {
+    fetching: false,
+    fetched: false,
+    items: {
+      relationType: [],
+    },
+  },
   errors: {
     add: {
       error: false,
@@ -45,6 +53,16 @@ const learningUnits = (state = initialState, action) => {
         fetching: false,
         id: {},
         items: [],
+      });
+    }
+
+    case LEARNINGUNITS_TAXONOMIES_FETCH_SUCCESS: {
+      return Object.assign({}, state, {
+        taxonomies: {
+          fetched: true,
+          fetching: false,
+          items: action.items,
+        },
       });
     }
 
