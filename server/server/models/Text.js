@@ -79,6 +79,7 @@ class Text extends Model {
     Text.hasOne(Text, { foreignKey: 'nextId' });
 
     Text.belongsTo(sequelize.KnowledgeUnit);
+    Text.belongsTo(sequelize.Language);
   }
 }
 

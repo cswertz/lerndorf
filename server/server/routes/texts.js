@@ -1,5 +1,6 @@
 import express from 'express';
 
+import { hasCapability } from '../helpers/auth';
 import models from '../config/sequelize';
 
 const router = express.Router();
@@ -11,7 +12,7 @@ router.get('/', (req, res) => {
     .then(results => res.json(results));
 });
 
-router.post('/', (req, res) => {
+router.post('/', hasCapability('add_knowledge_unit'), (req, res) => {
   req.checkBody('content', 'content is required')
     .notEmpty();
   req.checkBody('KnowledgeUnitId', 'KnowledgeUnitId is required')
@@ -41,9 +42,50 @@ router.post('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   models.Text.findById(req.params.id, {
-    attributes: ['id', 'createdAt'],
+    attributes: [
+      'id',
+      'content',
+      'prevId',
+      'nextId',
+      'rootId',
+    ],
+    include: [
+      {
+        model: models.Language,
+        attributes: ['id', 'code', 'name'],
+      },
+    ],
   })
     .then(result => res.json(result));
+});
+
+router.patch('/:id', (req, res) => {
+  req.checkBody('content', 'content is required')
+    .notEmpty();
+  req.checkBody('LanguageId', 'LanguageId is required')
+    .notEmpty();
+
+  models.Text.findById(req.params.id)
+    .then((result) => {
+      req.body.prevId = result.id;
+      req.body.rootId = result.rootId || result.id;
+      req.body.KnowledgeUnitId = result.KnowledgeUnitId;
+
+      return models.Text.create(req.body)
+        .then((newText) => {
+          models.Text.update(
+            {
+              nextId: newText.id,
+            },
+            {
+              where: {
+                id: req.params.id,
+              },
+            },
+          )
+            .then(() => res.json(newText));
+        });
+    });
 });
 
 router.delete('/:id', (req, res) => {
