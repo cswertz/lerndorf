@@ -31,7 +31,7 @@ class Register extends Component {
       studyId: e.target.studyId.value,
       country: e.target.country.value,
       website: e.target.website.value,
-      picture: e.target.picture.value,
+      picture: e.target.picture.files[0],
       street: e.target.street.value,
       email: e.target.email.value,
       phone: e.target.phone.value,
