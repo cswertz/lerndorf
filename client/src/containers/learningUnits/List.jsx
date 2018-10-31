@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import List from '../../components/learningUnits/List';
+import { hasCapability } from '../../utils/user';
 
 class LearningUnits extends Component {
   constructor(props) {
@@ -47,6 +48,7 @@ class LearningUnits extends Component {
     const {
       learningUnits,
       history,
+      user,
     } = this.props;
 
     return (
@@ -55,15 +57,18 @@ class LearningUnits extends Component {
           learningUnitsDelete={this.handleDelete}
           learningUnits={learningUnits.items}
           history={history}
+          user={user}
         />
-        <Grid>
-          <Button
-            onClick={() => history.push('/learning-units/add')}
-            variant="contained"
-          >
-            Add new Learning Unit
-          </Button>
-        </Grid>
+        {hasCapability(user.capabilities, ['add_learning_unit']) && (
+          <Grid>
+            <Button
+              onClick={() => history.push('/learning-units/add')}
+              variant="contained"
+            >
+              Add new Learning Unit
+            </Button>
+          </Grid>
+        )}
       </div>
     );
   }
@@ -73,6 +78,7 @@ LearningUnits.propTypes = {
   learningUnitsDelete: PropTypes.func.isRequired,
   learningUnitsFetch: PropTypes.func.isRequired,
   learningUnits: PropTypes.shape({}).isRequired,
+  user: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

@@ -23,6 +23,7 @@ const LearningUnitsList = ({
   learningUnits,
   classes,
   history,
+  user,
 }) => {
   let learningUnitItems = null;
   if (learningUnits.length > 0) {
@@ -37,16 +38,20 @@ const LearningUnitsList = ({
             primary={`${language.LearningUnitLanguage.title} (${language.name})`}
           />
           <ListItemSecondaryAction>
-            <IconButton aria-label="Edit">
-              <EditIcon
-                onClick={() => history.push(`/learningUnits/edit/${item.id}`)}
-              />
-            </IconButton>
-            <IconButton aria-label="Delete">
-              <DeleteIcon
-                onClick={() => learningUnitsDelete(item.id)}
-              />
-            </IconButton>
+            {user.user.id === item.User.id && (
+              <IconButton aria-label="Edit">
+                <EditIcon
+                  onClick={() => history.push(`/learningUnits/edit/${item.id}`)}
+                />
+              </IconButton>
+            )}
+            {user.user.id === item.User.id && (
+              <IconButton aria-label="Delete">
+                <DeleteIcon
+                  onClick={() => learningUnitsDelete(item.id)}
+                />
+              </IconButton>
+            )}
           </ListItemSecondaryAction>
         </ListItem>
       ));
@@ -78,6 +83,7 @@ const LearningUnitsList = ({
 };
 
 LearningUnitsList.propTypes = {
+  user: PropTypes.shape({}).isRequired,
   learningUnits: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   learningUnitsDelete: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,

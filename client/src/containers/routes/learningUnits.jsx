@@ -29,6 +29,7 @@ const LearningUnitsRouter = ({
           user={user}
           element={(
             <LearningUnits
+              user={user}
               learningUnitsDelete={actions.learningUnitsDelete}
               learningUnitsFetch={actions.learningUnitsFetch}
               learningUnits={learningUnits}
