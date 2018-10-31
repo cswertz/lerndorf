@@ -5,4 +5,5 @@ export * from './taxonomies';
 export * from './languages';
 export * from './roles';
 export * from './users';
+export * from './texts';
 export * from './user';

@@ -43,6 +43,7 @@ export const knowledgeUnitsFetch = () => (
         if (json.error) {
           // dispatch(userEditFailed(json.error, json.errors));
         } else {
+          console.log('fetched', json)
           dispatch(knowledgeUnitsFetchSuccess(json));
         }
       }
@@ -93,7 +94,7 @@ export const knowledgeUnitsAdd = (data, history) => (
           dispatch(knowledgeUnitsAddFailed(json.error, json.errors));
         } else {
           dispatch(knowledgeUnitsAddSuccess());
-          history.push(`/knowledge-units/${json.id}`);
+          history.push(`/knowledge-units/show/${json.id}`);
         }
       }
     })

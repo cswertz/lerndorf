@@ -8,6 +8,7 @@ import taxonomies from './taxonomies';
 import languages from './languages';
 import roles from './roles';
 import users from './users';
+import texts from './texts';
 import user from './user';
 
 const lerndorfApp = combineReducers({
@@ -19,6 +20,7 @@ const lerndorfApp = combineReducers({
   languages,
   roles,
   users,
+  texts,
   user,
 });
 

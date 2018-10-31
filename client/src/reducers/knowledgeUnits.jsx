@@ -6,6 +6,7 @@ import {
   KNOWLEDGEUNITS_ADD_SUCCESS,
   KNOWLEDGEUNITS_ADD_FAILED,
   KNOWLEDGEUNITS_FETCH,
+  TEXTS_ADD_SUCCESS,
 } from '../actions/constants';
 
 const initialState = {
@@ -31,7 +32,8 @@ const knowledgeUnits = (state = initialState, action) => {
   switch (action.type) {
     case KNOWLEDGEUNITS_DELETE_SUCCESS:
     case KNOWLEDGEUNITS_EDIT_SUCCESS:
-    case KNOWLEDGEUNITS_ADD_SUCCESS: {
+    case KNOWLEDGEUNITS_ADD_SUCCESS:
+    case TEXTS_ADD_SUCCESS: {
       return Object.assign({}, state, {
         fetched: false,
         fetching: false,

@@ -3,9 +3,12 @@ import {
   LEARNINGUNITS_DELETE_SUCCESS,
   LEARNINGUNITS_FETCH_SUCCESS,
   LEARNINGUNITS_EDIT_SUCCESS,
+  KNOWLEDGEUNITS_ADD_SUCCESS,
   LEARNINGUNITS_ADD_SUCCESS,
   LEARNINGUNITS_ADD_FAILED,
   LEARNINGUNITS_FETCH,
+  TEXTS_EDIT_SUCCESS,
+  TEXTS_ADD_SUCCESS,
 } from '../actions/constants';
 
 const initialState = {
@@ -30,8 +33,11 @@ const initialState = {
 const learningUnits = (state = initialState, action) => {
   switch (action.type) {
     case LEARNINGUNITS_DELETE_SUCCESS:
+    case KNOWLEDGEUNITS_ADD_SUCCESS:
     case LEARNINGUNITS_EDIT_SUCCESS:
-    case LEARNINGUNITS_ADD_SUCCESS: {
+    case LEARNINGUNITS_ADD_SUCCESS:
+    case TEXTS_EDIT_SUCCESS:
+    case TEXTS_ADD_SUCCESS: {
       return Object.assign({}, state, {
         fetched: false,
         fetching: false,
@@ -67,8 +73,8 @@ const learningUnits = (state = initialState, action) => {
     case LEARNINGUNITS_ITEM_FETCH_SUCCESS: {
       const ids = state.id;
       action.item.forEach((item) => {
-        ids[item.id] = {};
-        ids[item.id][item.Language.id] = {
+        ids[item.LearningUnit.id] = {};
+        ids[item.LearningUnit.id][item.Language.id] = {
           item,
           title: item.title,
           userId: item.User.id,

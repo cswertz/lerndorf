@@ -93,7 +93,7 @@ export const learningUnitsAdd = (data, history) => (
           dispatch(learningUnitsAddFailed(json.error, json.errors));
         } else {
           dispatch(learningUnitsAddSuccess());
-          history.push('/learningUnits');
+          history.push('/learning-units');
         }
       }
     })
