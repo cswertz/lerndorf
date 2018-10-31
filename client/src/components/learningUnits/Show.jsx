@@ -1,11 +1,13 @@
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import EditIcon from '@material-ui/icons/Edit';
+import Grid from '@material-ui/core/Grid';
 
 import Single from '../knowledgeUnits/Single';
 
@@ -29,11 +31,20 @@ const LearningUnitsShow = ({
     />
   ));
   const tags = item.item.LearningUnitTags.map(tag => tag.tag).join(', ');
-
+  console.log(item.item.User.id, user);
   return (
     <div>
       <Typography variant="headline">
         {'"'}{item.title}{'"'}
+        {user.user.id === item.item.User.id && (
+          <IconButton
+            aria-label="Edit"
+            component={Link}
+            to={`/learning-units/edit/${item.item.Language.id}/${item.id}`}
+          >
+            <EditIcon />
+          </IconButton>
+        )}
       </Typography>
       <Typography variant="caption">
         created by {item.username}
@@ -58,9 +69,9 @@ const LearningUnitsShow = ({
 LearningUnitsShow.propTypes = {
   markReviewed: PropTypes.func.isRequired,
   markLectored: PropTypes.func.isRequired,
+  classes: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   item: PropTypes.shape({}).isRequired,
-  classes: PropTypes.shape({}).isRequired,
 };
 
 export default withStyles(styles)(LearningUnitsShow);
