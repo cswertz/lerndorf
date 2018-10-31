@@ -10,12 +10,12 @@ class LearningUnitTag extends Model {
         allowNull: false,
       },
 
-      KnowledgeUnitId: {
+      LearningUnitLanguageId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         notEmpty: true,
         references: {
-          model: 'KnowledgeUnits',
+          model: 'LearningUnitLanguage',
           key: 'id',
         },
         onDelete: 'cascade',
@@ -40,11 +40,12 @@ class LearningUnitTag extends Model {
     }, {
       sequelize,
       updatedAt: false,
+      freezeTableName: true,
     });
   }
 
   static associate(sequelize) {
-    LearningUnitTag.belongsTo(sequelize.LearningUnit);
+    LearningUnitTag.belongsTo(sequelize.LearningUnitLanguage);
     LearningUnitTag.belongsTo(sequelize.User);
   }
 }

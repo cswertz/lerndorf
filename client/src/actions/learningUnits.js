@@ -144,3 +144,31 @@ export const learningUnitsEdit = (id, data, history) => (
       console.log('Error while editing knowledge unit:', error);
     })
 );
+
+export const learningUnitsAddTag = (languageId, id, tag, history) => (
+  dispatch => fetch(`/api/learningUnits/addTag/${id}`, {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({
+      tag,
+    }),
+  })
+    .then(response => response.json())
+    .then((json) => {
+      if (json) {
+        if (json.error) {
+          // dispatch(learningUnitsAddFailed(json.error, json.errors));
+        } else {
+          dispatch(learningUnitsEditSuccess());
+          history.push(`/learning-units/show/${languageId}/${id}`);
+        }
+      }
+    })
+    .catch((error) => {
+      console.log('Error while adding knowledge unit:', error);
+    })
+);

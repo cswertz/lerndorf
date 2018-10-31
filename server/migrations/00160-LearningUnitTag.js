@@ -7,12 +7,12 @@ export default {
       allowNull: false,
     },
 
-    KnowledgeUnitId: {
+    LearningUnitLanguageId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
       references: {
-        model: 'KnowledgeUnits',
+        model: 'LearningUnitLanguage',
         key: 'id',
       },
       onDelete: 'cascade',
@@ -40,5 +40,5 @@ export default {
       allowNull: false,
     },
   }),
-  down: queryInterface => queryInterface.dropTable('KnowledgeUnitUser'),
+  down: queryInterface => queryInterface.dropTable('LearningUnitTag'),
 };

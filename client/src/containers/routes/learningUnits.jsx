@@ -4,7 +4,7 @@ import React from 'react';
 
 import Wrapper from '../../components/routes/wrapper';
 
-// import LearningUnitsEdit from '../learningUnits/Edit';
+import LearningUnitsEdit from '../learningUnits/Edit';
 import LearningUnitsShow from '../learningUnits/Show';
 import LearningUnitsAdd from '../learningUnits/Add';
 import LearningUnits from '../learningUnits/List';
@@ -82,6 +82,31 @@ const LearningUnitsRouter = ({
               handleSubmit={actions.learningUnitsEdit}
               errors={learningUnits.errors}
               items={learningUnits}
+            />
+          )}
+        />
+      )}
+    />
+
+    <Route
+      exact
+      path="/learning-units/edit/:languageId/:id"
+      render={() => (
+        <Wrapper
+          fetchRoles={actions.userFetchRoles}
+          className="LearningUnitsWrapper"
+          logout={actions.userLogout}
+          title="Learning Unit"
+          active="learningUnits"
+          user={user}
+          element={(
+            <LearningUnitsEdit
+              learningUnitsAddTag={actions.learningUnitsAddTag}
+              itemFetch={actions.learningUnitsItemFetch}
+              handleSubmit={actions.learningUnitsEdit}
+              errors={learningUnits.errors}
+              items={learningUnits}
+              user={user}
             />
           )}
         />

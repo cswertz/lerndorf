@@ -28,6 +28,7 @@ const LearningUnitsShow = ({
       link
     />
   ));
+  const tags = item.item.LearningUnitTags.map(tag => tag.tag).join(', ');
 
   return (
     <div>
@@ -36,6 +37,9 @@ const LearningUnitsShow = ({
       </Typography>
       <Typography variant="caption">
         created by {item.username}
+      </Typography>
+      <Typography variant="caption">
+        Tags: {tags}
       </Typography>
       <Grid>
         <Button

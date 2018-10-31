@@ -75,6 +75,21 @@ router.post('/', hasCapability('add_learning_unit'), (req, res) => {
   });
 });
 
+router.post('/addTag/:learningUnitLanguageId', hasCapability('add_learning_unit'), (req, res) => {
+  req.checkBody('tag', 'tag is required')
+    .isLength({ max: 255 })
+    .notEmpty();
+
+  const data = {
+    LearningUnitLanguageId: req.params.learningUnitLanguageId,
+    UserId: req.user.id,
+    tag: req.body.tag,
+  };
+
+  return models.LearningUnitTag.create(data)
+    .then(result => res.json(result));
+});
+
 router.get('/:id', (req, res) => {
   models.LearningUnitLanguage.findAll({
     where: {
@@ -82,6 +97,10 @@ router.get('/:id', (req, res) => {
     },
     attributes: ['id', 'title'],
     include: [
+      {
+        model: models.LearningUnitTag,
+        attributes: ['id', 'tag'],
+      },
       {
         model: models.User,
         attributes: ['id', 'username'],

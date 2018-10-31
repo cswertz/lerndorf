@@ -55,6 +55,8 @@ class LearningUnitLanguage extends Model {
     LearningUnitLanguage.belongsTo(sequelize.User);
     LearningUnitLanguage.belongsTo(sequelize.Language);
     LearningUnitLanguage.belongsTo(sequelize.LearningUnit);
+
+    LearningUnitLanguage.hasMany(sequelize.LearningUnitTag);
   }
 }
 

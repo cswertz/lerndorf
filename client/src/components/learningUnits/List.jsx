@@ -22,7 +22,6 @@ const LearningUnitsList = ({
   learningUnitsDelete,
   learningUnits,
   classes,
-  history,
   user,
 }) => {
   let learningUnitItems = null;
@@ -39,10 +38,12 @@ const LearningUnitsList = ({
           />
           <ListItemSecondaryAction>
             {user.user.id === item.User.id && (
-              <IconButton aria-label="Edit">
-                <EditIcon
-                  onClick={() => history.push(`/learningUnits/edit/${item.id}`)}
-                />
+              <IconButton
+                aria-label="Edit"
+                component={Link}
+                to={`/learning-units/edit/${language.id}/${item.id}`}
+              >
+                <EditIcon />
               </IconButton>
             )}
             {user.user.id === item.User.id && (
@@ -87,9 +88,6 @@ LearningUnitsList.propTypes = {
   learningUnits: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   learningUnitsDelete: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 export default withStyles(styles)(LearningUnitsList);

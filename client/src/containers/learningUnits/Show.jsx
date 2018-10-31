@@ -44,6 +44,7 @@ class LearningUnitsShow extends Component {
     } = match.params;
     let item = items.id[id];
     if (!item) return null;
+    console.log(item);
 
     item = items.id[id][languageId];
     return (
