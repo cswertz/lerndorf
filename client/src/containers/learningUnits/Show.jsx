@@ -25,6 +25,7 @@ class LearningUnitsShow extends Component {
     const {
       items,
       match,
+      user,
     } = this.props;
 
     const {
@@ -38,12 +39,14 @@ class LearningUnitsShow extends Component {
     return (
       <Show
         item={item}
+        user={user}
       />
     );
   }
 }
 
 LearningUnitsShow.propTypes = {
+  user: PropTypes.shape({}).isRequired,
   items: PropTypes.shape({}).isRequired,
   itemFetch: PropTypes.func.isRequired,
   history: PropTypes.shape({

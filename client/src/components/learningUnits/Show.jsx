@@ -13,11 +13,14 @@ const styles = () => ({});
 
 const LearningUnitsShow = ({
   item,
+  user,
 }) => {
   const knowledgeUnits = item.item.LearningUnit.KnowledgeUnits;
   const renderedKnowledgeUnits = knowledgeUnits.map(unit => (
     <Single
+      key={unit.id}
       unit={unit}
+      user={user}
       link
     />
   ));
@@ -45,6 +48,7 @@ const LearningUnitsShow = ({
 };
 
 LearningUnitsShow.propTypes = {
+  user: PropTypes.shape({}).isRequired,
   item: PropTypes.shape({}).isRequired,
   classes: PropTypes.shape({}).isRequired,
 };

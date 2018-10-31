@@ -25,25 +25,29 @@ class KnowledgeUnitsShow extends Component {
     const {
       items,
       match,
+      user,
     } = this.props;
 
     const {
       id,
     } = match.params;
     let item = items.id[id];
+    console.log(id);
     if (!item) return null;
+    console.log(item);
 
     item = items.id[id];
-    console.log(item);
     return (
       <Show
         item={item}
+        user={user}
       />
     );
   }
 }
 
 KnowledgeUnitsShow.propTypes = {
+  user: PropTypes.shape({}).isRequired,
   items: PropTypes.shape({}).isRequired,
   itemFetch: PropTypes.func.isRequired,
   history: PropTypes.shape({

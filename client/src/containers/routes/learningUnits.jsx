@@ -69,11 +69,12 @@ const LearningUnitsRouter = ({
           fetchRoles={actions.userFetchRoles}
           className="LearningUnitsWrapper"
           logout={actions.userLogout}
-          title="Learning Unit"
+          title="LearningU"
           active="learningUnits"
           user={user}
           element={(
             <LearningUnitsShow
+              user={user}
               itemFetch={actions.learningUnitsItemFetch}
               handleSubmit={actions.learningUnitsEdit}
               errors={learningUnits.errors}

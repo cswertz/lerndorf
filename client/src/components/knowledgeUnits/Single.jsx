@@ -8,6 +8,8 @@ import React from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 
+import Single from '../texts/Single';
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -20,13 +22,28 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit,
   },
+  button: {
+    marginTop: theme.spacing.unit,
+  },
 });
 
 const KnowledgeUnitsShowPaper = ({
   classes,
   link,
+  user,
   unit,
 }) => {
+  let texts = '';
+  if (unit.Texts) {
+    texts = unit.Texts.map(text => (
+      <Single
+        key={text.id}
+        text={text}
+        link
+      />
+    ));
+  }
+
   return (
     <Paper key={unit.id} className={classes.paper}>
       <div className={classes.root}>
@@ -137,12 +154,24 @@ const KnowledgeUnitsShowPaper = ({
           </Grid>
         </Grid>
       </div>
+      {user.user.id === unit.author.id && (
+        <Button
+          className={classes.button}
+          variant="contained"
+          component={Link}
+          to={`/texts/add/knowledge-units/${unit.id}`}
+        >
+          Add Text
+        </Button>
+      )}
+      {texts}
     </Paper>
   );
 };
 
 KnowledgeUnitsShowPaper.propTypes = {
   classes: PropTypes.shape({}).isRequired,
+  user: PropTypes.shape({}).isRequired,
   unit: PropTypes.shape({}).isRequired,
   link: PropTypes.bool.isRequired,
 };

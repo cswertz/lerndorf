@@ -12,7 +12,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Checkbox from '@material-ui/core/Checkbox';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
   wrapper: {

@@ -17,6 +17,7 @@ import RoutesLearningUnits from './containers/routes/learningUnits';
 import RoutesTaxonomies from './containers/routes/taxonomies';
 import RoutesLanguages from './containers/routes/languages';
 import RoutesUsers from './containers/routes/users';
+import RoutesTexts from './containers/routes/texts';
 
 import * as AppActions from './actions';
 
@@ -29,6 +30,7 @@ const Router = ({
   actions,
   roles,
   users,
+  texts,
   user,
 }) => (
   <Switch>
@@ -112,11 +114,31 @@ const Router = ({
       )}
     />
 
+    <Route
+      path="/texts"
+      render={() => (
+        <RoutesTexts
+          texts={texts}
+          capabilities={capabilities}
+          languages={languages}
+          actions={actions}
+          user={user}
+        />
+      )}
+    />
+
     <Redirect to="/" />
   </Switch>
 );
 
 Router.propTypes = {
+  texts: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    errors: PropTypes.shape().isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   learningUnits: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     errors: PropTypes.shape().isRequired,
@@ -169,6 +191,11 @@ Router.propTypes = {
     knowledgeUnitsFetch: PropTypes.func.isRequired,
     knowledgeUnitsEdit: PropTypes.func.isRequired,
     knowledgeUnitsAdd: PropTypes.func.isRequired,
+    textsItemFetch: PropTypes.func.isRequired,
+    textsDelete: PropTypes.func.isRequired,
+    textsFetch: PropTypes.func.isRequired,
+    textsEdit: PropTypes.func.isRequired,
+    textsAdd: PropTypes.func.isRequired,
     taxonomiesItemFetch: PropTypes.func.isRequired,
     taxonomiesDelete: PropTypes.func.isRequired,
     taxonomiesFetch: PropTypes.func.isRequired,
@@ -214,6 +241,7 @@ const mapStateToProps = state => ({
   languages: state.languages,
   roles: state.roles,
   users: state.users,
+  texts: state.texts,
   user: state.user,
 });
 

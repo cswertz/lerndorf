@@ -73,6 +73,7 @@ const KnowledgeUnitsRouter = ({
           user={user}
           element={(
             <KnowledgeUnitsShow
+              user={user}
               itemFetch={actions.knowledgeUnitsItemFetch}
               handleSubmit={actions.knowledgeUnitsEdit}
               errors={knowledgeUnits.errors}

@@ -203,14 +203,6 @@ class MainMenu extends Component {
                 button
                 className={classes.nested}
                 component={Link}
-                to="/knowledge-units/add"
-              >
-                <ListItemText inset primary="Add Knowledge Unit" />
-              </ListItem>
-              <ListItem
-                button
-                className={classes.nested}
-                component={Link}
                 to="/learning-units/add"
               >
                 <ListItemText inset primary="Add Learning Unit" />
