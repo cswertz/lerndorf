@@ -25,6 +25,10 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   },
+  menuPaper: {
+    boxShadow: 'none',
+    background: '#AAB4C5',
+  },
 };
 
 class MainMenu extends Component {
@@ -112,6 +116,7 @@ class MainMenu extends Component {
           }}
           open={opened}
           onClose={this.handleClose}
+          classes={{ paper: classes.menuPaper }}
         >
           <ListItem
             button

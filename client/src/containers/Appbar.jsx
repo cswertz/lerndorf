@@ -25,6 +25,11 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   },
+  appbar: {
+    background: '#D6E2F9',
+    color: '#000000',
+    boxShadow: 'none',
+  },
 };
 
 class MenuAppBar extends Component {
@@ -79,7 +84,7 @@ class MenuAppBar extends Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="static" className={classes.appbar}>
           <Toolbar>
             <MainMenu
               fetchRoles={fetchRoles}
