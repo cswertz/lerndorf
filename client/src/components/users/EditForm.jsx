@@ -8,6 +8,8 @@ import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 
+import { isValidEmail, isValidUrl } from '../../utils/user';
+
 const styles = theme => ({
   textField: {
     flex: 1,
@@ -52,7 +54,7 @@ const renderTextField = ({
   return (
     <TextField
       helperText={helperText}
-      error={(touched && error) || errorText}
+      error={((touched && error) || errorText)}
       label={label}
       value={input.value}
       {...input}
@@ -138,8 +140,12 @@ const validate = (values) => {
     errors.password1 = 'Passwords do not match';
   }
 
-  if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+  if (values.email && isValidEmail(values.email)) {
     errors.email = 'Invalid email address';
+  }
+
+  if (values.website && isValidUrl(values.website)) {
+    errors.website = 'Invalid URL';
   }
 
   return errors;
@@ -150,10 +156,11 @@ const UserEdit = ({
   handleSubmit,
   submitting,
   pristine,
+  invalid,
   classes,
   errors,
 }) => (
-  <form onSubmit={handleSubmit}>
+  <form onSubmit={e => handleSubmit(e)}>
     <div className={classes.flex}>
       <Field
         required
@@ -266,6 +273,7 @@ const UserEdit = ({
         label="Website"
         component={renderTextField}
         className={classes.textField}
+        errorText={errors.errors.website}
       />
       <Field
         name="picture"
@@ -292,7 +300,6 @@ const UserEdit = ({
         label="Record basic log data and use it for improved usability and personal feedback"
         component={renderCheckboxField}
         className={classes.checkbox}
-        errorText={errors.errors.title}
         customclasses={{ label: classes.labelLink }}
         type="checkbox"
       />
@@ -303,7 +310,6 @@ const UserEdit = ({
         label="Recored my log data and allow anonymised access for researchers"
         component={renderCheckboxField}
         className={classes.checkbox}
-        errorText={errors.errors.title}
         customclasses={{ label: classes.labelLink }}
         type="checkbox"
       />
@@ -314,7 +320,6 @@ const UserEdit = ({
         label="Share my anonymised log data with others for advanced personal feedback"
         component={renderCheckboxField}
         className={classes.checkbox}
-        errorText={errors.errors.title}
         customclasses={{ label: classes.labelLink }}
         type="checkbox"
       />
@@ -325,7 +330,6 @@ const UserEdit = ({
         label="Record my log data and use it for reports to teachers and administrators"
         component={renderCheckboxField}
         className={classes.checkbox}
-        errorText={errors.errors.title}
         customclasses={{ label: classes.labelLink }}
         type="checkbox"
       />
@@ -336,7 +340,6 @@ const UserEdit = ({
         label="Show my profile to the public"
         component={renderCheckboxField}
         className={classes.checkbox}
-        errorText={errors.errors.title}
         customclasses={{ label: classes.labelLink }}
         type="checkbox"
       />
@@ -347,7 +350,6 @@ const UserEdit = ({
         label="Show my profile to other students"
         component={renderCheckboxField}
         className={classes.checkbox}
-        errorText={errors.errors.title}
         customclasses={{ label: classes.labelLink }}
         type="checkbox"
       />
@@ -358,7 +360,6 @@ const UserEdit = ({
         label="Show my profile to teachers"
         component={renderCheckboxField}
         className={classes.checkbox}
-        errorText={errors.errors.title}
         customclasses={{ label: classes.labelLink }}
         type="checkbox"
       />
@@ -367,7 +368,7 @@ const UserEdit = ({
       <Button
         type="submit"
         variant="contained"
-        disabled={pristine || submitting}
+        disabled={pristine || submitting || invalid}
       >
         Save
       </Button>
@@ -375,13 +376,13 @@ const UserEdit = ({
   </form>
 );
 
-
 UserEdit.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,
   submitting: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
+  invalid: PropTypes.bool.isRequired,
   user: PropTypes.shape({
     email: PropTypes.string.isRequired,
   }).isRequired,

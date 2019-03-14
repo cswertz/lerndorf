@@ -9,6 +9,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
+import { isValidEmail, isValidUrl } from '../../utils/user';
+
 const styles = theme => ({
   textField: {
     flex: 1,
@@ -108,8 +110,12 @@ const validate = (values) => {
     errors.password1 = 'Passwords do not match';
   }
 
-  if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+  if (values.email && isValidEmail(values.email)) {
     errors.email = 'Invalid email address';
+  }
+
+  if (values.website && isValidUrl(values.website)) {
+    errors.website = 'Invalid URL';
   }
 
   return errors;
