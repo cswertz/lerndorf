@@ -9,6 +9,7 @@
     "@material-ui/icons": "^3.0.1",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
+    "react-document-title": "^2.0.3",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
