@@ -86,6 +86,13 @@ router.get('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
     attributes: [
       'id',
       'username',
+      'showProfileStudents',
+      'showProfileTeachers',
+      'showProfilePublic',
+      'allowLogResearch',
+      'allowLogSharing',
+      'allowLogReports',
+      'allowBasicLog',
       'titlePrefix',
       'titleSuffix',
       'description',
@@ -100,6 +107,7 @@ router.get('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
       'website',
       'picture',
       'street',
+      'state',
       'email',
       'phone',
       'city',
@@ -123,10 +131,12 @@ router.get('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
 });
 
 router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
+  delete (req.body.acceptPrivacy);
   delete (req.body.createdAt);
   delete (req.body.updatedAt);
   delete (req.body.lastLogin);
   delete (req.body.username);
+  delete (req.body.acceptTos);
   delete (req.body.id);
 
   if (req.body.password) {
@@ -153,6 +163,13 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
         attributes: [
           'id',
           'username',
+          'showProfileStudents',
+          'showProfileTeachers',
+          'showProfilePublic',
+          'allowLogResearch',
+          'allowLogSharing',
+          'allowLogReports',
+          'allowBasicLog',
           'titlePrefix',
           'titleSuffix',
           'description',
@@ -164,6 +181,7 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
           'website',
           'picture',
           'street',
+          'state',
           'email',
           'phone',
           'city',

@@ -89,6 +89,10 @@ export default {
       type: DataTypes.STRING,
     },
 
+    state: {
+      type: DataTypes.STRING,
+    },
+
     country: {
       type: DataTypes.STRING,
     },
@@ -107,6 +111,69 @@ export default {
 
     lastLogin: {
       type: DataTypes.DATE,
+    },
+
+    acceptPrivacy: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+      notEmpty: true,
+    },
+
+    acceptTos: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+      notEmpty: true,
+    },
+
+    allowBasicLog: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+      notEmpty: true,
+    },
+
+    allowLogResearch: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+      notEmpty: true,
+    },
+
+    allowLogSharing: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+      notEmpty: true,
+    },
+
+    allowLogReports: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+      notEmpty: true,
+    },
+
+    showProfilePublic: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+      notEmpty: true,
+    },
+
+    showProfileStudents: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+      notEmpty: true,
+    },
+
+    showProfileTeachers: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+      notEmpty: true,
     },
 
     createdAt: {

@@ -2,9 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
   textField: {
@@ -15,6 +18,16 @@ const styles = theme => ({
   },
   flex: {
     display: 'flex',
+  },
+  label: {
+    marginLeft: '0',
+  },
+  labelLink: {
+    marginLeft: '0',
+    marginRight: '0',
+  },
+  link: {
+    alignSelf: 'center',
   },
   pictureButton: {
     width: '100%',
@@ -47,6 +60,31 @@ const renderTextField = ({
       label={label}
       {...input}
       {...customOptions}
+    />
+  );
+};
+
+const renderCheckboxField = ({
+  input,
+  label,
+  ...custom
+}) => {
+  const customOptions = custom;
+  const customInput = input;
+  delete (customInput.value);
+  delete (customOptions.errorText);
+
+  return (
+    <FormControlLabel
+      control={(
+        <Checkbox
+          label={label}
+          {...customInput}
+          {...customOptions}
+        />
+      )}
+      label={label}
+      className={custom.classes.label}
     />
   );
 };
@@ -189,6 +227,12 @@ const Register = ({
         className={classes.textField}
       />
       <Field
+        name="state"
+        label="State"
+        component={renderTextField}
+        className={classes.textField}
+      />
+      <Field
         name="country"
         label="Country"
         component={renderTextField}
@@ -236,6 +280,110 @@ const Register = ({
         component={renderTextField}
         className={classes.textField}
       />
+    </div>
+    <div className={classes.flex}>
+      <Field
+        name="allowBasicLog"
+        label="Record basic log data and use it for improved usability and personal feedback"
+        component={renderCheckboxField}
+        className={classes.checkbox}
+        errorText={errors.errors.title}
+        classes={{ label: classes.labelLink }}
+      />
+    </div>
+    <div className={classes.flex}>
+      <Field
+        name="allowLogResearch"
+        label="Recored my log data and allow anonymised access for researchers"
+        component={renderCheckboxField}
+        className={classes.checkbox}
+        errorText={errors.errors.title}
+        classes={{ label: classes.labelLink }}
+      />
+    </div>
+    <div className={classes.flex}>
+      <Field
+        name="allowLogSharing"
+        label="Share my anonymised log data with others for advanced personal feedback"
+        component={renderCheckboxField}
+        className={classes.checkbox}
+        errorText={errors.errors.title}
+        classes={{ label: classes.labelLink }}
+      />
+    </div>
+    <div className={classes.flex}>
+      <Field
+        name="allowLogReports"
+        label="Record my log data and use it for reports to teachers and administrators"
+        component={renderCheckboxField}
+        className={classes.checkbox}
+        errorText={errors.errors.title}
+        classes={{ label: classes.labelLink }}
+      />
+    </div>
+    <div className={classes.flex}>
+      <Field
+        name="showProfilePublic"
+        label="Show my profile to the public"
+        component={renderCheckboxField}
+        className={classes.checkbox}
+        errorText={errors.errors.title}
+        classes={{ label: classes.labelLink }}
+      />
+    </div>
+    <div className={classes.flex}>
+      <Field
+        name="showProfileStudents"
+        label="Show my profile to other students"
+        component={renderCheckboxField}
+        className={classes.checkbox}
+        errorText={errors.errors.title}
+        classes={{ label: classes.labelLink }}
+      />
+    </div>
+    <div className={classes.flex}>
+      <Field
+        name="showProfileTeachers"
+        label="Show my profile to teachers"
+        component={renderCheckboxField}
+        className={classes.checkbox}
+        errorText={errors.errors.title}
+        classes={{ label: classes.labelLink }}
+      />
+    </div>
+    <div className={classes.flex}>
+      <Field
+        required
+        name="acceptPrivacy"
+        label="Accept&nbsp;"
+        component={renderCheckboxField}
+        className={classes.checkbox}
+        errorText={errors.errors.title}
+        classes={{ label: classes.labelLink }}
+      />
+      <Link
+        to="/privacy-policy"
+        className={classes.link}
+      >
+        Privacy Policy
+      </Link>
+    </div>
+    <div className={classes.flex}>
+      <Field
+        required
+        name="acceptTos"
+        label="Accept&nbsp;"
+        component={renderCheckboxField}
+        className={classes.checkbox}
+        errorText={errors.errors.title}
+        classes={{ label: classes.labelLink }}
+      />
+      <Link
+        to="/terms-of-service"
+        className={classes.link}
+      >
+        Terms of Service
+      </Link>
     </div>
     <div>
       <Button

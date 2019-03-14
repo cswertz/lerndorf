@@ -23,6 +23,13 @@ class Edit extends Component {
     const { id } = user;
 
     const data = {
+      showProfileStudents: e.target.showProfileStudents.checked,
+      showProfileTeachers: e.target.showProfileTeachers.checked,
+      showProfilePublic: e.target.showProfilePublic.checked,
+      allowLogResearch: e.target.allowLogResearch.checked,
+      allowLogSharing: e.target.allowLogSharing.checked,
+      allowLogReports: e.target.allowLogReports.checked,
+      allowBasicLog: e.target.allowBasicLog.checked,
       titlePrefix: e.target.titlePrefix.value,
       titleSuffix: e.target.titleSuffix.value,
       description: e.target.description.value,
@@ -36,6 +43,7 @@ class Edit extends Component {
       street: e.target.street.value,
       email: e.target.email.value,
       phone: e.target.phone.value,
+      state: e.target.state.value,
       city: e.target.city.value,
       zip: e.target.zip.value,
     };

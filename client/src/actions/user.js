@@ -112,7 +112,7 @@ export const userLogout = history => (
       history.push('/');
     })
     .catch((error) => {
-      console.log('Error during editing:', error);
+      console.log('Error during logout:', error);
     })
 );
 
@@ -122,6 +122,7 @@ export const userEdit = (id, data, history) => {
   for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
     formData.append(key, data[key]);
+    console.log(key, data[key]);
   }
 
   return (
