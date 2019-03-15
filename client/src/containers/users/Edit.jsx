@@ -10,6 +10,53 @@ class Edit extends Component {
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+
+    this.submitLogDeletion = this.submitLogDeletion.bind(this);
+    this.openLogDeletionDialog = this.openLogDeletionDialog.bind(this);
+    this.closeLogDeletionDialog = this.closeLogDeletionDialog.bind(this);
+
+    this.submitAccountDeletion = this.submitAccountDeletion.bind(this);
+    this.openAccountDeletionDialog = this.openAccountDeletionDialog.bind(this);
+    this.closeAccountDeletionDialog = this.closeAccountDeletionDialog.bind(this);
+
+    this.state = {
+      logDeletionOpen: false,
+      accountDeletionOpen: false,
+    };
+  }
+
+  openAccountDeletionDialog() {
+    this.setState({
+      accountDeletionOpen: true,
+    });
+  }
+
+  closeAccountDeletionDialog() {
+    this.setState({
+      accountDeletionOpen: false,
+    });
+  }
+
+  submitAccountDeletion() {
+    this.closeAccountDeletionDialog();
+    console.log('Confirmed Account Deletion dialog');
+  }
+
+  openLogDeletionDialog() {
+    this.setState({
+      logDeletionOpen: true,
+    });
+  }
+
+  closeLogDeletionDialog() {
+    this.setState({
+      logDeletionOpen: false,
+    });
+  }
+
+  submitLogDeletion() {
+    this.closeLogDeletionDialog();
+    console.log('Confirmed Log Deletion dialog');
   }
 
   handleSubmit(e) {
@@ -62,6 +109,11 @@ class Edit extends Component {
       errors,
     } = this.props;
 
+    const {
+      logDeletionOpen,
+      accountDeletionOpen,
+    } = this.state;
+
     return (
       <div>
         <Typography variant="headline">
@@ -72,6 +124,16 @@ class Edit extends Component {
           initialValues={user}
           errors={errors.edit}
           handleSubmit={this.handleSubmit}
+
+          openLogDeletionDialog={this.openLogDeletionDialog}
+          closeLogDeletionDialog={this.closeLogDeletionDialog}
+          submitLogDeletion={this.submitLogDeletion}
+          logDeletionDialogOpen={logDeletionOpen}
+
+          openAccountDeletionDialog={this.openAccountDeletionDialog}
+          closeAccountDeletionDialog={this.closeAccountDeletionDialog}
+          submitAccountDeletion={this.submitAccountDeletion}
+          accountDeletionDialogOpen={accountDeletionOpen}
         />
       </div>
     );

@@ -12,6 +12,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+
+import BinaryDialog from '../DialogBinary';
 
 import {
   isValidEmail,
@@ -45,6 +48,12 @@ const styles = theme => ({
   pictureButton: {
     width: '100%',
     marginTop: 25,
+  },
+  container: {
+    textAlign: 'left',
+  },
+  fullWidth: {
+    width: '100%',
   },
 });
 
@@ -254,6 +263,14 @@ const validate = (values) => {
 };
 
 const UserEdit = ({
+  closeLogDeletionDialog,
+  openLogDeletionDialog,
+  logDeletionDialogOpen,
+  submitLogDeletion,
+  closeAccountDeletionDialog,
+  openAccountDeletionDialog,
+  accountDeletionDialogOpen,
+  submitAccountDeletion,
   handleSubmit,
   submitting,
   pristine,
@@ -402,76 +419,108 @@ const UserEdit = ({
         className={classes.textField}
       />
     </div>
-    <div className={classes.flex}>
-      <Field
-        name="allowBasicLog"
-        label="Record basic log data and use it for improved usability and personal feedback"
-        component={renderCheckboxField}
-        className={classes.checkbox}
-        customclasses={{ label: classes.labelLink }}
-        type="checkbox"
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        name="allowLogResearch"
-        label="Recored my log data and allow anonymised access for researchers"
-        component={renderCheckboxField}
-        className={classes.checkbox}
-        customclasses={{ label: classes.labelLink }}
-        type="checkbox"
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        name="allowLogSharing"
-        label="Share my anonymised log data with others for advanced personal feedback"
-        component={renderCheckboxField}
-        className={classes.checkbox}
-        customclasses={{ label: classes.labelLink }}
-        type="checkbox"
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        name="allowLogReports"
-        label="Record my log data and use it for reports to teachers and administrators"
-        component={renderCheckboxField}
-        className={classes.checkbox}
-        customclasses={{ label: classes.labelLink }}
-        type="checkbox"
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        name="showProfilePublic"
-        label="Show my profile to the public"
-        component={renderCheckboxField}
-        className={classes.checkbox}
-        customclasses={{ label: classes.labelLink }}
-        type="checkbox"
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        name="showProfileStudents"
-        label="Show my profile to other students"
-        component={renderCheckboxField}
-        className={classes.checkbox}
-        customclasses={{ label: classes.labelLink }}
-        type="checkbox"
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        name="showProfileTeachers"
-        label="Show my profile to teachers"
-        component={renderCheckboxField}
-        className={classes.checkbox}
-        customclasses={{ label: classes.labelLink }}
-        type="checkbox"
-      />
-    </div>
+    <Grid container className={classes.container}>
+      <Grid item xs={12} sm={9}>
+        <div className={classes.flex}>
+          <Field
+            name="allowBasicLog"
+            label="Record basic log data and use it for improved usability and personal feedback"
+            component={renderCheckboxField}
+            className={classes.checkbox}
+            customclasses={{ label: classes.labelLink }}
+            type="checkbox"
+          />
+        </div>
+        <div className={classes.flex}>
+          <Field
+            name="allowLogResearch"
+            label="Recored my log data and allow anonymised access for researchers"
+            component={renderCheckboxField}
+            className={classes.checkbox}
+            customclasses={{ label: classes.labelLink }}
+            type="checkbox"
+          />
+        </div>
+        <div className={classes.flex}>
+          <Field
+            name="allowLogSharing"
+            label="Share my anonymised log data with others for advanced personal feedback"
+            component={renderCheckboxField}
+            className={classes.checkbox}
+            customclasses={{ label: classes.labelLink }}
+            type="checkbox"
+          />
+        </div>
+        <div className={classes.flex}>
+          <Field
+            name="allowLogReports"
+            label="Record my log data and use it for reports to teachers and administrators"
+            component={renderCheckboxField}
+            className={classes.checkbox}
+            customclasses={{ label: classes.labelLink }}
+            type="checkbox"
+          />
+        </div>
+        <div className={classes.flex}>
+          <Field
+            name="showProfilePublic"
+            label="Show my profile to the public"
+            component={renderCheckboxField}
+            className={classes.checkbox}
+            customclasses={{ label: classes.labelLink }}
+            type="checkbox"
+          />
+        </div>
+        <div className={classes.flex}>
+          <Field
+            name="showProfileStudents"
+            label="Show my profile to other students"
+            component={renderCheckboxField}
+            className={classes.checkbox}
+            customclasses={{ label: classes.labelLink }}
+            type="checkbox"
+          />
+        </div>
+        <div className={classes.flex}>
+          <Field
+            name="showProfileTeachers"
+            label="Show my profile to teachers"
+            component={renderCheckboxField}
+            className={classes.checkbox}
+            customclasses={{ label: classes.labelLink }}
+            type="checkbox"
+          />
+        </div>
+      </Grid>
+      <Grid item xs={12} sm={3}>
+        <p>
+          <Button
+            variant="contained"
+            className={classes.fullWidth}
+          >
+            Show logged data
+          </Button>
+        </p>
+        <p>
+          <Button
+            variant="contained"
+            className={classes.fullWidth}
+            onClick={openLogDeletionDialog}
+          >
+            Delete logged data
+          </Button>
+        </p>
+        <p>
+          <Button
+            variant="contained"
+            className={classes.fullWidth}
+            onClick={openAccountDeletionDialog}
+          >
+            Delete Account
+          </Button>
+        </p>
+      </Grid>
+    </Grid>
     <div>
       <Button
         type="submit"
@@ -481,6 +530,22 @@ const UserEdit = ({
         Save
       </Button>
     </div>
+    <BinaryDialog
+      open={logDeletionDialogOpen}
+      onClose={closeLogDeletionDialog}
+      onConfirm={submitLogDeletion}
+      submitLogDeletion={submitLogDeletion}
+      title="Delete Logs"
+      text="Are you sure you want to delete your Log files?"
+    />
+    <BinaryDialog
+      open={accountDeletionDialogOpen}
+      onClose={closeAccountDeletionDialog}
+      onConfirm={submitAccountDeletion}
+      submitLogDeletion={submitAccountDeletion}
+      title="Delete Account"
+      text="Are you sure you want to delete your account?"
+    />
   </form>
 );
 
@@ -495,6 +560,14 @@ UserEdit.propTypes = {
     email: PropTypes.string.isRequired,
   }).isRequired,
   initialValues: PropTypes.shape({}).isRequired,
+  logDeletionDialogOpen: PropTypes.bool.isRequired,
+  closeLogDeletionDialog: PropTypes.func.isRequired,
+  openLogDeletionDialog: PropTypes.func.isRequired,
+  submitLogDeletion: PropTypes.func.isRequired,
+  accountDeletionDialogOpen: PropTypes.bool.isRequired,
+  closeAccountDeletionDialog: PropTypes.func.isRequired,
+  openAccountDeletionDialog: PropTypes.func.isRequired,
+  submitAccountDeletion: PropTypes.func.isRequired,
 };
 
 const UserEditForm = reduxForm({
