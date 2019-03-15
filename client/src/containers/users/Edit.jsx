@@ -1,3 +1,4 @@
+import Typography from '@material-ui/core/Typography';
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -62,12 +63,17 @@ class Edit extends Component {
     } = this.props;
 
     return (
-      <EditForm
-        user={user}
-        initialValues={user}
-        errors={errors.edit}
-        handleSubmit={this.handleSubmit}
-      />
+      <div>
+        <Typography variant="headline">
+          {user.username}
+        </Typography>
+        <EditForm
+          user={user}
+          initialValues={user}
+          errors={errors.edit}
+          handleSubmit={this.handleSubmit}
+        />
+      </div>
     );
   }
 }
