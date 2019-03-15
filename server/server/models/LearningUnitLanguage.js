@@ -24,6 +24,7 @@ class LearningUnitLanguage extends Model {
         type: DataTypes.INTEGER,
         allowNull: false,
         notEmpty: true,
+        unique: 'LanguageIdTitle',
         references: {
           model: 'Languages',
           key: 'id',
@@ -44,6 +45,7 @@ class LearningUnitLanguage extends Model {
         type: DataTypes.STRING,
         allowNull: false,
         notEmpty: true,
+        unique: 'LanguageIdTitle',
       },
     }, {
       sequelize,

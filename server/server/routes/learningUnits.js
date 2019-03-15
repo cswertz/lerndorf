@@ -52,27 +52,46 @@ router.post('/', hasCapability('add_learning_unit'), (req, res) => {
       });
     }
 
-    return models.LearningUnit.create(req.body)
-      .then((learningUnit) => {
-        learningUnit.setUser(req.user);
+    return models.LearningUnitLanguage.findAll({
+      where: {
+        LanguageId: req.body.language,
+        title: req.body.title,
+      },
+    })
+      .then((results) => {
+        if (results.length === 0) {
+          return models.LearningUnit.create(req.body)
+            .then((learningUnit) => {
+              learningUnit.setUser(req.user);
 
-        const learningUnitLanguageData = {
-          LearningUnitId: learningUnit.id,
-          LanguageId: req.body.language,
-          title: req.body.title,
-          UserId: req.user.id,
-        };
+              const learningUnitLanguageData = {
+                LearningUnitId: learningUnit.id,
+                LanguageId: req.body.language,
+                title: req.body.title,
+                UserId: req.user.id,
+              };
 
-        models.LearningUnitLanguage.create(learningUnitLanguageData)
-          .then(() => res.json(learningUnit));
-      })
-      .catch(err => res.status(422).send({
-        error: 'There have been database errors.',
-        errors: err.errors.map(error => ({
-          message: error.message,
-          type: error.type,
-        })),
-      }));
+              models.LearningUnitLanguage.create(learningUnitLanguageData)
+                .then(() => res.json(learningUnit));
+            })
+            .catch(err => res.status(422).send({
+              error: 'There have been database errors.',
+              errors: err.errors.map(error => ({
+                message: error.message,
+                type: error.type,
+              })),
+            }));
+        }
+        return res.status(409).send({
+          error: 'Duplicate entry',
+          errors: [
+            {
+              param: 'title',
+              msg: 'This title is already in use.',
+            },
+          ],
+        });
+      });
   });
 });
 
