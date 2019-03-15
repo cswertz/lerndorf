@@ -107,34 +107,55 @@ const renderImageField = ({
   input,
   ...custom
 }) => {
+  console.log(input);
+  const hasProfilePicture = custom.picture;
+  const style = {
+    image: {
+      float: 'left',
+      maxHeight: '76px',
+    },
+    wrapper: {
+      display: 'flex',
+    },
+  };
+  let buttonText = 'Upload Profile Picture';
+  let profilePicture = '';
+  if (hasProfilePicture) {
+    buttonText = 'Change Profile Picture';
+    profilePicture = <img alt="Profile" style={style.image} src={`/static/uploads/${custom.picture}`} />;
+  }
+
   return (
-    <div>
-      <label
-        id="picture-label"
-        htmlFor="picture"
-        nesting="asdfasdf"
-        className={custom.classes.textField}
-      >
-        <Button
-          variant="raised"
-          component="span"
-          className={custom.classes.pictureButton}
+    <div style={style.wrapper}>
+      {profilePicture}
+      <div>
+        <label
+          id="picture-label"
+          htmlFor="picture"
+          nesting="asdfasdf"
+          className={custom.classes.textField}
         >
-          Upload Profile picture
-        </Button>
-      </label>
-      <input
-        accept="image/*"
-        className={custom.classes.input}
-        style={{ display: 'none' }}
-        name="picture"
-        id="picture"
-        type="file"
-        onChange={(event) => {
-          const data = event.target.value;
-          input.onChange(data);
-        }}
-      />
+          <Button
+            variant="raised"
+            component="span"
+            className={custom.classes.pictureButton}
+          >
+            {buttonText}
+          </Button>
+        </label>
+        <input
+          accept="image/*"
+          className={custom.classes.input}
+          style={{ display: 'none' }}
+          name="picture"
+          id="picture"
+          type="file"
+          onChange={(event) => {
+            const data = event.target.value;
+            input.onChange(data);
+          }}
+        />
+      </div>
     </div>
   );
 };
@@ -233,13 +254,13 @@ const validate = (values) => {
 };
 
 const UserEdit = ({
-  initialValues,
   handleSubmit,
   submitting,
   pristine,
   invalid,
   classes,
   errors,
+  user,
 }) => (
   <form onSubmit={e => handleSubmit(e)}>
     <div className={classes.flex}>
@@ -366,6 +387,7 @@ const UserEdit = ({
         label="Picture"
         component={renderImageField}
         classes={classes}
+        picture={user.picture}
       />
     </div>
     <div className={classes.flex}>
