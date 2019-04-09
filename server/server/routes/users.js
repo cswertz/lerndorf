@@ -144,7 +144,7 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
   }
 
   if (req.files) {
-    const fileName = req.files.picture.md5() + req.files.picture.name;
+    const fileName = req.files.picture.md5 + req.files.picture.name;
     req.body.picture = fileName;
     req.files.picture.mv(`./server/public/uploads/${fileName}`, (err) => {
       if (err) {

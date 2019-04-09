@@ -21,7 +21,7 @@
     "chai-http": "^3.0.0",
     "eslint": "^4.18.1",
     "express": "^4.16.2",
-    "express-fileupload": "^1.0.0",
+    "express-fileupload": "^1.1.4",
     "express-session": "^1.15.6",
     "express-validator": "^5.0.2",
     "passport": "^0.4.0",

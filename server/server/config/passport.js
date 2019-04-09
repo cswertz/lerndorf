@@ -65,7 +65,7 @@ const passportConfig = (passport) => {
           req.body.password = hashedPassword;
 
           if (req.files) {
-            const fileName = req.files.picture.md5() + req.files.picture.name;
+            const fileName = req.files.picture.md5 + req.files.picture.name;
             req.body.picture = fileName;
             req.files.picture.mv(`./server/public/uploads/${fileName}`, (err) => {
               if (err) {
