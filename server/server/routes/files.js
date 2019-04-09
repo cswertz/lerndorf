@@ -1,5 +1,6 @@
 import express from 'express';
 
+import { hasCapability } from '../helpers/auth';
 import models from '../config/sequelize';
 
 const router = express.Router();
@@ -64,6 +65,59 @@ router.patch('/:id', (req, res) => {
       })
         .then(result => res.json(result));
     });
+});
+
+router.post('/editor-upload', hasCapability('add_role_to_user'), (req, res) => {
+  if (!req.files.upload) {
+    return res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: [
+        {
+          msg: 'File is required',
+        },
+      ],
+    });
+  }
+
+  const { upload } = req.files;
+
+  const fileName = upload.md5 + upload.name;
+  const path = `./server/public/uploads/${fileName}`;
+  return upload.mv(path, (err) => {
+    if (err) {
+      return res.status(400).send({
+        error: 'There have been validation errors.',
+        errors: [
+          {
+            msg: 'File is required',
+          },
+        ],
+      });
+    }
+    /*
+    req.body.path = path;
+    req.body.name = fileName;
+    req.body.mime = upload.mimetype;
+    req.body.size = upload.size;
+    */
+    return res.json({
+      url: `/static/uploads/${fileName}`,
+    });
+
+    /*
+    return models.File.create(req.body)
+      .then(() => res.json({
+        url: `/static/uploads/${fileName}`,
+      }))
+      .catch(err1 => res.status(422).send({
+        error: 'There have been database errors.',
+        errors: err1.errors.map(error => ({
+          message: error.message,
+          type: error.type,
+        })),
+      }));
+      */
+  });
 });
 
 router.delete('/:id', (req, res) => {

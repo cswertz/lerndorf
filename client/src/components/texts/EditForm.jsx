@@ -10,8 +10,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 
-import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CKEditor from '@ckeditor/ckeditor5-react';
+
+import CustomUploadAdapterPlugin from '../../utils/ckeditorPlugins';
+
+const editorConfig = {
+  extraPlugins: [CustomUploadAdapterPlugin],
+};
 
 const styles = theme => ({
   wrapper: {
@@ -111,6 +117,7 @@ const renderEditor = ({
 }) => (
   <CKEditor
     editor={ClassicEditor}
+    config={editorConfig}
     data={input.value}
     onChange={(event, editor) => {
       const data = editor.getData();

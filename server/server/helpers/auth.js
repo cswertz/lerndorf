@@ -64,11 +64,21 @@ const hasCapability = (...allowed) => (req, res, next) => {
 
     return res.status(403).send({
       error: 'You do not have the capability to do this',
+      errors: [
+        {
+          msg: 'You do not have the capability to do this',
+        },
+      ],
     });
   }
 
   return res.status(401).send({
     error: 'Not logged in.',
+    errors: [
+      {
+        msg: 'You do not have the capability to do this',
+      },
+    ],
   });
 };
 
