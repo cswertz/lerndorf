@@ -2,6 +2,8 @@ import { REHYDRATE } from 'redux-persist';
 
 import {
   USER_ROLES_FETCH_SUCCESS,
+  USER_ACTIVATION_SUCCESS,
+  USER_ACTIVATION_FAILED,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAILED,
   USER_LOGOUT_SUCCESS,
@@ -13,6 +15,7 @@ import {
 
 const initialState = {
   loggedIn: false,
+  active: false,
   user: {
     username: 'Guest',
     titlePrefix: '',
@@ -31,6 +34,7 @@ const initialState = {
     city: '',
     zip: '',
   },
+  activated: false,
   fetchingRoles: false,
   fetchedRoles: false,
   capabilities: [],
@@ -113,6 +117,20 @@ const user = (state = initialState, action) => {
       });
     }
 
+    case USER_ACTIVATION_SUCCESS: {
+      return Object.assign({}, state, {
+        active: true,
+        activated: true,
+      });
+    }
+
+    case USER_ACTIVATION_FAILED: {
+      return Object.assign({}, state, {
+        active: false,
+        activated: true,
+      });
+    }
+
     case USER_LOGIN_FAILED: {
       return Object.assign({}, state, {
         loggedIn: false,
@@ -147,6 +165,8 @@ const user = (state = initialState, action) => {
         return Object.assign({}, action.payload.user, {
           fetchedRoles: false,
           fetchingRoles: false,
+          activated: false,
+          active: false,
           capabilities: [],
         });
       }

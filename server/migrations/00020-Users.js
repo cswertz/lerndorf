@@ -180,6 +180,7 @@ export default {
 
     activationCode: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
 
     active: {

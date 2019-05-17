@@ -5,6 +5,14 @@ export const usersFetchSuccess = items => ({
   items,
 });
 
+export const userActivationSuccess = () => ({
+  type: types.USER_ACTIVATION_SUCCESS,
+});
+
+export const userActivationFailed = () => ({
+  type: types.USER_ACTIVATION_FAILED,
+});
+
 export const usersItemFetchSuccess = item => ({
   type: types.USERS_ITEM_FETCH_SUCCESS,
   item,
@@ -111,6 +119,30 @@ export const usersItemFetch = id => (
     })
     .catch((error) => {
       console.log('Error while fetching users:', error);
+    })
+);
+
+export const userActivate = hash => (
+  dispatch => fetch(`/api/users/activate/${hash}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then(response => response.json())
+    .then((json) => {
+      if (json) {
+        if (json.error) {
+          dispatch(userActivationFailed());
+        } else {
+          dispatch(userActivationSuccess());
+        }
+      }
+    })
+    .catch((error) => {
+      console.log('Error while activating user:', error);
     })
 );
 

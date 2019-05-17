@@ -6,9 +6,7 @@ import {
   hasCapability,
   isLastAdmin,
 } from '../helpers/auth';
-import {
-  hashPassword,
-} from '../helpers/utils';
+import { hashPassword } from '../helpers/utils';
 import models from '../config/sequelize';
 
 const router = express.Router();
@@ -51,15 +49,18 @@ router.get('/activate/:hash', (req, res) => {
       if (user) {
         return models.User.update({
           active: true,
+          activationCode: null,
         }, {
           where: {
             activationCode: req.params.hash,
           },
         })
-          .then(() => res.json());
+          .then(() => res.json({}));
       }
 
-      return res.status(400).send();
+      return res.status(400).send({
+        error: 'Could not activate user',
+      });
     });
 });
 

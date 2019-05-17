@@ -5,6 +5,7 @@ import React from 'react';
 import Wrapper from '../../components/routes/wrapper';
 
 import UsersEdit from '../users/AdminEdit';
+import Activate from '../users/Activate';
 import Register from '../users/Register';
 import UserEdit from '../users/Edit';
 import Login from '../users/Login';
@@ -61,6 +62,29 @@ const UsersRouter = ({
             <Register
               handleSubmit={actions.userRegister}
               errors={user.errors}
+            />
+          )}
+        />
+      )}
+    />
+
+    <Route
+      exact
+      path="/users/activate/:hash"
+      render={() => (
+        <Wrapper
+          fetchRoles={actions.userFetchRoles}
+          className="ActivateWrapper"
+          logout={actions.userLogout}
+          active="activation"
+          title="Activation"
+          user={user}
+          element={(
+            <Activate
+              activate={actions.userActivate}
+              activated={user.activated}
+              errors={user.errors}
+              active={user.active}
             />
           )}
         />
