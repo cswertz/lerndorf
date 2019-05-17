@@ -1,6 +1,7 @@
 import chaiHttp from 'chai-http';
 import chai from 'chai';
 
+import models from '../server/config/sequelize';
 import server from '../server/';
 
 chai.should();
@@ -35,7 +36,16 @@ describe('Role', () => {
       .end((err, res) => {
         res.should.have.status(200);
 
-        done();
+        models.User.update({
+          active: true,
+        }, {
+          where: {
+            username: userRole.username,
+          },
+        })
+          .then(() => {
+            done();
+          });
       });
   });
 

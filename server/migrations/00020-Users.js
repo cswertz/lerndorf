@@ -103,6 +103,8 @@ export default {
 
     picture: {
       type: DataTypes.STRING,
+      defaultValue: null,
+      allowNull: true,
     },
 
     description: {
@@ -170,6 +172,17 @@ export default {
     },
 
     showProfileTeachers: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+      notEmpty: true,
+    },
+
+    activationCode: {
+      type: DataTypes.STRING,
+    },
+
+    active: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
       allowNull: false,

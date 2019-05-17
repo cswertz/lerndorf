@@ -39,6 +39,28 @@ router.get('/logout', (req, res) => {
   return res.sendStatus(200);
 });
 
+router.get('/activate/:hash', (req, res) => {
+  models.User.findOne({
+    where: {
+      activationCode: req.params.hash,
+    },
+  })
+    .then((user) => {
+      if (user) {
+        return models.User.update({
+          active: true,
+        }, {
+          where: {
+            activationCode: req.params.hash,
+          },
+        })
+          .then(() => res.json());
+      }
+
+      return res.status(400).send();
+    });
+});
+
 /* User management */
 router.get('/', hasCapability('edit_user'), (req, res) => {
   models.User.findAll({

@@ -41,7 +41,16 @@ describe('Language', () => {
       .end((err, res) => {
         res.should.have.status(200);
 
-        done();
+        models.User.update({
+          active: true,
+        }, {
+          where: {
+            username: userLanguage.username,
+          },
+        })
+          .then(() => {
+            done();
+          });
       });
   });
 

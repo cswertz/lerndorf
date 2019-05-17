@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 
+import models from '../server/config/sequelize';
 import server from '../server/';
 
 chai.should();
@@ -42,7 +43,16 @@ describe('User', () => {
       .end((err, res) => {
         res.should.have.status(200);
 
-        done();
+        models.User.update({
+          active: true,
+        }, {
+          where: {
+            username: userUsers.username,
+          },
+        })
+          .then(() => {
+            done();
+          });
       });
   });
 
@@ -308,7 +318,21 @@ describe('User', () => {
 
           users[1] = res.body.id;
 
-          done();
+          models.User.findOne({
+            where: {
+              username: user1.username,
+            },
+          })
+            .then((userFetched) => {
+              const { activationCode } = userFetched;
+              chai.request(server)
+                .get(`/api/users/activate/${activationCode}`)
+                .end((err1, res1) => {
+                  res1.should.have.status(200);
+
+                  done();
+                });
+            });
         });
     });
   });
@@ -430,6 +454,37 @@ describe('User', () => {
           res.body.should.have.property('error');
 
           done();
+        });
+    });
+
+    it('it should display an error when user is not active', (done) => {
+      chai.request(server)
+        .post('/api/users/login')
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(409);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+
+          done();
+        });
+    });
+
+    it('it should activate a user', (done) => {
+      models.User.findOne({
+        where: {
+          username: user.username,
+        },
+      })
+        .then((userFetched) => {
+          const { activationCode } = userFetched;
+          chai.request(server)
+            .get(`/api/users/activate/${activationCode}`)
+            .end((err, res) => {
+              res.should.have.status(200);
+
+              done();
+            });
         });
     });
 

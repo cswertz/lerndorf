@@ -1,5 +1,6 @@
 import Strategy from 'passport-local';
 import {
+  hashString,
   hashPassword,
   comparePasswords,
 } from '../helpers/utils';
@@ -63,6 +64,7 @@ const passportConfig = (passport) => {
 
           const hashedPassword = hashPassword(password);
           req.body.password = hashedPassword;
+          req.body.activationCode = hashString(req.body.email + new Date().toISOString());
 
           if (req.files) {
             const fileName = req.files.picture.md5 + req.files.picture.name;
@@ -72,6 +74,8 @@ const passportConfig = (passport) => {
                 console.log('Failed to save image:', err);
               }
             });
+          } else {
+            delete (req.body.picture);
           }
 
           return models.User.create(req.body)
@@ -111,11 +115,12 @@ const passportConfig = (passport) => {
         ],
         where: {
           username,
+          active: true,
         },
       }).then((result) => {
         if (!result || !comparePasswords(password, result.password)) {
           return done(false, {
-            error: 'Username or Password wrong.',
+            error: 'Username and/or Password wrong or User not activated yet.',
           });
         }
 

@@ -150,6 +150,14 @@ class User extends Model {
       showProfileTeachers: {
         type: DataTypes.BOOLEAN,
       },
+
+      activationCode: {
+        type: DataTypes.STRING,
+      },
+
+      active: {
+        type: DataTypes.BOOLEAN,
+      },
     }, { sequelize });
   }
 

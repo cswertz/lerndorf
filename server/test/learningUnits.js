@@ -40,7 +40,16 @@ describe('LearningUnit', () => {
       .end((err, res) => {
         res.should.have.status(200);
 
-        done();
+        models.User.update({
+          active: true,
+        }, {
+          where: {
+            username: userLearningUnit.username,
+          },
+        })
+          .then(() => {
+            done();
+          });
       });
   });
 

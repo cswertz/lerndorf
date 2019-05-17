@@ -63,21 +63,30 @@ describe('Text', () => {
             res.should.have.status(200);
             users.push(res.body);
 
-            models.KnowledgeUnit.create({
-              LearningUnitId: result.get().id,
-              UserId: users[0].id,
+            models.User.update({
+              active: true,
+            }, {
+              where: {
+                username: userText.username,
+              },
             })
-              .then((result1) => {
-                knowledgeUnitIds.push(result1.get().id);
-
-                models.Language.create({
-                  code: 'en',
-                  name: 'English',
+              .then(() => {
+                models.KnowledgeUnit.create({
+                  LearningUnitId: result.get().id,
+                  UserId: users[0].id,
                 })
-                  .then((result2) => {
-                    languageIds.push(result2.get().id);
+                  .then((result1) => {
+                    knowledgeUnitIds.push(result1.get().id);
 
-                    done();
+                    models.Language.create({
+                      code: 'en',
+                      name: 'English',
+                    })
+                      .then((result2) => {
+                        languageIds.push(result2.get().id);
+
+                        done();
+                      });
                   });
               });
           });
