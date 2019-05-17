@@ -18,7 +18,9 @@ const sendMail = (address, subjectLine, message) => {
     });
   };
 
-  send(global.config.smtp, address, subjectLine, message);
+  if (process.env.NODE_ENV !== 'test') {
+    send(global.config.smtp, address, subjectLine, message);
+  }
 };
 
 export {
