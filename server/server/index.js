@@ -1,5 +1,6 @@
 import http from 'http';
 
+import config from './config/config.json';
 import logger from './logger';
 import app from './server';
 
@@ -7,6 +8,10 @@ import app from './server';
 const port = process.env.SERVER_PORT || 3000;
 const server = http.createServer(app);
 const listen = server.listen(port);
+
+const env = process.env.NODE_ENV || 'development';
+global.config = config[env];
+console.log(global.config)
 
 logger.info(`Listening on port: ${port}`);
 

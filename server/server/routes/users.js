@@ -6,7 +6,9 @@ import {
   hasCapability,
   isLastAdmin,
 } from '../helpers/auth';
-import { hashPassword } from '../helpers/utils';
+import {
+  hashPassword,
+} from '../helpers/utils';
 import models from '../config/sequelize';
 
 const router = express.Router();

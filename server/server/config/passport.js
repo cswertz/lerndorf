@@ -1,5 +1,6 @@
 import Strategy from 'passport-local';
 import {
+  sendMail,
   hashString,
   hashPassword,
   comparePasswords,
@@ -79,7 +80,12 @@ const passportConfig = (passport) => {
           }
 
           return models.User.create(req.body)
-            .then(newUser => done(newUser));
+            .then((newUser) => {
+              const { activationCode } = newUser;
+              const message = `To activate your account, <a href="${global.config.domain}/users/activate/${activationCode}">click this link</a>.`;
+              sendMail(newUser.email, 'Registration', message);
+              done(newUser);
+            });
         });
       });
     },
