@@ -162,7 +162,10 @@ const renderCheckboxField = ({
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = [];
+  const requiredFields = [
+    'knowledgeType',
+    'mediaType',
+  ];
   requiredFields.forEach((field) => {
     if (!values[field] || values[field] === '') {
       errors[field] = 'Required';
@@ -176,7 +179,9 @@ const KnowledgeUnitsAdd = ({
   handleSubmit,
   submitting,
   taxonomies,
+  pristine,
   classes,
+  invalid,
   errors,
 }) => (
   <form onSubmit={handleSubmit}>
@@ -184,166 +189,8 @@ const KnowledgeUnitsAdd = ({
       <div className={classes.wrapper}>
         <FormControl required className={classes.formControl}>
           <Field
-            name="objective"
-            label="Objective"
-            component={renderTextField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
-      </div>
-      <div className={classes.wrapper}>
-        <FormControl required className={classes.formControl}>
-          <Field
-            name="comment"
-            label="Comment"
-            component={renderTextField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
-      </div>
-    </div>
-    <div className={classes.flex}>
-      <div className={classes.wrapper}>
-        <FormControl required className={classes.formControl}>
-          <Field
-            name="time"
-            type="number"
-            label="Time in minutes"
-            component={renderTextField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
-      </div>
-      <div className={classes.wrapper}>
-        <FormControl required className={classes.formControl}>
-          <Field
-            name="recommendedAge"
-            label="Recommended Age"
-            component={renderTextField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-            type="number"
-            parse={val => parseInt(val, 10)}
-          />
-        </FormControl>
-      </div>
-    </div>
-    <div className={classes.flex}>
-      <div>
-        <FormControl>
-          <Field
-            name="suitableBlind"
-            label="Suitable for blind"
-            component={renderCheckboxField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
-      </div>
-      <div>
-        <FormControl>
-          <Field
-            name="suitableDeaf"
-            label="Suitable for deaf"
-            component={renderCheckboxField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
-      </div>
-      <div>
-        <FormControl>
-          <Field
-            name="suitableDumb"
-            label="Suitable for dumb"
-            component={renderCheckboxField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
-      </div>
-    </div>
-    <div className={classes.flex}>
-      <div>
-        <FormControl>
-          <Field
-            name="publish"
-            label="Publish"
-            component={renderCheckboxField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-            value="publish"
-          />
-        </FormControl>
-      </div>
-      <div>
-        <FormControl>
-          <Field
-            name="review"
-            label="Review"
-            component={renderCheckboxField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
-      </div>
-      <div>
-        <FormControl>
-          <Field
-            name="lectorate"
-            label="Lectorate"
-            component={renderCheckboxField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
-      </div>
-    </div>
-    <div className={classes.flex}>
-      <div>
-        <FormControl>
-          <Field
-            name="visiblePublic"
-            label="Visible Public"
-            component={renderCheckboxField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
-      </div>
-      <div>
-        <FormControl>
-          <Field
-            name="visibleLexicon"
-            label="Visible Lexicon"
-            component={renderCheckboxField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
-      </div>
-      <div>
-        <FormControl>
-          <Field
-            name="visibleCourses"
-            label="Visible Courses"
-            component={renderCheckboxField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
-      </div>
-    </div>
-
-    <div className={classes.flex}>
-      <div className={classes.wrapper}>
-        <FormControl required className={classes.formControl}>
-          <Field
             name="courseLevel"
-            label="Course Level"
+            label="Level in Course"
             component={renderSelectField}
             options={taxonomies.courseLevel}
             className={classes.textField}
@@ -359,14 +206,15 @@ const KnowledgeUnitsAdd = ({
             component={renderSelectField}
             options={taxonomies.knowledgeType}
             className={classes.textField}
-            errorText={errors.errors.title}
+            errorText={errors.errors.knowledgeType}
+            required
           />
         </FormControl>
       </div>
       <div className={classes.wrapper}>
         <FormControl required className={classes.formControl}>
           <Field
-            name="licences"
+            name="license"
             label="License"
             component={renderSelectField}
             options={taxonomies.licences}
@@ -399,14 +247,170 @@ const KnowledgeUnitsAdd = ({
           />
         </FormControl>
       </div>
+      {/*
+      <div className={classes.wrapper}>
+        <FormControl required className={classes.formControl}>
+          <Field
+            name="eqfLevel"
+            label="EQF Level"
+            component={renderSelectField}
+            options={taxonomies.eqf}
+            className={classes.textField}
+            errorText={errors.errors.title}
+          />
+        </FormControl>
+      </div>
+      */}
+    </div>
+    <div className={classes.flex}>
+      <div>
+        <FormControl>
+          <Field
+            name="suitableBlind"
+            label="Suitable for blind"
+            component={renderCheckboxField}
+            className={classes.textField}
+            errorText={errors.errors.title}
+            checked
+          />
+        </FormControl>
+      </div>
+      <div>
+        <FormControl>
+          <Field
+            name="suitableDeaf"
+            label="Suitable for deaf"
+            component={renderCheckboxField}
+            className={classes.textField}
+            errorText={errors.errors.title}
+            checked
+          />
+        </FormControl>
+      </div>
+      <div>
+        <FormControl>
+          <Field
+            name="suitableDumb"
+            label="Suitable for dumb"
+            component={renderCheckboxField}
+            className={classes.textField}
+            errorText={errors.errors.title}
+            checked
+          />
+        </FormControl>
+      </div>
+    </div>
+    <div className={classes.flex}>
+      <div>
+        <FormControl>
+          <Field
+            name="publish"
+            label="Publish"
+            component={renderCheckboxField}
+            className={classes.textField}
+            errorText={errors.errors.title}
+            value="publish"
+            checked
+          />
+        </FormControl>
+      </div>
+    </div>
+    <div className={classes.flex}>
+      <div>
+        <FormControl>
+          <Field
+            name="visiblePublic"
+            label="Visible Public"
+            component={renderCheckboxField}
+            className={classes.textField}
+            errorText={errors.errors.title}
+            checked
+          />
+        </FormControl>
+      </div>
+      <div>
+        <FormControl>
+          <Field
+            name="visibleLexicon"
+            label="Visible Lexicon"
+            component={renderCheckboxField}
+            className={classes.textField}
+            errorText={errors.errors.title}
+            checked
+          />
+        </FormControl>
+      </div>
+      <div>
+        <FormControl>
+          <Field
+            name="visibleCourses"
+            label="Visible Courses"
+            component={renderCheckboxField}
+            className={classes.textField}
+            errorText={errors.errors.title}
+            checked
+          />
+        </FormControl>
+      </div>
     </div>
 
+    <div className={classes.flex}>
+      <div className={classes.wrapper}>
+        <FormControl required className={classes.formControl}>
+          <Field
+            name="objective"
+            label="Objective"
+            component={renderTextField}
+            className={classes.textField}
+            errorText={errors.errors.title}
+          />
+        </FormControl>
+      </div>
+      <div className={classes.wrapper}>
+        <FormControl required className={classes.formControl}>
+          <Field
+            name="comment"
+            label="Comment"
+            component={renderTextField}
+            className={classes.textField}
+            errorText={errors.errors.title}
+          />
+        </FormControl>
+      </div>
+    </div>
 
+    <div className={classes.flex}>
+      <div className={classes.wrapper}>
+        <FormControl required className={classes.formControl}>
+          <Field
+            name="time"
+            type="number"
+            label="Time in minutes"
+            component={renderTextField}
+            className={classes.textField}
+            errorText={errors.errors.title}
+          />
+        </FormControl>
+      </div>
+      <div className={classes.wrapper}>
+        <FormControl required className={classes.formControl}>
+          <Field
+            name="recommendedAge"
+            label="Recommended Age"
+            component={renderTextField}
+            className={classes.textField}
+            errorText={errors.errors.title}
+            type="number"
+            parse={val => parseInt(val, 10)}
+          />
+        </FormControl>
+      </div>
+    </div>
     <div>
       <Button
         type="submit"
         variant="contained"
-        disabled={submitting}
+        disabled={pristine || submitting || invalid}
       >
         Add Knowledge Unit
       </Button>
@@ -421,6 +425,8 @@ KnowledgeUnitsAdd.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,
   submitting: PropTypes.bool.isRequired,
+  pristine: PropTypes.bool.isRequired,
+  invalid: PropTypes.bool.isRequired,
 };
 
 const KnowledgeUnitsAddForm = reduxForm({

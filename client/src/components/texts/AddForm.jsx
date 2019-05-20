@@ -185,7 +185,7 @@ const TextsAdd = ({
           variant="contained"
           disabled={pristine || submitting}
         >
-          Add Text
+          Save
         </Button>
       </div>
     </form>

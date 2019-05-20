@@ -37,8 +37,6 @@ class KnowledgeUnitsAdd extends Component {
       time: e.target.time.value,
       recommendedAge: e.target.recommendedAge.value,
       publish: e.target.publish.checked,
-      review: e.target.review.checked,
-      lectorate: e.target.lectorate.checked,
       visiblePublic: e.target.visiblePublic.checked,
       visibleLexicon: e.target.visibleLexicon.checked,
       visibleCourses: e.target.visibleCourses.checked,
@@ -49,7 +47,7 @@ class KnowledgeUnitsAdd extends Component {
       knowledgeType: e.target.knowledgeType.value,
       courseLevel: e.target.courseLevel.value,
       mediaType: e.target.mediaType.value,
-      licences: e.target.licences.value,
+      license: e.target.license.value,
     };
 
     data.minimumScreenResolution = (data.minimumScreenResolution.isInteger !== '')
@@ -57,7 +55,7 @@ class KnowledgeUnitsAdd extends Component {
     data.knowledgeType = (data.knowledgeType !== '') ? data.knowledgeType : null;
     data.courseLevel = (data.courseLevel.isInteger !== '') ? data.courseLevel : null;
     data.mediaType = (data.mediaType.isInteger !== '') ? data.mediaType : null;
-    data.licences = (data.licences.isInteger !== '') ? data.licences : null;
+    data.license = (data.license.isInteger !== '') ? data.license : null;
 
     handleSubmit(data, history);
   }
@@ -74,6 +72,8 @@ class KnowledgeUnitsAdd extends Component {
         taxonomies={taxonomies.items}
         initialValues={{
           language: 1,
+          minimumScreenResolution: 88,
+          courseLevel: 82,
         }}
         errors={errors.add}
       />
