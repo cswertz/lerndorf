@@ -9,8 +9,11 @@ import TagForm from './TagForm';
 const styles = () => ({});
 
 const LearningUnitsEdit = ({
+  fetchSuggestions,
   addRelation,
+  suggestions,
   taxonomies,
+  setTarget,
   addTag,
 }) => (
   <React.Fragment>
@@ -18,17 +21,23 @@ const LearningUnitsEdit = ({
       handleSubmit={addTag}
     />
     <RelationForm
+      fetchSuggestions={fetchSuggestions}
       handleSubmit={addRelation}
+      suggestions={suggestions}
       taxonomies={taxonomies}
+      setTarget={setTarget}
     />
   </React.Fragment>
 );
 
 LearningUnitsEdit.propTypes = {
+  suggestions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  fetchSuggestions: PropTypes.func.isRequired,
   taxonomies: PropTypes.shape({}).isRequired,
-  addRelation: PropTypes.func.isRequired,
-  addTag: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
+  addRelation: PropTypes.func.isRequired,
   errors: PropTypes.shape({}).isRequired,
+  setTarget: PropTypes.func.isRequired,
+  addTag: PropTypes.func.isRequired,
 };
 export default withStyles(styles)(LearningUnitsEdit);

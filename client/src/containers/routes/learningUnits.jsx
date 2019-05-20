@@ -102,10 +102,12 @@ const LearningUnitsRouter = ({
           element={(
             <LearningUnitsEdit
               learningUnitsAddRelation={actions.learningUnitsAddRelation}
+              fetchSuggestions={actions.learningUnitsSuggestionsFetch}
               taxonomiesFetch={actions.learningUnitsTaxonomiesFetch}
               learningUnitsAddTag={actions.learningUnitsAddTag}
               itemFetch={actions.learningUnitsItemFetch}
               handleSubmit={actions.learningUnitsEdit}
+              suggestions={learningUnits.suggestions}
               taxonomies={learningUnits.taxonomies}
               errors={learningUnits.errors}
               items={learningUnits}

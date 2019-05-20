@@ -10,10 +10,21 @@ class LearningUnitsEdit extends Component {
 
     this.addTag = this.addTag.bind(this);
     this.addRelation = this.addRelation.bind(this);
+    this.setTarget = this.setTarget.bind(this);
+
+    this.state = {
+      target: null,
+    };
   }
 
   componentDidMount() {
     this.fetchItem();
+  }
+
+  setTarget(target) {
+    this.setState({
+      target,
+    });
   }
 
   fetchItem() {
@@ -70,23 +81,28 @@ class LearningUnitsEdit extends Component {
       id,
       languageId,
     } = match.params;
-    const targetId = e.target.target.value;
-    const type = e.target.target.value;
+    const { target } = this.state;
+    const type = e.target.type.value;
     const learningUnitId = id;
 
-    learningUnitsAddRelation(learningUnitId, targetId, type, languageId, history);
+    learningUnitsAddRelation(learningUnitId, target, type, languageId, history);
   }
 
   render() {
     const {
+      fetchSuggestions,
+      suggestions,
       taxonomies,
       errors,
     } = this.props;
 
     return (
       <EditForm
+        fetchSuggestions={fetchSuggestions}
         addRelation={this.addRelation}
+        suggestions={suggestions}
         taxonomies={taxonomies}
+        setTarget={this.setTarget}
         addTag={this.addTag}
         errors={errors.add}
       />
@@ -95,9 +111,11 @@ class LearningUnitsEdit extends Component {
 }
 
 LearningUnitsEdit.propTypes = {
+  fetchSuggestions: PropTypes.func.isRequired,
   learningUnitsAddRelation: PropTypes.func.isRequired,
   taxonomiesFetch: PropTypes.func.isRequired,
   taxonomies: PropTypes.shape({}).isRequired,
+  suggestions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   learningUnitsAddTag: PropTypes.func.isRequired,
   items: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,

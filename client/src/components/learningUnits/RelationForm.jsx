@@ -11,6 +11,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 
+import Suggest from '../../containers/learningUnits/Suggest';
+
 const styles = theme => ({
   wrapper: {
     display: 'flex',
@@ -147,9 +149,12 @@ const validate = (values) => {
 };
 
 const LearningUnitsRelation = ({
+  fetchSuggestions,
   handleSubmit,
+  suggestions,
   submitting,
   taxonomies,
+  setTarget,
   pristine,
   classes,
 }) => (
@@ -157,13 +162,10 @@ const LearningUnitsRelation = ({
     <div className={classes.flex}>
       <div className={classes.wrapper}>
         <FormControl required className={classes.formControl}>
-          <Field
-            required
-            name="target"
-            label="Target"
-            component={renderTextField}
-            className={classes.textField}
-            type="number"
+          <Suggest
+            suggestions={suggestions}
+            fetchSuggestions={fetchSuggestions}
+            setTarget={setTarget}
           />
         </FormControl>
       </div>
@@ -193,10 +195,13 @@ const LearningUnitsRelation = ({
 );
 
 LearningUnitsRelation.propTypes = {
+  suggestions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  fetchSuggestions: PropTypes.func.isRequired,
   taxonomies: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
   submitting: PropTypes.bool.isRequired,
+  setTarget: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
 };
 

@@ -353,6 +353,32 @@ router.get('/:id', (req, res) => {
     .then(result => res.json(result));
 });
 
+router.get('/suggestion/:term', (req, res) => {
+  models.LearningUnitLanguage.findAll({
+    where: {
+      title: {
+        [Op.like]: [
+          `%${req.params.term}%`,
+        ],
+      },
+    },
+    attributes: ['LearningUnitId', 'title'],
+  })
+    .then((results) => {
+      const suggestions = [];
+      for (let i = 0; i < results.length; i += 1) {
+        const current = results[i];
+        suggestions.push({
+          id: current.LearningUnitId,
+          label: current.title,
+        });
+      }
+
+      console.log(suggestions);
+      return res.json(suggestions);
+    });
+});
+
 router.delete('/:id', hasCapability('delete_any_learning_unit'), (req, res) => {
   models.LearningUnit.destroy({
     where: {

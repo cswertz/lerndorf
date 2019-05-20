@@ -28,6 +28,11 @@ export const learningUnitsItemFetchSuccess = item => ({
   item,
 });
 
+export const learningUnitsSuggestionsFetchSuccess = items => ({
+  type: types.LEARNINGUNITS_SUGGESTIONS_FETCH_SUCCESS,
+  items,
+});
+
 export const learningUnitsTaxonomiesFetchSuccess = items => ({
   type: types.LEARNINGUNITS_TAXONOMIES_FETCH_SUCCESS,
   items,
@@ -78,6 +83,31 @@ export const learningUnitsItemFetch = id => (
     })
     .catch((error) => {
       console.log('Error while fetching knowledge units:', error);
+    })
+);
+
+
+export const learningUnitsSuggestionsFetch = term => (
+  dispatch => fetch(`/api/learningUnits/suggestion/${term}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then(response => response.json())
+    .then((json) => {
+      if (json) {
+        if (json.error) {
+          // dispatch(userEditFailed(json.error, json.errors));
+        } else {
+          dispatch(learningUnitsSuggestionsFetchSuccess(json));
+        }
+      }
+    })
+    .catch((error) => {
+      console.log('Error while fetching learning unit suggestions:', error);
     })
 );
 
