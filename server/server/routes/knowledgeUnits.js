@@ -3,6 +3,8 @@ import express from 'express';
 import { hasCapability } from '../helpers/auth';
 import models from '../config/sequelize';
 
+import { getTree } from '../helpers/taxonomies';
+
 const { Op } = models.Sequelize;
 const router = express.Router();
 
@@ -79,20 +81,7 @@ router.get('/taxonomies', (req, res) => {
       },
     ],
   })
-    .then((children) => {
-      const taxonomies = {};
-      for (let i = 0; i < children.length; i += 1) {
-        const current = children[i];
-        const parent = current.Parent.type;
-        if (!taxonomies[parent]) {
-          taxonomies[parent] = [];
-        }
-
-        taxonomies[parent].push(current);
-      }
-
-      res.json(taxonomies);
-    });
+    .then(children => getTree(children).then(result => res.json(result)));
 });
 
 router.patch('/markReviewed/:id', hasCapability('set_knowledge_unit_reviewed'), (req, res) => {
