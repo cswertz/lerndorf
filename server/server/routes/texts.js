@@ -56,7 +56,31 @@ router.get('/:id', (req, res) => {
       },
     ],
   })
-    .then(result => res.json(result));
+    .then((result) => {
+      let source = result.rootId;
+      if (!source) {
+        source = result.id;
+      }
+      models.Text.findOne({
+        where: {
+          rootId: source,
+          nextId: null,
+        },
+        attributes: [
+          'id',
+        ],
+      })
+        .then((current) => {
+          const text = result;
+          if (current) {
+            text.dataValues.currentId = current.id;
+          } else {
+            text.dataValues.currentId = text.id;
+          }
+
+          return res.json(text);
+        });
+    });
 });
 
 router.patch('/:id', (req, res) => {

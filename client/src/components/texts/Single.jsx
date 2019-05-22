@@ -30,6 +30,7 @@ const TextsShowPaper = ({
   link,
   text,
 }) => {
+  console.log(text);
   return (
     <Paper
       className={classes.paper}
@@ -79,6 +80,16 @@ const TextsShowPaper = ({
           to={`/texts/show/${text.rootId}`}
         >
           show root
+        </Button>
+      )}
+      &nbsp;
+      {text.currentId !== text.id && (
+        <Button
+          variant="contained"
+          component={Link}
+          to={`/texts/show/${text.currentId}`}
+        >
+          show current version
         </Button>
       )}
     </Paper>
