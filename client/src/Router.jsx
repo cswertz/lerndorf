@@ -105,6 +105,7 @@ const Router = ({
       path="/knowledge-units"
       render={() => (
         <RoutesKnowledgeUnits
+          learningUnits={learningUnits}
           knowledgeUnits={knowledgeUnits}
           capabilities={capabilities}
           languages={languages}

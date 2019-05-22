@@ -11,6 +11,7 @@ import KnowledgeUnitsAdd from '../knowledgeUnits/Add';
 
 const KnowledgeUnitsRouter = ({
   knowledgeUnits,
+  learningUnits,
   actions,
   user,
 }) => (
@@ -53,7 +54,9 @@ const KnowledgeUnitsRouter = ({
           element={(
             <KnowledgeUnitsAdd
               taxonomiesFetch={actions.knowledgeUnitsTaxonomiesFetch}
+              learningUnitFetch={actions.learningUnitsItemFetch}
               taxonomies={knowledgeUnits.taxonomies}
+              learningUnits={learningUnits}
               handleSubmit={actions.knowledgeUnitsAdd}
               errors={knowledgeUnits.errors}
             />
@@ -91,6 +94,12 @@ const KnowledgeUnitsRouter = ({
 );
 
 KnowledgeUnitsRouter.propTypes = {
+  learningUnits: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   knowledgeUnits: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     id: PropTypes.shape({}).isRequired,

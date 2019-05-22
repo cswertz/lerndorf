@@ -1,3 +1,4 @@
+import Typography from '@material-ui/core/Typography';
 import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -13,12 +14,24 @@ class KnowledgeUnitsAdd extends Component {
 
   componentDidMount() {
     const {
-      taxonomies,
+      learningUnitFetch,
       taxonomiesFetch,
+      learningUnits,
+      taxonomies,
+      match,
     } = this.props;
 
     if (!taxonomies.fetched && !taxonomies.fetching) {
       taxonomiesFetch();
+    }
+
+
+    const {
+      learningUnitId,
+    } = match.params;
+
+    if ((!learningUnits.fetching) && !learningUnits.id[learningUnitId]) {
+      learningUnitFetch(learningUnitId);
     }
   }
 
@@ -62,26 +75,44 @@ class KnowledgeUnitsAdd extends Component {
 
   render() {
     const {
+      learningUnits,
       taxonomies,
       errors,
+      match,
     } = this.props;
+    const { learningUnitId } = match.params;
+
+    let learningUnitTitle = '';
+    if (learningUnits.id[learningUnitId]) {
+      const learningUnit = learningUnits.id[learningUnitId];
+      if (learningUnit[1]) {
+        learningUnitTitle = learningUnit[1].title;
+      }
+    }
 
     return (
-      <AddForm
-        handleSubmit={this.handleSubmit}
-        taxonomies={taxonomies.items}
-        initialValues={{
-          language: 1,
-          minimumScreenResolution: 88,
-          courseLevel: 82,
-        }}
-        errors={errors.add}
-      />
+      <div>
+        <Typography variant="headline">
+          {'"'}{learningUnitTitle}{'"'}
+        </Typography>
+        <AddForm
+          handleSubmit={this.handleSubmit}
+          taxonomies={taxonomies.items}
+          initialValues={{
+            language: 1,
+            minimumScreenResolution: 88,
+            courseLevel: 82,
+          }}
+          errors={errors.add}
+        />
+      </div>
     );
   }
 }
 
 KnowledgeUnitsAdd.propTypes = {
+  learningUnitFetch: PropTypes.func.isRequired,
+  learningUnits: PropTypes.shape({}).isRequired,
   taxonomiesFetch: PropTypes.func.isRequired,
   taxonomies: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
