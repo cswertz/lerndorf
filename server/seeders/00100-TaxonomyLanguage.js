@@ -898,7 +898,87 @@ const TaxonomyLanguages = [
     type: '4-3-XL',
     language: 'de',
     vocable: '4-3-XL'
+  },  
+  {
+    type: 'eqf1',
+    language: 'en',
+    vocable: 'European Qualification Framework Level 1'
   },
+  {
+    type: 'eqf1',
+    language: 'de',
+    vocable: 'European Qualification Framework Level 1'
+},
+  {
+    type: 'eqf2',
+    language: 'en',
+    vocable: 'European Qualification Framework Level 2'
+  },
+  {
+    type: 'eqf2',
+    language: 'de',
+    vocable: 'European Qualification Framework Level 2'
+},
+{
+    type: 'eqf3',
+    language: 'en',
+    vocable: 'European Qualification Framework Level 3'
+  },
+  {
+    type: 'eqf3',
+    language: 'de',
+    vocable: 'European Qualification Framework Level 3'
+},
+  {
+    type: 'eqf4',
+    language: 'en',
+    vocable: 'European Qualification Framework Level 4'
+  },
+  {
+    type: 'eqf4',
+    language: 'de',
+    vocable: 'European Qualification Framework Level 4'
+},
+  {
+    type: 'eqf5',
+    language: 'en',
+    vocable: 'European Qualification Framework Level 5'
+  },
+  {
+    type: 'eqf5',
+    language: 'de',
+    vocable: 'European Qualification Framework Level 5'
+},
+    {
+    type: 'eqf6',
+    language: 'en',
+    vocable: 'European Qualification Framework Level 6'
+  },
+  {
+    type: 'eqf6',
+    language: 'de',
+    vocable: 'European Qualification Framework Level 6'
+},
+    {
+    type: 'eqf7',
+    language: 'en',
+    vocable: 'European Qualification Framework Level 7'
+  },
+  {
+    type: 'eqf7',
+    language: 'de',
+    vocable: 'European Qualification Framework Level 7'
+},
+  {
+    type: 'eqf8',
+    language: 'en',
+    vocable: 'European Qualification Framework Level 8'
+  },
+  {
+    type: 'eqf8',
+    language: 'de',
+    vocable: 'European Qualification Framework Level 8'
+},  
 ]
 
 module.exports = {
