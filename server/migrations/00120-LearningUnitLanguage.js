@@ -1,5 +1,5 @@
 export default {
-  up: (queryInterface, DataTypes) => {
+  up: (queryInterface, DataTypes) =>
     queryInterface.createTable('LearningUnitLanguage', {
       id: {
         type: DataTypes.INTEGER,
@@ -55,11 +55,10 @@ export default {
         type: DataTypes.DATE,
         allowNull: false,
       },
-    });
-    queryInterface.addConstraint('LearningUnitLanguage', ['title', 'LanguageId'], {
-      type: 'unique',
-      name: 'indexname',
-    });
-  },
+    })
+      .then(() => queryInterface.addConstraint('LearningUnitLanguage', ['title', 'LanguageId'], {
+        type: 'unique',
+        name: 'indexname',
+      })),
   down: queryInterface => queryInterface.dropTable('TaxonomyLanguage'),
 };
