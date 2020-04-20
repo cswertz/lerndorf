@@ -1,3 +1,4 @@
+import { check, validationResult } from 'express-validator';
 import express from 'express';
 
 import { hasCapability } from '../helpers/auth';
@@ -37,70 +38,78 @@ router.get('/', (req, res) => {
     .then(results => res.json(results));
 });
 
-router.post('/', hasCapability('add_learning_unit'), (req, res) => {
-  req.checkBody('title', 'title is required')
+router.post('/', [
+  hasCapability('add_learning_unit'),
+  check('title', 'title is required')
     .isLength({ max: 255 })
-    .notEmpty();
-
-  req.checkBody('language', 'language is required')
+    .notEmpty(),
+  check('language', 'language is required')
     .isInt()
-    .notEmpty();
+    .notEmpty(),
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+  }
 
-  req.getValidationResult().then((errors) => {
-    if (!errors.isEmpty()) {
-      return res.status(400).send({
-        error: 'There have been validation errors.',
-        errors: errors.array(),
+  return models.LearningUnitLanguage.findAll({
+    where: {
+      LanguageId: req.body.language,
+      title: req.body.title,
+    },
+  })
+    .then((results) => {
+      if (results.length === 0) {
+        return models.LearningUnit.create(req.body)
+          .then((learningUnit) => {
+            learningUnit.setUser(req.user);
+
+            const learningUnitLanguageData = {
+              LearningUnitId: learningUnit.id,
+              LanguageId: req.body.language,
+              title: req.body.title,
+              UserId: req.user.id,
+            };
+
+            models.LearningUnitLanguage.create(learningUnitLanguageData)
+              .then(() => res.json(learningUnit));
+          })
+          .catch(err => res.status(422).send({
+            error: 'There have been database errors.',
+            errors: err.errors.map(error => ({
+              message: error.message,
+              type: error.type,
+            })),
+          }));
+      }
+      return res.status(409).send({
+        error: 'Duplicate entry',
+        errors: [
+          {
+            param: 'title',
+            msg: 'This title is already in use.',
+          },
+        ],
       });
-    }
-
-    return models.LearningUnitLanguage.findAll({
-      where: {
-        LanguageId: req.body.language,
-        title: req.body.title,
-      },
-    })
-      .then((results) => {
-        if (results.length === 0) {
-          return models.LearningUnit.create(req.body)
-            .then((learningUnit) => {
-              learningUnit.setUser(req.user);
-
-              const learningUnitLanguageData = {
-                LearningUnitId: learningUnit.id,
-                LanguageId: req.body.language,
-                title: req.body.title,
-                UserId: req.user.id,
-              };
-
-              models.LearningUnitLanguage.create(learningUnitLanguageData)
-                .then(() => res.json(learningUnit));
-            })
-            .catch(err => res.status(422).send({
-              error: 'There have been database errors.',
-              errors: err.errors.map(error => ({
-                message: error.message,
-                type: error.type,
-              })),
-            }));
-        }
-        return res.status(409).send({
-          error: 'Duplicate entry',
-          errors: [
-            {
-              param: 'title',
-              msg: 'This title is already in use.',
-            },
-          ],
-        });
-      });
-  });
+    });
 });
 
-router.post('/addTag/:learningUnitLanguageId', hasCapability('add_learning_unit'), (req, res) => {
-  req.checkBody('tag', 'tag is required')
+router.post('/addTag/:learningUnitLanguageId', [
+  hasCapability('add_learning_unit'),
+  check('tag', 'tag is required')
     .isLength({ max: 255 })
-    .notEmpty();
+    .notEmpty(),
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+  }
 
   const data = {
     LearningUnitLanguageId: req.params.learningUnitLanguageId,
@@ -112,14 +121,22 @@ router.post('/addTag/:learningUnitLanguageId', hasCapability('add_learning_unit'
     .then(result => res.json(result));
 });
 
-router.post('/addRelation/:id', hasCapability('add_learning_unit'), (req, res) => {
-  req.checkBody('targetId', 'target is required')
+router.post('/addRelation/:id', [
+  hasCapability('add_learning_unit'),
+  check('targetId', 'target is required')
     .isInt()
-    .notEmpty();
-
-  req.checkBody('type', 'type is required')
+    .notEmpty(),
+  check('type', 'type is required')
     .isInt()
-    .notEmpty();
+    .notEmpty(),
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+  }
 
   const data = {
     targetId: req.body.targetId,

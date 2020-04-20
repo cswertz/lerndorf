@@ -55,7 +55,7 @@ describe('File', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('error');
           res.body.should.have.property('errors');
-          res.body.errors.length.should.be.eql(1);
+          res.body.errors.length.should.be.eql(2);
 
           done();
         });

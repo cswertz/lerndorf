@@ -1,3 +1,4 @@
+import { check, validationResult, buildCheckFunction } from 'express-validator';
 import passport from 'passport';
 import express from 'express';
 
@@ -11,27 +12,28 @@ import models from '../config/sequelize';
 
 const router = express.Router();
 
-router.post('/login', (req, res, next) => {
-  req.checkBody('username', 'username is required').notEmpty();
-  req.checkBody('password', 'password is required').notEmpty();
+const checkBody = buildCheckFunction(['body']);
 
-  req.getValidationResult().then((result) => {
-    if (!result.isEmpty()) {
-      res.status(400).send({
-        error: 'There have been validation errors.',
-        errors: result.array(),
-      });
-      return;
+router.post('/login', [
+  check('username', 'username is required').exists(),
+  check('password', 'password is required').exists(),
+], (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+    return;
+  }
+
+  passport.authenticate('local-signin', (user, info) => {
+    if (info) {
+      return res.status(409).send(info);
     }
 
-    passport.authenticate('local-signin', (user, info) => {
-      if (info) {
-        return res.status(409).send(info);
-      }
-
-      return req.logIn(user, () => res.json(user));
-    })(req, res, next);
-  });
+    return req.logIn(user, () => res.json(user));
+  })(req, res, next);
 });
 
 router.get('/logout', (req, res) => {
@@ -72,38 +74,37 @@ router.get('/', hasCapability('edit_user'), (req, res) => {
     .then(results => res.json(results));
 });
 
-router.post('/', (req, res) => {
-  req.checkBody('username', 'username is required')
+router.post('/', [
+  check('username', 'username is required')
     .isLength({ max: 255 })
-    .notEmpty();
-  req.checkBody('password', 'password is required')
+    .notEmpty(),
+  check('password', 'password is required')
     .isLength({ max: 255 })
-    .notEmpty();
-  req.checkBody('email', 'email is required, has to be valid and not longer than 255 chars.')
+    .notEmpty(),
+  check('email', 'email is required, has to be valid and not longer than 255 chars.')
     .notEmpty()
     .isLength({ max: 255 })
-    .isEmail();
+    .isEmail(),
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+    return;
+  }
 
-  req.getValidationResult().then((result) => {
-    if (!result.isEmpty()) {
-      res.status(400).send({
-        error: 'There have been validation errors.',
-        errors: result.array(),
-      });
-      return;
+  passport.authenticate('local-signup', (user, info) => {
+    if (info) {
+      return res.status(409).send(info);
     }
 
-    passport.authenticate('local-signup', (user, info) => {
-      if (info) {
-        return res.status(409).send(info);
-      }
-
-      return res.json({
-        id: user.id,
-        username: user.username,
-      });
-    })(req, res);
-  });
+    return res.json({
+      id: user.id,
+      username: user.username,
+    });
+  })(req, res);
 });
 
 router.get('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
@@ -239,34 +240,36 @@ router.delete('/:id', isSelfOrHasCapability('delete_user'), (req, res) => {
 });
 
 /* User Role Management */
-router.post('/:id/role', hasCapability('add_role_to_user'), (req, res) => {
-  req.checkBody('id', 'id is required').notEmpty();
+router.post('/:id/role', [
+  hasCapability('add_role_to_user'),
+  checkBody('id', 'id is required')
+    .exists()
+    .notEmpty()
+    .isInt(),
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+  }
 
-  req.getValidationResult().then((errors) => {
-    if (!errors.isEmpty()) {
-      res.status(400).send({
-        error: 'There have been validation errors.',
-        errors: errors.array(),
-      });
-      return;
-    }
+  return models.Role.findByPk(req.body.id)
+    .then((role) => {
+      if (role) {
+        models.User.findByPk(req.params.id)
+          .then((result) => {
+            result.addRole(role.id);
 
-    models.Role.findByPk(req.body.id)
-      .then((role) => {
-        if (role) {
-          models.User.findByPk(req.params.id)
-            .then((result) => {
-              result.addRole(role.id);
-
-              return res.json(result);
-            });
-        } else {
-          res.status(400).send({
-            error: 'Role does not exist.',
+            return res.json(result);
           });
-        }
-      });
-  });
+      } else {
+        res.status(400).send({
+          error: 'Role does not exist.',
+        });
+      }
+    });
 });
 
 router.delete('/:id/role/:role', hasCapability('delete_role_from_user'), (req, res) => {

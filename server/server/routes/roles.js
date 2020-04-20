@@ -1,3 +1,4 @@
+import { check, validationResult } from 'express-validator';
 import express from 'express';
 
 import models from '../config/sequelize';
@@ -19,33 +20,33 @@ router.get('/', (req, res) => {
     .then(results => res.json(results));
 });
 
-router.post('/', hasCapability('add_role'), (req, res) => {
-  req.checkBody('name', 'name is required')
+router.post('/', [
+  hasCapability('add_role'),
+  check('name', 'name is required')
     .isLength({ max: 255 })
-    .notEmpty();
+    .notEmpty(),
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+  }
 
-  req.getValidationResult().then((errors) => {
-    if (!errors.isEmpty()) {
-      return res.status(400).send({
-        error: 'There have been validation errors.',
-        errors: errors.array(),
-      });
-    }
+  if (!req.body.slug) {
+    req.body.slug = req.body.name.toLowerCase();
+  }
 
-    if (!req.body.slug) {
-      req.body.slug = req.body.name.toLowerCase();
-    }
-
-    return models.Role.create(req.body)
-      .then(result => res.json(result))
-      .catch(err => res.status(422).send({
-        error: 'There have been database errors.',
-        errors: err.errors.map(error => ({
-          message: error.message,
-          type: error.type,
-        })),
-      }));
-  });
+  return models.Role.create(req.body)
+    .then(result => res.json(result))
+    .catch(err => res.status(422).send({
+      error: 'There have been database errors.',
+      errors: err.errors.map(error => ({
+        message: error.message,
+        type: error.type,
+      })),
+    }));
 });
 
 router.get('/:id', (req, res) => {
@@ -101,40 +102,40 @@ router.delete('/:id', hasCapability('delete_role'), (req, res) => {
     });
 });
 
-router.post('/:id/capability', hasCapability('add_capability_to_role'), (req, res) => {
-  req.checkBody('id', 'id is required').notEmpty();
+router.post('/:id/capability', [
+  hasCapability('add_capability_to_role'),
+  check('id', 'id is required').notEmpty(),
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+    return;
+  }
 
-  req.getValidationResult().then((errors) => {
-    if (!errors.isEmpty()) {
-      res.status(400).send({
-        error: 'There have been validation errors.',
-        errors: errors.array(),
-      });
-      return;
-    }
+  models.Capability.findByPk(req.body.id)
+    .then((capability) => {
+      if (capability) {
+        models.Role.findByPk(req.params.id)
+          .then((result) => {
+            if (result) {
+              result.addCapability(capability.id);
 
-    models.Capability.findByPk(req.body.id)
-      .then((capability) => {
-        if (capability) {
-          models.Role.findByPk(req.params.id)
-            .then((result) => {
-              if (result) {
-                result.addCapability(capability.id);
+              return res.json(result);
+            }
 
-                return res.json(result);
-              }
-
-              return res.status(400).send({
-                error: 'Role does not exist.',
-              });
+            return res.status(400).send({
+              error: 'Role does not exist.',
             });
-        } else {
-          res.status(400).send({
-            error: 'Capability does not exist.',
           });
-        }
-      });
-  });
+      } else {
+        res.status(400).send({
+          error: 'Capability does not exist.',
+        });
+      }
+    });
 });
 
 router.delete('/:id/capability/:capability', hasCapability('remove_capability_from_role'), (req, res) => {

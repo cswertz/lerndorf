@@ -1,3 +1,4 @@
+import { check, validationResult } from 'express-validator';
 import express from 'express';
 
 import { hasCapability } from '../helpers/auth';
@@ -12,32 +13,32 @@ router.get('/', (req, res) => {
     .then(results => res.json(results));
 });
 
-router.post('/', hasCapability('add_knowledge_unit'), (req, res) => {
-  req.checkBody('content', 'content is required')
-    .notEmpty();
-  req.checkBody('KnowledgeUnitId', 'KnowledgeUnitId is required')
-    .notEmpty();
-  req.checkBody('LanguageId', 'LanguageId is required')
-    .notEmpty();
+router.post('/', [
+  hasCapability('add_knowledge_unit'),
+  check('content', 'content is required')
+    .notEmpty(),
+  check('KnowledgeUnitId', 'KnowledgeUnitId is required')
+    .notEmpty(),
+  check('LanguageId', 'LanguageId is required')
+    .notEmpty(),
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+  }
 
-  req.getValidationResult().then((errors) => {
-    if (!errors.isEmpty()) {
-      return res.status(400).send({
-        error: 'There have been validation errors.',
-        errors: errors.array(),
-      });
-    }
-
-    return models.Text.create(req.body)
-      .then(result => res.json(result))
-      .catch(err => res.status(422).send({
-        error: 'There have been database errors.',
-        errors: err.errors.map(error => ({
-          message: error.message,
-          type: error.type,
-        })),
-      }));
-  });
+  return models.Text.create(req.body)
+    .then(result => res.json(result))
+    .catch(err => res.status(422).send({
+      error: 'There have been database errors.',
+      errors: err.errors.map(error => ({
+        message: error.message,
+        type: error.type,
+      })),
+    }));
 });
 
 router.get('/:id', (req, res) => {
@@ -83,13 +84,21 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.patch('/:id', (req, res) => {
-  req.checkBody('content', 'content is required')
-    .notEmpty();
-  req.checkBody('LanguageId', 'LanguageId is required')
-    .notEmpty();
+router.patch('/:id', [
+  check('content', 'content is required')
+    .notEmpty(),
+  check('LanguageId', 'LanguageId is required')
+    .notEmpty(),
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+  }
 
-  models.Text.findByPk(req.params.id)
+  return models.Text.findByPk(req.params.id)
     .then((result) => {
       req.body.prevId = result.id;
       req.body.rootId = result.rootId || result.id;

@@ -1,3 +1,4 @@
+import { check, validationResult } from 'express-validator';
 import express from 'express';
 
 import { hasCapability } from '../helpers/auth';
@@ -30,30 +31,31 @@ router.get('/', (req, res) => {
     .then(results => res.json(results));
 });
 
-router.post('/', hasCapability('add_knowledge_unit'), (req, res) => {
-  req.checkBody('LearningUnitId', 'LearningUnitId is required')
+router.post('/', [
+  hasCapability('add_knowledge_unit'),
+  check('LearningUnitId', 'LearningUnitId is required')
+    .exists()
     .isInt()
-    .notEmpty();
+    .notEmpty(),
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+  }
 
-  req.getValidationResult().then((errors) => {
-    if (!errors.isEmpty()) {
-      return res.status(400).send({
-        error: 'There have been validation errors.',
-        errors: errors.array(),
-      });
-    }
-
-    req.body.UserId = req.user.id;
-    return models.KnowledgeUnit.create(req.body)
-      .then(result => res.json(result))
-      .catch(err => res.status(422).send({
-        error: 'There have been database errors.',
-        errors: err.errors.map(error => ({
-          message: error.message,
-          type: error.type,
-        })),
-      }));
-  });
+  req.body.UserId = req.user.id;
+  return models.KnowledgeUnit.create(req.body)
+    .then(result => res.json(result))
+    .catch(err => res.status(422).send({
+      error: 'There have been database errors.',
+      errors: err.errors.map(error => ({
+        message: error.message,
+        type: error.type,
+      })),
+    }));
 });
 
 router.get('/taxonomies', (req, res) => {

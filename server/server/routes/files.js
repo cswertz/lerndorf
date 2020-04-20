@@ -1,3 +1,4 @@
+import { check, validationResult } from 'express-validator';
 import express from 'express';
 
 import { hasCapability } from '../helpers/auth';
@@ -12,34 +13,33 @@ router.get('/', (req, res) => {
     .then(results => res.json(results));
 });
 
-router.post('/', (req, res) => {
-  req.checkBody('name', 'name is required')
-    .isLength({ max: 255 })
-    .notEmpty();
-
+router.post('/', [
+  check('name', 'name is required').exists(),
+  check('name').isLength({ max: 255 }),
+  check('name').notEmpty(),
+], (req, res) => {
   // TODO: Calculate those values
   req.body.path = `path${req.body.name}`;
   req.body.mime = 'image/png';
   req.body.size = 1234;
 
-  req.getValidationResult().then((errors) => {
-    if (!errors.isEmpty()) {
-      return res.status(400).send({
-        error: 'There have been validation errors.',
-        errors: errors.array(),
-      });
-    }
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+  }
 
-    return models.File.create(req.body)
-      .then(result => res.json(result))
-      .catch(err => res.status(422).send({
-        error: 'There have been database errors.',
-        errors: err.errors.map(error => ({
-          message: error.message,
-          type: error.type,
-        })),
-      }));
-  });
+  return models.File.create(req.body)
+    .then(result => res.json(result))
+    .catch(err => res.status(422).send({
+      error: 'There have been database errors.',
+      errors: err.errors.map(error => ({
+        message: error.message,
+        type: error.type,
+      })),
+    }));
 });
 
 router.get('/:id', (req, res) => {

@@ -1,5 +1,5 @@
 import fileUpload from 'express-fileupload';
-import validator from 'express-validator';
+// import validator from 'express-validator';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import passport from 'passport';
@@ -16,7 +16,7 @@ app.use('/static', express.static('./server/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(fileUpload());
-app.use(validator());
+// app.use(validator());
 app.use(session({
   secret: 'zasephuiofarkhfnkasdf',
   resave: true,

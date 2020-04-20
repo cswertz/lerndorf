@@ -1,3 +1,4 @@
+import { check, validationResult } from 'express-validator';
 import express from 'express';
 
 import { hasCapability } from '../helpers/auth';
@@ -21,33 +22,33 @@ router.get('/', (req, res) => {
     .then(results => res.json(results));
 });
 
-router.post('/', hasCapability('add_taxonomy'), (req, res) => {
-  req.checkBody('type', 'type is required')
+router.post('/', [
+  hasCapability('add_taxonomy'),
+  check('type', 'type is required')
     .isLength({ max: 255 })
-    .notEmpty();
-
+    .notEmpty(),
+], (req, res) => {
   if (!req.body.parent) {
     req.body.parent = 1;
   }
 
-  req.getValidationResult().then((errors) => {
-    if (!errors.isEmpty()) {
-      return res.status(400).send({
-        error: 'There have been validation errors.',
-        errors: errors.array(),
-      });
-    }
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+  }
 
-    return models.Taxonomy.create(req.body)
-      .then(result => res.json(result))
-      .catch(err => res.status(422).send({
-        error: 'There have been database errors.',
-        errors: err.errors.map(error => ({
-          param: error.path,
-          msg: error.message,
-        })),
-      }));
-  });
+  return models.Taxonomy.create(req.body)
+    .then(result => res.json(result))
+    .catch(err => res.status(422).send({
+      error: 'There have been database errors.',
+      errors: err.errors.map(error => ({
+        param: error.path,
+        msg: error.message,
+      })),
+    }));
 });
 
 // Get a specific taxonomy with its direct children
