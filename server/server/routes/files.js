@@ -43,7 +43,7 @@ router.post('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  models.File.findById(req.params.id, {
+  models.File.findByPk(req.params.id, {
     attributes: ['id', 'createdAt', 'updatedAt'],
   })
     .then(result => res.json(result));
@@ -60,7 +60,7 @@ router.patch('/:id', (req, res) => {
     },
   })
     .then(() => {
-      models.File.findById(req.params.id, {
+      models.File.findByPk(req.params.id, {
         attributes: ['id', 'createdAt', 'updatedAt'],
       })
         .then(result => res.json(result));

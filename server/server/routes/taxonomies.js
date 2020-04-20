@@ -52,7 +52,7 @@ router.post('/', hasCapability('add_taxonomy'), (req, res) => {
 
 // Get a specific taxonomy with its direct children
 router.get('/:id', (req, res) => {
-  models.Taxonomy.findById(req.params.id, {
+  models.Taxonomy.findByPk(req.params.id, {
     attributes: [
       'id',
       'createdAt',
@@ -92,7 +92,7 @@ router.patch('/:id', hasCapability('edit_taxonomy'), (req, res) => {
     },
   })
     .then(() => {
-      models.Taxonomy.findById(req.params.id, {
+      models.Taxonomy.findByPk(req.params.id, {
         attributes: ['id', 'createdAt'],
       })
         .then(result => res.json(result));

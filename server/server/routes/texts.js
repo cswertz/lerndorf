@@ -41,7 +41,7 @@ router.post('/', hasCapability('add_knowledge_unit'), (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  models.Text.findById(req.params.id, {
+  models.Text.findByPk(req.params.id, {
     attributes: [
       'id',
       'content',
@@ -89,7 +89,7 @@ router.patch('/:id', (req, res) => {
   req.checkBody('LanguageId', 'LanguageId is required')
     .notEmpty();
 
-  models.Text.findById(req.params.id)
+  models.Text.findByPk(req.params.id)
     .then((result) => {
       req.body.prevId = result.id;
       req.body.rootId = result.rootId || result.id;

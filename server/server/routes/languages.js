@@ -47,7 +47,7 @@ router.post('/', hasCapability('add_language'), (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  models.Language.findById(req.params.id, {
+  models.Language.findByPk(req.params.id, {
     attributes: ['id', 'createdAt', 'updatedAt'],
   })
     .then(result => res.json(result));
@@ -64,7 +64,7 @@ router.patch('/:id', hasCapability('edit_language'), (req, res) => {
     },
   })
     .then(() => {
-      models.Language.findById(req.params.id, {
+      models.Language.findByPk(req.params.id, {
         attributes: ['id', 'createdAt', 'updatedAt'],
       })
         .then(result => res.json(result));

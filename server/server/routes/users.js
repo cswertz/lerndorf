@@ -107,7 +107,7 @@ router.post('/', (req, res) => {
 });
 
 router.get('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
-  models.User.findById(req.params.id, {
+  models.User.findByPk(req.params.id, {
     attributes: [
       'id',
       'username',
@@ -184,7 +184,7 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
     },
   })
     .then(() => {
-      models.User.findById(req.params.id, {
+      models.User.findByPk(req.params.id, {
         attributes: [
           'id',
           'username',
@@ -251,10 +251,10 @@ router.post('/:id/role', hasCapability('add_role_to_user'), (req, res) => {
       return;
     }
 
-    models.Role.findById(req.body.id)
+    models.Role.findByPk(req.body.id)
       .then((role) => {
         if (role) {
-          models.User.findById(req.params.id)
+          models.User.findByPk(req.params.id)
             .then((result) => {
               result.addRole(role.id);
 
@@ -270,7 +270,7 @@ router.post('/:id/role', hasCapability('add_role_to_user'), (req, res) => {
 });
 
 router.delete('/:id/role/:role', hasCapability('delete_role_from_user'), (req, res) => {
-  models.User.findById(req.params.id)
+  models.User.findByPk(req.params.id)
     .then((result) => {
       result.removeRole(req.params.role);
       res.status(200).send({});

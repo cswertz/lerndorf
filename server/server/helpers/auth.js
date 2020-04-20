@@ -106,7 +106,7 @@ const isSelfOrHasCapability = (...allowed) => (req, res, next) => {
 };
 
 const isLastAdmin = (id, next) => {
-  models.User.findById(id)
+  models.User.findByPk(id)
     .then((result) => {
       result.getRoles()
         .then((roles) => {

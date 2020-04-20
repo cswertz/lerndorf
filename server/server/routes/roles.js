@@ -49,7 +49,7 @@ router.post('/', hasCapability('add_role'), (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  models.Role.findById(req.params.id, {
+  models.Role.findByPk(req.params.id, {
     attributes: [
       'id',
       'slug',
@@ -83,7 +83,7 @@ router.patch('/:id', hasCapability('edit_role'), (req, res) => {
     },
   })
     .then(() => {
-      models.Role.findById(req.params.id, {
+      models.Role.findByPk(req.params.id, {
         attributes: ['id', 'slug', 'name', 'createdAt', 'updatedAt'],
       })
         .then(result => res.json(result));
@@ -113,10 +113,10 @@ router.post('/:id/capability', hasCapability('add_capability_to_role'), (req, re
       return;
     }
 
-    models.Capability.findById(req.body.id)
+    models.Capability.findByPk(req.body.id)
       .then((capability) => {
         if (capability) {
-          models.Role.findById(req.params.id)
+          models.Role.findByPk(req.params.id)
             .then((result) => {
               if (result) {
                 result.addCapability(capability.id);
@@ -138,7 +138,7 @@ router.post('/:id/capability', hasCapability('add_capability_to_role'), (req, re
 });
 
 router.delete('/:id/capability/:capability', hasCapability('remove_capability_from_role'), (req, res) => {
-  models.Role.findById(req.params.id)
+  models.Role.findByPk(req.params.id)
     .then((result) => {
       result.removeCapability(req.params.capability);
       res.status(200).send({});

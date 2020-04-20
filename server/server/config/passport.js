@@ -16,7 +16,7 @@ const passportConfig = (passport) => {
   });
 
   passport.deserializeUser((id, done) => {
-    models.User.findById(id)
+    models.User.findByPk(id)
       .then((result) => {
         done(null, result);
       });

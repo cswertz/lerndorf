@@ -107,7 +107,7 @@ router.patch('/markLectored/:id', hasCapability('set_knowledge_unit_lectored'), 
 });
 
 router.get('/:id', (req, res) => {
-  models.KnowledgeUnit.findById(req.params.id, {
+  models.KnowledgeUnit.findByPk(req.params.id, {
     attributes: [
       'id',
       'comment',
