@@ -24,6 +24,8 @@ If you want to use different dialects take a look at this starting point:
 }
 ```
 
+In this config file you can also adjust the SMTP mailer to your liking.
+
 ## Initializing the database
 For the database to be initailly built, run:
     yarn sequelize db:migrate
