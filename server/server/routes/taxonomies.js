@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
       'type',
     ],
   })
-    .then(results => res.json(results));
+    .then((results) => res.json(results));
 });
 
 router.post('/', [
@@ -41,10 +41,10 @@ router.post('/', [
   }
 
   return models.Taxonomy.create(req.body)
-    .then(result => res.json(result))
-    .catch(err => res.status(422).send({
+    .then((result) => res.json(result))
+    .catch((err) => res.status(422).send({
       error: 'There have been database errors.',
-      errors: err.errors.map(error => ({
+      errors: err.errors.map((error) => ({
         param: error.path,
         msg: error.message,
       })),
@@ -96,7 +96,7 @@ router.patch('/:id', hasCapability('edit_taxonomy'), (req, res) => {
       models.Taxonomy.findByPk(req.params.id, {
         attributes: ['id', 'createdAt'],
       })
-        .then(result => res.json(result));
+        .then((result) => res.json(result));
     });
 });
 

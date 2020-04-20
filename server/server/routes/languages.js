@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
       'name',
     ],
   })
-    .then(results => res.json(results));
+    .then((results) => res.json(results));
 });
 
 router.post('/', [
@@ -37,10 +37,10 @@ router.post('/', [
   }
 
   return models.Language.create(req.body)
-    .then(result => res.json(result))
-    .catch(err => res.status(422).send({
+    .then((result) => res.json(result))
+    .catch((err) => res.status(422).send({
       error: 'There have been database errors.',
-      errors: err.errors.map(error => ({
+      errors: err.errors.map((error) => ({
         param: error.path,
         msg: error.message,
       })),
@@ -51,7 +51,7 @@ router.get('/:id', (req, res) => {
   models.Language.findByPk(req.params.id, {
     attributes: ['id', 'createdAt', 'updatedAt'],
   })
-    .then(result => res.json(result));
+    .then((result) => res.json(result));
 });
 
 router.patch('/:id', hasCapability('edit_language'), (req, res) => {
@@ -68,7 +68,7 @@ router.patch('/:id', hasCapability('edit_language'), (req, res) => {
       models.Language.findByPk(req.params.id, {
         attributes: ['id', 'createdAt', 'updatedAt'],
       })
-        .then(result => res.json(result));
+        .then((result) => res.json(result));
     });
 });
 

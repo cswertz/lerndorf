@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
       'updatedAt',
     ],
   })
-    .then(results => res.json(results));
+    .then((results) => res.json(results));
 });
 
 router.post('/', [
@@ -39,10 +39,10 @@ router.post('/', [
   }
 
   return models.Role.create(req.body)
-    .then(result => res.json(result))
-    .catch(err => res.status(422).send({
+    .then((result) => res.json(result))
+    .catch((err) => res.status(422).send({
       error: 'There have been database errors.',
-      errors: err.errors.map(error => ({
+      errors: err.errors.map((error) => ({
         message: error.message,
         type: error.type,
       })),
@@ -70,7 +70,7 @@ router.get('/:id', (req, res) => {
       },
     ],
   })
-    .then(result => res.json(result));
+    .then((result) => res.json(result));
 });
 
 router.patch('/:id', hasCapability('edit_role'), (req, res) => {
@@ -87,7 +87,7 @@ router.patch('/:id', hasCapability('edit_role'), (req, res) => {
       models.Role.findByPk(req.params.id, {
         attributes: ['id', 'slug', 'name', 'createdAt', 'updatedAt'],
       })
-        .then(result => res.json(result));
+        .then((result) => res.json(result));
     });
 });
 

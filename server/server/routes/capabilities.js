@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
       'name',
     ],
   })
-    .then(results => res.json(results));
+    .then((results) => res.json(results));
 });
 
 /*

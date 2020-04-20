@@ -35,7 +35,7 @@ router.get('/', (req, res) => {
       },
     ],
   })
-    .then(results => res.json(results));
+    .then((results) => res.json(results));
 });
 
 router.post('/', [
@@ -77,9 +77,9 @@ router.post('/', [
             models.LearningUnitLanguage.create(learningUnitLanguageData)
               .then(() => res.json(learningUnit));
           })
-          .catch(err => res.status(422).send({
+          .catch((err) => res.status(422).send({
             error: 'There have been database errors.',
-            errors: err.errors.map(error => ({
+            errors: err.errors.map((error) => ({
               message: error.message,
               type: error.type,
             })),
@@ -118,7 +118,7 @@ router.post('/addTag/:learningUnitLanguageId', [
   };
 
   return models.LearningUnitTag.create(data)
-    .then(result => res.json(result));
+    .then((result) => res.json(result));
 });
 
 router.post('/addRelation/:id', [
@@ -146,7 +146,7 @@ router.post('/addRelation/:id', [
   };
 
   return models.LearningUnitRelation.create(data)
-    .then(result => res.json(result));
+    .then((result) => res.json(result));
 });
 
 router.get('/taxonomies', (req, res) => {
@@ -170,7 +170,7 @@ router.get('/taxonomies', (req, res) => {
       },
     ],
   })
-    .then(children => getTree(children).then(result => res.json(result)));
+    .then((children) => getTree(children).then((result) => res.json(result)));
 });
 
 router.get('/:id', (req, res) => {
@@ -284,7 +284,7 @@ router.get('/:id', (req, res) => {
       [models.LearningUnit, models.KnowledgeUnit, 'Texts', 'id', 'asc'],
     ],
   })
-    .then(result => res.json(result));
+    .then((result) => res.json(result));
 });
 
 router.get('/suggestion/:term', (req, res) => {

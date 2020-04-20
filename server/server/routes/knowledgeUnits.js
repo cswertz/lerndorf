@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
       },
     ],
   })
-    .then(results => res.json(results));
+    .then((results) => res.json(results));
 });
 
 router.post('/', [
@@ -48,10 +48,10 @@ router.post('/', [
 
   req.body.UserId = req.user.id;
   return models.KnowledgeUnit.create(req.body)
-    .then(result => res.json(result))
-    .catch(err => res.status(422).send({
+    .then((result) => res.json(result))
+    .catch((err) => res.status(422).send({
       error: 'There have been database errors.',
-      errors: err.errors.map(error => ({
+      errors: err.errors.map((error) => ({
         message: error.message,
         type: error.type,
       })),
@@ -83,7 +83,7 @@ router.get('/taxonomies', (req, res) => {
       },
     ],
   })
-    .then(children => getTree(children).then(result => res.json(result)));
+    .then((children) => getTree(children).then((result) => res.json(result)));
 });
 
 router.patch('/markReviewed/:id', hasCapability('set_knowledge_unit_reviewed'), (req, res) => {
@@ -94,7 +94,7 @@ router.patch('/markReviewed/:id', hasCapability('set_knowledge_unit_reviewed'), 
       id: req.params.id,
     },
   })
-    .then(result => res.json(result));
+    .then((result) => res.json(result));
 });
 
 router.patch('/markLectored/:id', hasCapability('set_knowledge_unit_lectored'), (req, res) => {
@@ -105,7 +105,7 @@ router.patch('/markLectored/:id', hasCapability('set_knowledge_unit_lectored'), 
       id: req.params.id,
     },
   })
-    .then(result => res.json(result));
+    .then((result) => res.json(result));
 });
 
 router.get('/:id', (req, res) => {
@@ -184,7 +184,7 @@ router.get('/:id', (req, res) => {
       },
     ],
   })
-    .then(result => res.json(result));
+    .then((result) => res.json(result));
 });
 
 router.delete('/:id', (req, res) => {

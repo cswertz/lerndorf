@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
   models.Text.findAll({
     attributes: ['id', 'createdAt'],
   })
-    .then(results => res.json(results));
+    .then((results) => res.json(results));
 });
 
 router.post('/', [
@@ -31,10 +31,10 @@ router.post('/', [
   }
 
   return models.Text.create(req.body)
-    .then(result => res.json(result))
-    .catch(err => res.status(422).send({
+    .then((result) => res.json(result))
+    .catch((err) => res.status(422).send({
       error: 'There have been database errors.',
-      errors: err.errors.map(error => ({
+      errors: err.errors.map((error) => ({
         message: error.message,
         type: error.type,
       })),

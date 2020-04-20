@@ -27,7 +27,7 @@ const isSelf = (req, res, next) => {
 };
 
 const checkRole = (allowed, roles) => {
-  const permit = allowed.filter(item => roles.indexOf(item) > -1);
+  const permit = allowed.filter((item) => roles.indexOf(item) > -1);
 
   if (permit.length > 0) {
     return true;
@@ -56,7 +56,7 @@ const hasRole = (...allowed) => (req, res, next) => {
 const hasCapability = (...allowed) => (req, res, next) => {
   if (req.user) {
     const { capabilities } = req.user;
-    const permit = allowed.filter(item => capabilities.indexOf(item) > -1);
+    const permit = allowed.filter((item) => capabilities.indexOf(item) > -1);
 
     if (permit.length > 0) {
       return next();
@@ -89,7 +89,7 @@ const isSelfOrHasCapability = (...allowed) => (req, res, next) => {
     }
 
     const { capabilities } = req.user;
-    const permit = allowed.filter(item => capabilities.indexOf(item) > -1);
+    const permit = allowed.filter((item) => capabilities.indexOf(item) > -1);
 
     if (permit.length > 0) {
       return next();
@@ -110,7 +110,7 @@ const isLastAdmin = (id, next) => {
     .then((result) => {
       result.getRoles()
         .then((roles) => {
-          const userRoles = roles.map(role => role.dataValues.slug);
+          const userRoles = roles.map((role) => role.dataValues.slug);
           const isAdmin = checkRole(['admin'], userRoles);
 
           if (isAdmin) {

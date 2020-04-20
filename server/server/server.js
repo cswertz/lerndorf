@@ -32,12 +32,12 @@ app.use((req, res, next) => {
 
     req.user.getRoles()
       .then((roles) => {
-        const userRoles = roles.map(role => role.dataValues.slug);
-        const promises = roles.map(role => role.getCapabilities());
+        const userRoles = roles.map((role) => role.dataValues.slug);
+        const promises = roles.map((role) => role.getCapabilities());
         Promise.all(promises)
           .then((values) => {
             const objects = [].concat(...values);
-            const capabilities = objects.map(object => object.get().slug);
+            const capabilities = objects.map((object) => object.get().slug);
             req.user.capabilities = capabilities;
             req.user.roles = userRoles;
 

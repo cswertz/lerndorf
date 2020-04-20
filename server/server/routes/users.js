@@ -71,7 +71,7 @@ router.get('/', hasCapability('edit_user'), (req, res) => {
   models.User.findAll({
     attributes: ['id', 'username'],
   })
-    .then(results => res.json(results));
+    .then((results) => res.json(results));
 });
 
 router.post('/', [
@@ -153,7 +153,7 @@ router.get('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
       },
     ],
   })
-    .then(result => res.json(result));
+    .then((result) => res.json(result));
 });
 
 router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
@@ -214,7 +214,7 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
           'zip',
         ],
       })
-        .then(result => res.json(result));
+        .then((result) => res.json(result));
     });
 });
 
