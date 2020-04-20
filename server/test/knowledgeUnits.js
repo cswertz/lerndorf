@@ -65,7 +65,7 @@ describe('KnowledgeUnit', () => {
 
   describe('GET /api/knowledgeUnits', () => {
     it('it should GET all the knowledgeUnits', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get('/api/knowledgeUnits')
         .end((err, res) => {
           res.should.have.status(200);
@@ -79,7 +79,7 @@ describe('KnowledgeUnit', () => {
 
   describe('GET /api/knowledgeUnits/taxonomies', () => {
     it('it should GET all the relevant taxonomies for adding a knowledge Unit', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get('/api/knowledgeUnits/taxonomies')
         .end((err, res) => {
           res.should.have.status(200);
@@ -92,7 +92,7 @@ describe('KnowledgeUnit', () => {
 
   describe('POST /api/knowledgeUnits', () => {
     it('it should not be possible to add a Knowledge Unit when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/knowledgeUnits')
         .send({})
         .end((err, res) => {
@@ -108,16 +108,18 @@ describe('KnowledgeUnit', () => {
       agent
         .post('/api/users/login')
         .send(userKnowledgeUnit)
-        .end(() => {
+        .end((err, res) => {
+          res.should.have.status(200);
+
           agent
             .post('/api/knowledgeUnits')
             .send({
               LearningUnitId: learningUnits[0].id,
             })
-            .end((err, res) => {
-              res.should.have.status(403);
-              res.body.should.be.a('object');
-              res.body.should.have.property('error');
+            .end((err1, res1) => {
+              res1.should.have.status(403);
+              res1.body.should.be.a('object');
+              res1.body.should.have.property('error');
 
               done();
             });
@@ -190,7 +192,7 @@ describe('KnowledgeUnit', () => {
 
   describe('GET /api/knowledgeUnits/:id', () => {
     it('it should display KnowledgeUnit information', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get(`/api/knowledgeUnits/${knowledgeUnits[0]}`)
         .end((err, res) => {
           res.should.have.status(200);
@@ -204,7 +206,7 @@ describe('KnowledgeUnit', () => {
 
   describe('PATCH /api/knowledgeUnits/markLectored:id', () => {
     it('it should not be possible to add mark a Knowledge Unit lectored when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .patch(`/api/knowledgeUnits/markLectored/${knowledgeUnits[0]}`)
         .end((err, res) => {
           res.should.have.status(401);
@@ -255,7 +257,7 @@ describe('KnowledgeUnit', () => {
 
   describe('PATCH /api/knowledgeUnits/markReviewed:id', () => {
     it('it should not be possible to add mark a Knowledge Unit reviewed when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .patch(`/api/knowledgeUnits/markReviewed/${knowledgeUnits[0]}`)
         .end((err, res) => {
           res.should.have.status(401);
@@ -306,7 +308,7 @@ describe('KnowledgeUnit', () => {
 
   describe('DELETE /api/knowledgeUnits/:id', () => {
     it('it should be possible to delete a KnowledgeUnit', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .delete(`/api/knowledgeUnits/${knowledgeUnits[0]}`)
         .end((err, res) => {
           res.should.have.status(200);

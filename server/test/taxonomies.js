@@ -33,7 +33,7 @@ describe('Taxonomy', () => {
       cascade: true,
     });
 
-    chai.request(server)
+    chai.request(server).keepOpen()
       .post('/api/users')
       .send(userTaxonomy)
       .end((err, res) => {
@@ -60,7 +60,7 @@ describe('Taxonomy', () => {
 
   describe('GET /api/taxonomies', () => {
     it('it should GET all the taxonomies', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get('/api/taxonomies')
         .end((err, res) => {
           res.should.have.status(200);
@@ -74,7 +74,7 @@ describe('Taxonomy', () => {
 
   describe('POST /api/taxonomies', () => {
     it('it should not be possible to add a Taxonomy when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/taxonomies')
         .send({})
         .end((err, res) => {
@@ -168,7 +168,7 @@ describe('Taxonomy', () => {
 
   describe('PATCH /api/taxonomies/:id', () => {
     it('it should not be possible to edit a Taxonomy when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .patch(`/api/taxonomies/${taxonomies[0]}`)
         .send({
           type: 'edited',
@@ -226,7 +226,7 @@ describe('Taxonomy', () => {
 
   describe('GET /api/taxonomies/:id', () => {
     it('it should display Taxonomy information', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get(`/api/taxonomies/${taxonomies[0]}`)
         .end((err, res) => {
           res.should.have.status(200);
@@ -243,7 +243,7 @@ describe('Taxonomy', () => {
 
   describe('DELETE /api/taxonomies/:id', () => {
     it('it should not be possible to delete a Taxonomy when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .delete(`/api/taxonomies/${taxonomies[0]}`)
         .end((err, res) => {
           res.should.have.status(401);

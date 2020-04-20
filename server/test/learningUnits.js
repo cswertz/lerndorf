@@ -34,7 +34,7 @@ describe('LearningUnit', () => {
       cascade: true,
     });
 
-    chai.request(server)
+    chai.request(server).keepOpen()
       .post('/api/users')
       .send(userLearningUnit)
       .end((err, res) => {
@@ -61,7 +61,7 @@ describe('LearningUnit', () => {
 
   describe('GET /api/learningUnits', () => {
     it('it should GET all the learningUnits', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get('/api/learningUnits')
         .end((err, res) => {
           res.should.have.status(200);
@@ -75,7 +75,7 @@ describe('LearningUnit', () => {
 
   describe('POST /api/learningUnits', () => {
     it('it should not be possible to add a knowledgeUnit when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/learningUnits')
         .send({})
         .end((err, res) => {
@@ -169,7 +169,7 @@ describe('LearningUnit', () => {
 
   describe('GET /api/learningUnits/:id', () => {
     it('it should display LearningUnit information', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get(`/api/learningUnits/${learningUnits[0]}`)
         .end((err, res) => {
           res.should.have.status(200);
@@ -187,7 +187,7 @@ describe('LearningUnit', () => {
 
   describe('DELETE /api/learningUnits/:id', () => {
     it('it should not be possible to delete a Learning unit when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .delete(`/api/learningUnits/${learningUnits[0]}`)
         .end((err, res) => {
           res.should.have.status(401);

@@ -37,7 +37,7 @@ describe('User', () => {
   const users = [];
 
   before((done) => {
-    chai.request(server)
+    chai.request(server).keepOpen()
       .post('/api/users')
       .send(userUsers)
       .end((err, res) => {
@@ -64,7 +64,7 @@ describe('User', () => {
 
   describe('GET /api/users', () => {
     it('it should not be possible to get users when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get('/api/users')
         .end((err, res) => {
           res.should.have.status(401);
@@ -111,7 +111,7 @@ describe('User', () => {
 
   describe('POST /api/users', () => {
     it('it should display an error when required fields are missing', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users')
         .send({})
         .end((err, res) => {
@@ -126,7 +126,7 @@ describe('User', () => {
     });
 
     it('it should display an error when username not present', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users')
         .send({
           password: 'password',
@@ -144,7 +144,7 @@ describe('User', () => {
     });
 
     it('it should display an error when password not present', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users')
         .send({
           username: 'username',
@@ -162,7 +162,7 @@ describe('User', () => {
     });
 
     it('it should display an error when email not present', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users')
         .send({
           password: 'password',
@@ -180,7 +180,7 @@ describe('User', () => {
     });
 
     it('it should display an error when email invalid', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users')
         .send({
           password: 'password',
@@ -200,7 +200,7 @@ describe('User', () => {
 
     it('it should display an error when username too long', (done) => {
       const longUsername = Array(500).join('a');
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users')
         .send({
           username: longUsername,
@@ -220,7 +220,7 @@ describe('User', () => {
 
     it('it should display an error when password too long', (done) => {
       const longPassword = Array(500).join('a');
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users')
         .send({
           username: 'username',
@@ -240,7 +240,7 @@ describe('User', () => {
 
     it('it should display an error when email too long', (done) => {
       const longEmail = `${Array(500).join('a')}@host.com`;
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users')
         .send({
           username: 'username',
@@ -259,7 +259,7 @@ describe('User', () => {
     });
 
     it('it should add a new user', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users')
         .send(user)
         .end((err, res) => {
@@ -276,7 +276,7 @@ describe('User', () => {
     });
 
     it('it should not add a second user with the same username', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users')
         .send(user)
         .end((err, res) => {
@@ -291,7 +291,7 @@ describe('User', () => {
     });
 
     it('it should not add a second user with the same email address', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users')
         .send(userSameEmail)
         .end((err, res) => {
@@ -306,7 +306,7 @@ describe('User', () => {
     });
 
     it('it should add a new user with a different name', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users')
         .send(user1)
         .end((err, res) => {
@@ -325,7 +325,7 @@ describe('User', () => {
           })
             .then((userFetched) => {
               const { activationCode } = userFetched;
-              chai.request(server)
+              chai.request(server).keepOpen()
                 .get(`/api/users/activate/${activationCode}`)
                 .end((err1, res1) => {
                   res1.should.have.status(200);
@@ -339,7 +339,7 @@ describe('User', () => {
 
   describe('GET /api/users/:id', () => {
     it('it should not be possible to get user details when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get(`/api/users/${users[0]}`)
         .end((err, res) => {
           res.should.have.status(401);
@@ -393,7 +393,7 @@ describe('User', () => {
 
   describe('POST /api/users/login', () => {
     it('it should display an error when username and password are missing', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users/login')
         .send({})
         .end((err, res) => {
@@ -408,7 +408,7 @@ describe('User', () => {
     });
 
     it('it should display an error when username is missing', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users/login')
         .send({
           password: 'password',
@@ -425,7 +425,7 @@ describe('User', () => {
     });
 
     it('it should display an error when password is missing', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users/login')
         .send({
           username: 'user',
@@ -442,7 +442,7 @@ describe('User', () => {
     });
 
     it('it should display an error when username or password are wrong', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users/login')
         .send({
           username: 'unknown',
@@ -458,7 +458,7 @@ describe('User', () => {
     });
 
     it('it should display an error when user is not active', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users/login')
         .send(user)
         .end((err, res) => {
@@ -478,7 +478,7 @@ describe('User', () => {
       })
         .then((userFetched) => {
           const { activationCode } = userFetched;
-          chai.request(server)
+          chai.request(server).keepOpen()
             .get(`/api/users/activate/${activationCode}`)
             .end((err, res) => {
               res.should.have.status(200);
@@ -489,7 +489,7 @@ describe('User', () => {
     });
 
     it('it should login a user with valid credentials', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users/login')
         .send(user)
         .end((err, res) => {
@@ -505,7 +505,7 @@ describe('User', () => {
 
   describe('PATCH /api/users/:id', () => {
     it('it should display an error when editing a user while logged out', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .patch(`/api/users/${users[0]}`)
         .send({
           password: 'newPassword',
@@ -560,7 +560,7 @@ describe('User', () => {
     });
 
     it('it should not log in a user after password change', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/users/login')
         .send(user)
         .end((err, res) => {
@@ -631,7 +631,7 @@ describe('User', () => {
 
   describe('POST /api/users/:id/role', () => {
     it('it should not be possible to add a role by a guest user', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post(`/api/users/${users[0]}/role`)
         .send({
           id: 1,
@@ -727,7 +727,7 @@ describe('User', () => {
 
   describe('DELETE /api/users/:id/role/:role', () => {
     it('it should not be possible to remove a role by a guest user', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .delete(`/api/users/${users[0]}/role/1`)
         .end((err, res) => {
           res.should.have.status(401);
@@ -773,7 +773,7 @@ describe('User', () => {
 
   describe('DELETE /api/users/:id', () => {
     it('it should not be possible to delete a user without being logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .delete(`/api/users/${users[0]}`)
         .send(user)
         .end((err, res) => {

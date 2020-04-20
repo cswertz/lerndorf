@@ -62,7 +62,7 @@ describe('Language', () => {
 
   describe('GET /api/languages', () => {
     it('it should GET all the languages', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get('/api/languages')
         .end((err, res) => {
           res.should.have.status(200);
@@ -76,7 +76,7 @@ describe('Language', () => {
 
   describe('POST /api/languages', () => {
     it('it should not be possible to add a Language when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/languages')
         .send({})
         .end((err, res) => {
@@ -216,7 +216,7 @@ describe('Language', () => {
 
   describe('GET /api/languages/:id', () => {
     it('it should display Language information', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get(`/api/languages/${languages[0]}`)
         .end((err, res) => {
           res.should.have.status(200);
@@ -232,7 +232,7 @@ describe('Language', () => {
 
   describe('PATCH /api/languages/:id', () => {
     it('it should not be possible to edit a language when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .patch(`/api/languages/${languages[0]}`)
         .send({
           name: 'Edited name',
@@ -291,7 +291,7 @@ describe('Language', () => {
 
   describe('DELETE /api/languages/:id', () => {
     it('it should not be possible to delete a Language when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .delete(`/api/languages/${languages[0]}`)
         .end((err, res) => {
           res.should.have.status(401);

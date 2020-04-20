@@ -56,7 +56,7 @@ describe('Text', () => {
 
     models.LearningUnit.create({})
       .then((result) => {
-        chai.request(server)
+        chai.request(server).keepOpen()
           .post('/api/users')
           .send(userText)
           .end((err, res) => {
@@ -101,7 +101,7 @@ describe('Text', () => {
 
   describe('GET /api/texts', () => {
     it('it should GET all the texts', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get('/api/texts')
         .end((err, res) => {
           res.should.have.status(200);
@@ -115,7 +115,7 @@ describe('Text', () => {
 
   describe('POST /api/texts', () => {
     it('it should not be possible to add a Text when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/texts')
         .send({
           content: text.content,
@@ -222,7 +222,7 @@ describe('Text', () => {
 
   describe('GET /api/texts/:id', () => {
     it('it should display Text information', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get(`/api/texts/${texts[0]}`)
         .end((err, res) => {
           res.should.have.status(200);
@@ -238,7 +238,7 @@ describe('Text', () => {
 
   describe('DELETE /api/texts/:id', () => {
     it('it should be possible to delete a Text', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .delete(`/api/texts/${texts[0]}`)
         .end((err, res) => {
           res.should.have.status(200);

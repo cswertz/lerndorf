@@ -6,7 +6,6 @@ import server from '../server/';
 
 chai.should();
 chai.use(chaiHttp);
-const agent = chai.request.agent(server);
 
 describe('File', () => {
   const file = {
@@ -130,7 +129,7 @@ describe('File', () => {
 
   describe('PATCH /api/files/:id', () => {
     it('it should allow an empty patch', (done) => {
-      agent
+      chai.request(server)
         .patch(`/api/files/${files[0]}`)
         .send({})
         .end((err, res) => {

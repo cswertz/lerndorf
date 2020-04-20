@@ -30,7 +30,7 @@ describe('Role', () => {
   };
 
   before((done) => {
-    chai.request(server)
+    chai.request(server).keepOpen()
       .post('/api/users')
       .send(userRole)
       .end((err, res) => {
@@ -57,7 +57,7 @@ describe('Role', () => {
 
   describe('GET /api/roles', () => {
     it('it should GET all the roles', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get('/api/roles')
         .end((err, res) => {
           res.should.have.status(200);
@@ -71,7 +71,7 @@ describe('Role', () => {
 
   describe('POST /api/roles', () => {
     it('it should not be possible to add a Role when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post('/api/roles')
         .send(role)
         .end((err, res) => {
@@ -185,7 +185,7 @@ describe('Role', () => {
 
   describe('GET /api/roles/:id', () => {
     it('it should display Role information', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get(`/api/roles/${roles[0]}`)
         .end((err, res) => {
           res.should.have.status(200);
@@ -201,7 +201,7 @@ describe('Role', () => {
 
   describe('PATCH /api/roles/:id', () => {
     it('it should not be possible to edit a role when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .patch(`/api/roles/${roles[0]}`)
         .send({
           name: 'edited',
@@ -259,7 +259,7 @@ describe('Role', () => {
 
   describe('DELETE /api/roles/:id', () => {
     it('it should not be possible to delete a Taxonomy when not logged in', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .delete(`/api/roles/${roles[0]}`)
         .end((err, res) => {
           res.should.have.status(401);
@@ -309,7 +309,7 @@ describe('Role', () => {
 
   describe('POST /api/roles/:id/capability', () => {
     it('it should not be possible to add a capability by a guest user', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .post(`/api/roles/${role[0]}/capability`)
         .send({
           id: 1,
@@ -386,7 +386,7 @@ describe('Role', () => {
 
   describe('DELETE /api/roles/:id/capability/:capability', () => {
     it('it should not be possible to remove a capability from a role by a guest user', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .delete(`/api/roles/${roles[1]}/capability/1`)
         .end((err, res) => {
           res.should.have.status(401);
