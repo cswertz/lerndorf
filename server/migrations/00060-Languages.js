@@ -2,7 +2,7 @@ export default {
   up: (queryInterface, DataTypes) => queryInterface.createTable('Languages', {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
+      autoIncrement: false,
       primaryKey: true,
       allowNull: false,
     },
