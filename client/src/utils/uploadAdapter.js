@@ -5,11 +5,19 @@ class UploadAdapter {
   }
 
   upload() {
+    return this.loader.file
+      .then(file => new Promise((resolve, reject) => {
+        this.initRequest();
+        this.initListeners(resolve, reject, file);
+        this.sendRequest(file);
+      }));
+    /*
     return new Promise((resolve, reject) => {
       this.initRequest();
       this.initListeners(resolve, reject);
       this.sendRequest();
     });
+    */
   }
 
   abort() {
@@ -25,9 +33,8 @@ class UploadAdapter {
     this.xhr.responseType = 'json';
   }
 
-  initListeners(resolve, reject) {
+  initListeners(resolve, reject, file) {
     const { xhr, loader } = this;
-    const { file } = loader;
     const genericErrorText = `Couldn't upload file: ${file.name}.`;
 
     xhr.addEventListener('error', () => reject(genericErrorText));
@@ -54,10 +61,11 @@ class UploadAdapter {
     }
   }
 
-  sendRequest() {
+  sendRequest(file) {
     const data = new FormData();
-    data.append('upload', this.loader.file);
-    data.append('name', this.loader.file.name);
+    console.log(this.loader);
+    data.append('upload', file);
+    data.append('name', file.name);
 
     this.xhr.send(data);
   }
