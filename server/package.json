@@ -19,7 +19,7 @@
     "body-parser": "^1.18.2",
     "chai": "^4.1.2",
     "chai-http": "^4.3.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.7.0",
     "express": "^4.16.2",
     "express-fileupload": "^1.1.7-alpha.3",
     "express-session": "^1.15.6",
@@ -28,8 +28,8 @@
     "nodemailer": "^6.1.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "sequelize": "^5.21.6",
-    "sqlite3": "^4.1.1",
+    "sequelize": "6.3.4",
+    "sqlite3": "^5.0.0",
     "winston": "^3.0.0-rc1"
   },
   "devDependencies": {
@@ -40,13 +40,13 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.6.1",
-    "mocha": "^7.1.1",
+    "mocha": "^8.1.2",
     "nyc": "^15.0.1",
-    "sequelize-cli": "^5.5.1",
+    "sequelize-cli": "6.2.0",
     "start-server-webpack-plugin": "^2.2.1",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
-    "webpack-node-externals": "^1.6.0"
+    "webpack-node-externals": "2.5.2"
   }
 }
