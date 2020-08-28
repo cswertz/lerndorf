@@ -56,7 +56,8 @@ export default {
         allowNull: false,
       },
     })
-      .then(() => queryInterface.addConstraint('LearningUnitLanguage', ['title', 'LanguageId'], {
+      .then(() => queryInterface.addConstraint('LearningUnitLanguage', {
+        fields: ['title', 'LanguageId'],
         type: 'unique',
         name: 'indexname',
       })),

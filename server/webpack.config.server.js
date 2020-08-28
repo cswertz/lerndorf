@@ -8,7 +8,7 @@ module.exports = {
   entry: ['webpack/hot/poll?1000', './server/index'],
   watch: true,
   target: 'node',
-  externals: [nodeExternals({ whitelist: ['webpack/hot/poll?1000'] })],
+  externals: [nodeExternals({ allowlist: ['webpack/hot/poll?1000'] })],
   module: {
     rules: [
       { test: /\.js?$/, use: 'babel-loader', exclude: /node_modules/ },
