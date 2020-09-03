@@ -10,14 +10,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ClassicEditor from 'ckeditor5-custom-build/build/ckeditor';
 import CKEditor from '@ckeditor/ckeditor5-react';
 
-import CustomUploadAdapterPlugin from '../../utils/ckeditorPlugins';
-
-const editorConfig = {
-  extraPlugins: [CustomUploadAdapterPlugin],
-};
+import editorConfig from '../../utils/ckeditorConfig';
 
 const styles = theme => ({
   wrapper: {
