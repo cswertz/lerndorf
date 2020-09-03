@@ -23,6 +23,21 @@ const styles = theme => ({
   button: {
     marginTop: theme.spacing.unit,
   },
+  content: {
+    '& figure': {
+      margin: 0,
+      '& img': {
+        'max-width': '100%',
+      },
+    },
+    '& figure.image-style-side': {
+      float: 'right',
+      'max-width': '50%',
+    }
+  },
+  clearfix: {
+    clear: 'both',
+  }
 });
 
 const TextsShowPaper = ({
@@ -53,6 +68,7 @@ const TextsShowPaper = ({
           __html: text.content,
         }}
       />
+      <div className={classes.clearfix} />
       {text.prevId && (
         <Button
           variant="contained"
