@@ -33,6 +33,11 @@ const styles = theme => ({
     '& figure.image-style-side': {
       float: 'right',
       'max-width': '50%',
+    },
+    '& figcaption': {
+      'text-align': 'center',
+      'padding-top': 5,
+      'padding-bottom': 5,
     }
   },
   clearfix: {
@@ -99,7 +104,7 @@ const TextsShowPaper = ({
         </Button>
       )}
       &nbsp;
-      {text.currentId !== text.id && (
+      {text.currentId && text.currentId !== text.id && (
         <Button
           variant="contained"
           component={Link}
