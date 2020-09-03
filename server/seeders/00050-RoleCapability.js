@@ -56,7 +56,6 @@ const roleCapabilities = [
   {
     role: 'editor',
     capabilities: [
-      'set_knowledge_unit_reviewed',
       'set_knowledge_unit_lectored',
       'delete_editor_role_from_user',
     ],
