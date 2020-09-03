@@ -16,9 +16,17 @@ class RolesEdit extends Component {
 
   componentDidMount() {
     const {
+      match,
       capabilities,
       capabilitiesFetch,
+      items,
+      itemFetch,
     } = this.props;
+    const { id } = match.params;
+
+    if ((!items.fetching) && !items.id[id]) {
+      itemFetch(id);
+    }
 
     if ((!capabilities.fetching) && (!capabilities.fetched)) {
       capabilitiesFetch();
