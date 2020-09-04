@@ -103,7 +103,7 @@ class MenuAppBar extends Component {
                 >
                   {user.user.picture ? (
                     <Avatar
-                      src={`/static/uploads/${user.user.picture}`}
+                      src={`/uploads/${user.user.picture}`}
                       alt={user.username}
                     />
                   ) : (

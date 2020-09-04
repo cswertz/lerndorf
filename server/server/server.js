@@ -12,7 +12,8 @@ const app = express();
 
 passportConfig(passport);
 
-app.use('/static', express.static('./server/public'));
+app.use('/', express.static('./server/public'));
+app.use('/uploads', express.static('./server/public/uploads'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(fileUpload());
@@ -50,5 +51,6 @@ app.use((req, res, next) => {
 });
 
 routeConfig(app);
+console.log(__dirname)
 
 export default app;
