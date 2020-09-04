@@ -3,6 +3,7 @@ import Sequelize from 'sequelize';
 import KnowledgeUnitUserRating from '../models/KnowledgeUnitUserRating';
 import LearningUnitLanguage from '../models/LearningUnitLanguage';
 import LearningUnitRelation from '../models/LearningUnitRelation';
+import TaxonomyLanguage from '../models/TaxonomyLanguage';
 import LearningUnitTag from '../models/LearningUnitTag';
 import KnowledgeUnit from '../models/KnowledgeUnit';
 import LearningUnit from '../models/LearningUnit';
@@ -19,6 +20,7 @@ const models = [
   KnowledgeUnitUserRating,
   LearningUnitLanguage,
   LearningUnitRelation,
+  TaxonomyLanguage,
   LearningUnitTag,
   KnowledgeUnit,
   LearningUnit,

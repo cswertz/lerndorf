@@ -2,7 +2,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.bulkInsert('Taxonomies', [
     {
       id: 1,
-      type: 'taxonomy',
+      type: 'taxonomies',
       active: true,
       parent: 1,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
@@ -707,7 +707,7 @@ module.exports = {
       active: true,
       parent: 93,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
-    },    
+    },
   ], {}),
 
   down: queryInterface => queryInterface.bulkDelete('Taxonomies', {
