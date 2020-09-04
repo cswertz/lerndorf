@@ -131,7 +131,7 @@ const renderImageField = ({
   let profilePicture = '';
   if (hasProfilePicture) {
     buttonText = 'Change Profile Picture';
-    profilePicture = <img alt="Profile" style={style.image} src={`/static/uploads/${custom.picture}`} />;
+    profilePicture = <img alt="Profile" style={style.image} src={`/uploads/${custom.picture}`} />;
   }
 
   return (

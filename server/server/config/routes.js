@@ -7,12 +7,11 @@ import users from '../routes/users';
 import files from '../routes/files';
 import texts from '../routes/texts';
 import roles from '../routes/roles';
+import path from 'path';
 
 const configRoutes = (app) => {
   app.get('/', (req, res) => {
-    res.json({
-      message: 'I am a server route and can also be hot reloaded!',
-    });
+    res.sendFile('index.html', { root: path.join(process.cwd(), 'build') });
   });
 
   app.use('/api/knowledgeUnits', knowledgeUnits);
