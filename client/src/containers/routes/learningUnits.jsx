@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Wrapper from '../../components/routes/wrapper';
+import WrapperLearningUnit from './wrapperLearningUnit';
 
 import LearningUnitsEdit from '../learningUnits/Edit';
 import LearningUnitsShow from '../learningUnits/Show';
@@ -92,12 +93,12 @@ const LearningUnitsRouter = ({
       exact
       path="/learning-units/edit/:languageId/:id"
       render={() => (
-        <Wrapper
+        <WrapperLearningUnit
           fetchRoles={actions.userFetchRoles}
           className="LearningUnitsWrapper"
           logout={actions.userLogout}
-          title="Learning Unit"
-          active="learningUnits"
+          itemFetch={actions.learningUnitsItemFetch}
+          items={learningUnits}
           user={user}
           element={(
             <LearningUnitsEdit

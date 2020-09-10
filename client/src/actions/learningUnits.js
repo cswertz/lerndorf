@@ -86,7 +86,6 @@ export const learningUnitsItemFetch = id => (
     })
 );
 
-
 export const learningUnitsSuggestionsFetch = term => (
   dispatch => fetch(`/api/learningUnits/suggestion/${term}`, {
     method: 'GET',
