@@ -1,4 +1,4 @@
 language: node_js
 node_js:
-  - "9.2"
+  - "12.18.3"
 script: cd server && cp server/config/config.example.json server/config/config.json && yarn install && yarn test
