@@ -7,6 +7,7 @@ import TaxonomyLanguage from '../models/TaxonomyLanguage';
 import LearningUnitTag from '../models/LearningUnitTag';
 import KnowledgeUnit from '../models/KnowledgeUnit';
 import LearningUnit from '../models/LearningUnit';
+import RoleLanguage from '../models/RoleLanguage';
 import Capability from '../models/Capability';
 import Taxonomy from '../models/Taxonomy';
 import Language from '../models/Language';
@@ -24,6 +25,7 @@ const models = [
   LearningUnitTag,
   KnowledgeUnit,
   LearningUnit,
+  RoleLanguage,
   Capability,
   Language,
   Taxonomy,

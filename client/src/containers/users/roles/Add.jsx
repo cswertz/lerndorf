@@ -8,6 +8,7 @@ class RolesAdd extends Component {
   constructor(props) {
     super(props);
 
+    this.fetchLanguages = this.fetchLanguages.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -16,23 +17,56 @@ class RolesAdd extends Component {
 
     const {
       history,
+      languages,
       handleSubmit,
     } = this.props;
     const data = {
       name: e.target.name.value,
+      translations: [],
     };
 
+    for(let language of languages.languages) {
+      const { id, code } = language
+
+      if(e.target[code]) {
+        const vocable = e.target[code].value;
+        const translation = {
+          id,
+          vocable,
+        };
+
+        data.translations.push(translation);
+      }
+    }
+
     handleSubmit(data, history);
+  }
+
+  componentDidMount() {
+    this.fetchLanguages();
+  }
+
+  fetchLanguages() {
+    const {
+      languages,
+      languagesFetch,
+    } = this.props;
+
+    if (!languages.fetched && !languages.fetching) {
+      languagesFetch();
+    }
   }
 
   render() {
     const {
       errors,
+      languages
     } = this.props;
 
     return (
       <AddForm
         handleSubmit={this.handleSubmit}
+        languages={languages.languages}
         errors={errors.add}
       />
     );
@@ -40,6 +74,8 @@ class RolesAdd extends Component {
 }
 
 RolesAdd.propTypes = {
+  languages: PropTypes.shape({}).isRequired,
+  languagesFetch: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   errors: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({

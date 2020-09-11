@@ -18,6 +18,7 @@ import Roles from '../users/roles/List';
 
 const UsersRouter = ({
   capabilities,
+  languages,
   actions,
   roles,
   users,
@@ -196,7 +197,9 @@ const UsersRouter = ({
           user={user}
           element={(
             <RolesAdd
+              languagesFetch={actions.languagesFetch}
               handleSubmit={actions.rolesAdd}
+              languages={languages}
               errors={roles.errors}
             />
           )}
@@ -217,13 +220,15 @@ const UsersRouter = ({
           user={user}
           element={(
             <RolesEdit
-              removeCapability={actions.removeCapability}
-              addCapability={actions.addCapability}
               capabilitiesFetch={actions.capabilitiesFetch}
+              removeCapability={actions.removeCapability}
+              languagesFetch={actions.languagesFetch}
+              addCapability={actions.addCapability}
               itemFetch={actions.rolesItemFetch}
               handleSubmit={actions.rolesEdit}
               capabilities={capabilities}
               errors={roles.errors}
+              languages={languages}
               items={roles}
             />
           )}
@@ -255,12 +260,19 @@ const UsersRouter = ({
 );
 
 UsersRouter.propTypes = {
+  languages: PropTypes.shape({
+    languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   capabilities: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
+    languagesFetch: PropTypes.func.isRequired,
     userFetchRoles: PropTypes.func.isRequired,
     usersItemFetch: PropTypes.func.isRequired,
     usersFetch: PropTypes.func.isRequired,

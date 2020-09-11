@@ -10,6 +10,7 @@ class RolesEdit extends Component {
     super(props);
 
     this.removeCapability = this.removeCapability.bind(this);
+    this.fetchLanguages = this.fetchLanguages.bind(this);
     this.addCapability = this.addCapability.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -31,6 +32,8 @@ class RolesEdit extends Component {
     if ((!capabilities.fetching) && (!capabilities.fetched)) {
       capabilitiesFetch();
     }
+
+    this.fetchLanguages();
   }
 
   componentDidUpdate() {
@@ -43,6 +46,17 @@ class RolesEdit extends Component {
 
     if ((!items.fetching) && !items.id[id]) {
       itemFetch(id);
+    }
+  }
+
+  fetchLanguages() {
+    const {
+      languages,
+      languagesFetch,
+    } = this.props;
+
+    if (!languages.fetched && !languages.fetching) {
+      languagesFetch();
     }
   }
 
@@ -76,6 +90,7 @@ class RolesEdit extends Component {
     const {
       match,
       history,
+      languages,
       handleSubmit,
     } = this.props;
 
@@ -83,7 +98,22 @@ class RolesEdit extends Component {
 
     const data = {
       name: e.target.name.value,
+      translations: [],
     };
+
+    for(let language of languages.languages) {
+      const { id, code } = language;
+
+      if(e.target[code]) {
+        const vocable = e.target[code].value;
+        const translation = {
+          id,
+          vocable,
+        };
+
+        data.translations.push(translation);
+      }
+    }
 
     handleSubmit(id, data, history);
   }
@@ -91,6 +121,7 @@ class RolesEdit extends Component {
   render() {
     const {
       capabilities,
+      languages,
       errors,
       items,
       match,
@@ -110,6 +141,7 @@ class RolesEdit extends Component {
       <div>
         <EditForm
           handleSubmit={this.handleSubmit}
+          languages={languages.languages}
           initialValues={item}
           errors={errors.edit}
         />
@@ -125,6 +157,8 @@ class RolesEdit extends Component {
 }
 
 RolesEdit.propTypes = {
+  languages: PropTypes.shape({}).isRequired,
+  languagesFetch: PropTypes.func.isRequired,
   capabilitiesFetch: PropTypes.func.isRequired,
   capabilities: PropTypes.shape({}).isRequired,
   removeCapability: PropTypes.func.isRequired,
