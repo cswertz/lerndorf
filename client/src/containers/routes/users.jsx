@@ -197,9 +197,9 @@ const UsersRouter = ({
           user={user}
           element={(
             <RolesAdd
+              languagesFetch={actions.languagesFetch}
               handleSubmit={actions.rolesAdd}
               languages={languages}
-              languagesFetch={actions.languagesFetch}
               errors={roles.errors}
             />
           )}
@@ -220,13 +220,15 @@ const UsersRouter = ({
           user={user}
           element={(
             <RolesEdit
-              removeCapability={actions.removeCapability}
-              addCapability={actions.addCapability}
               capabilitiesFetch={actions.capabilitiesFetch}
+              removeCapability={actions.removeCapability}
+              languagesFetch={actions.languagesFetch}
+              addCapability={actions.addCapability}
               itemFetch={actions.rolesItemFetch}
               handleSubmit={actions.rolesEdit}
               capabilities={capabilities}
               errors={roles.errors}
+              languages={languages}
               items={roles}
             />
           )}
