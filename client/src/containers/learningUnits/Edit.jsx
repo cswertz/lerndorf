@@ -8,9 +8,10 @@ class LearningUnitsEdit extends Component {
   constructor(props) {
     super(props);
 
-    this.addTag = this.addTag.bind(this);
     this.addRelation = this.addRelation.bind(this);
+    this.editTitle = this.editTitle.bind(this);
     this.setTarget = this.setTarget.bind(this);
+    this.addTag = this.addTag.bind(this);
 
     this.state = {
       target: null,
@@ -18,6 +19,10 @@ class LearningUnitsEdit extends Component {
   }
 
   componentDidMount() {
+    this.fetchItem();
+  }
+
+  componentDidUpdate() {
     this.fetchItem();
   }
 
@@ -88,25 +93,63 @@ class LearningUnitsEdit extends Component {
     learningUnitsAddRelation(learningUnitId, target, type, languageId, history);
   }
 
+  editTitle(e) {
+    e.preventDefault();
+
+    const {
+      learningUnitsEdit,
+      history,
+      match,
+    } = this.props;
+    const {
+      id,
+      languageId,
+    } = match.params;
+    const learningUnitId = id;
+    const data = {};
+    data[languageId] = {
+      title: e.target.title.value
+    }
+
+    learningUnitsEdit(learningUnitId, languageId, data, history);
+  }
+
   render() {
     const {
       fetchSuggestions,
       suggestions,
       taxonomies,
       errors,
+      items,
+      match,
     } = this.props;
+    const {
+      id,
+      languageId,
+    } = match.params;
 
-    return (
-      <EditForm
-        fetchSuggestions={fetchSuggestions}
-        addRelation={this.addRelation}
-        suggestions={suggestions}
-        taxonomies={taxonomies}
-        setTarget={this.setTarget}
-        addTag={this.addTag}
-        errors={errors.add}
-      />
-    );
+    if(items.id[id]) {
+      const title = items.id[id][languageId].title;
+      const initialValues = {
+        title,
+      };
+
+      return (
+        <EditForm
+          fetchSuggestions={fetchSuggestions}
+          addRelation={this.addRelation}
+          editTitle={this.editTitle}
+          suggestions={suggestions}
+          taxonomies={taxonomies}
+          setTarget={this.setTarget}
+          addTag={this.addTag}
+          errors={errors.add}
+          initialValues={initialValues}
+        />
+      );
+    }
+
+    return null;
   }
 }
 
@@ -117,6 +160,7 @@ LearningUnitsEdit.propTypes = {
   taxonomies: PropTypes.shape({}).isRequired,
   suggestions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   learningUnitsAddTag: PropTypes.func.isRequired,
+  learningUnitsEdit: PropTypes.func.isRequired,
   items: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,
   itemFetch: PropTypes.func.isRequired,

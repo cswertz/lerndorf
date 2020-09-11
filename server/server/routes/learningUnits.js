@@ -313,6 +313,24 @@ router.get('/suggestion/:term', (req, res) => {
     });
 });
 
+router.patch('/:id', hasCapability('edit_any_learning_unit'), async (req, res) => {
+  const id = req.params.id;
+  const languages = Object.keys(req.body);
+  for(let language of languages) {
+    const title = req.body[language].title;
+    await models.LearningUnitLanguage.update({
+      title,
+    }, {
+      where: {
+        LanguageId: language,
+        LearningUnitId: id,
+      },
+    });
+  }
+
+  res.json({});
+});
+
 router.delete('/:id', hasCapability('delete_any_learning_unit'), (req, res) => {
   models.LearningUnit.destroy({
     where: {

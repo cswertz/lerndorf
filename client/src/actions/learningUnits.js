@@ -153,7 +153,7 @@ export const learningUnitsDelete = id => (
     })
 );
 
-export const learningUnitsEdit = (id, data, history) => (
+export const learningUnitsEdit = (id, languageId, data, history) => (
   dispatch => fetch(`/api/learningUnits/${id}`, {
     method: 'PATCH',
     headers: {
@@ -170,7 +170,7 @@ export const learningUnitsEdit = (id, data, history) => (
           // dispatch(learningUnitsEditFailed(json.error, json.errors));
         } else {
           dispatch(learningUnitsEditSuccess());
-          history.push('/learningUnits');
+          history.push(`/learning-units/edit/${languageId}/${id}`);
         }
       }
     })

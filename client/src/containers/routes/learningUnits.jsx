@@ -106,6 +106,7 @@ const LearningUnitsRouter = ({
               fetchSuggestions={actions.learningUnitsSuggestionsFetch}
               taxonomiesFetch={actions.learningUnitsTaxonomiesFetch}
               learningUnitsAddTag={actions.learningUnitsAddTag}
+              learningUnitsEdit={actions.learningUnitsEdit}
               itemFetch={actions.learningUnitsItemFetch}
               handleSubmit={actions.learningUnitsEdit}
               suggestions={learningUnits.suggestions}
