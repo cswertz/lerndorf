@@ -25,7 +25,7 @@ router.post('/', [
   check('name', 'name is required')
     .isLength({ max: 255 })
     .notEmpty(),
-], (req, res) => {
+], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).send({
@@ -38,15 +38,29 @@ router.post('/', [
     req.body.slug = req.body.name.toLowerCase();
   }
 
-  return models.Role.create(req.body)
-    .then((result) => res.json(result))
-    .catch((err) => res.status(422).send({
+  try {
+    const result = await models.Role.create(req.body);
+    if(req.body.translations) {
+      for(let translation of req.body.translations) {
+        await models.RoleLanguage.create({
+          RoleId: result.id,
+          LanguageId: translation.id,
+          vocable: translation.vocable,
+        });
+      }
+    }
+
+    return res.json(result);
+  } catch (err) {
+    console.log(err);
+    res.status(422).send({
       error: 'There have been database errors.',
       errors: err.errors.map((error) => ({
         message: error.message,
         type: error.type,
       })),
-    }));
+    });
+  }
 });
 
 router.get('/:id', (req, res) => {

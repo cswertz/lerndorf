@@ -9,9 +9,9 @@ import Button from '@material-ui/core/Button';
 const styles = theme => ({
   textField: {
     flex: 1,
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginLeft: theme.spacing(),
+    marginRight: theme.spacing(),
+    marginBottom: theme.spacing(),
   },
   flex: {
     display: 'flex',
@@ -69,6 +69,7 @@ const validate = (values) => {
 const RolesAdd = ({
   handleSubmit,
   submitting,
+  languages,
   pristine,
   classes,
   errors,
@@ -85,6 +86,24 @@ const RolesAdd = ({
         errorText="This name has already been used"
       />
     </div>
+    {languages.map((language, index) => {
+      return (
+        <div
+          key={language.id}
+          className={classes.flex}
+        >
+          <Field
+            required
+            name={language.code}
+            label={language.name}
+            component={renderTextField}
+            className={classes.textField}
+            error={errors.error}
+            errorText="This name has already been used"
+          />
+        </div>
+      )
+    })}
     <div>
       <Button
         type="submit"
@@ -98,6 +117,7 @@ const RolesAdd = ({
 );
 
 RolesAdd.propTypes = {
+  languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,

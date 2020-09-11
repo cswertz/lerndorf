@@ -18,6 +18,7 @@ import Roles from '../users/roles/List';
 
 const UsersRouter = ({
   capabilities,
+  languages,
   actions,
   roles,
   users,
@@ -197,6 +198,8 @@ const UsersRouter = ({
           element={(
             <RolesAdd
               handleSubmit={actions.rolesAdd}
+              languages={languages}
+              languagesFetch={actions.languagesFetch}
               errors={roles.errors}
             />
           )}
@@ -255,12 +258,19 @@ const UsersRouter = ({
 );
 
 UsersRouter.propTypes = {
+  languages: PropTypes.shape({
+    languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   capabilities: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
+    languagesFetch: PropTypes.func.isRequired,
     userFetchRoles: PropTypes.func.isRequired,
     usersItemFetch: PropTypes.func.isRequired,
     usersFetch: PropTypes.func.isRequired,

@@ -80,6 +80,7 @@ const Router = ({
       render={() => (
         <RoutesUsers
           capabilities={capabilities}
+          languages={languages}
           actions={actions}
           roles={roles}
           users={users}

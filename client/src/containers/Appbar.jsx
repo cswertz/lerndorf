@@ -90,7 +90,7 @@ class MenuAppBar extends Component {
               fetchRoles={fetchRoles}
               user={user}
             />
-            <Typography variant="title" color="inherit" className={classes.flex}>
+            <Typography variant="h6" color="inherit" className={classes.flex}>
               {title}
             </Typography>
             {user.loggedIn && (
