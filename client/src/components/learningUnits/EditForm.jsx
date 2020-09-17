@@ -5,9 +5,39 @@ import { withStyles } from '@material-ui/core/styles';
 
 import RelationForm from './RelationForm';
 import TitleForm from './TitleForm';
-import TagForm from './TagForm';
+import TagEditForm from './TagEditForm';
+import TagAddForm from './TagAddForm';
 
 const styles = () => ({});
+
+const EditTagsList = (props) => {
+  const { tags, deleteTag, updateTag } = props;
+  if (tags.length > 0) {
+    const items = tags.map((item) => {
+      const { id, tag } = item;
+
+      const initialValue = {
+        tag,
+      };
+
+      return (
+        <TagEditForm
+          handleSubmit={updateTag}
+          initialValues={initialValue}
+          deleteTag={deleteTag}
+          updateTag={updateTag}
+          form={`tag-edit-${id}`}
+          key={id}
+          id={id}
+        />
+      );
+    });
+
+    return <div className="tags">{items}</div>;
+  }
+
+  return null;
+};
 
 const LearningUnitsEdit = ({
   fetchSuggestions,
@@ -17,14 +47,22 @@ const LearningUnitsEdit = ({
   suggestions,
   taxonomies,
   setTarget,
+  deleteTag,
+  updateTag,
   addTag,
+  tags,
 }) => (
-  <React.Fragment>
+  <>
     <TitleForm
       initialValues={initialValues}
       handleSubmit={editTitle}
     />
-    <TagForm
+    <EditTagsList
+      tags={tags}
+      deleteTag={deleteTag}
+      updateTag={updateTag}
+    />
+    <TagAddForm
       handleSubmit={addTag}
     />
     <RelationForm
@@ -34,11 +72,12 @@ const LearningUnitsEdit = ({
       taxonomies={taxonomies}
       setTarget={setTarget}
     />
-  </React.Fragment>
+  </>
 );
 
 LearningUnitsEdit.propTypes = {
   suggestions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  tags: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   initialValues: PropTypes.shape({}).isRequired,
   fetchSuggestions: PropTypes.func.isRequired,
   taxonomies: PropTypes.shape({}).isRequired,
@@ -48,5 +87,7 @@ LearningUnitsEdit.propTypes = {
   errors: PropTypes.shape({}).isRequired,
   setTarget: PropTypes.func.isRequired,
   addTag: PropTypes.func.isRequired,
+  deleteTag: PropTypes.func.isRequired,
+  updateTag: PropTypes.func.isRequired,
 };
 export default withStyles(styles)(LearningUnitsEdit);

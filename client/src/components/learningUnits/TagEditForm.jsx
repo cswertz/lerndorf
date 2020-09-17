@@ -7,19 +7,19 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-const styles = theme => ({
+const styles = (theme) => ({
   wrapper: {
     display: 'flex',
     flex: 1,
   },
   textField: {
     flex: 1,
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginLeft: theme.spacing(),
+    marginRight: theme.spacing(),
+    marginBottom: theme.spacing(),
   },
   formControl: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(),
     flex: 1,
     minWidth: 120,
   },
@@ -80,13 +80,15 @@ const validate = (values) => {
   return errors;
 };
 
-const LearningUnitsTag = ({
+const LearningUnitsTagEdit = ({
   handleSubmit,
   submitting,
+  deleteTag,
   pristine,
   classes,
+  id,
 }) => (
-  <form onSubmit={handleSubmit}>
+  <form onSubmit={handleSubmit} tagid={id}>
     <div className={classes.flex}>
       <div className={classes.wrapper}>
         <FormControl required className={classes.formControl}>
@@ -106,22 +108,30 @@ const LearningUnitsTag = ({
         variant="contained"
         disabled={pristine || submitting}
       >
-        Add Tag
+        Save Tag
+      </Button>&nbsp;
+      <Button
+        onClick={() => deleteTag(id)}
+        variant="contained"
+      >
+        Delete
       </Button>
     </div>
   </form>
 );
 
-LearningUnitsTag.propTypes = {
+LearningUnitsTagEdit.propTypes = {
+  initialValues: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
   submitting: PropTypes.bool.isRequired,
+  deleteTag: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
-const LearningUnitsTagForm = reduxForm({
-  form: 'LearningUnitsTag',
+const LearningUnitsTagEditForm = reduxForm({
   validate,
-})(LearningUnitsTag);
+})(LearningUnitsTagEdit);
 
-export default withStyles(styles)(LearningUnitsTagForm);
+export default withStyles(styles)(LearningUnitsTagEditForm);

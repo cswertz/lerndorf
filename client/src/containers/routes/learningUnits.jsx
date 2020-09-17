@@ -94,16 +94,18 @@ const LearningUnitsRouter = ({
       path="/learning-units/edit/:languageId/:id"
       render={() => (
         <WrapperLearningUnit
+          itemFetch={actions.learningUnitsItemFetch}
           fetchRoles={actions.userFetchRoles}
           className="LearningUnitsWrapper"
           logout={actions.userLogout}
-          itemFetch={actions.learningUnitsItemFetch}
           items={learningUnits}
           user={user}
           element={(
             <LearningUnitsEdit
               learningUnitsAddRelation={actions.learningUnitsAddRelation}
               fetchSuggestions={actions.learningUnitsSuggestionsFetch}
+              learningUnitsDeleteTag={actions.learningUnitsDeleteTag}
+              learningUnitsUpdateTag={actions.learningUnitsUpdateTag}
               taxonomiesFetch={actions.learningUnitsTaxonomiesFetch}
               learningUnitsAddTag={actions.learningUnitsAddTag}
               learningUnitsEdit={actions.learningUnitsEdit}
@@ -139,7 +141,9 @@ LearningUnitsRouter.propTypes = {
     knowledgeUnitsMarkReviewed: PropTypes.func.isRequired,
     knowledgeUnitsMarkLectored: PropTypes.func.isRequired,
     learningUnitsItemFetch: PropTypes.func.isRequired,
+    learningUnitsDeleteTag: PropTypes.func.isRequired,
     learningUnitsDelete: PropTypes.func.isRequired,
+    learningUnitsAddTag: PropTypes.func.isRequired,
     learningUnitsFetch: PropTypes.func.isRequired,
     learningUnitsEdit: PropTypes.func.isRequired,
     learningUnitsAdd: PropTypes.func.isRequired,

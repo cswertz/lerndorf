@@ -25,7 +25,7 @@ const styles = theme => ({
     overflow: 'hidden',
   },
   noOptionsMessage: {
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+    padding: `${theme.spacing()}px ${theme.spacing() * 2}px`,
   },
   singleValue: {
     fontSize: 16,
@@ -38,7 +38,7 @@ const styles = theme => ({
   paper: {
     position: 'absolute',
     zIndex: 1,
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(),
     left: 0,
     right: 0,
   },
@@ -206,14 +206,13 @@ class Suggest extends Component {
   }
 
   componentDidMount() {
-    this.fetchSuggestions('');
+    //this.fetchSuggestions('');
   }
 
   onKeyUp(e) {
     const { term } = this.state;
     const { value } = e.target;
     if (term !== value) {
-      console.log('key down', value);
       this.fetchSuggestions(value);
     }
   }
@@ -238,7 +237,6 @@ class Suggest extends Component {
     }
 
     //this.fetchSuggestions(term);
-    console.log('change', value)
   }
 
   fetchSuggestions(term) {
@@ -269,7 +267,6 @@ class Suggest extends Component {
         },
       }),
     };
-    console.log(suggestions);
 
     return (
       <div className={classes.root}>
