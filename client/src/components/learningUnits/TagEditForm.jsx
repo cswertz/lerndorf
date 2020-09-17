@@ -88,7 +88,7 @@ const LearningUnitsTagEdit = ({
   classes,
   id,
 }) => (
-  <form onSubmit={handleSubmit} test={id}>
+  <form onSubmit={handleSubmit} tagid={id}>
     <div className={classes.flex}>
       <div className={classes.wrapper}>
         <FormControl required className={classes.formControl}>

@@ -105,6 +105,7 @@ const LearningUnitsRouter = ({
               learningUnitsAddRelation={actions.learningUnitsAddRelation}
               fetchSuggestions={actions.learningUnitsSuggestionsFetch}
               learningUnitsDeleteTag={actions.learningUnitsDeleteTag}
+              learningUnitsUpdateTag={actions.learningUnitsUpdateTag}
               taxonomiesFetch={actions.learningUnitsTaxonomiesFetch}
               learningUnitsAddTag={actions.learningUnitsAddTag}
               learningUnitsEdit={actions.learningUnitsEdit}

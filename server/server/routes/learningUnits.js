@@ -341,6 +341,31 @@ router.delete('/deleteTag/:id', hasCapability('edit_any_learning_unit'), async (
   res.json({ deleted: result });
 });
 
+router.patch('/tag/:id', [
+  hasCapability('edit_any_learning_unit'),
+  check('value', 'value is required')
+    .isLength({ max: 255 })
+    .notEmpty(),
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+  }
+
+  const result = await models.LearningUnitTag.update({
+    tag: req.body.value,
+  }, {
+    where: {
+      id: req.params.id,
+    },
+  });
+
+  return res.json({ deleted: result });
+});
+
 router.delete('', hasCapability(''), (req, res) => {
 
 });

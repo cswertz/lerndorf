@@ -243,6 +243,36 @@ export const learningUnitsDeleteTag = (tagId, languageId, learningUnitId, histor
   }
 );
 
+export const learningUnitsUpdateTag = (tagId, value, languageId, learningUnitId, history) => (
+  async (dispatch) => {
+    try {
+      const response = await fetch(`/api/learningUnits/tag/${tagId}`, {
+        method: 'PATCH',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          value,
+        }),
+      });
+
+      const json = await response.json();
+      if (json) {
+        if (json.error) {
+          // dispatch(learningUnitsAddFailed(json.error, json.errors));
+        } else {
+          dispatch(learningUnitsEditSuccess());
+          history.push(`/learning-units/edit/${languageId}/${learningUnitId}`);
+        }
+      }
+    } catch (e) {
+      console.log('Error while updating learning unit tag:', e);
+    }
+  }
+);
+
 export const learningUnitsAddRelation = (learningUnitId, targetId, type, languageId, history) => (
   dispatch => fetch(`/api/learningUnits/addRelation/${learningUnitId}`, {
     method: 'post',

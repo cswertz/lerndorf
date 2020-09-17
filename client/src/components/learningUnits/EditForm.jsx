@@ -11,8 +11,7 @@ import TagAddForm from './TagAddForm';
 const styles = () => ({});
 
 const EditTagsList = (props) => {
-  const { tags, deleteTag } = props;
-  console.log(tags);
+  const { tags, deleteTag, updateTag } = props;
   if (tags.length > 0) {
     const items = tags.map((item) => {
       const { id, tag } = item;
@@ -23,8 +22,10 @@ const EditTagsList = (props) => {
 
       return (
         <TagEditForm
+          handleSubmit={updateTag}
           initialValues={initialValue}
           deleteTag={deleteTag}
+          updateTag={updateTag}
           form={`tag-edit-${id}`}
           key={id}
           id={id}
@@ -47,6 +48,7 @@ const LearningUnitsEdit = ({
   taxonomies,
   setTarget,
   deleteTag,
+  updateTag,
   addTag,
   tags,
 }) => (
@@ -58,6 +60,7 @@ const LearningUnitsEdit = ({
     <EditTagsList
       tags={tags}
       deleteTag={deleteTag}
+      updateTag={updateTag}
     />
     <TagAddForm
       handleSubmit={addTag}
@@ -74,6 +77,7 @@ const LearningUnitsEdit = ({
 
 LearningUnitsEdit.propTypes = {
   suggestions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  tags: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   initialValues: PropTypes.shape({}).isRequired,
   fetchSuggestions: PropTypes.func.isRequired,
   taxonomies: PropTypes.shape({}).isRequired,
@@ -83,7 +87,7 @@ LearningUnitsEdit.propTypes = {
   errors: PropTypes.shape({}).isRequired,
   setTarget: PropTypes.func.isRequired,
   addTag: PropTypes.func.isRequired,
-  tags: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   deleteTag: PropTypes.func.isRequired,
+  updateTag: PropTypes.func.isRequired,
 };
 export default withStyles(styles)(LearningUnitsEdit);

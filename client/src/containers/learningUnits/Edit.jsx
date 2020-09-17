@@ -11,6 +11,7 @@ class LearningUnitsEdit extends Component {
     this.addRelation = this.addRelation.bind(this);
     this.editTitle = this.editTitle.bind(this);
     this.setTarget = this.setTarget.bind(this);
+    this.updateTag = this.updateTag.bind(this);
     this.deleteTag = this.deleteTag.bind(this);
     this.addTag = this.addTag.bind(this);
 
@@ -65,8 +66,6 @@ class LearningUnitsEdit extends Component {
   }
 
   deleteTag(tagId) {
-    console.log('Delete tag with id', tagId);
-
     const {
       learningUnitsDeleteTag,
       history,
@@ -78,6 +77,24 @@ class LearningUnitsEdit extends Component {
     } = match.params;
 
     learningUnitsDeleteTag(tagId, languageId, id, history);
+  }
+
+  updateTag(e) {
+    const {
+      learningUnitsUpdateTag,
+      history,
+      match,
+    } = this.props;
+    const {
+      id,
+      languageId,
+    } = match.params;
+
+    e.preventDefault();
+    const tagId = e.target.getAttribute('tagid');
+    const { value } = e.target.tag;
+
+    learningUnitsUpdateTag(tagId, value, languageId, id, history);
   }
 
   addRelation(e) {
@@ -146,14 +163,15 @@ class LearningUnitsEdit extends Component {
         <EditForm
           fetchSuggestions={fetchSuggestions}
           addRelation={this.addRelation}
+          initialValues={initialValues}
           editTitle={this.editTitle}
+          setTarget={this.setTarget}
+          deleteTag={this.deleteTag}
+          updateTag={this.updateTag}
           suggestions={suggestions}
           taxonomies={taxonomies}
-          setTarget={this.setTarget}
           addTag={this.addTag}
           errors={errors.add}
-          initialValues={initialValues}
-          deleteTag={this.deleteTag}
           tags={tags}
         />
       );
@@ -173,6 +191,7 @@ LearningUnitsEdit.propTypes = {
   }).isRequired,
   suggestions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   learningUnitsDeleteTag: PropTypes.func.isRequired,
+  learningUnitsUpdateTag: PropTypes.func.isRequired,
   learningUnitsAddTag: PropTypes.func.isRequired,
   learningUnitsEdit: PropTypes.func.isRequired,
   items: PropTypes.shape({
