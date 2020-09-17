@@ -314,7 +314,7 @@ router.get('/suggestion/:term', (req, res) => {
 });
 
 router.patch('/:id', hasCapability('edit_any_learning_unit'), async (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
   const languages = Object.keys(req.body);
   for(let language of languages) {
     const title = req.body[language].title;
@@ -331,15 +331,18 @@ router.patch('/:id', hasCapability('edit_any_learning_unit'), async (req, res) =
   res.json({});
 });
 
-router.delete('/:id', hasCapability('delete_any_learning_unit'), (req, res) => {
-  models.LearningUnit.destroy({
+router.delete('/deleteTag/:id', hasCapability('edit_any_learning_unit'), async (req, res) => {
+  const result = await models.LearningUnitTag.destroy({
     where: {
       id: req.params.id,
     },
-  })
-    .then((result) => {
-      res.json({ deleted: result });
-    });
+  });
+
+  res.json({ deleted: result });
+});
+
+router.delete('', hasCapability(''), (req, res) => {
+
 });
 
 export default router;

@@ -5,9 +5,38 @@ import { withStyles } from '@material-ui/core/styles';
 
 import RelationForm from './RelationForm';
 import TitleForm from './TitleForm';
-import TagForm from './TagForm';
+import TagEditForm from './TagEditForm';
+import TagAddForm from './TagAddForm';
 
 const styles = () => ({});
+
+const EditTagsList = (props) => {
+  const { tags, deleteTag } = props;
+  console.log(tags);
+  if (tags.length > 0) {
+    const items = tags.map((item) => {
+      const { id, tag } = item;
+
+      const initialValue = {
+        tag,
+      };
+
+      return (
+        <TagEditForm
+          initialValues={initialValue}
+          deleteTag={deleteTag}
+          form={`tag-edit-${id}`}
+          key={id}
+          id={id}
+        />
+      );
+    });
+
+    return <div className="tags">{items}</div>;
+  }
+
+  return null;
+};
 
 const LearningUnitsEdit = ({
   fetchSuggestions,
@@ -17,14 +46,20 @@ const LearningUnitsEdit = ({
   suggestions,
   taxonomies,
   setTarget,
+  deleteTag,
   addTag,
+  tags,
 }) => (
-  <React.Fragment>
+  <>
     <TitleForm
       initialValues={initialValues}
       handleSubmit={editTitle}
     />
-    <TagForm
+    <EditTagsList
+      tags={tags}
+      deleteTag={deleteTag}
+    />
+    <TagAddForm
       handleSubmit={addTag}
     />
     <RelationForm
@@ -34,7 +69,7 @@ const LearningUnitsEdit = ({
       taxonomies={taxonomies}
       setTarget={setTarget}
     />
-  </React.Fragment>
+  </>
 );
 
 LearningUnitsEdit.propTypes = {
@@ -48,5 +83,7 @@ LearningUnitsEdit.propTypes = {
   errors: PropTypes.shape({}).isRequired,
   setTarget: PropTypes.func.isRequired,
   addTag: PropTypes.func.isRequired,
+  tags: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  deleteTag: PropTypes.func.isRequired,
 };
 export default withStyles(styles)(LearningUnitsEdit);

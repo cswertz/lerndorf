@@ -13,6 +13,10 @@ class WrapperLearningUnit extends Component {
     this.fetchItem();
   }
 
+  componentDidUpdate() {
+    this.fetchItem();
+  }
+
   fetchItem() {
     const {
       itemFetch,
@@ -24,7 +28,7 @@ class WrapperLearningUnit extends Component {
       id,
     } = match.params;
 
-    if ((!items.fetching) && !items.id[id]) {
+    if (!items.id[id] && items.fetchingId !== id) {
       itemFetch(id);
     }
   }

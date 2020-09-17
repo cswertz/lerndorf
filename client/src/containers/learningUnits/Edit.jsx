@@ -11,6 +11,7 @@ class LearningUnitsEdit extends Component {
     this.addRelation = this.addRelation.bind(this);
     this.editTitle = this.editTitle.bind(this);
     this.setTarget = this.setTarget.bind(this);
+    this.deleteTag = this.deleteTag.bind(this);
     this.addTag = this.addTag.bind(this);
 
     this.state = {
@@ -34,20 +35,9 @@ class LearningUnitsEdit extends Component {
 
   fetchItem() {
     const {
-      itemFetch,
       taxonomies,
       taxonomiesFetch,
-      match,
-      items,
     } = this.props;
-
-    const {
-      id,
-    } = match.params;
-
-    if ((!items.fetching) && !items.id[id]) {
-      itemFetch(id);
-    }
 
     if (!taxonomies.fetched && !taxonomies.fetching) {
       taxonomiesFetch();
@@ -72,6 +62,22 @@ class LearningUnitsEdit extends Component {
     const learningUnitLanguageId = items.id[id][languageId].item.id;
 
     learningUnitsAddTag(learningUnitLanguageId, tag, languageId, learningUnitId, history);
+  }
+
+  deleteTag(tagId) {
+    console.log('Delete tag with id', tagId);
+
+    const {
+      learningUnitsDeleteTag,
+      history,
+      match,
+    } = this.props;
+    const {
+      id,
+      languageId,
+    } = match.params;
+
+    learningUnitsDeleteTag(tagId, languageId, id, history);
   }
 
   addRelation(e) {
@@ -108,8 +114,8 @@ class LearningUnitsEdit extends Component {
     const learningUnitId = id;
     const data = {};
     data[languageId] = {
-      title: e.target.title.value
-    }
+      title: e.target.title.value,
+    };
 
     learningUnitsEdit(learningUnitId, languageId, data, history);
   }
@@ -128,8 +134,10 @@ class LearningUnitsEdit extends Component {
       languageId,
     } = match.params;
 
-    if(items.id[id]) {
-      const title = items.id[id][languageId].title;
+    if (items.id[id]) {
+      const { title } = items.id[id][languageId];
+      const tags = items.id[id][languageId].item.LearningUnitTags;
+
       const initialValues = {
         title,
       };
@@ -145,6 +153,8 @@ class LearningUnitsEdit extends Component {
           addTag={this.addTag}
           errors={errors.add}
           initialValues={initialValues}
+          deleteTag={this.deleteTag}
+          tags={tags}
         />
       );
     }
@@ -157,13 +167,20 @@ LearningUnitsEdit.propTypes = {
   fetchSuggestions: PropTypes.func.isRequired,
   learningUnitsAddRelation: PropTypes.func.isRequired,
   taxonomiesFetch: PropTypes.func.isRequired,
-  taxonomies: PropTypes.shape({}).isRequired,
+  taxonomies: PropTypes.shape({
+    fetched: PropTypes.bool.isRequired,
+    fetching: PropTypes.bool.isRequired,
+  }).isRequired,
   suggestions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  learningUnitsDeleteTag: PropTypes.func.isRequired,
   learningUnitsAddTag: PropTypes.func.isRequired,
   learningUnitsEdit: PropTypes.func.isRequired,
-  items: PropTypes.shape({}).isRequired,
-  errors: PropTypes.shape({}).isRequired,
-  itemFetch: PropTypes.func.isRequired,
+  items: PropTypes.shape({
+    id: PropTypes.shape({}),
+  }).isRequired,
+  errors: PropTypes.shape({
+    add: PropTypes.shape({}),
+  }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

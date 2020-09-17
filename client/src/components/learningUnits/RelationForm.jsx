@@ -13,19 +13,19 @@ import Select from '@material-ui/core/Select';
 
 import Suggest from '../../containers/learningUnits/Suggest';
 
-const styles = theme => ({
+const styles = (theme) => ({
   wrapper: {
     display: 'flex',
     flex: 1,
   },
   textField: {
     flex: 1,
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginLeft: theme.spacing(),
+    marginRight: theme.spacing(),
+    marginBottom: theme.spacing(),
   },
   formControl: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(),
     flex: 1,
     minWidth: 120,
   },

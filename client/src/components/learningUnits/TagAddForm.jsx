@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-const styles = (theme) => ({
+const styles = theme => ({
   wrapper: {
     display: 'flex',
     flex: 1,
@@ -60,7 +60,6 @@ const renderTextField = ({
       helperText={helperText}
       error={(hasError && true)}
       label={label}
-      value={input.value}
       {...input}
       {...customOptions}
     />
@@ -81,12 +80,11 @@ const validate = (values) => {
   return errors;
 };
 
-const LearningUnitsTitle = ({
+const LearningUnitsTag = ({
   handleSubmit,
   submitting,
   pristine,
   classes,
-  title,
 }) => (
   <form onSubmit={handleSubmit}>
     <div className={classes.flex}>
@@ -94,8 +92,8 @@ const LearningUnitsTitle = ({
         <FormControl required className={classes.formControl}>
           <Field
             required
-            name="title"
-            label="Title"
+            name="tag"
+            label="Tag"
             component={renderTextField}
             className={classes.textField}
           />
@@ -108,23 +106,22 @@ const LearningUnitsTitle = ({
         variant="contained"
         disabled={pristine || submitting}
       >
-        Save Title
+        Add Tag
       </Button>
     </div>
   </form>
 );
 
-LearningUnitsTitle.propTypes = {
-  initialValues: PropTypes.shape({}).isRequired,
+LearningUnitsTag.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
   submitting: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
 };
 
-const LearningUnitsTitleForm = reduxForm({
-  form: 'LearningUnitsTitle',
+const LearningUnitsTagForm = reduxForm({
+  form: 'LearningUnitsTag',
   validate,
-})(LearningUnitsTitle);
+})(LearningUnitsTag);
 
-export default withStyles(styles)(LearningUnitsTitleForm);
+export default withStyles(styles)(LearningUnitsTagForm);
