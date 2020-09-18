@@ -1,87 +1,98 @@
-const roleslanguages = [
+import models from '../server/config/sequelize';
+
+const roleLanguages = [
   {
     slug: 'admin',
-    code: 'en',
-    vocable: 'admin'
+    language: 'en',
+    vocable: 'admin',
   },
   {
     slug: 'admin',
-    code: 'de',
-    vocable: 'AdministratorIn'
+    language: 'de',
+    vocable: 'AdministratorIn',
   },
   {
     slug: 'guest',
-    code: 'en',
-    vocable: 'guest'
+    language: 'en',
+    vocable: 'guest',
   },
   {
     slug: 'guest',
-    code: 'de',
-    vocable: 'Gast'
+    language: 'de',
+    vocable: 'Gast',
   },
   {
     slug: 'user',
-    code: 'en',
+    language: 'en',
     vocable: 'user',
   },
   {
     slug: 'user',
-    code: 'de',
+    language: 'de',
     vocable: 'BenutzerIn',
   },
   {
     slug: 'editor',
-    code: 'en',
+    language: 'en',
     vocable: 'author',
   },
   {
     slug: 'editor',
-    code: 'de',
+    language: 'de',
     vocable: 'AutorIn',
   },
   {
     slug: 'lector',
-    code: 'en',
+    language: 'en',
     vocable: 'Reviewer',
   },
   {
     slug: 'lector',
-    code: 'de',
+    language: 'de',
     vocable: 'GutachterIn',
   },
 ];
 
-
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.rawSelect('Roles', {
-    where: {
-      slug: 'admin',
-    },
-  }, ['id'])
-    .then((result) => {
-      const role = result;
-      return queryInterface.rawSelect('Languages', {
-        where: {
-          code: 'en',
-        },
-      }, ['id'])
-        .then(language => queryInterface.bulkInsert('RoleLanguage', [
-          {
-            RoleId: role,
-            LanguageId: language,
-            vocable: 'Admin',
-            createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
-            updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
-          },
-        ], {}));
-    }),
+  up: async (queryInterface, Sequelize) => {
+    const translations = [];
 
-  down: queryInterface => queryInterface.rawSelect('Roles', {
+    for (let i = 0; i < roleLanguages.length; i += 1) {
+      const { slug, language, vocable } = roleLanguages[i];
+      const resultLanguage = await models.Language.findOne({
+        where: {
+          code: language,
+        },
+        attributes: ['id'],
+      });
+      const languageId = resultLanguage.id;
+
+      const resultRole = await models.Role.findOne({
+        where: {
+          slug: slug,
+        },
+        attributes: ['id']
+      });
+      const roleId = resultRole.id;
+
+      translations.push({
+        RoleId: roleId,
+        LanguageId: languageId,
+        vocable,
+        createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+        updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      });
+    }
+
+    queryInterface.bulkInsert('RoleLanguage', translations);
+  },
+
+  down: (queryInterface) => queryInterface.rawSelect('Roles', {
     where: {
       slug: 'admin',
     },
   }, ['id'])
-    .then(role => queryInterface.bulkDelete('RoleLanguage', {
+    .then((role) => queryInterface.bulkDelete('RoleLanguage', {
       RoleId: role,
     })),
 };
