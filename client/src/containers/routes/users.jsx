@@ -126,8 +126,9 @@ const UsersRouter = ({
           user={user}
           element={(
             <UserEdit
-              errors={user.errors}
+              userDelete={actions.userDelete}
               handleSubmit={actions.userEdit}
+              errors={user.errors}
               user={user.user}
             />
           )}
@@ -287,6 +288,7 @@ UsersRouter.propTypes = {
     userRegister: PropTypes.func.isRequired,
     userLogout: PropTypes.func.isRequired,
     userLogin: PropTypes.func.isRequired,
+    userDelete: PropTypes.func.isRequired,
     userEdit: PropTypes.func.isRequired,
   }).isRequired,
   roles: PropTypes.shape({

@@ -220,24 +220,31 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
     });
 });
 
-router.delete('/:id', isSelfOrHasCapability('delete_user'), (req, res) => {
+router.delete('/:id', isSelfOrHasCapability('delete_user'), async (req, res) => {
   const { id } = req.params;
 
-  isLastAdmin(id, (last) => {
-    if (!last) {
-      models.User.destroy({
+  const lastAdmin = await isLastAdmin(id);
+
+  // Last admin can not be deleted
+  if (!lastAdmin) {
+    // See if the user has content
+    const user = await models.User.findByPk(id);
+    const learningUnits = await user.getLearningUnits();
+
+    // If a user does not have content, destroy him
+    if (learningUnits.length === 0) {
+      const result = await models.User.destroy({
         where: {
           id,
         },
-      })
-        .then((result) => {
-          res.json({ deleted: result });
-        });
-    } else {
-      res.status(400).send({
-        error: 'Can not delete last admin.',
       });
+
+      res.json({ deleted: result });
     }
+  }
+
+  res.status(400).send({
+    error: 'Can not delete last admin.',
   });
 });
 

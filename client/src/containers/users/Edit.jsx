@@ -40,7 +40,15 @@ class Edit extends Component {
 
   submitAccountDeletion() {
     this.closeAccountDeletionDialog();
-    console.log('Confirmed Account Deletion dialog');
+
+    const {
+      userDelete,
+      user,
+      history,
+    } = this.props;
+    const { id } = user;
+
+    userDelete(id, history);
   }
 
   openLogDeletionDialog() {
@@ -158,6 +166,7 @@ class Edit extends Component {
 }
 
 Edit.propTypes = {
+  userDelete: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   errors: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,

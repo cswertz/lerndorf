@@ -147,7 +147,7 @@ export const userEdit = (id, data, history) => {
   );
 };
 
-export const userFetchRoles = id => (
+export const userFetchRoles = (id) => (
   dispatch => fetch(`/api/users/${id}`, {
     method: 'GET',
     headers: {
@@ -175,4 +175,31 @@ export const userFetchRoles = id => (
     .catch((error) => {
       console.log('Error during editing:', error);
     })
+);
+
+export const userDelete = (id, data, history) => (
+  async (dispatch) => {
+    try {
+      const response = await fetch(`/api/users/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      const json = await response.json();
+      if (json) {
+        if (json.error) {
+          // dispatch(userEditFailed(json.error, json.errors));
+        } else {
+          dispatch(userLogoutSUccess());
+          history.push('/');
+        }
+      }
+    } catch (e) {
+      console.log('Error while deleting user:', e);
+    }
+  }
 );
