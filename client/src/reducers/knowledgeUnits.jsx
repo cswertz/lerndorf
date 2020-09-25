@@ -23,6 +23,7 @@ const initialState = {
       courseLevel: [],
       mediaType: [],
       licences: [],
+      eqflevel: [],
     },
   },
   errors: {

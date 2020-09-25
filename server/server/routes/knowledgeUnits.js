@@ -63,6 +63,7 @@ router.get('/taxonomies', (req, res) => {
     where: {
       '$Parent.type$': {
         [Op.in]: [
+          'eqflevel',
           'mediaType',
           'knowledgeType',
           'courseLevel',

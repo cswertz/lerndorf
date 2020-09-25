@@ -90,9 +90,11 @@ class KnowledgeUnitsAdd extends Component {
       }
     }
 
+    console.log(taxonomies.items)
+
     return (
       <div>
-        <Typography variant="headline">
+        <Typography variant="h5">
           {'"'}{learningUnitTitle}{'"'}
         </Typography>
         <AddForm

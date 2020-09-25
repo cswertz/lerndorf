@@ -13,19 +13,19 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 
-const styles = theme => ({
+const styles = (theme) => ({
   wrapper: {
     display: 'flex',
     flex: 1,
   },
   textField: {
     flex: 1,
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginLeft: theme.spacing(),
+    marginRight: theme.spacing(),
+    marginBottom: theme.spacing(),
   },
   formControl: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(),
     flex: 1,
     minWidth: 120,
     textAlign: 'left',
@@ -66,7 +66,7 @@ const renderSelectField = ({
     hasError = true;
   }
 
-  const options = custom.options.map(option => (
+  const options = custom.options.map((option) => (
     <MenuItem
       key={option.id}
       value={option.id}
@@ -223,6 +223,8 @@ const KnowledgeUnitsAdd = ({
           />
         </FormControl>
       </div>
+    </div>
+    <div className={classes.flex}>
       <div className={classes.wrapper}>
         <FormControl required className={classes.formControl}>
           <Field
@@ -247,21 +249,20 @@ const KnowledgeUnitsAdd = ({
           />
         </FormControl>
       </div>
-      {/*
       <div className={classes.wrapper}>
         <FormControl required className={classes.formControl}>
           <Field
-            name="eqfLevel"
+            name="eqflevel"
             label="EQF Level"
             component={renderSelectField}
-            options={taxonomies.eqf}
+            options={taxonomies.eqflevel}
             className={classes.textField}
             errorText={errors.errors.title}
           />
         </FormControl>
       </div>
-      */}
     </div>
+
     <div className={classes.flex}>
       <div>
         <FormControl>
