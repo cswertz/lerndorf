@@ -161,8 +161,8 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
   delete (req.body.createdAt);
   delete (req.body.updatedAt);
   delete (req.body.lastLogin);
-  delete (req.body.username);
   delete (req.body.acceptTos);
+  delete (req.body.username);
   delete (req.body.id);
 
   if (req.body.password) {
@@ -177,6 +177,8 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
         console.log('Failed to save image:', err);
       }
     });
+  } else {
+    delete (req.body.picture);
   }
 
   models.User.update(req.body, {
