@@ -20,31 +20,9 @@ class Register extends Component {
     } = this.props;
 
     const data = {
-      showProfileStudents: e.target.showProfileStudents.checked,
-      showProfileTeachers: e.target.showProfileTeachers.checked,
-      showProfilePublic: e.target.showProfilePublic.checked,
-      allowLogResearch: e.target.allowLogResearch.checked,
-      allowLogSharing: e.target.allowLogSharing.checked,
-      allowLogReports: e.target.allowLogReports.checked,
-      allowBasicLog: e.target.allowBasicLog.checked,
-      titlePrefix: e.target.titlePrefix.value,
-      titleSuffix: e.target.titleSuffix.value,
-      description: e.target.description.value,
-      firstName: e.target.firstName.value,
-      birthdate: e.target.birthdate.value,
       username: e.target.username.value,
-      lastName: e.target.lastName.value,
       password: e.target.password.value,
-      studyId: e.target.studyId.value,
-      country: e.target.country.value,
-      website: e.target.website.value,
-      picture: e.target.picture.files[0],
-      street: e.target.street.value,
       email: e.target.email.value,
-      phone: e.target.phone.value,
-      state: e.target.state.value,
-      city: e.target.city.value,
-      zip: e.target.zip.value,
     };
 
     handleSubmit(data, history);

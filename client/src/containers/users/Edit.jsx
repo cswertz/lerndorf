@@ -10,6 +10,7 @@ class Edit extends Component {
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleImageUpdate = this.handleImageUpdate.bind(this);
 
     this.submitLogDeletion = this.submitLogDeletion.bind(this);
     this.openLogDeletionDialog = this.openLogDeletionDialog.bind(this);
@@ -57,6 +58,21 @@ class Edit extends Component {
   submitLogDeletion() {
     this.closeLogDeletionDialog();
     console.log('Confirmed Log Deletion dialog');
+  }
+
+  handleImageUpdate(file) {
+    const {
+      handleSubmit,
+      history,
+      user,
+    } = this.props;
+
+    const { id } = user;
+    const data = {
+      picture: file,
+    };
+
+    handleSubmit(id, data, history);
   }
 
   handleSubmit(e) {
@@ -116,7 +132,7 @@ class Edit extends Component {
 
     return (
       <div>
-        <Typography variant="headline">
+        <Typography variant="h5">
           {user.username}
         </Typography>
         <EditForm
@@ -124,6 +140,7 @@ class Edit extends Component {
           initialValues={user}
           errors={errors.edit}
           handleSubmit={this.handleSubmit}
+          handleImageUpdate={this.handleImageUpdate}
 
           openLogDeletionDialog={this.openLogDeletionDialog}
           closeLogDeletionDialog={this.closeLogDeletionDialog}

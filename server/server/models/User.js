@@ -30,7 +30,6 @@ class User extends Model {
 
       privacyLevelLog: {
         type: DataTypes.INTEGER,
-        defaultValue: 0,
         allowNull: true,
         references: {
           model: 'Taxonomies',
