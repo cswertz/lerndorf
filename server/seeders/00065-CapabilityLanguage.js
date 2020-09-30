@@ -321,7 +321,7 @@ module.exports = {
       const capabilityId = resultCapability.id;
 
       translations.push({
-        RoleId: capabilityId,
+        CapabilityId: capabilityId,
         LanguageId: languageId,
         vocable,
         createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
