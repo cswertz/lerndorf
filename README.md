@@ -3,9 +3,8 @@
 
 > WebDidactic@lerndorf
 
-This repository has 3 main folders:
+This repository has 2 main folders:
 
-* *doc*: contains all the documentation and planning material
 * *server*: Contains all the relevant backend code and documentation for the backend itself
 *  *client*: Contains all the relevant frontend code and documentation
 

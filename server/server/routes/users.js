@@ -1,80 +1,182 @@
+import { check, validationResult, buildCheckFunction } from 'express-validator';
 import passport from 'passport';
 import express from 'express';
 
 import {
-  isLoggedIn,
-  hasRole,
-  isSelf,
+  isSelfOrHasCapability,
+  hasCapability,
+  isLastAdmin,
 } from '../helpers/auth';
 import { hashPassword } from '../helpers/utils';
 import models from '../config/sequelize';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+const checkBody = buildCheckFunction(['body']);
+
+router.post('/login', [
+  check('username', 'username is required').exists(),
+  check('password', 'password is required').exists(),
+], (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+    return;
+  }
+
+  passport.authenticate('local-signin', (user, info) => {
+    if (info) {
+      return res.status(409).send(info);
+    }
+
+    return req.logIn(user, () => res.json(user));
+  })(req, res, next);
+});
+
+router.get('/logout', (req, res) => {
+  req.logout();
+  return res.sendStatus(200);
+});
+
+router.get('/activate/:hash', (req, res) => {
+  models.User.findOne({
+    where: {
+      activationCode: req.params.hash,
+    },
+  })
+    .then((user) => {
+      if (user) {
+        return models.User.update({
+          active: true,
+          activationCode: null,
+        }, {
+          where: {
+            activationCode: req.params.hash,
+          },
+        })
+          .then(() => res.json({}));
+      }
+
+      return res.status(400).send({
+        error: 'Could not activate user',
+      });
+    });
+});
+
+/* User management */
+router.get('/', hasCapability('edit_user'), (req, res) => {
   models.User.findAll({
     attributes: ['id', 'username'],
   })
-    .then(results => res.json(results));
+    .then((results) => res.json(results));
 });
 
-router.post('/', (req, res) => {
-  req.checkBody('username', 'username is required')
+router.post('/', [
+  check('username', 'username is required')
     .isLength({ max: 255 })
-    .notEmpty();
-  req.checkBody('password', 'password is required')
+    .notEmpty(),
+  check('password', 'password is required')
     .isLength({ max: 255 })
-    .notEmpty();
-  req.checkBody('email', 'email is required, has to be valid and not longer than 255 chars.')
+    .notEmpty(),
+  check('email', 'email is required, has to be valid and not longer than 255 chars.')
     .notEmpty()
     .isLength({ max: 255 })
-    .isEmail();
+    .isEmail(),
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+    return;
+  }
 
-  req.getValidationResult().then((result) => {
-    if (!result.isEmpty()) {
-      res.status(400).send({
-        error: 'There have been validation errors.',
-        errors: result.array(),
-      });
-      return;
+  passport.authenticate('local-signup', (user, info) => {
+    if (info) {
+      return res.status(409).send(info);
     }
 
-    passport.authenticate('local-signup', (user, info) => {
-      if (info) {
-        return res.status(409).send(info);
-      }
-
-      return res.json({
-        id: user.id,
-        username: user.username,
-      });
-    })(req, res);
-  });
+    return res.json({
+      id: user.id,
+      username: user.username,
+    });
+  })(req, res);
 });
 
-router.get('/:id', (req, res) => {
-  models.User.findById(req.params.id, {
-    attributes: ['id', 'username', 'lastLogin', 'createdAt', 'updatedAt'],
+router.get('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
+  models.User.findByPk(req.params.id, {
+    attributes: [
+      'id',
+      'username',
+      'showProfileStudents',
+      'showProfileTeachers',
+      'showProfilePublic',
+      'allowLogResearch',
+      'allowLogSharing',
+      'allowLogReports',
+      'allowBasicLog',
+      'titlePrefix',
+      'titleSuffix',
+      'description',
+      'lastLogin',
+      'createdAt',
+      'updatedAt',
+      'firstName',
+      'birthdate',
+      'lastName',
+      'studyId',
+      'country',
+      'website',
+      'picture',
+      'street',
+      'state',
+      'email',
+      'phone',
+      'city',
+      'zip',
+    ],
     include: [
       {
         model: models.Role,
         attributes: ['id', 'slug', 'name'],
         through: { attributes: [] },
+        include: [
+          {
+            model: models.Capability,
+            attributes: ['id', 'slug', 'name'],
+          },
+        ],
       },
     ],
   })
-    .then(result => res.json(result));
+    .then((result) => res.json(result));
 });
 
-router.patch('/:id', isLoggedIn, isSelf, (req, res) => {
+router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
+  delete (req.body.acceptPrivacy);
   delete (req.body.createdAt);
   delete (req.body.updatedAt);
   delete (req.body.lastLogin);
   delete (req.body.username);
+  delete (req.body.acceptTos);
   delete (req.body.id);
 
   if (req.body.password) {
     req.body.password = hashPassword(req.body.password);
+  }
+
+  if (req.files) {
+    const fileName = req.files.picture.md5 + req.files.picture.name;
+    req.body.picture = fileName;
+    req.files.picture.mv(`./server/public/uploads/${fileName}`, (err) => {
+      if (err) {
+        console.log('Failed to save image:', err);
+      }
+    });
   }
 
   models.User.update(req.body, {
@@ -83,81 +185,97 @@ router.patch('/:id', isLoggedIn, isSelf, (req, res) => {
     },
   })
     .then(() => {
-      models.User.findById(req.params.id, {
-        attributes: ['username'],
+      models.User.findByPk(req.params.id, {
+        attributes: [
+          'id',
+          'username',
+          'showProfileStudents',
+          'showProfileTeachers',
+          'showProfilePublic',
+          'allowLogResearch',
+          'allowLogSharing',
+          'allowLogReports',
+          'allowBasicLog',
+          'titlePrefix',
+          'titleSuffix',
+          'description',
+          'firstName',
+          'birthdate',
+          'lastName',
+          'studyId',
+          'country',
+          'website',
+          'picture',
+          'street',
+          'state',
+          'email',
+          'phone',
+          'city',
+          'zip',
+        ],
       })
-        .then(result => res.json(result));
+        .then((result) => res.json(result));
     });
 });
 
-router.delete('/:id', isLoggedIn, hasRole('admin'), (req, res) => {
-  models.User.destroy({
-    where: {
-      id: req.params.id,
-    },
-  })
-    .then((result) => {
-      res.json({ deleted: result });
-    });
-});
+router.delete('/:id', isSelfOrHasCapability('delete_user'), (req, res) => {
+  const { id } = req.params;
 
-router.post('/login', (req, res, next) => {
-  req.checkBody('username', 'username is required').notEmpty();
-  req.checkBody('password', 'password is required').notEmpty();
-
-  req.getValidationResult().then((result) => {
-    if (!result.isEmpty()) {
+  isLastAdmin(id, (last) => {
+    if (!last) {
+      models.User.destroy({
+        where: {
+          id,
+        },
+      })
+        .then((result) => {
+          res.json({ deleted: result });
+        });
+    } else {
       res.status(400).send({
-        error: 'There have been validation errors.',
-        errors: result.array(),
+        error: 'Can not delete last admin.',
       });
-      return;
     }
-
-    passport.authenticate('local-signin', (user, info) => {
-      if (info) {
-        return res.status(409).send(info);
-      }
-
-      return req.logIn(user, () => res.json(user));
-    })(req, res, next);
   });
 });
 
-router.post('/:id/role', isLoggedIn, hasRole('admin'), (req, res) => {
-  req.checkBody('id', 'id is required').notEmpty();
+/* User Role Management */
+router.post('/:id/role', [
+  hasCapability('add_role_to_user'),
+  checkBody('id', 'id is required')
+    .exists()
+    .notEmpty()
+    .isInt(),
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+  }
 
-  req.getValidationResult().then((errors) => {
-    if (!errors.isEmpty()) {
-      res.status(400).send({
-        error: 'There have been validation errors.',
-        errors: errors.array(),
-      });
-      return;
-    }
+  return models.Role.findByPk(req.body.id)
+    .then((role) => {
+      if (role) {
+        models.User.findByPk(req.params.id)
+          .then((result) => {
+            result.addRole(role.id);
 
-    models.Role.findById(req.body.id)
-      .then((role) => {
-        if (role) {
-          models.User.findById(req.params.id)
-            .then((result) => {
-              result.addRole(role.id);
-
-              return res.json(result);
-            });
-        } else {
-          res.status(400).send({
-            error: 'Role does not exist.',
+            return res.json(result);
           });
-        }
-      });
-  });
+      } else {
+        res.status(400).send({
+          error: 'Role does not exist.',
+        });
+      }
+    });
 });
 
-router.delete('/:id/role/:role', hasRole('admin'), (req, res) => {
-  models.User.findById(req.params.id)
+router.delete('/:id/role/:role', hasCapability('delete_role_from_user'), (req, res) => {
+  models.User.findByPk(req.params.id)
     .then((result) => {
-      result.removeRole(req.params.roll);
+      result.removeRole(req.params.role);
       res.status(200).send({});
     });
 });

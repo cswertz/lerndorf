@@ -1,59 +1,65 @@
 export default {
-  up: (queryInterface, DataTypes) => queryInterface.createTable('LearningUnitLanguage', {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      allowNull: false,
-    },
-
-    LearningUnitId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      notEmpty: true,
-      references: {
-        model: 'LearningUnits',
-        key: 'id',
+  up: (queryInterface, DataTypes) =>
+    queryInterface.createTable('LearningUnitLanguage', {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false,
       },
-      onDelete: 'cascade',
-    },
 
-    LanguageId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      notEmpty: true,
-      references: {
-        model: 'Languages',
-        key: 'id',
+      LearningUnitId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        notEmpty: true,
+        references: {
+          model: 'LearningUnits',
+          key: 'id',
+        },
+        onDelete: 'cascade',
       },
-      onDelete: 'cascade',
-    },
 
-    UserId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'Users',
-        key: 'id',
+      LanguageId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        notEmpty: true,
+        references: {
+          model: 'Languages',
+          key: 'id',
+        },
+        onDelete: 'cascade',
       },
-      onDelete: 'cascade',
-    },
 
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      notEmpty: true,
-    },
+      UserId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+        onDelete: 'cascade',
+      },
 
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        notEmpty: true,
+      },
 
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-  }),
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+    })
+      .then(() => queryInterface.addConstraint('LearningUnitLanguage', {
+        fields: ['title', 'LanguageId'],
+        type: 'unique',
+        name: 'indexname',
+      })),
   down: queryInterface => queryInterface.dropTable('TaxonomyLanguage'),
 };

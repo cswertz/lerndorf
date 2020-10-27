@@ -6,12 +6,20 @@ import server from '../server/';
 
 chai.should();
 chai.use(chaiHttp);
-// const agent = chai.request.agent(server);
+const agent = chai.request.agent(server);
 
 describe('KnowledgeUnit', () => {
   const knowledgeUnits = [];
   const learningUnits = [];
-  const users = [];
+  const userKnowledgeUnit = {
+    username: 'user_knowlwdgeunit',
+    password: 'password',
+    email: 'user@knowledgeunit.com',
+  };
+  const admin = {
+    username: 'admin',
+    password: 'admin',
+  };
 
   before((done) => {
     models.KnowledgeUnit.truncate({
@@ -24,25 +32,27 @@ describe('KnowledgeUnit', () => {
       cascade: true,
     });
 
-    models.User.truncate({
-      restartIdentity: true,
-      cascade: true,
-    });
-
     models.LearningUnit.create({})
       .then((result) => {
         const learningUnit = result.get();
         learningUnits.push(learningUnit);
 
-        models.User.create({
-          username: 'user',
-          email: 'foobar@example.com',
-          password: 'foobar',
-        })
-          .then((user) => {
-            users.push(user.get());
+        chai.request(server)
+          .post('/api/users')
+          .send(userKnowledgeUnit)
+          .end((err, res) => {
+            res.should.have.status(200);
 
-            done();
+            models.User.update({
+              active: true,
+            }, {
+              where: {
+                username: userKnowledgeUnit.username,
+              },
+            })
+              .then(() => {
+                done();
+              });
           });
       });
   });
@@ -55,7 +65,7 @@ describe('KnowledgeUnit', () => {
 
   describe('GET /api/knowledgeUnits', () => {
     it('it should GET all the knowledgeUnits', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get('/api/knowledgeUnits')
         .end((err, res) => {
           res.should.have.status(200);
@@ -67,79 +77,238 @@ describe('KnowledgeUnit', () => {
     });
   });
 
+  describe('GET /api/knowledgeUnits/taxonomies', () => {
+    it('it should GET all the relevant taxonomies for adding a knowledge Unit', (done) => {
+      chai.request(server).keepOpen()
+        .get('/api/knowledgeUnits/taxonomies')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+
+          done();
+        });
+    });
+  });
+
   describe('POST /api/knowledgeUnits', () => {
-    it('it should display an error when required fields are missing', (done) => {
-      chai.request(server)
+    it('it should not be possible to add a Knowledge Unit when not logged in', (done) => {
+      chai.request(server).keepOpen()
         .post('/api/knowledgeUnits')
         .send({})
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(401);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
-          res.body.should.have.property('errors');
-          res.body.errors.length.should.be.eql(4);
 
           done();
         });
     });
 
-    it('it should add a new KnowledgeUnit', (done) => {
-      chai.request(server)
-        .post('/api/knowledgeUnits')
-        .send({
-          LearningUnitId: learningUnits[0].id,
-          UserId: users[0].id,
-        })
+    it('it should not allow a user without the proper permissions to add a Knowledge Unit', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(userKnowledgeUnit)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('createdAt');
 
-          knowledgeUnits[0] = res.body.id;
+          agent
+            .post('/api/knowledgeUnits')
+            .send({
+              LearningUnitId: learningUnits[0].id,
+            })
+            .end((err1, res1) => {
+              res1.should.have.status(403);
+              res1.body.should.be.a('object');
+              res1.body.should.have.property('error');
 
-          done();
+              done();
+            });
         });
     });
 
-    it('it should add a different KnowledgeUnit', (done) => {
-      chai.request(server)
-        .post('/api/knowledgeUnits')
-        .send({
-          LearningUnitId: learningUnits[0].id,
-          UserId: users[0].id,
-        })
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.have.property('id');
-          res.body.should.have.property('createdAt');
+    it('it should display an error when adding a Knowledge Unit without required fields', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post('/api/knowledgeUnits')
+            .send({})
+            .end((err, res) => {
+              res.should.have.status(400);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              res.body.should.have.property('errors');
 
-          knowledgeUnits[1] = res.body.id;
+              done();
+            });
+        });
+    });
 
-          done();
+    it('it should allow a user with the proper permissions to add a Knowledge Unit', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post('/api/knowledgeUnits')
+            .send({
+              LearningUnitId: learningUnits[0].id,
+            })
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('id');
+
+              knowledgeUnits[0] = res.body.id;
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to add a different Knowledge Unit', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .post('/api/knowledgeUnits')
+            .send({
+              LearningUnitId: learningUnits[0].id,
+            })
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('id');
+
+              knowledgeUnits[0] = res.body.id;
+
+              done();
+            });
         });
     });
   });
 
   describe('GET /api/knowledgeUnits/:id', () => {
     it('it should display KnowledgeUnit information', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .get(`/api/knowledgeUnits/${knowledgeUnits[0]}`)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('id');
-          res.body.should.have.property('createdAt');
 
           done();
         });
     });
   });
 
+  describe('PATCH /api/knowledgeUnits/markLectored:id', () => {
+    it('it should not be possible to add mark a Knowledge Unit lectored when not logged in', (done) => {
+      chai.request(server).keepOpen()
+        .patch(`/api/knowledgeUnits/markLectored/${knowledgeUnits[0]}`)
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+
+          done();
+        });
+    });
+
+    it('it should not allow a user without the proper permissions to mark a Knowledge Unit lectored', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(userKnowledgeUnit)
+        .end(() => {
+          agent
+            .patch(`/api/knowledgeUnits/markLectored/${knowledgeUnits[0]}`)
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to mark a Knowledge Unit lectored', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .patch(`/api/knowledgeUnits/markLectored/${knowledgeUnits[0]}`)
+            .send({
+              LearningUnitId: learningUnits[0].id,
+            })
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('array');
+              res.body.length.should.be.eql(1);
+
+              done();
+            });
+        });
+    });
+  });
+
+  describe('PATCH /api/knowledgeUnits/markReviewed:id', () => {
+    it('it should not be possible to add mark a Knowledge Unit reviewed when not logged in', (done) => {
+      chai.request(server).keepOpen()
+        .patch(`/api/knowledgeUnits/markReviewed/${knowledgeUnits[0]}`)
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+
+          done();
+        });
+    });
+
+    it('it should not allow a user without the proper permissions to add a Knowledge Unit', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(userKnowledgeUnit)
+        .end(() => {
+          agent
+            .patch(`/api/knowledgeUnits/markReviewed/${knowledgeUnits[0]}`)
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to mark a Knowledge Unit reviewed', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .patch(`/api/knowledgeUnits/markReviewed/${knowledgeUnits[0]}`)
+            .send({
+              LearningUnitId: learningUnits[0].id,
+            })
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('array');
+              res.body.length.should.be.eql(1);
+
+              done();
+            });
+        });
+    });
+  });
+
   describe('DELETE /api/knowledgeUnits/:id', () => {
     it('it should be possible to delete a KnowledgeUnit', (done) => {
-      chai.request(server)
+      chai.request(server).keepOpen()
         .delete(`/api/knowledgeUnits/${knowledgeUnits[0]}`)
         .end((err, res) => {
           res.should.have.status(200);

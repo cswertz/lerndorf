@@ -21,6 +21,33 @@ class KnowledgeUnit extends Model {
         onDelete: 'cascade',
       },
 
+      rootId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'LearningUnits',
+          key: 'id',
+        },
+      },
+
+      nextId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'LearningUnits',
+          key: 'id',
+        },
+      },
+
+      prevId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'LearningUnits',
+          key: 'id',
+        },
+      },
+
       UserId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -188,13 +215,13 @@ class KnowledgeUnit extends Model {
     KnowledgeUnit.belongsToMany(sequelize.User, { through: 'KnowledgeUnitUserLog' });
     KnowledgeUnit.belongsToMany(sequelize.User, { through: 'KnowledgeUnitUser' });
 
-    KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'minimumScreenResolution' });
-    KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'knowledgeType' });
-    KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'courseLevel' });
-    KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'objextType' });
-    KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'mediaType' });
-    KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'eqfLevel' });
-    KnowledgeUnit.hasOne(sequelize.Taxonomy, { foreignKey: 'licence' });
+    KnowledgeUnit.belongsTo(sequelize.Taxonomy, { as: 'msr', foreignKey: 'minimumScreenResolution' });
+    KnowledgeUnit.belongsTo(sequelize.Taxonomy, { as: 'kt', foreignKey: 'knowledgeType' });
+    KnowledgeUnit.belongsTo(sequelize.Taxonomy, { as: 'cl', foreignKey: 'courseLevel' });
+    KnowledgeUnit.belongsTo(sequelize.Taxonomy, { as: 'ot', foreignKey: 'objectType' });
+    KnowledgeUnit.belongsTo(sequelize.Taxonomy, { as: 'mt', foreignKey: 'mediaType' });
+    KnowledgeUnit.belongsTo(sequelize.Taxonomy, { as: 'el', foreignKey: 'eqfLevel' });
+    KnowledgeUnit.belongsTo(sequelize.Taxonomy, { as: 'l', foreignKey: 'license' });
 
     KnowledgeUnit.hasMany(sequelize.KnowledgeUnitUserRating, { as: 'Ratings' });
     KnowledgeUnit.hasMany(sequelize.LearningUnitTag, { as: 'Tags' });
@@ -205,7 +232,7 @@ class KnowledgeUnit extends Model {
     KnowledgeUnit.hasOne(KnowledgeUnit, { foreignKey: 'nextId' });
 
     KnowledgeUnit.belongsTo(sequelize.LearningUnit);
-    KnowledgeUnit.belongsTo(sequelize.User);
+    KnowledgeUnit.belongsTo(sequelize.User, { as: 'author', foreignKey: 'UserId' });
   }
 }
 

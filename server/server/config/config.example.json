@@ -1,10 +1,21 @@
 {
   "development": {
+    "domain": "http://localhost",
     "use_env_variable": false,
     "operatorsAliases": false,
     "storage": "development.sqlite",
     "dialect": "sqlite",
-    "seederStorage": "sequelize"
+    "seederStorage": "sequelize",
+    "smtp": {
+      "from": "\"Lerndorf\" <no-reply@lerndorf.at>",
+      "host": "smtp.ethereal.email",
+      "port": 587,
+      "secure": false,
+      "auth": {
+        "user": "user",
+        "pass": "pass"
+      }
+    }
   },
   "test": {
     "use_env_variable": false,

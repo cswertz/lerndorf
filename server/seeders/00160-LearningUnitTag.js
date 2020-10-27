@@ -7,7 +7,7 @@ module.exports = {
     .then((user) => {
       queryInterface.bulkInsert('LearningUnitTag', [
         {
-          KnowledgeUnitId: 1,
+          LearningUnitLanguageId: 1,
           UserId: user,
           tag: 'some Tag',
           createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),

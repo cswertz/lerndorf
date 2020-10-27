@@ -6,11 +6,16 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   models.Capability.findAll({
-    attributes: ['id', 'createdAt', 'updatedAt'],
+    attributes: [
+      'id',
+      'slug',
+      'name',
+    ],
   })
-    .then(results => res.json(results));
+    .then((results) => res.json(results));
 });
 
+/*
 router.post('/', (req, res) => {
   req.checkBody('slug', 'slug is required')
     .isLength({ max: 255 })
@@ -40,7 +45,7 @@ router.post('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  models.Capability.findById(req.params.id, {
+  models.Capability.findByPk(req.params.id, {
     attributes: ['id', 'createdAt', 'updatedAt'],
   })
     .then(result => res.json(result));
@@ -57,7 +62,7 @@ router.patch('/:id', (req, res) => {
     },
   })
     .then(() => {
-      models.Capability.findById(req.params.id, {
+      models.Capability.findByPk(req.params.id, {
         attributes: ['id', 'createdAt', 'updatedAt'],
       })
         .then(result => res.json(result));
@@ -74,5 +79,6 @@ router.delete('/:id', (req, res) => {
       res.json({ deleted: result });
     });
 });
+*/
 
 export default router;

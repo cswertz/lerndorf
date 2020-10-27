@@ -95,6 +95,10 @@ class User extends Model {
         type: DataTypes.STRING,
       },
 
+      state: {
+        type: DataTypes.STRING,
+      },
+
       website: {
         type: DataTypes.STRING,
       },
@@ -109,6 +113,50 @@ class User extends Model {
 
       lastLogin: {
         type: DataTypes.DATE,
+      },
+
+      acceptPrivacy: {
+        type: DataTypes.BOOLEAN,
+      },
+
+      acceptTos: {
+        type: DataTypes.BOOLEAN,
+      },
+
+      allowBasicLog: {
+        type: DataTypes.BOOLEAN,
+      },
+
+      allowLogResearch: {
+        type: DataTypes.BOOLEAN,
+      },
+
+      allowLogSharing: {
+        type: DataTypes.BOOLEAN,
+      },
+
+      allowLogReports: {
+        type: DataTypes.BOOLEAN,
+      },
+
+      showProfilePublic: {
+        type: DataTypes.BOOLEAN,
+      },
+
+      showProfileStudents: {
+        type: DataTypes.BOOLEAN,
+      },
+
+      showProfileTeachers: {
+        type: DataTypes.BOOLEAN,
+      },
+
+      activationCode: {
+        type: DataTypes.STRING,
+      },
+
+      active: {
+        type: DataTypes.BOOLEAN,
       },
     }, { sequelize });
   }

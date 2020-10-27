@@ -1,49 +1,106 @@
+import { check, validationResult } from 'express-validator';
 import express from 'express';
 
+import { hasCapability } from '../helpers/auth';
 import models from '../config/sequelize';
 
 const router = express.Router();
 
+// Get the latest version of all top Level Taxonomies
 router.get('/', (req, res) => {
   models.Taxonomy.findAll({
-    attributes: ['id', 'createdAt'],
+    where: {
+      parent: 1,
+    },
+    attributes: [
+      'id',
+      'createdAt',
+      'active',
+      'type',
+    ],
   })
-    .then(results => res.json(results));
+    .then((results) => res.json(results));
 });
 
-router.post('/', (req, res) => {
-  req.checkBody('type', 'type is required')
+router.post('/', [
+  hasCapability('add_taxonomy'),
+  check('type', 'type is required')
     .isLength({ max: 255 })
-    .notEmpty();
+    .notEmpty(),
+], (req, res) => {
+  if (!req.body.parent) {
+    req.body.parent = 1;
+  }
 
-  req.getValidationResult().then((errors) => {
-    if (!errors.isEmpty()) {
-      return res.status(400).send({
-        error: 'There have been validation errors.',
-        errors: errors.array(),
-      });
-    }
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+  }
 
-    return models.Taxonomy.create(req.body)
-      .then(result => res.json(result))
-      .catch(err => res.status(422).send({
-        error: 'There have been database errors.',
-        errors: err.errors.map(error => ({
-          message: error.message,
-          type: error.type,
-        })),
-      }));
-  });
+  return models.Taxonomy.create(req.body)
+    .then((result) => res.json(result))
+    .catch((err) => res.status(422).send({
+      error: 'There have been database errors.',
+      errors: err.errors.map((error) => ({
+        param: error.path,
+        msg: error.message,
+      })),
+    }));
 });
 
+// Get a specific taxonomy with its direct children
 router.get('/:id', (req, res) => {
-  models.Taxonomy.findById(req.params.id, {
-    attributes: ['id', 'createdAt'],
+  models.Taxonomy.findByPk(req.params.id, {
+    attributes: [
+      'id',
+      'createdAt',
+      'active',
+      'type',
+    ],
   })
-    .then(result => res.json(result));
+    .then((result) => {
+      models.Taxonomy.findAll({
+        where: {
+          parent: req.params.id,
+        },
+        attributes: [
+          'id',
+          'createdAt',
+          'active',
+          'type',
+        ],
+      })
+        .then((children) => {
+          res.json({
+            item: result,
+            children,
+          });
+        });
+    });
 });
 
-router.delete('/:id', (req, res) => {
+router.patch('/:id', hasCapability('edit_taxonomy'), (req, res) => {
+  delete (req.body.createdAt);
+  delete (req.body.updatedAt);
+  delete (req.body.id);
+
+  models.Taxonomy.update(req.body, {
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then(() => {
+      models.Taxonomy.findByPk(req.params.id, {
+        attributes: ['id', 'createdAt'],
+      })
+        .then((result) => res.json(result));
+    });
+});
+
+router.delete('/:id', hasCapability('delete_taxonomy'), (req, res) => {
   models.Taxonomy.destroy({
     where: {
       id: req.params.id,

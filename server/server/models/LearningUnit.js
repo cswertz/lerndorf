@@ -19,6 +19,8 @@ class LearningUnit extends Model {
   static associate(sequelize) {
     LearningUnit.belongsTo(sequelize.User);
 
+    LearningUnit.hasMany(sequelize.KnowledgeUnit);
+
     LearningUnit.hasOne(LearningUnit, { foreignKey: 'rootId' });
     LearningUnit.hasOne(LearningUnit, { foreignKey: 'prevId' });
     LearningUnit.hasOne(LearningUnit, { foreignKey: 'nextId' });
@@ -26,6 +28,8 @@ class LearningUnit extends Model {
     LearningUnit.belongsToMany(sequelize.Language, { through: 'LearningUnitLanguage' });
     LearningUnit.belongsToMany(sequelize.LearningUnit, { through: 'LearningUnitRelation', foreignKey: 'sourceId', as: 'Source' });
     LearningUnit.belongsToMany(sequelize.LearningUnit, { through: 'LearningUnitRelation', foreignKey: 'targetId', as: 'Target' });
+
+    LearningUnit.hasMany(sequelize.LearningUnitRelation);
   }
 }
 

@@ -5,6 +5,22 @@ const roles = [
     slug: 'admin',
     name: 'Admin',
   },
+  {
+    slug: 'guest',
+    name: 'Guest',
+  },
+  {
+    slug: 'user',
+    name: 'User',
+  },
+  {
+    slug: 'editor',
+    name: 'Editor',
+  },
+  {
+    slug: 'lector',
+    name: 'Lector',
+  },
 ];
 
 export default {

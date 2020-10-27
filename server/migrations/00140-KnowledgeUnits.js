@@ -18,6 +18,33 @@ export default {
       onDelete: 'cascade',
     },
 
+    rootId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'LearningUnits',
+        key: 'id',
+      },
+    },
+
+    nextId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'LearningUnits',
+        key: 'id',
+      },
+    },
+
+    prevId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'LearningUnits',
+        key: 'id',
+      },
+    },
+
     UserId: {
       type: DataTypes.INTEGER,
       allowNull: false,

@@ -6,7 +6,6 @@ import server from '../server/';
 
 chai.should();
 chai.use(chaiHttp);
-const agent = chai.request.agent(server);
 
 describe('File', () => {
   const file = {
@@ -56,7 +55,7 @@ describe('File', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('error');
           res.body.should.have.property('errors');
-          res.body.errors.length.should.be.eql(1);
+          res.body.errors.length.should.be.eql(2);
 
           done();
         });
@@ -130,7 +129,7 @@ describe('File', () => {
 
   describe('PATCH /api/files/:id', () => {
     it('it should allow an empty patch', (done) => {
-      agent
+      chai.request(server)
         .patch(`/api/files/${files[0]}`)
         .send({})
         .end((err, res) => {
