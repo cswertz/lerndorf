@@ -22,6 +22,24 @@ Once the build is done, you can find it in *client/build*, the contents of this 
 
 The frontend will then be available from the root of the server, eg.: http://localhost:3000/
 
+## Running the Development Versions
+# Install current long time version of node (best with nvm), yarn, sequelize and sqlite3
+# Clone repository
+ * git clone https://github.com/cswertz/lerndorf.git ./lerndorf (to create the folder "lerndorf", create the repository and clone into it)
+ * cd Lerndorf
+ * git checkout develop
+ # install dependencies, initialise and start
+ * cd server
+ * yarn install
+ * cd server/config
+ * cp config.example.json config.json (adjust config if needed)
+ * yarn sequelize db:migrate
+ * yarn start
+ * cd ../../../client
+ * yarn install
+ * yarn start
+# login: Admin pwd: **admin**
+
 ## Versioning & Branching
 This project is following versioning by [semver](https://semver.org/). Further it uses [gitflow](https://datasift.github.io/gitflow/IntroducingGitFlow.html) as a branching model. This specifically means that development is happening on the develop branch. Releases are made on the master branch and tagged accordingly. Major releases might have breaking changes to the versions before. Versions less than *1.0.0* might have breaking changes in the minor bumps to. Please consult the *CHANGELOG*.
 
