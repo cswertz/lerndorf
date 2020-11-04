@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Wrapper from '../../components/routes/wrapper';
+import WrapperText from './wrapperText';
 
 import TextsEdit from '../texts/Edit';
 import TextsShow from '../texts/Show';
@@ -10,21 +11,24 @@ import TextsAdd from '../texts/Add';
 // import Texts from '../texts/List';
 
 const TextsRouter = ({
+  knowledgeUnits,
   languages,
   actions,
   texts,
   user,
 }) => (
-  <React.Fragment>
+  <>
     <Route
       exact
       path="/texts/add/knowledge-units/:KnowledgeUnitId"
       render={() => (
-        <Wrapper
+        <WrapperText
           fetchRoles={actions.userFetchRoles}
+          knowledgeUnitsItemFetch={actions.knowledgeUnitsItemFetch}
+          title="Add Text to Knowledge Unit: "
           className="LearningUnitsWrapper"
           logout={actions.userLogout}
-          title="Add Text to Knowledge Unit"
+          knowledgeUnits={knowledgeUnits}
           active="texts"
           user={user}
           element={(
@@ -86,10 +90,16 @@ const TextsRouter = ({
         />
       )}
     />
-  </React.Fragment>
+  </>
 );
 
 TextsRouter.propTypes = {
+  knowledgeUnits: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   texts: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     id: PropTypes.shape({}).isRequired,
@@ -103,6 +113,8 @@ TextsRouter.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   actions: PropTypes.shape({
+    knowledgeUnitsItemFetch: PropTypes.func.isRequired,
+    userFetchRoles: PropTypes.func.isRequired,
     languagesFetch: PropTypes.func.isRequired,
     textsItemFetch: PropTypes.func.isRequired,
     textsDelete: PropTypes.func.isRequired,

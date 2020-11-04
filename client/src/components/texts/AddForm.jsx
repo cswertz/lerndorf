@@ -15,7 +15,7 @@ import CKEditor from '@ckeditor/ckeditor5-react';
 
 import editorConfig from '../../utils/ckeditorConfig';
 
-const styles = theme => ({
+const styles = (theme) => ({
   wrapper: {
     display: 'flex',
     flex: 1,
@@ -82,7 +82,7 @@ const renderSelectField = ({
   ));
 
   return (
-    <React.Fragment>
+    <>
       <InputLabel
         htmlFor="language"
         error={hasError}
@@ -103,7 +103,7 @@ const renderSelectField = ({
       >
         {helperText}
       </FormHelperText>
-    </React.Fragment>
+    </>
   );
 };
 
@@ -146,7 +146,7 @@ const TextsAdd = ({
   classes,
   errors,
 }) => {
-  const languageOptions = languages.map(language => ({
+  const languageOptions = languages.map((language) => ({
     key: language.id,
     value: language.name,
   }));

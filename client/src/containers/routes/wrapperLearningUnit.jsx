@@ -36,10 +36,10 @@ class WrapperLearningUnit extends Component {
       logout,
       user,
       match,
-      items
+      items,
     } = this.props;
 
-    const { id,languageId } = match.params;
+    const { id, languageId } = match.params;
 
     let title = 'Editing Learning Unit: ';
     if (items.id[id]) {
