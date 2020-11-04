@@ -240,6 +240,34 @@ router.delete('/:id', isSelfOrHasCapability('delete_user'), async (req, res) => 
       });
 
       res.json({ deleted: result });
+    } else {
+      // Otherwise we anonymize him
+      await models.User.update({
+        password: 'DELETED',
+        username: `[DELETED ${id}]`,
+        email: `${id}@deleted.com`,
+        firstName: null,
+        lastName: null,
+        titlePrefix: null,
+        titleSuffix: null,
+        birthdate: null,
+        studyId: null,
+        phone: null,
+        street: null,
+        zip: null,
+        city: null,
+        state: null,
+        country: null,
+        website: null,
+        picture: null,
+        description: null,
+        active: 0,
+        activationCode: null,
+      }, {
+        where: {
+          id,
+        },
+      });
     }
   }
 
