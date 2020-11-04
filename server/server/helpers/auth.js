@@ -127,8 +127,9 @@ const isLastAdmin = async (id) => {
         },
       ],
     });
+    const adminIds = adminUsers.map((user) => user.id, 10);
 
-    return adminUsers.length < 1;
+    return (adminIds.length === 1 && adminIds.includes(parseInt(id, 10)));
   }
 
   return false;
