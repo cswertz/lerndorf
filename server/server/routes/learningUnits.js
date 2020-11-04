@@ -63,10 +63,9 @@ router.post('/', [
   })
     .then((results) => {
       if (results.length === 0) {
+        req.body.UserId = req.user.id;
         return models.LearningUnit.create(req.body)
           .then((learningUnit) => {
-            learningUnit.setUser(req.user);
-
             const learningUnitLanguageData = {
               LearningUnitId: learningUnit.id,
               LanguageId: req.body.language,
@@ -366,8 +365,14 @@ router.patch('/tag/:id', [
   return res.json({ deleted: result });
 });
 
-router.delete('', hasCapability(''), (req, res) => {
+router.delete('/:id', hasCapability('delete_any_learning_unit'), async (req, res) => {
+  const result = await models.LearningUnit.destroy({
+    where: {
+      id: req.params.id,
+    },
+  });
 
+  res.json({ deleted: result });
 });
 
 export default router;
