@@ -5,20 +5,22 @@
 
 ## Purpose
 
-Lerndorf is a learning management system (LMS) with a knowledge base and a metadata system. The knowledge base supports content in multiple languages and version control. The content consists of knowledge units (KU) with one knowledge- and media type. The knowledge units are combined to learning units (LU). LUs have one topic. That is: One LU consists of all KUs with the same topic. The topics are unique in the knowledge base and connected by typed relations.
+Lerndorf is a learning management system (LMS) with a knowledge base and a metadata system (ontology). The knowledge base supports content in multiple languages and content version control. The content consists of knowledge units (KU) with one knowledge- and media type. The knowledge units are combined to learning units (LU). LUs have one topic. That is: One LU consists of all KUs with the same topic. The topics are unique in the knowledge base and connected by typed relations.
 
 Courses are selections of KUs. KUs can thus easily be resused across courses. Within a course, different learning sequences can be offered. The learning sequences can be created manually or automatically. For the automatic creation of learning sequences the metadata are mapped to learning models. Additionally, learning is supported with a recommender system and AI methods.
 
 ## Roadmap (Overwiew)
 
 ### Implemented
-* Database Scheme
-* Metadata Editor
-* User Model
-* Role Model
-* Role Model Editor
-* User Registration
-* User Management
+* Database scheme with default metadata vocabulary
+* Metadata editor
+* User model
+* Role model with editor
+* User registration
+* User management
+* Learning unit editor
+* Knowledge unit editor
+* Text editor with file upload
 
 ### Work in Progress
 * Research Interface
@@ -60,7 +62,7 @@ The frontend will then be available from the root of the server, eg.: http://loc
 ### Install current LTS version of node, yarn, sequelize, and sqlite3
 1. Clone repository
   ```
-  git clone https://github.com/cswertz/lerndorf.git ./lerndorf (creates the folder "lerndorf" and clones into it)
+  git clone https://github.com/cswertz/lerndorf.git ./lerndorf
   cd lerndorf
   git checkout develop
   ```
@@ -76,7 +78,7 @@ The frontend will then be available from the root of the server, eg.: http://loc
   yarn start
   ```
 3. login
-  as user Admin with password **admin**
+  as user admin with password ```**admin**```
 
 ## Versioning & Branching
 This project is following versioning by [semver](https://semver.org/). Further it uses [gitflow](https://datasift.github.io/gitflow/IntroducingGitFlow.html) as a branching model. This specifically means that development is happening on the develop branch. Releases are made on the master branch and tagged accordingly. Major releases might have breaking changes to the versions before. Versions less than *1.0.0* might have breaking changes in the minor bumps to. Please consult the *CHANGELOG*.
