@@ -3,10 +3,44 @@
 
 > WebDidactic@lerndorf
 
+## Purpose
+
+Lerndorf is a learning management system (LMS) with a knowledge base and a metadata system. The knowledge base supports content in multiple languages and version control. The content consists of knowledge units (KU) with one knowledge- and media type. The knowledge units are combined to learning units (LU). LUs have one topic. That is: One LU consists of all KUs with the same topic. The topics are unique in the knowledge base and connected by typed relations.
+
+Courses are selections of KUs. KUs can thus easily be resused across courses. Within a course, different learning sequences can be offered. The learning sequences can be created manually or automatically. For the automatic creation of learning sequences the metadata are mapped to learning models. Additionally, learning is supported with a recommender system and AI methods.
+
+## Roadmap (Overwiew)
+
+### Implemented
+* Data model for knowledge base
+* Metadata Editor
+* User Model
+* Role Model
+* Role Model Editor
+* User Registration
+* User management
+
+### Work in Progress
+* Research Interface
+* Course Design
+* Manual creation of learning sequences
+* UI Design
+
+### Future Work
+* Bulletin Boards
+* Automatic creation of learning sequences
+* Recommender System*
+
+## Documentation
+Please find further documentation (data model, interface) at https://drive.google.com/drive/folders/0B-VurHfSvlzpQi1mM2ZXQVZYbDg?usp=sharing
+and in the readme-files in the server and client directory.
+
+## Structure
+
 This repository has 2 main folders:
 
-* *server*: Contains all the relevant backend code and documentation for the backend itself
-*  *client*: Contains all the relevant frontend code and documentation
+* *server*: Contains all the relevant backend code and documentation
+* *client*: Contains all the relevant frontend code and documentation
 
 ## Deployment
 During development, backend and frontend are run independently from one another on two different ports. This is obviously not what you want for production.
@@ -23,17 +57,16 @@ Once the build is done, you can find it in *client/build*, the contents of this 
 The frontend will then be available from the root of the server, eg.: http://localhost:3000/
 
 ## Running the Development Versions
-# Install current long time version of node (best with nvm), yarn, sequelize and sqlite3
+# Install current LTS version of node, yarn, sequelize, and sqlite3
 # Clone repository
- * git clone https://github.com/cswertz/lerndorf.git ./lerndorf (to create the folder "lerndorf", create the repository and clone into it)
- * cd Lerndorf
+ * git clone https://github.com/cswertz/lerndorf.git ./lerndorf (creates the folder "lerndorf" and clones into it)
+ * cd lerndorf
  * git checkout develop
  # install dependencies, initialise and start
  * cd server
  * yarn install
  * cd server/config
  * cp config.example.json config.json (adjust config if needed)
- * yarn sequelize db:migrate
  * yarn start
  * cd ../../../client
  * yarn install
@@ -46,4 +79,4 @@ This project is following versioning by [semver](https://semver.org/). Further i
 A new release will be made after each Milestone.
 
 ## Contributions
-Contributions are very welcome. Make sure to direct you PR's against the dev branch. Make sure that tests are in place and that your PR is passing all the tests.
+Contributions are very welcome. Make sure to direct you PR's against the develop branch. Make sure that tests are in place and that your PR is passing all the tests.
