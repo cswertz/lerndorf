@@ -33,7 +33,7 @@ Courses are selections of KUs. KUs can thus easily be resused across courses. Wi
 
 ## Documentation
 Please find further documentation (data model, interface) at [GoogleDrive](https://drive.google.com/drive/folders/0B-VurHfSvlzpQi1mM2ZXQVZYbDg?usp=sharing)
-and in the readme-files in the server and client directory. Lerndorf is based on the results of the INTUITEL project [Intuitel Book](https://www.riverpublishers.com/pdf/ebook/RP_E9788793519503.pdf) which was based on the Web -Dicatic concept [Web Didactic Book](https://lerndorf.at/meder/privat/Meder_2006_Web-Didaktik.pdf). 
+and in the readme-files in the server and client directory. Lerndorf is based on the results of the [INTUITEL project](https://www.riverpublishers.com/pdf/ebook/RP_E9788793519503.pdf) which was based on the [Web Dicatic concept](https://lerndorf.at/meder/privat/Meder_2006_Web-Didaktik.pdf).
 
 ## Structure
 
@@ -57,21 +57,26 @@ Once the build is done, you can find it in *client/build*, the contents of this 
 The frontend will then be available from the root of the server, eg.: http://localhost:3000/
 
 ## Running the Development Versions
-# Install current LTS version of node, yarn, sequelize, and sqlite3
-# Clone repository
- * git clone https://github.com/cswertz/lerndorf.git ./lerndorf (creates the folder "lerndorf" and clones into it)
- * cd lerndorf
- * git checkout develop
- # install dependencies, initialise and start
- * cd server
- * yarn install
- * cd server/config
- * cp config.example.json config.json (adjust config if needed)
- * yarn start
- * cd ../../../client
- * yarn install
- * yarn start
-# login: Admin pwd: **admin**
+### Install current LTS version of node, yarn, sequelize, and sqlite3
+1. Clone repository
+  ```
+  git clone https://github.com/cswertz/lerndorf.git ./lerndorf (creates the folder "lerndorf" and clones into it)
+  cd lerndorf
+  git checkout develop
+  ```
+ 2. Install dependencies, initialise and start
+ ```
+  cd server
+  yarn install
+  cd server/config
+  cp config.example.json config.json (adjust config if needed)
+  yarn start
+  cd ../../../client
+  yarn install
+  yarn start
+  ```
+3. login
+  as user Admin with password **admin**
 
 ## Versioning & Branching
 This project is following versioning by [semver](https://semver.org/). Further it uses [gitflow](https://datasift.github.io/gitflow/IntroducingGitFlow.html) as a branching model. This specifically means that development is happening on the develop branch. Releases are made on the master branch and tagged accordingly. Major releases might have breaking changes to the versions before. Versions less than *1.0.0* might have breaking changes in the minor bumps to. Please consult the *CHANGELOG*.
