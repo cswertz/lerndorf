@@ -12,28 +12,28 @@ Courses are selections of KUs. KUs can thus easily be resused across courses. Wi
 ## Roadmap (Overwiew)
 
 ### Implemented
-* Data model for knowledge base
+* Database Scheme
 * Metadata Editor
 * User Model
 * Role Model
 * Role Model Editor
 * User Registration
-* User management
+* User Management
 
 ### Work in Progress
 * Research Interface
-* Course Design
-* Manual creation of learning sequences
-* UI Design
+* Course designer with manual creation of learning sequences
+* UI Design Improvements
 
 ### Future Work
 * Bulletin Boards
+* H5P Integration
 * Automatic creation of learning sequences
-* Recommender System*
+* Recommender System
 
 ## Documentation
-Please find further documentation (data model, interface) at https://drive.google.com/drive/folders/0B-VurHfSvlzpQi1mM2ZXQVZYbDg?usp=sharing
-and in the readme-files in the server and client directory.
+Please find further documentation (data model, interface) at [GoogleDrive](https://drive.google.com/drive/folders/0B-VurHfSvlzpQi1mM2ZXQVZYbDg?usp=sharing)
+and in the readme-files in the server and client directory. Lerndorf is based on the results of the INTUITEL project [Intuitel Book](https://www.riverpublishers.com/pdf/ebook/RP_E9788793519503.pdf) which was based on the Web -Dicatic concept [Web Didactic Book](https://lerndorf.at/meder/privat/Meder_2006_Web-Didaktik.pdf). 
 
 ## Structure
 
