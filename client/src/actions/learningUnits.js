@@ -87,7 +87,7 @@ export const learningUnitsItemFetch = (id) => (
         }
       }
     } catch (e) {
-        console.log('Error while fetching knowledge units:', e);
+        console.log('Error while fetching lerarning units:', e);
     }
   }
 );

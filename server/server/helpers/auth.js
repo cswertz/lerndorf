@@ -105,7 +105,37 @@ const isSelfOrHasCapability = (...allowed) => (req, res, next) => {
   });
 };
 
-const isLastAdmin = (id, next) => {
+const isAdmin = async (id) => {
+  const user = await models.User.findByPk(id);
+  const roles = await user.getRoles();
+  const adminRoles = roles.filter((role) => role.dataValues.slug === 'admin');
+
+  return adminRoles.length > 0;
+};
+
+const isLastAdmin = async (id) => {
+  if (isAdmin(id)) {
+    const adminUsers = await models.User.findAll({
+      attributes: ['id'],
+      include: [
+        {
+          model: models.Role,
+          attributes: ['id', 'slug'],
+          where: {
+            slug: 'admin',
+          },
+        },
+      ],
+    });
+    const adminIds = adminUsers.map((user) => user.id, 10);
+
+    return (adminIds.length === 1 && adminIds.includes(parseInt(id, 10)));
+  }
+
+  return false;
+};
+
+const isLastAdminOld = (id, next) => {
   models.User.findByPk(id)
     .then((result) => {
       result.getRoles()

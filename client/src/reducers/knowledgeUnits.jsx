@@ -6,6 +6,7 @@ import {
   KNOWLEDGEUNITS_EDIT_SUCCESS,
   KNOWLEDGEUNITS_ADD_SUCCESS,
   KNOWLEDGEUNITS_ADD_FAILED,
+  KNOWLEDGEUNITS_ITEM_FETCH,
   KNOWLEDGEUNITS_FETCH,
   TEXTS_ADD_SUCCESS,
 } from '../actions/constants';
@@ -13,6 +14,7 @@ import {
 const initialState = {
   fetching: false,
   fetched: false,
+  fetchingId: null,
   items: [],
   taxonomies: {
     fetching: false,
@@ -86,6 +88,12 @@ const knowledgeUnits = (state = initialState, action) => {
       return Object.assign({}, state, {
         fetched: false,
         fetching: true,
+      });
+    }
+
+    case KNOWLEDGEUNITS_ITEM_FETCH: {
+      return Object.assign({}, state, {
+        fetchingId: action.id,
       });
     }
 

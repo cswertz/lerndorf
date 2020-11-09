@@ -120,10 +120,11 @@ const Router = ({
       path="/texts"
       render={() => (
         <RoutesTexts
-          texts={texts}
+          knowledgeUnits={knowledgeUnits}
           capabilities={capabilities}
           languages={languages}
           actions={actions}
+          texts={texts}
           user={user}
         />
       )}

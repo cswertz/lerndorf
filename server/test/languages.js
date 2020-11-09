@@ -30,11 +30,6 @@ describe('Language', () => {
   };
 
   before((done) => {
-    models.Language.truncate({
-      restartIdentity: true,
-      cascade: true,
-    });
-
     chai.request(server)
       .post('/api/users')
       .send(userLanguage)
@@ -67,7 +62,7 @@ describe('Language', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
-          res.body.length.should.be.eql(0);
+          res.body.length.should.be.eql(2);
 
           done();
         });
