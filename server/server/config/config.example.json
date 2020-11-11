@@ -17,6 +17,45 @@
       }
     }
   },
+  "production": {
+    "domain": "http://localhost",
+    "use_env_variable": false,
+    "operatorsAliases": false,
+    "storage": "production.sqlite",
+    "dialect": "sqlite",
+    "seederStorage": "sequelize",
+    "smtp": {
+      "from": "\"Lerndorf\" <no-reply@lerndorf.at>",
+      "host": "smtp.ethereal.email",
+      "port": 587,
+      "secure": false,
+      "auth": {
+        "user": "user",
+        "pass": "pass"
+      }
+    }
+  },
+  "production_mysql": {
+    "domain": "http://localhost",
+    "use_env_variable": false,
+    "operatorsAliases": false,
+    "dialect": "mysql",
+    "host": "localhost",
+    "username": "user",
+    "password": "pass",
+    "database": "database",
+    "seederStorage": "sequelize",
+    "smtp": {
+      "from": "\"Lerndorf\" <no-reply@lerndorf.at>",
+      "host": "smtp.ethereal.email",
+      "port": 587,
+      "secure": false,
+      "auth": {
+        "user": "user",
+        "pass": "pass"
+      }
+    }
+  },
   "test": {
     "use_env_variable": false,
     "operatorsAliases": false,
