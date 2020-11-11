@@ -12,26 +12,26 @@ Courses are selections of KUs. KUs can thus easily be resused across courses. Wi
 ## Roadmap (Overwiew)
 
 ### Implemented
-[x] Database scheme with default metadata vocabulary
-[x] Metadata editor
-[x] User model
-[x] Role model with editor
-[x] User registration
-[x] User management
-[x] Learning unit editor
-[x] Knowledge unit editor
-[x] Text editor with file upload
+- [x] Database scheme with default metadata vocabulary
+- [x] Metadata editor
+- [x] User model
+- [x] Role model with editor
+- [x] User registration
+- [x] User management
+- [x] Learning unit editor
+- [x] Knowledge unit editor
+- [x] Text editor with file upload
 
 ### Work in Progress
-[ ] Research Interface
-[ ] Course designer with manual creation of learning sequences
-[ ] UI Design Improvements
+- [ ] Research Interface
+- [ ] Course designer with manual creation of learning sequences
+- [ ] UI Design Improvements
 
 ### Future Work
-[ ] Bulletin Boards
-[ ] H5P Integration
-[ ] Automatic creation of learning sequences
-[ ] Recommender System
+- [ ] Bulletin Boards
+- [ ] H5P Integration
+- [ ] Automatic creation of learning sequences
+- [ ] Recommender System
 
 ## Documentation
 Please find further documentation (data model, interface) at [GoogleDrive](https://drive.google.com/drive/folders/0B-VurHfSvlzpQi1mM2ZXQVZYbDg?usp=sharing)
