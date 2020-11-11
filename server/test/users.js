@@ -771,6 +771,93 @@ describe('User', () => {
     });
   });
 
+  describe('POST /api/users/:id/language', () => {
+    it('it should not be possible to add a language to a user without being logged in', (done) => {
+      chai.request(server).keepOpen()
+        .post(`/api/users/${users[0]}/language`)
+        .send({
+          id: 0,
+          level: 0,
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+
+          done();
+        });
+    });
+
+    it('it should not be possible to add a language to a user without proper capability', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(user1)
+        .end(() => {
+          agent
+            .post(`/api/users/${users[0]}/language`)
+            .send({
+              id: 0,
+              level: 0,
+            })
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+
+              done();
+            });
+        });
+    });
+
+    it('it should be possible to add a language to a user with proper capability', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(user1)
+        .end(() => {
+          agent
+            .post(`/api/users/${users[1]}/language`)
+            .send({
+              id: 1,
+              level: 3,
+            })
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('Languages');
+              res.body.Languages.length.should.be.eql(1);
+              res.body.Languages[0].UserLanguage.should.have.property('level');
+              res.body.Languages[0].UserLanguage.level.should.be.eql(3);
+
+              done();
+            });
+        });
+    });
+
+    it('it should not be possible to add the same language twice', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(user1)
+        .end(() => {
+          agent
+            .post(`/api/users/${users[1]}/language`)
+            .send({
+              id: 1,
+              level: 6,
+            })
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('Languages');
+              res.body.Languages.length.should.be.eql(1);
+              res.body.Languages[0].UserLanguage.should.have.property('level');
+              res.body.Languages[0].UserLanguage.level.should.be.eql(6);
+
+              done();
+            });
+        });
+    });
+  });
+
   describe('DELETE /api/users/:id', () => {
     it('it should not be possible to delete a user without being logged in', (done) => {
       chai.request(server).keepOpen()

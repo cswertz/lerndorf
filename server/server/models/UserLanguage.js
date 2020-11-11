@@ -18,6 +18,7 @@ class UserLanguage extends Model {
           model: 'Users',
           key: 'id',
         },
+        unique: 'compositeIndex',
       },
 
       LanguageId: {
@@ -28,6 +29,7 @@ class UserLanguage extends Model {
           model: 'Languages',
           key: 'id',
         },
+        unique: 'compositeIndex',
       },
 
       level: {
@@ -36,7 +38,15 @@ class UserLanguage extends Model {
         notEmpty: true,
         defaultValue: 0,
       },
-    }, { sequelize });
+    }, {
+      sequelize,
+      freezeTableName: true,
+    });
+  }
+
+  static associate(sequelize) {
+    UserLanguage.belongsTo(sequelize.User);
+    UserLanguage.belongsTo(sequelize.Language);
   }
 }
 

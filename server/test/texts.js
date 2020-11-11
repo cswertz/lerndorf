@@ -21,7 +21,7 @@ describe('Text', () => {
   };
   const texts = [];
   const knowledgeUnitIds = [];
-  const languageIds = [];
+  const languageIds = [1];
   const users = [];
   const userText = {
     username: 'user_text',
@@ -45,11 +45,6 @@ describe('Text', () => {
     });
 
     models.KnowledgeUnit.truncate({
-      restartIdentity: true,
-      cascade: true,
-    });
-
-    models.Language.truncate({
       restartIdentity: true,
       cascade: true,
     });
@@ -78,6 +73,7 @@ describe('Text', () => {
                   .then((result1) => {
                     knowledgeUnitIds.push(result1.get().id);
 
+                    /*
                     models.Language.create({
                       code: 'en',
                       name: 'English',
@@ -87,6 +83,8 @@ describe('Text', () => {
 
                         done();
                       });
+                      */
+                    done();
                   });
               });
           });

@@ -176,8 +176,9 @@ class User extends Model {
     User.belongsToMany(sequelize.KnowledgeUnit, { through: 'KnowledgeUnitUserRating' });
     User.belongsToMany(sequelize.KnowledgeUnit, { through: 'KnowledgeUnitUserLog' });
     User.belongsToMany(sequelize.KnowledgeUnit, { through: 'KnowledgeUnitUser' });
-    User.belongsToMany(sequelize.Language, { through: 'UserLanguage' });
     User.belongsToMany(sequelize.Role, { through: 'UserRole' });
+
+    User.belongsToMany(sequelize.Language, { through: 'UserLanguage', foreginKey: 'UserId' });
 
     User.hasOne(sequelize.Taxonomy, { foreignKey: 'privacyLevelLog' });
     User.hasOne(sequelize.Taxonomy, { foreignKey: 'privacyLevelProfile' });

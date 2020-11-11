@@ -317,4 +317,39 @@ router.delete('/:id/role/:role', hasCapability('delete_role_from_user'), (req, r
     });
 });
 
+router.post('/:id/language', [
+  isSelfOrHasCapability('edit_user'),
+  checkBody('id', 'id is required')
+    .exists()
+    .notEmpty()
+    .isInt(),
+  checkBody('level', 'level is required')
+    .exists()
+    .notEmpty()
+    .isInt(),
+], async (req, res) => {
+  let user = await models.User.findByPk(req.params.id);
+  await user.addLanguage(req.body.id, {
+    through: {
+      level: req.body.level,
+    },
+  });
+  user = await models.User.findByPk(req.params.id, {
+    include: [
+      {
+        model: models.Language,
+      },
+    ],
+  });
+
+  return res.json(user);
+});
+
+router.delete('/:id/language/:language', isSelfOrHasCapability('edit_user'), async (req, res) => {
+  const user = models.User.findByPk(req.params.id);
+  await user.removeLanguage(req.params.language);
+
+  res.status(200).send({});
+});
+
 export default router;
