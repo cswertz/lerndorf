@@ -63,6 +63,7 @@ router.get('/taxonomies', (req, res) => {
     where: {
       '$Parent.type$': {
         [Op.in]: [
+          'eqflevel',
           'mediaType',
           'knowledgeType',
           'courseLevel',
@@ -125,6 +126,7 @@ router.get('/:id', (req, res) => {
       'suitableDumb',
       'suitableDeaf',
       'suitableBlind',
+      'LearningUnitId',
     ],
     include: [
       {
@@ -179,6 +181,18 @@ router.get('/:id', (req, res) => {
           {
             model: models.Language,
             attributes: ['id', 'code', 'name'],
+          },
+        ],
+      },
+      {
+        as: 'LearningUnit',
+        model: models.LearningUnit,
+        attributes: ['id'],
+        include: [
+          {
+            as: 'Translations',
+            model: models.LearningUnitLanguage,
+            attributes: ['LanguageId', 'title'],
           },
         ],
       },

@@ -1,6 +1,6 @@
 import models from '../server/config/sequelize';
 
-const TaxonomyLanguages = [
+const taxonomyLanguages = [
   {
     type: 'taxonomies',
     language: 'en',
@@ -898,7 +898,7 @@ const TaxonomyLanguages = [
     type: '4-3-XL',
     language: 'de',
     vocable: '4-3-XL'
-  },  
+  },
   {
     type: 'eqf1',
     language: 'en',
@@ -908,7 +908,7 @@ const TaxonomyLanguages = [
     type: 'eqf1',
     language: 'de',
     vocable: 'European Qualification Framework Level 1'
-},
+  },
   {
     type: 'eqf2',
     language: 'en',
@@ -918,8 +918,8 @@ const TaxonomyLanguages = [
     type: 'eqf2',
     language: 'de',
     vocable: 'European Qualification Framework Level 2'
-},
-{
+  },
+  {
     type: 'eqf3',
     language: 'en',
     vocable: 'European Qualification Framework Level 3'
@@ -928,7 +928,7 @@ const TaxonomyLanguages = [
     type: 'eqf3',
     language: 'de',
     vocable: 'European Qualification Framework Level 3'
-},
+  },
   {
     type: 'eqf4',
     language: 'en',
@@ -938,7 +938,7 @@ const TaxonomyLanguages = [
     type: 'eqf4',
     language: 'de',
     vocable: 'European Qualification Framework Level 4'
-},
+  },
   {
     type: 'eqf5',
     language: 'en',
@@ -948,8 +948,8 @@ const TaxonomyLanguages = [
     type: 'eqf5',
     language: 'de',
     vocable: 'European Qualification Framework Level 5'
-},
-    {
+  },
+  {
     type: 'eqf6',
     language: 'en',
     vocable: 'European Qualification Framework Level 6'
@@ -958,8 +958,8 @@ const TaxonomyLanguages = [
     type: 'eqf6',
     language: 'de',
     vocable: 'European Qualification Framework Level 6'
-},
-    {
+  },
+  {
     type: 'eqf7',
     language: 'en',
     vocable: 'European Qualification Framework Level 7'
@@ -968,7 +968,7 @@ const TaxonomyLanguages = [
     type: 'eqf7',
     language: 'de',
     vocable: 'European Qualification Framework Level 7'
-},
+  },
   {
     type: 'eqf8',
     language: 'en',
@@ -978,32 +978,42 @@ const TaxonomyLanguages = [
     type: 'eqf8',
     language: 'de',
     vocable: 'European Qualification Framework Level 8'
-},  
-]
+  },
+];
 
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.rawSelect('Taxonomies', {
-    where: {
-      id: 1,
-    },
-  }, ['id'])
-    .then((result) => {
-      const taxonomy = result;
-      return queryInterface.rawSelect('Languages', {
+  up: async (queryInterface, Sequelize) => {
+    const translations = [];
+
+    for (let i = 0; i < taxonomyLanguages.length; i++) {
+      const { type, language, vocable } = taxonomyLanguages[i];
+      const resultLanguage = await models.Language.findOne({
         where: {
-          code: 'en',
+          code: language
         },
-      }, ['id'])
-        .then(language => queryInterface.bulkInsert('TaxonomyLanguage', [
-          {
-            TaxonomyId: taxonomy,
-            LanguageId: language,
-            vocable: 'Taxonomies',
-            createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
-            updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
-          },
-        ], {}));
-    }),
+        attributes: ['id']
+      });
+      const languageId = resultLanguage.id;
+
+      const resultTaxonomy = await models.Taxonomy.findOne({
+        where: {
+          type: type,
+        },
+        attributes: ['id']
+      });
+      const taxonomyId = resultTaxonomy.id;
+
+      translations.push({
+        TaxonomyId: taxonomyId,
+        LanguageId: languageId,
+        vocable: vocable,
+        createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+        updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      });
+    }
+
+    queryInterface.bulkInsert('TaxonomyLanguage', translations);
+  },
 
   down: queryInterface => queryInterface.rawSelect('Taxonomies', {
     where: {

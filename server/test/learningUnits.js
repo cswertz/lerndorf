@@ -10,11 +10,11 @@ const agent = chai.request.agent(server);
 
 describe('LearningUnit', () => {
   const learningUnit = {
-    language: 3,
+    language: 1,
     title: 'Testing',
   };
   const learningUnit1 = {
-    language: 3,
+    language: 2,
     title: 'Testing 1',
   };
   const learningUnits = [];

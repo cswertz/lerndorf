@@ -1,20 +1,34 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
+import PropTypes from 'prop-types';
+import React from 'react';
 
+import FormControl from '@material-ui/core/FormControl';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
+  wrapper: {
+    display: 'flex',
+    flex: 1,
+  },
   textField: {
     flex: 1,
     marginLeft: theme.spacing(),
     marginRight: theme.spacing(),
     marginBottom: theme.spacing(),
   },
+  formControl: {
+    margin: theme.spacing(),
+    flex: 1,
+    minWidth: 120,
+  },
+  selectField: {
+    textAlign: 'left',
+  },
   flex: {
     display: 'flex',
+    flexDirection: 'row',
   },
 });
 
@@ -44,7 +58,7 @@ const renderTextField = ({
   return (
     <TextField
       helperText={helperText}
-      error={hasError}
+      error={(hasError && true)}
       label={label}
       {...input}
       {...customOptions}
@@ -55,11 +69,10 @@ const renderTextField = ({
 const validate = (values) => {
   const errors = {};
   const requiredFields = [
-    'username',
-    'password',
+    'tag',
   ];
   requiredFields.forEach((field) => {
-    if (!values[field]) {
+    if (!values[field] || values[field] === '') {
       errors[field] = 'Required';
     }
   });
@@ -67,34 +80,25 @@ const validate = (values) => {
   return errors;
 };
 
-const Login = ({
+const LearningUnitsTag = ({
   handleSubmit,
   submitting,
   pristine,
   classes,
-  errors,
 }) => (
   <form onSubmit={handleSubmit}>
     <div className={classes.flex}>
-      <Field
-        required
-        name="username"
-        label="Username"
-        component={renderTextField}
-        className={classes.textField}
-        errorText={errors.errorMessage}
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        required
-        type="password"
-        name="password"
-        label="Password"
-        component={renderTextField}
-        className={classes.textField}
-        errorText={errors.errorMessage}
-      />
+      <div className={classes.wrapper}>
+        <FormControl required className={classes.formControl}>
+          <Field
+            required
+            name="tag"
+            label="Tag"
+            component={renderTextField}
+            className={classes.textField}
+          />
+        </FormControl>
+      </div>
     </div>
     <div>
       <Button
@@ -102,24 +106,22 @@ const Login = ({
         variant="contained"
         disabled={pristine || submitting}
       >
-        Login
+        Add Tag
       </Button>
     </div>
   </form>
 );
 
-
-Login.propTypes = {
+LearningUnitsTag.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
-  errors: PropTypes.shape({}).isRequired,
   submitting: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
 };
 
-const LoginForm = reduxForm({
-  form: 'Login',
+const LearningUnitsTagForm = reduxForm({
+  form: 'LearningUnitsTag',
   validate,
-})(Login);
+})(LearningUnitsTag);
 
-export default withStyles(styles)(LoginForm);
+export default withStyles(styles)(LearningUnitsTagForm);

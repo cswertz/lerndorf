@@ -19,12 +19,12 @@ const styles = theme => ({
   },
   paper: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit,
+    paddingTop: theme.spacing() * 2,
+    paddingBottom: theme.spacing() * 2,
+    marginTop: theme.spacing(),
   },
   button: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(),
   },
   left: {
     textAlign: 'left',

@@ -11,7 +11,7 @@ class RoleLanguage extends Model {
         unique: 'idcreatedAt',
       },
 
-      roleId: {
+      RoleId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         notEmpty: true,
@@ -23,7 +23,7 @@ class RoleLanguage extends Model {
         onDelete: 'cascade',
       },
 
-      languageId: {
+      LanguageId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         notEmpty: true,
@@ -51,7 +51,10 @@ class RoleLanguage extends Model {
         type: DataTypes.DATE,
         allowNull: false,
       },
-    }, { sequelize });
+    }, {
+      sequelize,
+      freezeTableName: true,
+    });
   }
 
   static associate(sequelize) {

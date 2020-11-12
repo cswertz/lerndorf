@@ -64,6 +64,8 @@ const roleCapabilities = [
     role: 'lector',
     capabilities: [
       'delete_lector_role_from_user',
+      'set_knowledge_unit_lectored',
+      'set_knowledge_unit_reviewed',
     ],
   },
 ];

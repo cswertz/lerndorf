@@ -125,10 +125,13 @@ class User extends Model {
 
       allowBasicLog: {
         type: DataTypes.BOOLEAN,
+        defaultValue: true,
       },
 
+      // Enabled by default
       allowLogResearch: {
         type: DataTypes.BOOLEAN,
+        defaultValue: true,
       },
 
       allowLogSharing: {

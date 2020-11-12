@@ -57,17 +57,23 @@ export const knowledgeUnitsFetch = () => (
     })
 );
 
-export const knowledgeUnitsItemFetch = id => (
-  dispatch => fetch(`/api/knowledgeUnits/${id}`, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-  })
-    .then(response => response.json())
-    .then((json) => {
+export const knowledgeUnitsItemFetch = (id) => (
+  async (dispatch) => {
+    await dispatch({
+      type: types.KNOWLEDGEUNITS_ITEM_FETCH,
+      id,
+    });
+
+    try {
+      const response = await fetch(`/api/knowledgeUnits/${id}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const json = await response.json();
       if (json) {
         if (json.error) {
           // dispatch(userEditFailed(json.error, json.errors));
@@ -75,10 +81,10 @@ export const knowledgeUnitsItemFetch = id => (
           dispatch(knowledgeUnitsItemFetchSuccess(json));
         }
       }
-    })
-    .catch((error) => {
-      console.log('Error while fetching knowledge units:', error);
-    })
+    } catch (e) {
+      console.log('Error while fetching knowledge units:', e);
+    }
+  }
 );
 
 export const knowledgeUnitsAdd = (data, history) => (

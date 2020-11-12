@@ -22,12 +22,12 @@ import {
   isValidUrl,
 } from '../../utils/user';
 
-const styles = theme => ({
+const styles = (theme) => ({
   textField: {
     flex: 1,
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginLeft: theme.spacing(),
+    marginRight: theme.spacing(),
+    marginBottom: theme.spacing(),
   },
   flex: {
     display: 'flex',
@@ -113,10 +113,10 @@ const renderCheckboxField = ({
 };
 
 const renderImageField = ({
+  handleImageUpdate,
   input,
   ...custom
 }) => {
-  console.log(input);
   const hasProfilePicture = custom.picture;
   const style = {
     image: {
@@ -131,7 +131,7 @@ const renderImageField = ({
   let profilePicture = '';
   if (hasProfilePicture) {
     buttonText = 'Change Profile Picture';
-    profilePicture = <img alt="Profile" style={style.image} src={`/static/uploads/${custom.picture}`} />;
+    profilePicture = <img alt="Profile" style={style.image} src={`/uploads/${custom.picture}`} />;
   }
 
   return (
@@ -145,7 +145,7 @@ const renderImageField = ({
           className={custom.classes.textField}
         >
           <Button
-            variant="raised"
+            variant="contained"
             component="span"
             className={custom.classes.pictureButton}
           >
@@ -162,6 +162,9 @@ const renderImageField = ({
           onChange={(event) => {
             const data = event.target.value;
             input.onChange(data);
+            if (event.target.files.length > 0) {
+              handleImageUpdate(event.target.files[0]);
+            }
           }}
         />
       </div>
@@ -263,6 +266,7 @@ const validate = (values) => {
 };
 
 const UserEdit = ({
+  handleImageUpdate,
   closeLogDeletionDialog,
   openLogDeletionDialog,
   logDeletionDialogOpen,
@@ -387,6 +391,7 @@ const UserEdit = ({
             component={renderSelectField}
             options={getCountries}
             className={classes.textField}
+            required={false}
           />
         </FormControl>
       </div>
@@ -405,6 +410,7 @@ const UserEdit = ({
         component={renderImageField}
         classes={classes}
         picture={user.picture}
+        handleImageUpdate={handleImageUpdate}
       />
     </div>
     <div className={classes.flex}>
@@ -550,6 +556,7 @@ const UserEdit = ({
 );
 
 UserEdit.propTypes = {
+  handleImageUpdate: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,

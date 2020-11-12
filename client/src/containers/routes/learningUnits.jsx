@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Wrapper from '../../components/routes/wrapper';
+import WrapperLearningUnit from './wrapperLearningUnit';
 
 import LearningUnitsEdit from '../learningUnits/Edit';
 import LearningUnitsShow from '../learningUnits/Show';
@@ -92,19 +93,22 @@ const LearningUnitsRouter = ({
       exact
       path="/learning-units/edit/:languageId/:id"
       render={() => (
-        <Wrapper
+        <WrapperLearningUnit
+          itemFetch={actions.learningUnitsItemFetch}
           fetchRoles={actions.userFetchRoles}
           className="LearningUnitsWrapper"
           logout={actions.userLogout}
-          title="Learning Unit"
-          active="learningUnits"
+          items={learningUnits}
           user={user}
           element={(
             <LearningUnitsEdit
               learningUnitsAddRelation={actions.learningUnitsAddRelation}
               fetchSuggestions={actions.learningUnitsSuggestionsFetch}
+              learningUnitsDeleteTag={actions.learningUnitsDeleteTag}
+              learningUnitsUpdateTag={actions.learningUnitsUpdateTag}
               taxonomiesFetch={actions.learningUnitsTaxonomiesFetch}
               learningUnitsAddTag={actions.learningUnitsAddTag}
+              learningUnitsEdit={actions.learningUnitsEdit}
               itemFetch={actions.learningUnitsItemFetch}
               handleSubmit={actions.learningUnitsEdit}
               suggestions={learningUnits.suggestions}
@@ -137,7 +141,9 @@ LearningUnitsRouter.propTypes = {
     knowledgeUnitsMarkReviewed: PropTypes.func.isRequired,
     knowledgeUnitsMarkLectored: PropTypes.func.isRequired,
     learningUnitsItemFetch: PropTypes.func.isRequired,
+    learningUnitsDeleteTag: PropTypes.func.isRequired,
     learningUnitsDelete: PropTypes.func.isRequired,
+    learningUnitsAddTag: PropTypes.func.isRequired,
     learningUnitsFetch: PropTypes.func.isRequired,
     learningUnitsEdit: PropTypes.func.isRequired,
     learningUnitsAdd: PropTypes.func.isRequired,

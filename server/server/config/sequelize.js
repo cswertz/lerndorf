@@ -3,9 +3,11 @@ import Sequelize from 'sequelize';
 import KnowledgeUnitUserRating from '../models/KnowledgeUnitUserRating';
 import LearningUnitLanguage from '../models/LearningUnitLanguage';
 import LearningUnitRelation from '../models/LearningUnitRelation';
+import TaxonomyLanguage from '../models/TaxonomyLanguage';
 import LearningUnitTag from '../models/LearningUnitTag';
 import KnowledgeUnit from '../models/KnowledgeUnit';
 import LearningUnit from '../models/LearningUnit';
+import RoleLanguage from '../models/RoleLanguage';
 import Capability from '../models/Capability';
 import Taxonomy from '../models/Taxonomy';
 import Language from '../models/Language';
@@ -19,9 +21,11 @@ const models = [
   KnowledgeUnitUserRating,
   LearningUnitLanguage,
   LearningUnitRelation,
+  TaxonomyLanguage,
   LearningUnitTag,
   KnowledgeUnit,
   LearningUnit,
+  RoleLanguage,
   Capability,
   Language,
   Taxonomy,

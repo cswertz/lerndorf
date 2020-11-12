@@ -80,6 +80,7 @@ const Router = ({
       render={() => (
         <RoutesUsers
           capabilities={capabilities}
+          languages={languages}
           actions={actions}
           roles={roles}
           users={users}
@@ -119,10 +120,11 @@ const Router = ({
       path="/texts"
       render={() => (
         <RoutesTexts
-          texts={texts}
+          knowledgeUnits={knowledgeUnits}
           capabilities={capabilities}
           languages={languages}
           actions={actions}
+          texts={texts}
           user={user}
         />
       )}

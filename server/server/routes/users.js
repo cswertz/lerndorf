@@ -161,8 +161,8 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
   delete (req.body.createdAt);
   delete (req.body.updatedAt);
   delete (req.body.lastLogin);
-  delete (req.body.username);
   delete (req.body.acceptTos);
+  delete (req.body.username);
   delete (req.body.id);
 
   if (req.body.password) {
@@ -177,6 +177,8 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
         console.log('Failed to save image:', err);
       }
     });
+  } else {
+    delete (req.body.picture);
   }
 
   models.User.update(req.body, {
@@ -218,24 +220,59 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
     });
 });
 
-router.delete('/:id', isSelfOrHasCapability('delete_user'), (req, res) => {
+router.delete('/:id', isSelfOrHasCapability('delete_user'), async (req, res) => {
   const { id } = req.params;
 
-  isLastAdmin(id, (last) => {
-    if (!last) {
-      models.User.destroy({
+  const lastAdmin = await isLastAdmin(id);
+
+  // Last admin can not be deleted
+  if (!lastAdmin) {
+    // See if the user has content
+    const user = await models.User.findByPk(id);
+    const learningUnits = await user.getLearningUnits();
+
+    // If a user does not have content, destroy him
+    if (learningUnits.length === 0) {
+      const result = await models.User.destroy({
         where: {
           id,
         },
-      })
-        .then((result) => {
-          res.json({ deleted: result });
-        });
+      });
+
+      res.json({ deleted: result });
     } else {
-      res.status(400).send({
-        error: 'Can not delete last admin.',
+      // Otherwise we anonymize him
+      await models.User.update({
+        password: 'DELETED',
+        username: `[DELETED ${id}]`,
+        email: `${id}@deleted.com`,
+        firstName: null,
+        lastName: null,
+        titlePrefix: null,
+        titleSuffix: null,
+        birthdate: null,
+        studyId: null,
+        phone: null,
+        street: null,
+        zip: null,
+        city: null,
+        state: null,
+        country: null,
+        website: null,
+        picture: null,
+        description: null,
+        active: 0,
+        activationCode: null,
+      }, {
+        where: {
+          id,
+        },
       });
     }
+  }
+
+  res.status(400).send({
+    error: 'Can not delete last admin.',
   });
 });
 

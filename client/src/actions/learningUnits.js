@@ -62,17 +62,23 @@ export const learningUnitsFetch = () => (
     })
 );
 
-export const learningUnitsItemFetch = id => (
-  dispatch => fetch(`/api/learningUnits/${id}`, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-  })
-    .then(response => response.json())
-    .then((json) => {
+export const learningUnitsItemFetch = (id) => (
+  async (dispatch) => {
+    await dispatch({
+      type: types.LEARNINGUNITS_ITEM_FETCH,
+      id,
+    });
+
+    try {
+      const response = await fetch(`/api/learningUnits/${id}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const json = await response.json();
       if (json) {
         if (json.error) {
           // dispatch(userEditFailed(json.error, json.errors));
@@ -80,15 +86,14 @@ export const learningUnitsItemFetch = id => (
           dispatch(learningUnitsItemFetchSuccess(json));
         }
       }
-    })
-    .catch((error) => {
-      console.log('Error while fetching knowledge units:', error);
-    })
+    } catch (e) {
+        console.log('Error while fetching lerarning units:', e);
+    }
+  }
 );
 
-
-export const learningUnitsSuggestionsFetch = term => (
-  dispatch => fetch(`/api/learningUnits/suggestion/${term}`, {
+export const learningUnitsSuggestionsFetch = (term) => (
+  (dispatch) => fetch(`/api/learningUnits/suggestion/${term}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -96,7 +101,7 @@ export const learningUnitsSuggestionsFetch = term => (
     },
     credentials: 'include',
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -154,7 +159,7 @@ export const learningUnitsDelete = id => (
     })
 );
 
-export const learningUnitsEdit = (id, data, history) => (
+export const learningUnitsEdit = (id, languageId, data, history) => (
   dispatch => fetch(`/api/learningUnits/${id}`, {
     method: 'PATCH',
     headers: {
@@ -171,7 +176,7 @@ export const learningUnitsEdit = (id, data, history) => (
           // dispatch(learningUnitsEditFailed(json.error, json.errors));
         } else {
           dispatch(learningUnitsEditSuccess());
-          history.push('/learningUnits');
+          history.push(`/learning-units/edit/${languageId}/${id}`);
         }
       }
     })
@@ -182,31 +187,90 @@ export const learningUnitsEdit = (id, data, history) => (
 
 export const learningUnitsAddTag = (learningUnitLanguageId, tag, languageId,
   learningUnitId, history) => (
-  dispatch => fetch(`/api/learningUnits/addTag/${learningUnitLanguageId}`, {
-    method: 'post',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: JSON.stringify({
-      tag,
-    }),
-  })
-    .then(response => response.json())
-    .then((json) => {
+  async (dispatch) => {
+    try {
+      const response = await fetch(`/api/learningUnits/addTag/${learningUnitLanguageId}`, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          tag,
+        }),
+      });
+
+      const json = await response.json();
       if (json) {
         if (json.error) {
           // dispatch(learningUnitsAddFailed(json.error, json.errors));
         } else {
           dispatch(learningUnitsEditSuccess());
-          history.push(`/learning-units/show/${languageId}/${learningUnitId}`);
+          history.push(`/learning-units/edit/${languageId}/${learningUnitId}`);
         }
       }
-    })
-    .catch((error) => {
-      console.log('Error while adding knowledge unit:', error);
-    })
+    } catch (e) {
+      console.log('Error while adding knowledge unit:', e);
+    }
+  }
+);
+
+export const learningUnitsDeleteTag = (tagId, languageId, learningUnitId, history) => (
+  async (dispatch) => {
+    try {
+      const response = await fetch(`/api/learningUnits/deleteTag/${tagId}`, {
+        method: 'delete',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      const json = await response.json();
+      if (json) {
+        if (json.error) {
+          // dispatch(learningUnitsAddFailed(json.error, json.errors));
+        } else {
+          dispatch(learningUnitsEditSuccess());
+          history.push(`/learning-units/edit/${languageId}/${learningUnitId}`);
+        }
+      }
+    } catch (e) {
+      console.log('Error while adding knowledge unit:', e);
+    }
+  }
+);
+
+export const learningUnitsUpdateTag = (tagId, value, languageId, learningUnitId, history) => (
+  async (dispatch) => {
+    try {
+      const response = await fetch(`/api/learningUnits/tag/${tagId}`, {
+        method: 'PATCH',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          value,
+        }),
+      });
+
+      const json = await response.json();
+      if (json) {
+        if (json.error) {
+          // dispatch(learningUnitsAddFailed(json.error, json.errors));
+        } else {
+          dispatch(learningUnitsEditSuccess());
+          history.push(`/learning-units/edit/${languageId}/${learningUnitId}`);
+        }
+      }
+    } catch (e) {
+      console.log('Error while updating learning unit tag:', e);
+    }
+  }
 );
 
 export const learningUnitsAddRelation = (learningUnitId, targetId, type, languageId, history) => (
@@ -239,16 +303,22 @@ export const learningUnitsAddRelation = (learningUnitId, targetId, type, languag
 );
 
 export const learningUnitsTaxonomiesFetch = () => (
-  dispatch => fetch('/api/learningUnits/taxonomies', {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-  })
-    .then(response => response.json())
-    .then((json) => {
+  async (dispatch) => {
+    await dispatch({
+      type: types.LEARNINGUNITS_TAXONOMIES_FETCH,
+    });
+
+    try {
+      const response = await fetch('/api/learningUnits/taxonomies', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      const json = await response.json();
       if (json) {
         if (json.error) {
           // dispatch(userEditFailed(json.error, json.errors));
@@ -256,8 +326,8 @@ export const learningUnitsTaxonomiesFetch = () => (
           dispatch(learningUnitsTaxonomiesFetchSuccess(json));
         }
       }
-    })
-    .catch((error) => {
-      console.log('Error while fetching knowledge units:', error);
-    })
+    } catch (e) {
+      console.log('Error while fetching knowledge units:', e);
+    }
+  }
 );

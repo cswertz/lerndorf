@@ -16,11 +16,10 @@ import { Link } from 'react-router-dom';
 
 import {
   isValidEmail,
-  getCountries,
   isValidUrl,
 } from '../../utils/user';
 
-const styles = theme => ({
+const styles = (theme) => ({
   textField: {
     flex: 1,
     marginLeft: theme.spacing.unit,
@@ -242,203 +241,6 @@ const Register = ({
     </div>
     <div className={classes.flex}>
       <Field
-        name="titlePrefix"
-        label="Title Prefix"
-        component={renderTextField}
-        className={classes.textField}
-      />
-      <Field
-        name="firstName"
-        label="First name"
-        component={renderTextField}
-        className={classes.textField}
-      />
-      <Field
-        name="lastName"
-        label="Last Name"
-        component={renderTextField}
-        className={classes.textField}
-      />
-      <Field
-        name="titleSuffix"
-        label="Title Suffix"
-        component={renderTextField}
-        className={classes.textField}
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        type="date"
-        name="birthdate"
-        label="Birthdate"
-        component={renderTextField}
-        className={classes.textField}
-        InputLabelProps={{ shrink: true }}
-      />
-      <Field
-        name="studyId"
-        label="Study ID"
-        component={renderTextField}
-        className={classes.textField}
-      />
-      <Field
-        name="phone"
-        label="Phone"
-        component={renderTextField}
-        className={classes.textField}
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        name="street"
-        label="Address"
-        component={renderTextField}
-        className={classes.textField}
-      />
-      <Field
-        name="zip"
-        label="Zip"
-        component={renderTextField}
-        className={classes.textField}
-      />
-      <Field
-        name="city"
-        label="City"
-        component={renderTextField}
-        className={classes.textField}
-      />
-      <Field
-        name="state"
-        label="State"
-        component={renderTextField}
-        className={classes.textField}
-      />
-      <div className={classes.wrapper}>
-        <FormControl required className={classes.formControl}>
-          <Field
-            name="country"
-            label="Country"
-            component={renderSelectField}
-            options={getCountries}
-            className={classes.textField}
-          />
-        </FormControl>
-      </div>
-    </div>
-    <div className={classes.flex}>
-      <Field
-        name="website"
-        label="Website"
-        component={renderTextField}
-        className={classes.textField}
-      />
-      <label
-        id="picture-label"
-        htmlFor="picture"
-        nesting="asdfasdf"
-        className={classes.textField}
-      >
-        <Button
-          variant="raised"
-          component="span"
-          className={classes.pictureButton}
-        >
-          Upload Profile picture
-        </Button>
-      </label>
-      <input
-        accept="image/*"
-        className={classes.input}
-        style={{ display: 'none' }}
-        name="picture"
-        id="picture"
-        type="file"
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        cols={120}
-        rows={4}
-        multiline
-        rowsMax={4}
-        name="description"
-        label="Description"
-        component={renderTextField}
-        className={classes.textField}
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        name="allowBasicLog"
-        label="Record basic log data and use it for improved usability and personal feedback"
-        component={renderCheckboxField}
-        className={classes.checkbox}
-        errorText={errors.errors.title}
-        classes={{ label: classes.labelLink }}
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        name="allowLogResearch"
-        label="Recored my log data and allow anonymised access for researchers"
-        component={renderCheckboxField}
-        className={classes.checkbox}
-        errorText={errors.errors.title}
-        classes={{ label: classes.labelLink }}
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        name="allowLogSharing"
-        label="Share my anonymised log data with others for advanced personal feedback"
-        component={renderCheckboxField}
-        className={classes.checkbox}
-        errorText={errors.errors.title}
-        classes={{ label: classes.labelLink }}
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        name="allowLogReports"
-        label="Record my log data and use it for reports to teachers and administrators"
-        component={renderCheckboxField}
-        className={classes.checkbox}
-        errorText={errors.errors.title}
-        classes={{ label: classes.labelLink }}
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        name="showProfilePublic"
-        label="Show my profile to the public"
-        component={renderCheckboxField}
-        className={classes.checkbox}
-        errorText={errors.errors.title}
-        classes={{ label: classes.labelLink }}
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        name="showProfileStudents"
-        label="Show my profile to other students"
-        component={renderCheckboxField}
-        className={classes.checkbox}
-        errorText={errors.errors.title}
-        classes={{ label: classes.labelLink }}
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
-        name="showProfileTeachers"
-        label="Show my profile to teachers"
-        component={renderCheckboxField}
-        className={classes.checkbox}
-        errorText={errors.errors.title}
-        classes={{ label: classes.labelLink }}
-      />
-    </div>
-    <div className={classes.flex}>
-      <Field
         required
         name="acceptPrivacy"
         label="Accept&nbsp;"
@@ -482,7 +284,6 @@ const Register = ({
     </div>
   </form>
 );
-
 
 Register.propTypes = {
   handleSubmit: PropTypes.func.isRequired,

@@ -2,6 +2,7 @@ import {
   LEARNINGUNITS_SUGGESTIONS_FETCH_SUCCESS,
   LEARNINGUNITS_TAXONOMIES_FETCH_SUCCESS,
   LEARNINGUNITS_ITEM_FETCH_SUCCESS,
+  LEARNINGUNITS_TAXONOMIES_FETCH,
   LEARNINGUNITS_DELETE_SUCCESS,
   LEARNINGUNITS_FETCH_SUCCESS,
   KNOWLEDGEUNITS_EDIT_SUCCESS,
@@ -9,6 +10,7 @@ import {
   KNOWLEDGEUNITS_ADD_SUCCESS,
   LEARNINGUNITS_ADD_SUCCESS,
   LEARNINGUNITS_ADD_FAILED,
+  LEARNINGUNITS_ITEM_FETCH,
   LEARNINGUNITS_FETCH,
   TEXTS_EDIT_SUCCESS,
   TEXTS_ADD_SUCCESS,
@@ -17,6 +19,7 @@ import {
 const initialState = {
   fetching: false,
   fetched: false,
+  fetchingId: null,
   items: [],
   suggestions: [],
   taxonomies: {
@@ -58,6 +61,18 @@ const learningUnits = (state = initialState, action) => {
       });
     }
 
+    case LEARNINGUNITS_TAXONOMIES_FETCH: {
+      return Object.assign({}, state, {
+        taxonomies: {
+          fetched: false,
+          fetching: true,
+          items: {
+            relationType: [],
+          },
+        },
+      });
+    }
+
     case LEARNINGUNITS_TAXONOMIES_FETCH_SUCCESS: {
       return Object.assign({}, state, {
         taxonomies: {
@@ -85,6 +100,12 @@ const learningUnits = (state = initialState, action) => {
       });
     }
 
+    case LEARNINGUNITS_ITEM_FETCH: {
+      return Object.assign({}, state, {
+        fetchingId: action.id,
+      });
+    }
+
     case LEARNINGUNITS_FETCH: {
       return Object.assign({}, state, {
         fetched: false,
@@ -105,6 +126,7 @@ const learningUnits = (state = initialState, action) => {
       });
 
       return Object.assign({}, state, {
+        fetchingId: null,
         fetching: false,
         id: ids,
       });

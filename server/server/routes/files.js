@@ -101,7 +101,7 @@ router.post('/editor-upload', hasCapability('add_role_to_user'), (req, res) => {
     req.body.size = upload.size;
     */
     return res.json({
-      url: `/static/uploads/${fileName}`,
+      url: `/uploads/${fileName}`,
     });
 
     /*

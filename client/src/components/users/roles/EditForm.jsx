@@ -9,9 +9,9 @@ import Button from '@material-ui/core/Button';
 const styles = theme => ({
   textField: {
     flex: 1,
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginLeft: theme.spacing(),
+    marginRight: theme.spacing(),
+    marginBottom: theme.spacing(),
   },
   flex: {
     display: 'flex',
@@ -68,36 +68,62 @@ const validate = (values) => {
 };
 
 const RolesEdit = ({
+  initialValues,
   handleSubmit,
   submitting,
+  languages,
   pristine,
   classes,
   errors,
-}) => (
-  <form onSubmit={handleSubmit}>
-    <div className={classes.flex}>
-      <Field
-        required
-        name="name"
-        label="Name"
-        component={renderTextField}
-        className={classes.textField}
-        errorText={errors.errors.name}
-      />
-    </div>
-    <div>
-      <Button
-        type="submit"
-        variant="contained"
-        disabled={pristine || submitting}
-      >
-        Save
-      </Button>
-    </div>
-  </form>
-);
+}) => {
+  for(let language of initialValues.Languages) {
+    initialValues[language.code] = language.RoleLanguage.vocable;
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className={classes.flex}>
+        <Field
+          required
+          name="name"
+          label="Name"
+          component={renderTextField}
+          className={classes.textField}
+          errorText={errors.errors.name}
+        />
+      </div>
+      {languages.map((language, index) => {
+        return (
+          <div
+            key={language.id}
+            className={classes.flex}
+          >
+            <Field
+              required
+              name={language.code}
+              label={language.name}
+              component={renderTextField}
+              className={classes.textField}
+            />
+          </div>
+        )
+      })}
+      <div>
+        <Button
+          type="submit"
+          variant="contained"
+          disabled={pristine || submitting}
+        >
+          Save
+        </Button>
+      </div>
+    </form>
+  );
+};
 
 RolesEdit.propTypes = {
+  languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  initialValues: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,
