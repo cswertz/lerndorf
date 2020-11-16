@@ -43,7 +43,6 @@ export default {
       },
     },
 
-
     password: {
       type: DataTypes.STRING,
       allowNull: false,

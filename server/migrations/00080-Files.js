@@ -17,7 +17,7 @@ export default {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      notEmpty: true,
+      notEmpty: true,            
     },
 
     mime: {

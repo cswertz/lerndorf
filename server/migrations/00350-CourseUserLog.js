@@ -1,5 +1,5 @@
 export default {
-  up: (queryInterface, DataTypes) => queryInterface.createTable('CourseUser', {
+  up: (queryInterface, DataTypes) => queryInterface.createTable('CourseUserLog', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -11,6 +11,7 @@ export default {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
+      unique: 'courseIduserIdKnowledgeUnitId',
       references: {
         model: 'Courses',
         key: 'id',
@@ -22,6 +23,7 @@ export default {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
+      unique: 'courseIduserIdKnowledgeUnitId',
       references: {
         model: 'Users',
         key: 'id',
@@ -29,20 +31,16 @@ export default {
       onDelete: 'cascade',
     },
 
-    roleId: {
+    KnowledgeUnitId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
+      unique: 'courseIduserIdKnowledgeUnitId',
       references: {
-        model: 'Roles',
+        model: 'KnowledgeUnits',
         key: 'id',
       },
       onDelete: 'cascade',
-    },
-
-    enrolment: {
-      type: DataTypes.DATE,
-      allowNull: false,
     },
 
     createdAt: {

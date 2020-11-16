@@ -1,5 +1,5 @@
 export default {
-  up: (queryInterface, DataTypes) => queryInterface.createTable('LearningUnitRelation', {
+  up: (queryInterface, DataTypes) => queryInterface.createTable('CourseUser', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -7,33 +7,21 @@ export default {
       allowNull: false,
     },
 
-    sourceId: {
+    courseId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
-      unique: 'sourceIdtargetIdtype',
       references: {
-        model: 'LearningUnits',
+        model: 'Courses',
         key: 'id',
       },
       onDelete: 'cascade',
     },
 
-    targetId: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
-      unique: 'sourceIdtargetIdtype',
-      references: {
-        model: 'LearningUnits',
-        key: 'id',
-      },
-      onDelete: 'cascade',
-    },
-
-    UserId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
       references: {
         model: 'Users',
         key: 'id',
@@ -41,20 +29,42 @@ export default {
       onDelete: 'cascade',
     },
 
-    type: {
+    roleId: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      unique: 'sourceIdtargetIdtype',
+      allowNull: false,
+      notEmpty: true,
       references: {
-        model: 'Taxonomies',
+        model: 'Roles',
         key: 'id',
       },
+      onDelete: 'cascade',
+    },
+
+    sequenceId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'CourseSequence',
+        key: 'id',
+      },
+      onDelete: 'cascade',
+    },
+
+
+    enrolment: {
+      type: DataTypes.DATE,
+      allowNull: false,
     },
 
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
     },
+
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
   }),
-  down: queryInterface => queryInterface.dropTable('TaxonomyLanguage'),
+  down: queryInterface => queryInterface.dropTable('UserRole'),
 };

@@ -11,6 +11,7 @@ export default {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
+      unique: 'KnowledgeUnitIduserId',
       references: {
         model: 'KnowledgeUnits',
         key: 'id',
@@ -22,6 +23,7 @@ export default {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
+      unique: 'KnowledgeUnitIduserId',
       references: {
         model: 'Users',
         key: 'id',

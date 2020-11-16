@@ -11,6 +11,7 @@ export default {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
+      unique: 'taxonomyIdlanguageId',
       references: {
         model: 'Taxonomies',
         key: 'id',
@@ -22,6 +23,7 @@ export default {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
+      unique: 'taxonomyIdlanguageId',
       references: {
         model: 'Languages',
         key: 'id',

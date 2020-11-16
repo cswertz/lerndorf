@@ -12,6 +12,7 @@ export default {
         type: DataTypes.INTEGER,
         allowNull: false,
         notEmpty: true,
+        unique: 'learningUnitIdlanguageId',
         references: {
           model: 'LearningUnits',
           key: 'id',
@@ -23,6 +24,7 @@ export default {
         type: DataTypes.INTEGER,
         allowNull: false,
         notEmpty: true,
+        unique: 'learningUnitIdlanguageId',
         references: {
           model: 'Languages',
           key: 'id',

@@ -11,6 +11,7 @@ export default {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
+      unique: 'roleIdcapabilityId',
       references: {
         model: 'Roles',
         key: 'id',
@@ -22,6 +23,7 @@ export default {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
+      unique: 'roleIdcapabilityId',
       references: {
         model: 'Capabilities',
         key: 'id',
