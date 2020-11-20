@@ -36,6 +36,7 @@ class MenuAppBar extends Component {
   constructor(props) {
     super(props);
 
+    this.handleUserLanguages = this.handleUserLanguages.bind(this);
     this.handleUserEdit = this.handleUserEdit.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -45,7 +46,6 @@ class MenuAppBar extends Component {
       anchorEl: null,
     };
   }
-
 
   handleMenu(e) {
     this.setState({ anchorEl: e.currentTarget });
@@ -70,6 +70,13 @@ class MenuAppBar extends Component {
 
     this.setState({ anchorEl: null });
     history.push('/users/user/edit');
+  }
+
+  handleUserLanguages() {
+    const { history } = this.props;
+
+    this.setState({ anchorEl: null });
+    history.push('/users/user/languages');
   }
 
   render() {
@@ -125,6 +132,7 @@ class MenuAppBar extends Component {
                   onClose={this.handleClose}
                 >
                   <MenuItem onClick={this.handleUserEdit}>Profile</MenuItem>
+                  <MenuItem onClick={this.handleUserLanguages}>Languages</MenuItem>
                   <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                 </Menu>
               </div>

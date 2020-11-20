@@ -107,14 +107,15 @@ router.post('/', [
   })(req, res);
 });
 
-router.get('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
-  models.User.findByPk(req.params.id, {
+router.get('/:id', isSelfOrHasCapability('edit_user'), async (req, res) => {
+  const user = await models.User.findByPk(req.params.id, {
     attributes: [
       'id',
       'username',
       'showProfileStudents',
       'showProfileTeachers',
       'showProfilePublic',
+      'preferredLanguage',
       'allowLogResearch',
       'allowLogSharing',
       'allowLogReports',
@@ -151,9 +152,13 @@ router.get('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
           },
         ],
       },
+      {
+        model: models.Language,
+      },
     ],
-  })
-    .then((result) => res.json(result));
+  });
+
+  res.json(user);
 });
 
 router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
@@ -315,6 +320,74 @@ router.delete('/:id/role/:role', hasCapability('delete_role_from_user'), (req, r
       result.removeRole(req.params.role);
       res.status(200).send({});
     });
+});
+
+router.post('/:id/language', [
+  isSelfOrHasCapability('edit_user'),
+  checkBody('id', 'id is required')
+    .exists()
+    .notEmpty()
+    .isInt(),
+  checkBody('level', 'level is required')
+    .exists()
+    .notEmpty()
+    .isInt(),
+], async (req, res) => {
+  let user = await models.User.findByPk(req.params.id);
+  await user.addLanguage(req.body.id, {
+    through: {
+      level: req.body.level,
+    },
+  });
+  user = await models.User.findByPk(req.params.id, {
+    include: [
+      {
+        model: models.Language,
+      },
+    ],
+  });
+
+  return res.json(user);
+});
+
+router.delete('/:id/language/:language', isSelfOrHasCapability('edit_user'), async (req, res) => {
+  await models.UserLanguage.destroy({
+    where: {
+      UserId: req.params.id,
+      LanguageId: req.params.language,
+    },
+  });
+
+  const user = await models.User.findByPk(req.params.id, {
+    include: [
+      {
+        model: models.Language,
+      },
+    ],
+  });
+
+  res.status(200).send(user);
+});
+
+router.post('/:id/language/preferred', [
+  isSelfOrHasCapability('edit_user'),
+  checkBody('id', 'id is required')
+    .exists()
+    .notEmpty()
+    .isInt(),
+], async (req, res) => {
+  let user = await models.User.findByPk(req.params.id);
+  await user.setUserLanguage(req.body.id);
+
+  user = await models.User.findByPk(req.params.id, {
+    include: [
+      {
+        model: models.Language,
+      },
+    ],
+  });
+
+  return res.json(user);
 });
 
 export default router;

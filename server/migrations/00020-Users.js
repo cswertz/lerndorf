@@ -189,6 +189,15 @@ export default {
       notEmpty: true,
     },
 
+    preferredLanguage: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'UserLanguage',
+        key: 'id',
+      },
+    },
+
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
