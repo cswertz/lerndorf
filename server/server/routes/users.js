@@ -350,6 +350,25 @@ router.post('/:id/language', [
   return res.json(user);
 });
 
+router.delete('/:id/language/:language', isSelfOrHasCapability('edit_user'), async (req, res) => {
+  await models.UserLanguage.destroy({
+    where: {
+      UserId: req.params.id,
+      LanguageId: req.params.language,
+    },
+  });
+
+  const user = await models.User.findByPk(req.params.id, {
+    include: [
+      {
+        model: models.Language,
+      },
+    ],
+  });
+
+  res.status(200).send(user);
+});
+
 router.post('/:id/language/preferred', [
   isSelfOrHasCapability('edit_user'),
   checkBody('id', 'id is required')
@@ -369,13 +388,6 @@ router.post('/:id/language/preferred', [
   });
 
   return res.json(user);
-});
-
-router.delete('/:id/language/:language', isSelfOrHasCapability('edit_user'), async (req, res) => {
-  const user = models.User.findByPk(req.params.id);
-  await user.removeLanguage(req.params.language);
-
-  res.status(200).send({});
 });
 
 export default router;

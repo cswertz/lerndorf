@@ -103,6 +103,7 @@ const passportConfig = (passport) => {
           'id',
           'username',
           'password',
+          'preferredLanguage',
           'titlePrefix',
           'titleSuffix',
           'description',
@@ -123,6 +124,11 @@ const passportConfig = (passport) => {
           username,
           active: true,
         },
+        include: [
+          {
+            model: models.Language,
+          },
+        ],
       }).then((result) => {
         if (!result || !comparePasswords(password, result.password)) {
           return done(false, {
