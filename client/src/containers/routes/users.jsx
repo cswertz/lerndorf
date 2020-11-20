@@ -4,6 +4,7 @@ import React from 'react';
 
 import Wrapper from '../../components/routes/wrapper';
 
+import UserLanguage from '../users/Language';
 import UsersEdit from '../users/AdminEdit';
 import Activate from '../users/Activate';
 import Register from '../users/Register';
@@ -24,7 +25,7 @@ const UsersRouter = ({
   users,
   user,
 }) => (
-  <React.Fragment>
+  <>
     <Route
       exact
       path="/users"
@@ -130,6 +131,32 @@ const UsersRouter = ({
               handleSubmit={actions.userEdit}
               errors={user.errors}
               user={user.user}
+            />
+          )}
+        />
+      )}
+    />
+
+    <Route
+      exact
+      path="/users/user/languages"
+      render={() => (
+        <Wrapper
+          fetchRoles={actions.userFetchRoles}
+          className="UserEditWrapper"
+          logout={actions.userLogout}
+          title="Edit your languages"
+          active="user"
+          user={user}
+          element={(
+            <UserLanguage
+              errors={user.errors}
+              user={user.user}
+              languages={languages}
+              languagesFetch={actions.languagesFetch}
+              languageAdd={actions.userLanguageAdd}
+              languageDelete={actions.userLanguageDelete}
+              languagePreferred={actions.userLanguagePreferred}
             />
           )}
         />
@@ -257,7 +284,7 @@ const UsersRouter = ({
         />
       )}
     />
-  </React.Fragment>
+  </>
 );
 
 UsersRouter.propTypes = {
@@ -275,6 +302,8 @@ UsersRouter.propTypes = {
   actions: PropTypes.shape({
     languagesFetch: PropTypes.func.isRequired,
     userFetchRoles: PropTypes.func.isRequired,
+    userLanguageAdd: PropTypes.func.isRequired,
+    userLanguagePreferred: PropTypes.func.isRequired,
     usersItemFetch: PropTypes.func.isRequired,
     usersFetch: PropTypes.func.isRequired,
     removeCapability: PropTypes.func.isRequired,
@@ -290,6 +319,12 @@ UsersRouter.propTypes = {
     userLogin: PropTypes.func.isRequired,
     userDelete: PropTypes.func.isRequired,
     userEdit: PropTypes.func.isRequired,
+    removeRole: PropTypes.func.isRequired,
+    usersDelete: PropTypes.func.isRequired,
+    usersEdit: PropTypes.func.isRequired,
+    userActivate: PropTypes.func.isRequired,
+    userLanguageDelete: PropTypes.func.isRequired,
+    addRole: PropTypes.func.isRequired,
   }).isRequired,
   roles: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
@@ -312,6 +347,8 @@ UsersRouter.propTypes = {
       login: PropTypes.shape({}).isRequired,
       edit: PropTypes.shape({}).isRequired,
     }).isRequired,
+    activated: PropTypes.bool.isRequired,
+    active: PropTypes.bool.isRequired,
   }).isRequired,
 };
 

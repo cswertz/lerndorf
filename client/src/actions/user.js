@@ -203,3 +203,83 @@ export const userDelete = (id, data, history) => (
     }
   }
 );
+
+export const userLanguageAdd = (id, data, history) => (
+  async (dispatch) => {
+    try {
+      const response = await fetch(`/api/users/${id}/language`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(data),
+      });
+      const json = await response.json();
+      if (json) {
+        if (json.error) {
+          // dispatch(userEditFailed(json.error, json.errors));
+        } else {
+          dispatch(userEditSuccess(json));
+          history.push('/users/user/languages');
+        }
+      }
+    } catch (e) {
+      console.log('Error while fetching knowledge units:', e);
+    }
+  }
+);
+
+export const userLanguageDelete = (id, languageId, history) => (
+  async (dispatch) => {
+    try {
+      const response = await fetch(`/api/users/${id}/language/${languageId}`, {
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const json = await response.json();
+      if (json) {
+        if (json.error) {
+          // dispatch(userEditFailed(json.error, json.errors));
+        } else {
+          dispatch(userEditSuccess(json));
+          history.push('/users/user/languages');
+        }
+      }
+    } catch (e) {
+      console.log('Error while fetching knowledge units:', e);
+    }
+  }
+);
+
+export const userLanguagePreferred = (id, data, history) => (
+  async (dispatch) => {
+    try {
+      const response = await fetch(`/api/users/${id}/language/preferred`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(data),
+      });
+      const json = await response.json();
+      if (json) {
+        if (json.error) {
+          // dispatch(userEditFailed(json.error, json.errors));
+        } else {
+          dispatch(userEditSuccess(json));
+          history.push('/users/user/languages');
+        }
+      }
+    } catch (e) {
+      console.log('Error setting preferred language:', e);
+    }
+  }
+);
