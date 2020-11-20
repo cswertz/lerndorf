@@ -2,6 +2,7 @@ import { check, validationResult } from 'express-validator';
 import express from 'express';
 
 import { hasCapability } from '../helpers/auth';
+import { logView } from '../helpers/log';
 import models from '../config/sequelize';
 
 import { getTree } from '../helpers/taxonomies';
