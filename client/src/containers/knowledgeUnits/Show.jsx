@@ -24,7 +24,7 @@ class KnowledgeUnitsShow extends Component {
       id,
     } = match.params;
 
-    if ((!items.fetching) && !items.id[id]) {
+    if (!items.id[id] && items.fetchingId !== id) {
       itemFetch(id);
     }
   }
@@ -60,7 +60,11 @@ KnowledgeUnitsShow.propTypes = {
   markReviewed: PropTypes.func.isRequired,
   markLectored: PropTypes.func.isRequired,
   user: PropTypes.shape({}).isRequired,
-  items: PropTypes.shape({}).isRequired,
+  items: PropTypes.shape({
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetchingId: PropTypes.number,
+  }).isRequired,
   itemFetch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
