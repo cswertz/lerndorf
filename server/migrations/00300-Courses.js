@@ -34,22 +34,22 @@ export default {
     },
 
     enrolmentConfirmation: {
-      type: DataTypes.BINARY,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
 
     enrolmentByTutor: {
-      type: DataTypes.BINARY,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
 
     access: {
-      type: DataTypes.BINARY,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
 
     copyAllowed: {
-      type: DataTypes.BINARY,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
 
