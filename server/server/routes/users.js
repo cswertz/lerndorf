@@ -107,14 +107,15 @@ router.post('/', [
   })(req, res);
 });
 
-router.get('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
-  models.User.findByPk(req.params.id, {
+router.get('/:id', isSelfOrHasCapability('edit_user'), async (req, res) => {
+  const user = await models.User.findByPk(req.params.id, {
     attributes: [
       'id',
       'username',
       'showProfileStudents',
       'showProfileTeachers',
       'showProfilePublic',
+      'preferredLanguage',
       'allowLogResearch',
       'allowLogSharing',
       'allowLogReports',
@@ -151,9 +152,13 @@ router.get('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
           },
         ],
       },
+      {
+        model: models.Language,
+      },
     ],
-  })
-    .then((result) => res.json(result));
+  });
+
+  res.json(user);
 });
 
 router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
@@ -334,6 +339,27 @@ router.post('/:id/language', [
       level: req.body.level,
     },
   });
+  user = await models.User.findByPk(req.params.id, {
+    include: [
+      {
+        model: models.Language,
+      },
+    ],
+  });
+
+  return res.json(user);
+});
+
+router.post('/:id/language/preferred', [
+  isSelfOrHasCapability('edit_user'),
+  checkBody('id', 'id is required')
+    .exists()
+    .notEmpty()
+    .isInt(),
+], async (req, res) => {
+  let user = await models.User.findByPk(req.params.id);
+  await user.setUserLanguage(req.body.id);
+
   user = await models.User.findByPk(req.params.id, {
     include: [
       {

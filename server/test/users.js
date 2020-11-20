@@ -35,6 +35,7 @@ describe('User', () => {
     password: 'admin',
   };
   const users = [];
+  const languages = [];
 
   before((done) => {
     chai.request(server).keepOpen()
@@ -828,6 +829,8 @@ describe('User', () => {
               res.body.Languages[0].UserLanguage.should.have.property('level');
               res.body.Languages[0].UserLanguage.level.should.be.eql(3);
 
+              languages.push(res.body.Languages[0].id);
+
               done();
             });
         });
@@ -851,6 +854,29 @@ describe('User', () => {
               res.body.Languages.length.should.be.eql(1);
               res.body.Languages[0].UserLanguage.should.have.property('level');
               res.body.Languages[0].UserLanguage.level.should.be.eql(6);
+
+              done();
+            });
+        });
+    });
+
+    it('it should be possible to add a preferred language to a user with proper capability', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(user1)
+        .end(() => {
+          agent
+            .post(`/api/users/${users[1]}/language/preferred`)
+            .send({
+              id: languages[0],
+            })
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('Languages');
+              res.body.Languages.length.should.be.eql(1);
+              res.body.should.have.property('preferredLanguage');
+              res.body.preferredLanguage.should.be.eql(res.body.Languages[0].id);
 
               done();
             });

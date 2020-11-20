@@ -158,6 +158,15 @@ class User extends Model {
         type: DataTypes.STRING,
       },
 
+      preferredLanguage: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'UserLanguage',
+          key: 'id',
+        },
+      },
+
       active: {
         type: DataTypes.BOOLEAN,
       },
@@ -180,8 +189,10 @@ class User extends Model {
 
     User.belongsToMany(sequelize.Language, { through: 'UserLanguage', foreginKey: 'UserId' });
 
-    User.hasOne(sequelize.Taxonomy, { foreignKey: 'privacyLevelLog' });
-    User.hasOne(sequelize.Taxonomy, { foreignKey: 'privacyLevelProfile' });
+    User.belongsTo(sequelize.Taxonomy, { foreignKey: 'privacyLevelLog' });
+    User.belongsTo(sequelize.Taxonomy, { foreignKey: 'privacyLevelProfile' });
+
+    User.belongsTo(sequelize.UserLanguage, { foreignKey: 'preferredLanguage' });
   }
 }
 
