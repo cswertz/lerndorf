@@ -76,14 +76,14 @@ yarn start
 During development, back and front-end are run independently from one another on two different ports. This is obviously not what you want for production.
 
 ### Building the client
-To prepare for production change to the client and build the production bundle:
+To prepare for production run the build script from the root directory of the project:
 ```
-cd client
-yarn run build
+    npm run build
 ```
+
 > Be aware that building is very resource intensive, your machine should at least have 8GB of RAM.
 
-Once the build is done, you can find it in *client/build*, the contents of this folder needs to be served by the server. To do so, simply copy the content of *client/build* to *server/server/public* and start the server as usual.
+This step will copy the bundled frontend to the static directory of the server from where it will be served.
 
 ### Starting the server
 By default when starting the server, the development environment is used and the server is running on port 3000.
@@ -97,6 +97,11 @@ NODE_ENV=production SERVER_PORT=80 yarn start
 > be aware that only root can use lower ports - thus it is highly recommended to run on a higher port and simply use Apache to proxy to this internal port.
 
 The frontend will then be available from the root of the server and the chosen board, eg.: http://localhost:3000/
+
+If you want to run the backend on port 80 you can run from the root directory:
+```
+  npm run start
+```
 
 ## Versioning & Branching
 This project is following versioning by [semver](https://semver.org/). Further it uses [gitflow](https://datasift.github.io/gitflow/IntroducingGitFlow.html) as a branching model. This specifically means that development is happening on the develop branch. Releases are made on the master branch and tagged accordingly. Major releases might have breaking changes to the versions before. Versions less than *1.0.0* might have breaking changes in the minor bumps to. Please consult the *[CHANGELOG](CHANGELOG.md)*.
