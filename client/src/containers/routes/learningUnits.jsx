@@ -16,7 +16,7 @@ const LearningUnitsRouter = ({
   actions,
   user,
 }) => (
-  <React.Fragment>
+  <>
     <Route
       exact
       path="/learning-units"
@@ -76,6 +76,7 @@ const LearningUnitsRouter = ({
           user={user}
           element={(
             <LearningUnitsShow
+              handleKnowledgeUnitDelete={actions.knowledgeUnitsDelete}
               markReviewed={actions.knowledgeUnitsMarkReviewed}
               markLectored={actions.knowledgeUnitsMarkLectored}
               user={user}
@@ -121,7 +122,7 @@ const LearningUnitsRouter = ({
         />
       )}
     />
-  </React.Fragment>
+  </>
 );
 
 LearningUnitsRouter.propTypes = {
@@ -142,6 +143,7 @@ LearningUnitsRouter.propTypes = {
     knowledgeUnitsMarkLectored: PropTypes.func.isRequired,
     learningUnitsItemFetch: PropTypes.func.isRequired,
     learningUnitsDeleteTag: PropTypes.func.isRequired,
+    knowledgeUnitsDelete: PropTypes.func.isRequired,
     learningUnitsDelete: PropTypes.func.isRequired,
     learningUnitsAddTag: PropTypes.func.isRequired,
     learningUnitsFetch: PropTypes.func.isRequired,

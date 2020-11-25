@@ -3,6 +3,7 @@ import {
   LEARNINGUNITS_TAXONOMIES_FETCH_SUCCESS,
   LEARNINGUNITS_ITEM_FETCH_SUCCESS,
   LEARNINGUNITS_TAXONOMIES_FETCH,
+  KNOWLEDGEUNITS_DELETE_SUCCESS,
   LEARNINGUNITS_DELETE_SUCCESS,
   LEARNINGUNITS_FETCH_SUCCESS,
   KNOWLEDGEUNITS_EDIT_SUCCESS,
@@ -48,6 +49,7 @@ const learningUnits = (state = initialState, action) => {
   switch (action.type) {
     case LEARNINGUNITS_DELETE_SUCCESS:
     case KNOWLEDGEUNITS_EDIT_SUCCESS:
+    case KNOWLEDGEUNITS_DELETE_SUCCESS:
     case KNOWLEDGEUNITS_ADD_SUCCESS:
     case LEARNINGUNITS_EDIT_SUCCESS:
     case LEARNINGUNITS_ADD_SUCCESS:
@@ -56,6 +58,7 @@ const learningUnits = (state = initialState, action) => {
       return Object.assign({}, state, {
         fetched: false,
         fetching: false,
+        fetchingId: null,
         id: {},
         items: [],
       });

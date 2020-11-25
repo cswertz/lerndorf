@@ -7,10 +7,21 @@ import Show from '../../components/knowledgeUnits/Show';
 class KnowledgeUnitsShow extends Component {
   componentDidMount() {
     this.fetchItem();
+
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentDidUpdate() {
     this.fetchItem();
+  }
+
+  handleDelete(id) {
+    const {
+      handleDelete,
+      history,
+    } = this.props;
+
+    handleDelete(id, history);
   }
 
   fetchItem() {
@@ -47,6 +58,7 @@ class KnowledgeUnitsShow extends Component {
     item = items.id[id];
     return (
       <Show
+        handleDelete={this.handleDelete}
         markReviewed={markReviewed}
         markLectored={markLectored}
         item={item}
@@ -57,13 +69,14 @@ class KnowledgeUnitsShow extends Component {
 }
 
 KnowledgeUnitsShow.propTypes = {
+  handleDelete: PropTypes.func.isRequired,
   markReviewed: PropTypes.func.isRequired,
   markLectored: PropTypes.func.isRequired,
   user: PropTypes.shape({}).isRequired,
   items: PropTypes.shape({
     id: PropTypes.shape({}).isRequired,
     fetching: PropTypes.bool.isRequired,
-    fetchingId: PropTypes.number,
+    fetchingId: PropTypes.string,
   }).isRequired,
   itemFetch: PropTypes.func.isRequired,
   history: PropTypes.shape({

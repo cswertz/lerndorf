@@ -11,7 +11,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { hasCapability } from '../../utils/user';
 import Single from '../texts/Single';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
     width: '100%',
@@ -35,6 +35,7 @@ const styles = theme => ({
 });
 
 const KnowledgeUnitsShowPaper = ({
+  handleDelete,
   markLectored,
   markReviewed,
   classes,
@@ -175,6 +176,17 @@ const KnowledgeUnitsShowPaper = ({
               Add Text
             </Button>
           )}
+          &nbsp;
+          {hasCapability(user.capabilities, ['edit_any_knowledge_unit']) && (
+            <Button
+              className={classes.button}
+              variant="contained"
+              disabled={unit.lectorate}
+              onClick={() => handleDelete(unit.id)}
+            >
+              Delete Knowledge Unit
+            </Button>
+          )}
         </Grid>
         <Grid item xs={6} className={classes.right}>
           {hasCapability(user.capabilities, ['set_knowledge_unit_reviewed']) && (
@@ -210,6 +222,7 @@ KnowledgeUnitsShowPaper.defaultProps = {
 };
 
 KnowledgeUnitsShowPaper.propTypes = {
+  handleDelete: PropTypes.func.isRequired,
   markReviewed: PropTypes.func.isRequired,
   markLectored: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,

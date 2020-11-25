@@ -31,6 +31,7 @@ class LearningUnitsShow extends Component {
 
   render() {
     const {
+      handleKnowledgeUnitDelete,
       markReviewed,
       markLectored,
       items,
@@ -48,6 +49,7 @@ class LearningUnitsShow extends Component {
     item = items.id[id][languageId];
     return (
       <Show
+        handleKnowledgeUnitDelete={handleKnowledgeUnitDelete}
         markReviewed={markReviewed}
         markLectored={markLectored}
         item={item}
@@ -58,6 +60,7 @@ class LearningUnitsShow extends Component {
 }
 
 LearningUnitsShow.propTypes = {
+  handleKnowledgeUnitDelete: PropTypes.func.isRequired,
   markReviewed: PropTypes.func.isRequired,
   markLectored: PropTypes.func.isRequired,
   user: PropTypes.shape({}).isRequired,

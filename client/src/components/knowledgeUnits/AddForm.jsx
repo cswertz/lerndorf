@@ -76,7 +76,7 @@ const renderSelectField = ({
   ));
 
   return (
-    <React.Fragment>
+    <>
       <InputLabel
         htmlFor="language"
         error={hasError}
@@ -97,7 +97,7 @@ const renderSelectField = ({
       >
         {helperText}
       </FormHelperText>
-    </React.Fragment>
+    </>
   );
 };
 
@@ -158,7 +158,6 @@ const renderCheckboxField = ({
     />
   );
 };
-
 
 const validate = (values) => {
   const errors = {};
@@ -390,6 +389,7 @@ const KnowledgeUnitsAdd = ({
             component={renderTextField}
             className={classes.textField}
             errorText={errors.errors.title}
+            parse={(val) => parseInt(val, 10)}
           />
         </FormControl>
       </div>
@@ -397,12 +397,12 @@ const KnowledgeUnitsAdd = ({
         <FormControl required className={classes.formControl}>
           <Field
             name="recommendedAge"
+            type="number"
             label="Recommended Age"
             component={renderTextField}
             className={classes.textField}
             errorText={errors.errors.title}
-            type="number"
-            parse={val => parseInt(val, 10)}
+            parse={(val) => parseInt(val, 10)}
           />
         </FormControl>
       </div>

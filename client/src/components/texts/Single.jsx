@@ -124,8 +124,8 @@ TextsShowPaper.propTypes = {
     rootId: PropTypes.number,
     nextId: PropTypes.number,
     prevId: PropTypes.number,
+    currentId: PropTypes.number,
     id: PropTypes.number.isRequired,
-    currentId: PropTypes.number.isRequired,
     content: PropTypes.string.isRequired,
     Language: PropTypes.shape({
       name: PropTypes.string.isRequired,

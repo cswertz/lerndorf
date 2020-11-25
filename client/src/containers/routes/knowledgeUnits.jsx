@@ -78,6 +78,7 @@ const KnowledgeUnitsRouter = ({
           user={user}
           element={(
             <KnowledgeUnitsShow
+              handleDelete={actions.knowledgeUnitsDelete}
               markReviewed={actions.knowledgeUnitsMarkReviewed}
               markLectored={actions.knowledgeUnitsMarkLectored}
               itemFetch={actions.knowledgeUnitsItemFetch}
