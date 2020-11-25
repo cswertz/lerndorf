@@ -7,9 +7,9 @@ import Button from '@material-ui/core/Button';
 
 import Single from './Single';
 
-const styles = theme => ({
+const styles = (theme) => ({
   button: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(),
   },
 });
 const TextsShow = ({
@@ -32,7 +32,10 @@ const TextsShow = ({
 );
 
 TextsShow.propTypes = {
-  item: PropTypes.shape({}).isRequired,
+  item: PropTypes.shape({
+    nextId: PropTypes.number,
+    id: PropTypes.number.isRequired,
+  }).isRequired,
   classes: PropTypes.shape({}).isRequired,
 };
 

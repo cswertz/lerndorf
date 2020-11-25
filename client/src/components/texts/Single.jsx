@@ -7,7 +7,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
     width: '100%',
@@ -15,13 +15,13 @@ const styles = theme => ({
   },
   paper: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit,
+    paddingTop: theme.spacing() * 2,
+    paddingBottom: theme.spacing() * 2,
+    marginTop: theme.spacing(),
     textAlign: 'left',
   },
   button: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(),
   },
   content: {
     '& figure': {
@@ -38,84 +38,81 @@ const styles = theme => ({
       'text-align': 'center',
       'padding-top': 5,
       'padding-bottom': 5,
-    }
+    },
   },
   clearfix: {
     clear: 'both',
-  }
+  },
 });
 
 const TextsShowPaper = ({
   classes,
   link,
   text,
-}) => {
-  console.log(text);
-  return (
-    <Paper
-      className={classes.paper}
-    >
-      <Typography variant="headline">
-        {link && (
-          <Link to={`/texts/show/${text.id}`}>
-            #{text.id} {text.Language.name}
-          </Link>
-        )}
-        {!link && (
-          <span>
-            #{text.id} {text.Language.name}
-          </span>
-        )}
-      </Typography>
-      <div
-        className={classes.content}
-        dangerouslySetInnerHTML={{
-          __html: text.content,
-        }}
-      />
-      <div className={classes.clearfix} />
-      {text.prevId && (
-        <Button
-          variant="contained"
-          component={Link}
-          to={`/texts/show/${text.prevId}`}
-        >
-          show previous Version
-        </Button>
+}) => (
+  <Paper
+    className={classes.paper}
+  >
+    <Typography variant="headline">
+      {link && (
+        <Link to={`/texts/show/${text.id}`}>
+          #{text.id} {text.Language.name}
+        </Link>
       )}
-      &nbsp;
-      {text.nextId && (
-        <Button
-          variant="contained"
-          component={Link}
-          to={`/texts/show/${text.nextId}`}
-        >
-          show next Version
-        </Button>
+      {!link && (
+        <span>
+          #{text.id} {text.Language.name}
+        </span>
       )}
-      &nbsp;
-      {text.rootId && (
-        <Button
-          variant="contained"
-          component={Link}
-          to={`/texts/show/${text.rootId}`}
-        >
-          show root
-        </Button>
-      )}
-      &nbsp;
-      {text.currentId && text.currentId !== text.id && (
-        <Button
-          variant="contained"
-          component={Link}
-          to={`/texts/show/${text.currentId}`}
-        >
-          show current version
-        </Button>
-      )}
-    </Paper>
-  );
-};
+    </Typography>
+    <div
+      className={`${classes.content} ck-content`}
+      dangerouslySetInnerHTML={{
+        __html: text.content,
+      }}
+    />
+    <div className={classes.clearfix} />
+    {text.prevId && (
+      <Button
+        variant="contained"
+        component={Link}
+        to={`/texts/show/${text.prevId}`}
+      >
+        show previous Version
+      </Button>
+    )}
+    &nbsp;
+    {text.nextId && (
+      <Button
+        variant="contained"
+        component={Link}
+        to={`/texts/show/${text.nextId}`}
+      >
+        show next Version
+      </Button>
+    )}
+    &nbsp;
+    {text.rootId && (
+      <Button
+        variant="contained"
+        component={Link}
+        to={`/texts/show/${text.rootId}`}
+      >
+        show root
+      </Button>
+    )}
+    &nbsp;
+    {text.currentId && text.currentId !== text.id && (
+      <Button
+        variant="contained"
+        component={Link}
+        to={`/texts/show/${text.currentId}`}
+      >
+        show current version
+      </Button>
+    )}
+  </Paper>
+);
 
 TextsShowPaper.defaultProps = {
   link: false,
@@ -123,7 +120,17 @@ TextsShowPaper.defaultProps = {
 
 TextsShowPaper.propTypes = {
   classes: PropTypes.shape({}).isRequired,
-  text: PropTypes.shape({}).isRequired,
+  text: PropTypes.shape({
+    rootId: PropTypes.number,
+    nextId: PropTypes.number,
+    prevId: PropTypes.number,
+    id: PropTypes.number.isRequired,
+    currentId: PropTypes.number.isRequired,
+    content: PropTypes.string.isRequired,
+    Language: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
   link: PropTypes.bool,
 };
 
