@@ -175,6 +175,7 @@ const validate = (values) => {
 };
 
 const KnowledgeUnitsAdd = ({
+  initialValues,
   handleSubmit,
   submitting,
   taxonomies,
@@ -194,6 +195,7 @@ const KnowledgeUnitsAdd = ({
             options={taxonomies.courseLevel}
             className={classes.textField}
             errorText={errors.errors.title}
+            defaultValue={initialValues.cl.id}
           />
         </FormControl>
       </div>
@@ -271,7 +273,7 @@ const KnowledgeUnitsAdd = ({
             component={renderCheckboxField}
             className={classes.textField}
             errorText={errors.errors.title}
-            defaultChecked
+            defaultChecked={initialValues.suitableBlind}
           />
         </FormControl>
       </div>
@@ -283,7 +285,7 @@ const KnowledgeUnitsAdd = ({
             component={renderCheckboxField}
             className={classes.textField}
             errorText={errors.errors.title}
-            defaultChecked
+            defaultChecked={initialValues.suitableDeaf}
           />
         </FormControl>
       </div>
@@ -295,7 +297,7 @@ const KnowledgeUnitsAdd = ({
             component={renderCheckboxField}
             className={classes.textField}
             errorText={errors.errors.title}
-            defaultChecked
+            defaultChecked={initialValues.suitableDumb}
           />
         </FormControl>
       </div>
@@ -310,7 +312,7 @@ const KnowledgeUnitsAdd = ({
             className={classes.textField}
             errorText={errors.errors.title}
             value="publish"
-            defaultChecked
+            defaultChecked={initialValues.publish}
           />
         </FormControl>
       </div>
@@ -324,7 +326,7 @@ const KnowledgeUnitsAdd = ({
             component={renderCheckboxField}
             className={classes.textField}
             errorText={errors.errors.title}
-            defaultChecked
+            defaultChecked={initialValues.visiblePublic}
           />
         </FormControl>
       </div>
@@ -336,7 +338,7 @@ const KnowledgeUnitsAdd = ({
             component={renderCheckboxField}
             className={classes.textField}
             errorText={errors.errors.title}
-            defaultChecked
+            defaultChecked={initialValues.visibleLexicon}
           />
         </FormControl>
       </div>
@@ -348,7 +350,7 @@ const KnowledgeUnitsAdd = ({
             component={renderCheckboxField}
             className={classes.textField}
             errorText={errors.errors.title}
-            defaultChecked
+            defaultChecked={initialValues.visibleCourses}
           />
         </FormControl>
       </div>
@@ -413,7 +415,7 @@ const KnowledgeUnitsAdd = ({
         variant="contained"
         disabled={pristine || submitting || invalid}
       >
-        Add Knowledge Unit
+        Save Knowledge Unit
       </Button>
     </div>
   </form>

@@ -4,7 +4,7 @@ import React from 'react';
 
 import Wrapper from '../../components/routes/wrapper';
 
-// import KnowledgeUnitsEdit from '../knowledgeUnits/Edit';
+import KnowledgeUnitsEdit from '../knowledgeUnits/Edit';
 import KnowledgeUnitsShow from '../knowledgeUnits/Show';
 import KnowledgeUnitsAdd from '../knowledgeUnits/Add';
 // import KnowledgeUnits from '../knowledgeUnits/List';
@@ -15,7 +15,7 @@ const KnowledgeUnitsRouter = ({
   actions,
   user,
 }) => (
-  <React.Fragment>
+  <>
     {/*
     <Route
       exact
@@ -91,7 +91,33 @@ const KnowledgeUnitsRouter = ({
         />
       )}
     />
-  </React.Fragment>
+
+    <Route
+      exact
+      path="/knowledge-units/edit/:id"
+      render={() => (
+        <Wrapper
+          fetchRoles={actions.userFetchRoles}
+          className="KnowledgeUnitsWrapper"
+          logout={actions.userLogout}
+          title="Knowledge Unit"
+          active="knowledgeUnits"
+          user={user}
+          element={(
+            <KnowledgeUnitsEdit
+              taxonomiesFetch={actions.knowledgeUnitsTaxonomiesFetch}
+              itemFetch={actions.knowledgeUnitsItemFetch}
+              taxonomies={knowledgeUnits.taxonomies}
+              learningUnits={learningUnits}
+              handleSubmit={actions.knowledgeUnitsEdit}
+              errors={knowledgeUnits.errors}
+              items={knowledgeUnits}
+            />
+          )}
+        />
+      )}
+    />
+  </>
 );
 
 KnowledgeUnitsRouter.propTypes = {

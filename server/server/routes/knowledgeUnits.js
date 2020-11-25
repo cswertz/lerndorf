@@ -49,6 +49,8 @@ router.post('/', [
     });
   }
 
+  console.log(req.body);
+
   req.body.UserId = req.user.id;
   return models.KnowledgeUnit.create(req.body)
     .then((result) => res.json(result))
@@ -59,6 +61,16 @@ router.post('/', [
         type: error.type,
       })),
     }));
+});
+
+router.patch('/:id', hasCapability('edit_any_knowledge_unit'), async (req, res) => {
+  const result = await models.KnowledgeUnit.update(req.body, {
+    where: {
+      id: req.params.id,
+    },
+  });
+
+  return res.json(result);
 });
 
 router.get('/taxonomies', (req, res) => {

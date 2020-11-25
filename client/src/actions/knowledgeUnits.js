@@ -147,14 +147,14 @@ export const knowledgeUnitsEdit = (id, data, history) => (
     credentials: 'include',
     body: JSON.stringify(data),
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
           // dispatch(knowledgeUnitsEditFailed(json.error, json.errors));
         } else {
           dispatch(knowledgeUnitsEditSuccess());
-          history.push('/knowledgeUnits');
+          history.push(`/knowledge-units/show/${id}`);
         }
       }
     })

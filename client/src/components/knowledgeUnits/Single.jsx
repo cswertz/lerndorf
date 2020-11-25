@@ -167,14 +167,25 @@ const KnowledgeUnitsShowPaper = ({
       <Grid container direction="row">
         <Grid item xs={6} className={classes.left}>
           {user.user.id === unit.author.id && (
-            <Button
-              className={classes.button}
-              variant="contained"
-              component={Link}
-              to={`/texts/add/knowledge-units/${unit.id}`}
-            >
-              Add Text
-            </Button>
+            <>
+              <Button
+                className={classes.button}
+                variant="contained"
+                component={Link}
+                to={`/texts/add/knowledge-units/${unit.id}`}
+              >
+                Add Text
+              </Button>
+              &nbsp;
+              <Button
+                className={classes.button}
+                variant="contained"
+                component={Link}
+                to={`/knowledge-units/edit/${unit.id}`}
+              >
+                Edit
+              </Button>
+            </>
           )}
           &nbsp;
           {hasCapability(user.capabilities, ['edit_any_knowledge_unit']) && (
