@@ -31,6 +31,11 @@ class Language extends Model {
     Language.belongsToMany(sequelize.LearningUnit, { through: 'LearningUnitLanguage' });
     Language.belongsToMany(sequelize.Role, { through: 'RoleLanguage' });
     Language.belongsToMany(sequelize.Capability, { through: 'CapabilityLanguage' });
+
+    Language.hasMany(sequelize.UserLanguage);
+    Language.hasMany(sequelize.RoleLanguage);
+    Language.hasMany(sequelize.CapabilityLanguage);
+    Language.hasMany(sequelize.LearningUnitLanguage);
   }
 }
 

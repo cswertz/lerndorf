@@ -297,7 +297,7 @@ describe('Language', () => {
         });
     });
 
-    it('it should not allow a user without the proper permissions to delete a taxonomy', (done) => {
+    it('it should not allow a user without the proper permissions to delete a language', (done) => {
       agent
         .post('/api/users/login')
         .send(userLanguage)
@@ -313,7 +313,23 @@ describe('Language', () => {
         });
     });
 
-    it('it should allow a user with the proper permissions to delete a taxonomy', (done) => {
+    it('it should not allow a user with the proper permissions to delete a language with content', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .delete('/api/languages/1')
+            .end((err, res) => {
+              res.should.have.status(400);
+              res.body.should.be.a('object');
+
+              done();
+            });
+        });
+    });
+
+    it('it should allow a user with the proper permissions to delete a language', (done) => {
       agent
         .post('/api/users/login')
         .send(admin)

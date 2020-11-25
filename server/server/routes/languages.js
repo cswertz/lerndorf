@@ -72,15 +72,47 @@ router.patch('/:id', hasCapability('edit_language'), (req, res) => {
     });
 });
 
-router.delete('/:id', hasCapability('delete_language'), (req, res) => {
-  models.Language.destroy({
+router.delete('/:id', hasCapability('delete_language'), async (req, res) => {
+  // Check that the language does not have content and only delete it then.
+  const checkModels = [
+    'UserLanguage',
+    'RoleLanguage',
+    'CapabilityLanguage',
+    'LearningUnitLanguage',
+  ];
+  const include = checkModels.map((item) => ({
+    model: models[item],
+    attributes: ['id'],
+  }));
+
+  const language = await models.Language.findOne({
     where: {
       id: req.params.id,
     },
-  })
-    .then((result) => {
-      res.json({ deleted: result });
+    include,
+  });
+
+  let hasContent = false;
+  for (const model of checkModels) {
+    const items = language[model + "s"];
+    if(items.length > 0) {
+      hasContent = true;
+    }
+  }
+
+  if (!hasContent) {
+    const result = await language.destroy({
+      where: {
+        id: req.params.id,
+      },
     });
+    return res.json({ deleted: result });
+  }
+
+  return res.status(400).send({
+    error: 'A language with content can not be deleted',
+    errors: [],
+  });
 });
 
 export default router;
