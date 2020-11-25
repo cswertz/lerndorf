@@ -19,7 +19,7 @@ export default {
 
     createdAt: {
       type: DataTypes.DATE,
-      allowNull: false,      
+      allowNull: false,
     },
   }),
   down: queryInterface => queryInterface.dropTable('LearningUnits'),

@@ -8,12 +8,14 @@ import Single from './Single';
 const styles = {};
 
 const KnowledgeUnitsShow = ({
+  handleDelete,
   markReviewed,
   markLectored,
   item,
   user,
 }) => (
   <Single
+    handleDelete={handleDelete}
     markReviewed={markReviewed}
     markLectored={markLectored}
     unit={item}
@@ -22,6 +24,7 @@ const KnowledgeUnitsShow = ({
 );
 
 KnowledgeUnitsShow.propTypes = {
+  handleDelete: PropTypes.func.isRequired,
   markReviewed: PropTypes.func.isRequired,
   markLectored: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,

@@ -157,6 +157,12 @@ module.exports = {
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
     {
+      slug: 'delete_any_knowledge_unit',
+      name: 'Delete Any Knowledge Unit',
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    {
       slug: 'add_knowledge_unit_version',
       name: 'Add a new version of a Knowledge Unit',
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),

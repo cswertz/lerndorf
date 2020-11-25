@@ -11,7 +11,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { hasCapability } from '../../utils/user';
 import Single from '../texts/Single';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
     width: '100%',
@@ -35,6 +35,7 @@ const styles = theme => ({
 });
 
 const KnowledgeUnitsShowPaper = ({
+  handleDelete,
   markLectored,
   markReviewed,
   classes,
@@ -166,13 +167,35 @@ const KnowledgeUnitsShowPaper = ({
       <Grid container direction="row">
         <Grid item xs={6} className={classes.left}>
           {user.user.id === unit.author.id && (
+            <>
+              <Button
+                className={classes.button}
+                variant="contained"
+                component={Link}
+                to={`/texts/add/knowledge-units/${unit.id}`}
+              >
+                Add Text
+              </Button>
+              &nbsp;
+              <Button
+                className={classes.button}
+                variant="contained"
+                component={Link}
+                to={`/knowledge-units/edit/${unit.id}`}
+              >
+                Edit
+              </Button>
+            </>
+          )}
+          &nbsp;
+          {hasCapability(user.capabilities, ['edit_any_knowledge_unit']) && (
             <Button
               className={classes.button}
               variant="contained"
-              component={Link}
-              to={`/texts/add/knowledge-units/${unit.id}`}
+              disabled={unit.lectorate}
+              onClick={() => handleDelete(unit.id)}
             >
-              Add Text
+              Delete Knowledge Unit
             </Button>
           )}
         </Grid>
@@ -210,6 +233,7 @@ KnowledgeUnitsShowPaper.defaultProps = {
 };
 
 KnowledgeUnitsShowPaper.propTypes = {
+  handleDelete: PropTypes.func.isRequired,
   markReviewed: PropTypes.func.isRequired,
   markLectored: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,

@@ -16,6 +16,7 @@ import Single from '../knowledgeUnits/Single';
 const styles = () => ({});
 
 const LearningUnitsShow = ({
+  handleKnowledgeUnitDelete,
   markReviewed,
   markLectored,
   item,
@@ -24,6 +25,7 @@ const LearningUnitsShow = ({
   const knowledgeUnits = item.item.LearningUnit.KnowledgeUnits;
   const renderedKnowledgeUnits = knowledgeUnits.map(unit => (
     <Single
+      handleDelete={handleKnowledgeUnitDelete}
       markReviewed={markReviewed}
       markLectored={markLectored}
       key={unit.id}
@@ -71,6 +73,7 @@ const LearningUnitsShow = ({
 };
 
 LearningUnitsShow.propTypes = {
+  handleKnowledgeUnitDelete: PropTypes.func.isRequired,
   markReviewed: PropTypes.func.isRequired,
   markLectored: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,

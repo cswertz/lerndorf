@@ -307,15 +307,32 @@ describe('KnowledgeUnit', () => {
   });
 
   describe('DELETE /api/knowledgeUnits/:id', () => {
-    it('it should be possible to delete a KnowledgeUnit', (done) => {
+    it('it should not be possible to delete a KnowledgeUnit without capability', (done) => {
       chai.request(server).keepOpen()
         .delete(`/api/knowledgeUnits/${knowledgeUnits[0]}`)
         .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.have.property('deleted');
+          res.should.have.status(401);
 
           done();
+        });
+    });
+  });
+
+  describe('DELETE /api/knowledgeUnits/:id', () => {
+    it('it should be possible to delete a KnowledgeUnit with proper capability', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .delete(`/api/knowledgeUnits/${knowledgeUnits[0]}`)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('deleted');
+
+              done();
+            });
         });
     });
   });

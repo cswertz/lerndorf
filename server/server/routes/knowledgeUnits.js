@@ -1,7 +1,10 @@
 import { check, validationResult } from 'express-validator';
 import express from 'express';
 
-import { hasCapability } from '../helpers/auth';
+import {
+  hasCapability,
+  hasCapabilityOrOwnsKnowledgeUnit as hasCapabilityOrOwns,
+} from '../helpers/auth';
 import models from '../config/sequelize';
 
 import { getTree } from '../helpers/taxonomies';
@@ -46,6 +49,8 @@ router.post('/', [
     });
   }
 
+  console.log(req.body);
+
   req.body.UserId = req.user.id;
   return models.KnowledgeUnit.create(req.body)
     .then((result) => res.json(result))
@@ -56,6 +61,16 @@ router.post('/', [
         type: error.type,
       })),
     }));
+});
+
+router.patch('/:id', hasCapability('edit_any_knowledge_unit'), async (req, res) => {
+  const result = await models.KnowledgeUnit.update(req.body, {
+    where: {
+      id: req.params.id,
+    },
+  });
+
+  return res.json(result);
 });
 
 router.get('/taxonomies', (req, res) => {
@@ -201,15 +216,14 @@ router.get('/:id', (req, res) => {
     .then((result) => res.json(result));
 });
 
-router.delete('/:id', (req, res) => {
-  models.KnowledgeUnit.destroy({
+router.delete('/:id', hasCapabilityOrOwns('delete_any_knowledge_unit'), async (req, res) => {
+  const result = await models.KnowledgeUnit.destroy({
     where: {
       id: req.params.id,
     },
-  })
-    .then((result) => {
-      res.json({ deleted: result });
-    });
+  });
+
+  return res.json({ deleted: result });
 });
 
 export default router;

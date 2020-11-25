@@ -3,9 +3,9 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import AddForm from '../../components/knowledgeUnits/AddForm';
+import EditForm from '../../components/knowledgeUnits/EditForm';
 
-class KnowledgeUnitsAdd extends Component {
+class KnowledgeUnitsEdit extends Component {
   constructor(props) {
     super(props);
 
@@ -14,37 +14,54 @@ class KnowledgeUnitsAdd extends Component {
 
   componentDidMount() {
     const {
-      learningUnitFetch,
       taxonomiesFetch,
-      learningUnits,
       taxonomies,
-      match,
     } = this.props;
 
     if (!taxonomies.fetched && !taxonomies.fetching) {
       taxonomiesFetch();
     }
 
+    this.fetchItem();
+  }
+
+  componentDidUpdate() {
+    this.fetchItem();
+  }
+
+  fetchItem() {
+    const {
+      match,
+      items,
+      itemFetch,
+    } = this.props;
 
     const {
-      learningUnitId,
+      id,
     } = match.params;
 
-    if ((!learningUnits.fetching) && !learningUnits.id[learningUnitId]) {
-      learningUnitFetch(learningUnitId);
+    if (!items.id[id] && items.fetchingId !== id) {
+      itemFetch(id);
     }
   }
 
   handleSubmit(e) {
+
     e.preventDefault();
+
+    console.log("Update");
 
     const {
       history,
       handleSubmit,
       match,
     } = this.props;
+
+    const {
+      id,
+    } = match.params;
+
     const data = {
-      LearningUnitId: match.params.learningUnitId,
       objective: e.target.objective.value,
       comment: e.target.comment.value,
       time: e.target.time.value,
@@ -72,41 +89,39 @@ class KnowledgeUnitsAdd extends Component {
     data.license = (data.license.isInteger !== '') ? data.license : null;
     data.eqfLevel = (data.eqfLevel.isInteger !== '') ? data.eqfLevel : null;
 
-    handleSubmit(data, history);
+    handleSubmit(id, data, history);
   }
 
   render() {
     const {
-      learningUnits,
       taxonomies,
       errors,
       match,
+      items,
     } = this.props;
-    const { learningUnitId } = match.params;
 
-    let learningUnitTitle = '';
-    if (learningUnits.id[learningUnitId]) {
-      const learningUnit = learningUnits.id[learningUnitId];
-      if (learningUnit[1]) {
-        learningUnitTitle = learningUnit[1].title;
-      }
-    }
+    const {
+      id,
+    } = match.params;
+    const item = items.id[id];
+    if (!item) return null;
 
-    console.log(taxonomies.items)
+    item.courseLevel = item.cl ? item.cl.id : 82;
+    item.knowledgeType = item.kt ? item.kt.id : null;
+    item.license = item.l ? item.l.id : null;
+    item.mediaType = item.mt ? item.mt.id : null;
+    item.minimumScreenResolution = item.msr ? item.msr.id : 88;
+    item.eqfLevel = item.el ? item.el.id : null;
 
     return (
       <div>
         <Typography variant="h5">
-          {'"'}{learningUnitTitle}{'"'}
+          Edit Knowledge Unit
         </Typography>
-        <AddForm
+        <EditForm
           handleSubmit={this.handleSubmit}
           taxonomies={taxonomies.items}
-          initialValues={{
-            language: 1,
-            minimumScreenResolution: 88,
-            courseLevel: 82,
-          }}
+          initialValues={item}
           errors={errors.add}
         />
       </div>
@@ -114,23 +129,27 @@ class KnowledgeUnitsAdd extends Component {
   }
 }
 
-KnowledgeUnitsAdd.propTypes = {
-  learningUnitFetch: PropTypes.func.isRequired,
-  learningUnits: PropTypes.shape({}).isRequired,
+KnowledgeUnitsEdit.propTypes = {
   taxonomiesFetch: PropTypes.func.isRequired,
   taxonomies: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   errors: PropTypes.shape({}).isRequired,
+  itemFetch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      learningUnitId: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
     }).isRequired,
+  }).isRequired,
+  items: PropTypes.shape({
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetchingId: PropTypes.string,
   }).isRequired,
 };
 
-const KnowledgeUnitsAddWithRouter = withRouter(KnowledgeUnitsAdd);
+const KnowledgeUnitsEditWithRouter = withRouter(KnowledgeUnitsEdit);
 
-export default KnowledgeUnitsAddWithRouter;
+export default KnowledgeUnitsEditWithRouter;

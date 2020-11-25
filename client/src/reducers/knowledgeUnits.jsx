@@ -52,6 +52,7 @@ const knowledgeUnits = (state = initialState, action) => {
       return Object.assign({}, state, {
         fetched: false,
         fetching: false,
+        fetchingId: null,
         id: {},
         items: [],
       });
