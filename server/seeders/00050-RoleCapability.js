@@ -27,6 +27,7 @@ const roleCapabilities = [
       'delete_language',
       'add_knowledge_unit',
       'edit_any_knowledge_unit',
+      'delete_any_knowledge_unit',
       'add_knowledge_unit_version',
       'set_knowledge_unit_reviewed',
       'set_knowledge_unit_lectored',

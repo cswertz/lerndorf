@@ -53,33 +53,68 @@ const hasRole = (...allowed) => (req, res, next) => {
   });
 };
 
-const hasCapability = (...allowed) => (req, res, next) => {
-  if (req.user) {
-    const { capabilities } = req.user;
+const checkCapability = (user, allowed) => {
+    const { capabilities } = user;
     const permit = allowed.filter((item) => capabilities.indexOf(item) > -1);
 
     if (permit.length > 0) {
+      return true;
+    }
+
+    return false;
+}
+
+const return401 = (res) => res.status(401).send({
+  error: 'Not logged in.',
+  errors: [
+    {
+      msg: 'You do not have the capability to do this',
+    },
+  ],
+});
+
+const return403 = (res) => res.status(403).send({
+  error: 'You do not have the capability to do this',
+  errors: [
+    {
+      msg: 'You do not have the capability to do this',
+    },
+  ],
+});
+
+const hasCapability = (...allowed) => (req, res, next) => {
+  if (req.user) {
+    if (checkCapability(req.user, allowed)) {
       return next();
     }
 
-    return res.status(403).send({
-      error: 'You do not have the capability to do this',
-      errors: [
-        {
-          msg: 'You do not have the capability to do this',
-        },
-      ],
-    });
+    return return403(res);
   }
 
-  return res.status(401).send({
-    error: 'Not logged in.',
-    errors: [
-      {
-        msg: 'You do not have the capability to do this',
+  return return401(res);
+};
+
+const hasCapabilityOrOwnsKnowledgeUnit = (...allowed) => async (req, res, next) => {
+  if (req.user) {
+    if (checkCapability(req.user, allowed)) {
+      return next();
+    }
+
+    const item = await models.KnowledgeUnit.findOne({
+      where: {
+        UserId: req.user.id,
+        Id: req.params.id,
       },
-    ],
-  });
+    });
+
+    if (item) {
+      return next();
+    }
+
+    return return403(res);
+  }
+
+  return return401(res);
 };
 
 const isSelfOrHasCapability = (...allowed) => (req, res, next) => {
@@ -135,42 +170,8 @@ const isLastAdmin = async (id) => {
   return false;
 };
 
-const isLastAdminOld = (id, next) => {
-  models.User.findByPk(id)
-    .then((result) => {
-      result.getRoles()
-        .then((roles) => {
-          const userRoles = roles.map((role) => role.dataValues.slug);
-          const isAdmin = checkRole(['admin'], userRoles);
-
-          if (isAdmin) {
-            return models.User.findAll({
-              attributes: ['id'],
-              include: [
-                {
-                  model: models.Role,
-                  attributes: ['id', 'slug'],
-                  where: {
-                    slug: 'admin',
-                  },
-                },
-              ],
-            })
-              .then((results) => {
-                if (results.length > 1) {
-                  return next(false);
-                }
-
-                return next(true);
-              });
-          }
-
-          return next(false);
-        });
-    });
-};
-
 export {
+  hasCapabilityOrOwnsKnowledgeUnit,
   isSelfOrHasCapability,
   hasCapability,
   isLastAdmin,
