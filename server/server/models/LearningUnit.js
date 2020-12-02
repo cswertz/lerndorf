@@ -26,10 +26,11 @@ class LearningUnit extends Model {
     //LearningUnit.hasOne(LearningUnit, { foreignKey: 'nextId' });
 
     LearningUnit.belongsToMany(sequelize.Language, { through: 'LearningUnitLanguage' });
-    LearningUnit.belongsToMany(sequelize.LearningUnit, { through: 'LearningUnitRelation', foreignKey: 'sourceId', as: 'Source' });
-    LearningUnit.belongsToMany(sequelize.LearningUnit, { through: 'LearningUnitRelation', foreignKey: 'targetId', as: 'Target' });
+    LearningUnit.belongsToMany(sequelize.LearningUnit, { through: 'LearningUnitRelation', foreignKey: 'sourceId', as: 'source' });
+    LearningUnit.belongsToMany(sequelize.LearningUnit, { through: 'LearningUnitRelation', foreignKey: 'targetId', as: 'target' });
 
-    LearningUnit.hasMany(sequelize.LearningUnitRelation);
+    LearningUnit.hasMany(sequelize.LearningUnitRelation, { foreignKey: 'sourceId', as: 'learningUnitSource' });
+    LearningUnit.hasMany(sequelize.LearningUnitRelation, { foreignKey: 'targetId', as: 'learningUnitTarget' });
 
     LearningUnit.hasMany(sequelize.LearningUnitLanguage, { as: 'Translations' });
   }

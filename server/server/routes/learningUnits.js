@@ -172,8 +172,8 @@ router.get('/taxonomies', (req, res) => {
     .then((children) => getTree(children).then((result) => res.json(result)));
 });
 
-router.get('/:id', (req, res) => {
-  models.LearningUnitLanguage.findAll({
+router.get('/:id', async (req, res) => {
+  const translations = await models.LearningUnitLanguage.findAll({
     where: {
       LearningUnitId: req.params.id,
     },
@@ -317,6 +317,36 @@ router.get('/:id', (req, res) => {
               },
             ],
           },
+          {
+            model: models.LearningUnitRelation,
+            as: 'learningUnitSource',
+            attributes: ['type', 'targetId'],
+            include: [
+              {
+                model: models.Taxonomy,
+                attributes: ['id', 'type'],
+                required: true,
+                include: [
+                  {
+                    model: models.TaxonomyLanguage,
+                    attributs: ['LanguageId', 'vocable'],
+                  },
+                ],
+              },
+              {
+                model: models.LearningUnit,
+                attributes: ['id'],
+                as: 'target',
+                include: [
+                  {
+                    model: models.LearningUnitLanguage,
+                    attributes: ['LanguageId', 'title'],
+                    as: 'Translations',
+                  },
+                ],
+              },
+            ],
+          },
         ],
       },
     ],
@@ -324,8 +354,9 @@ router.get('/:id', (req, res) => {
       [models.LearningUnit, models.KnowledgeUnit, 'id', 'asc'],
       [models.LearningUnit, models.KnowledgeUnit, 'Texts', 'id', 'asc'],
     ],
-  })
-    .then((result) => res.json(result));
+  });
+
+  return res.json(translations);
 });
 
 router.get('/suggestion/:term', (req, res) => {
@@ -349,7 +380,6 @@ router.get('/suggestion/:term', (req, res) => {
         });
       }
 
-      console.log(suggestions);
       return res.json(suggestions);
     });
 });
