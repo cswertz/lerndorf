@@ -25,7 +25,6 @@ class KnowledgeUnitsAdd extends Component {
       taxonomiesFetch();
     }
 
-
     const {
       learningUnitId,
     } = match.params;
@@ -81,6 +80,7 @@ class KnowledgeUnitsAdd extends Component {
       taxonomies,
       errors,
       match,
+      user,
     } = this.props;
     const { learningUnitId } = match.params;
 
@@ -91,8 +91,6 @@ class KnowledgeUnitsAdd extends Component {
         learningUnitTitle = learningUnit[1].title;
       }
     }
-
-    console.log(taxonomies.items)
 
     return (
       <div>
@@ -108,6 +106,7 @@ class KnowledgeUnitsAdd extends Component {
             courseLevel: 82,
           }}
           errors={errors.add}
+          user={user}
         />
       </div>
     );
@@ -121,6 +120,7 @@ KnowledgeUnitsAdd.propTypes = {
   taxonomies: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   errors: PropTypes.shape({}).isRequired,
+  user: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

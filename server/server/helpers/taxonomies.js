@@ -11,6 +11,12 @@ async function getTree(source) {
         'id',
         'type',
       ],
+      include: [
+        {
+          model: models.TaxonomyLanguage,
+          attributes: ['LanguageId', 'vocable'],
+        },
+      ],
     });
 
     const terms = [];
@@ -19,7 +25,9 @@ async function getTree(source) {
       const current = children[i];
       const term = {
         id: current.id,
-        type: prefix + current.type,
+        type: current.type,
+        TaxonomyLanguages: current.TaxonomyLanguages,
+        prefix,
       };
 
       promises.push(getChildren(current.id, level + 1));
@@ -52,6 +60,8 @@ async function getTree(source) {
     taxonomies[parent].push({
       id: current.id,
       type: current.type,
+      TaxonomyLanguages: current.TaxonomyLanguages,
+      prefix: current.prefix,
       children: results[i],
     });
   }

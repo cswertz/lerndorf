@@ -35,6 +35,7 @@ const LearningUnitsShow = ({
     />
   ));
   const tags = item.item.LearningUnitTags.map(tag => tag.tag).join(', ');
+  const languageId = item.item.Language.id;
 
   return (
     <DocumentTitle title={`Lerndorf | ${item.title}`}>
@@ -45,7 +46,7 @@ const LearningUnitsShow = ({
             <IconButton
               aria-label="Edit"
               component={Link}
-              to={`/learning-units/edit/${item.item.Language.id}/${item.item.LearningUnit.id}`}
+              to={`/learning-units/edit/${languageId}/${item.item.LearningUnit.id}`}
             >
               <EditIcon />
             </IconButton>

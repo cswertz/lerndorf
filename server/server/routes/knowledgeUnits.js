@@ -49,8 +49,6 @@ router.post('/', [
     });
   }
 
-  console.log(req.body);
-
   req.body.UserId = req.user.id;
   return models.KnowledgeUnit.create(req.body)
     .then((result) => res.json(result))
@@ -73,8 +71,8 @@ router.patch('/:id', hasCapability('edit_any_knowledge_unit'), async (req, res) 
   return res.json(result);
 });
 
-router.get('/taxonomies', (req, res) => {
-  models.Taxonomy.findAll({
+router.get('/taxonomies', async (req, res) => {
+  const taxonomies = await models.Taxonomy.findAll({
     where: {
       '$Parent.type$': {
         [Op.in]: [
@@ -97,9 +95,15 @@ router.get('/taxonomies', (req, res) => {
         model: models.Taxonomy,
         attributes: ['type'],
       },
+      {
+        model: models.TaxonomyLanguage,
+        attributes: ['LanguageId', 'vocable'],
+      },
     ],
-  })
-    .then((children) => getTree(children).then((result) => res.json(result)));
+  });
+  const tree = await getTree(taxonomies);
+
+  return res.json(tree);
 });
 
 router.patch('/markReviewed/:id', hasCapability('set_knowledge_unit_reviewed'), (req, res) => {
@@ -148,36 +152,78 @@ router.get('/:id', (req, res) => {
         as: 'msr',
         model: models.Taxonomy,
         attributes: ['id', 'type'],
+        include: [
+          {
+            model: models.TaxonomyLanguage,
+            attributes: ['LanguageId', 'vocable'],
+          },
+        ],
       },
       {
         as: 'kt',
         model: models.Taxonomy,
         attributes: ['id', 'type'],
+        include: [
+          {
+            model: models.TaxonomyLanguage,
+            attributes: ['LanguageId', 'vocable'],
+          },
+        ],
       },
       {
         as: 'cl',
         model: models.Taxonomy,
         attributes: ['id', 'type'],
+        include: [
+          {
+            model: models.TaxonomyLanguage,
+            attributes: ['LanguageId', 'vocable'],
+          },
+        ],
       },
       {
         as: 'ot',
         model: models.Taxonomy,
         attributes: ['id', 'type'],
+        include: [
+          {
+            model: models.TaxonomyLanguage,
+            attributes: ['LanguageId', 'vocable'],
+          },
+        ],
       },
       {
         as: 'mt',
         model: models.Taxonomy,
         attributes: ['id', 'type'],
+        include: [
+          {
+            model: models.TaxonomyLanguage,
+            attributes: ['LanguageId', 'vocable'],
+          },
+        ],
       },
       {
         as: 'el',
         model: models.Taxonomy,
         attributes: ['id', 'type'],
+        include: [
+          {
+            model: models.TaxonomyLanguage,
+            attributes: ['LanguageId', 'vocable'],
+          },
+        ],
       },
       {
         as: 'l',
         model: models.Taxonomy,
         attributes: ['id', 'type'],
+        include: [
+          {
+            model: models.TaxonomyLanguage,
+            attributes: ['LanguageId', 'vocable'],
+          },
+        ],
       },
       {
         as: 'author',

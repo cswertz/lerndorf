@@ -9,6 +9,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import { hasCapability } from '../../utils/user';
+import { term } from '../../utils/taxonomy';
 import Single from '../texts/Single';
 
 const styles = (theme) => ({
@@ -53,6 +54,7 @@ const KnowledgeUnitsShowPaper = ({
       />
     ));
   }
+  const languageId = user.user.preferredLanguage || 1;
 
   return (
     <Paper key={unit.id} className={classes.paper}>
@@ -95,33 +97,33 @@ const KnowledgeUnitsShowPaper = ({
       <div className={classes.root}>
         <Grid container direction="row">
           <Grid item xs={4}>
-            Media Type: {unit.mt ? unit.mt.type : '---'}
+            Media Type: {unit.mt ? term(unit.mt, languageId) : '---'}
           </Grid>
           <Grid item xs={4}>
-            Knowledge Type: {unit.kt ? unit.kt.type : '---'}
+            Knowledge Type: {unit.kt ? term(unit.kt, languageId) : '---'}
           </Grid>
           <Grid item xs={4}>
-            Object Type: {unit.ot ? unit.ot.type : '---'}
+            Object Type: {unit.ot ? term(unit.ot, languageId) : '---'}
           </Grid>
         </Grid>
       </div>
       <div className={classes.root}>
         <Grid container direction="row">
           <Grid item xs={6}>
-            EQF Level: {unit.el ? unit.el.type : '---'}
+            EQF Level: {unit.el ? term(unit.el, languageId) : '---'}
           </Grid>
           <Grid item xs={6}>
-            Course Level: {unit.cl ? unit.cl.type : '---'}
+            Course Level: {unit.cl ? term(unit.cl, languageId) : '---'}
           </Grid>
         </Grid>
       </div>
       <div className={classes.root}>
         <Grid container direction="row">
           <Grid item xs={6}>
-            License: {unit.l ? unit.l.type : '---'}
+            License: {unit.l ? term(unit.l, languageId) : '---'}
           </Grid>
           <Grid item xs={6}>
-            Minimum Screen Resolution: {unit.msr ? unit.msr.type : '---'}
+            Minimum Screen Resolution: {unit.msr ? term(unit.msr, languageId) : '---'}
           </Grid>
         </Grid>
       </div>

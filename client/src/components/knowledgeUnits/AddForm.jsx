@@ -13,6 +13,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 
+import { getOptions } from '../../utils/taxonomy';
+
 const styles = (theme) => ({
   wrapper: {
     display: 'flex',
@@ -182,242 +184,247 @@ const KnowledgeUnitsAdd = ({
   classes,
   invalid,
   errors,
-}) => (
-  <form onSubmit={handleSubmit}>
-    <div className={classes.flex}>
-      <div className={classes.wrapper}>
-        <FormControl required className={classes.formControl}>
-          <Field
-            name="courseLevel"
-            label="Level in Course"
-            component={renderSelectField}
-            options={taxonomies.courseLevel}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
-      </div>
-      <div className={classes.wrapper}>
-        <FormControl required className={classes.formControl}>
-          <Field
-            name="knowledgeType"
-            label="Knowledge Type"
-            component={renderSelectField}
-            options={taxonomies.knowledgeType}
-            className={classes.textField}
-            errorText={errors.errors.knowledgeType}
-            required
-          />
-        </FormControl>
-      </div>
-      <div className={classes.wrapper}>
-        <FormControl required className={classes.formControl}>
-          <Field
-            name="license"
-            label="License"
-            component={renderSelectField}
-            options={taxonomies.licences}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
-      </div>
-    </div>
-    <div className={classes.flex}>
-      <div className={classes.wrapper}>
-        <FormControl required className={classes.formControl}>
-          <Field
-            name="mediaType"
-            label="Media Type"
-            component={renderSelectField}
-            options={taxonomies.mediaType}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
-      </div>
-      <div className={classes.wrapper}>
-        <FormControl required className={classes.formControl}>
-          <Field
-            name="minimumScreenResolution"
-            label="Minimum Screen Resolution"
-            component={renderSelectField}
-            options={taxonomies.minimumScreenResolution}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
-      </div>
-      <div className={classes.wrapper}>
-        <FormControl required className={classes.formControl}>
-          <Field
-            name="eqfLevel"
-            label="EQF Level"
-            component={renderSelectField}
-            options={taxonomies.eqflevel}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
-      </div>
-    </div>
+  user,
+}) => {
+  const languageId = user.user.preferredLanguage;
 
-    <div className={classes.flex}>
-      <div>
-        <FormControl>
-          <Field
-            name="suitableBlind"
-            label="Suitable for blind"
-            component={renderCheckboxField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-            defaultChecked
-          />
-        </FormControl>
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className={classes.flex}>
+        <div className={classes.wrapper}>
+          <FormControl required className={classes.formControl}>
+            <Field
+              name="courseLevel"
+              label="Level in Course"
+              component={renderSelectField}
+              options={getOptions(taxonomies.courseLevel, languageId)}
+              className={classes.textField}
+              errorText={errors.errors.title}
+            />
+          </FormControl>
+        </div>
+        <div className={classes.wrapper}>
+          <FormControl required className={classes.formControl}>
+            <Field
+              name="knowledgeType"
+              label="Knowledge Type"
+              component={renderSelectField}
+              options={getOptions(taxonomies.knowledgeType, languageId)}
+              className={classes.textField}
+              errorText={errors.errors.knowledgeType}
+              required
+            />
+          </FormControl>
+        </div>
+        <div className={classes.wrapper}>
+          <FormControl required className={classes.formControl}>
+            <Field
+              name="license"
+              label="License"
+              component={renderSelectField}
+              options={getOptions(taxonomies.licences, languageId)}
+              className={classes.textField}
+              errorText={errors.errors.title}
+            />
+          </FormControl>
+        </div>
       </div>
-      <div>
-        <FormControl>
-          <Field
-            name="suitableDeaf"
-            label="Suitable for deaf"
-            component={renderCheckboxField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-            defaultChecked
-          />
-        </FormControl>
+      <div className={classes.flex}>
+        <div className={classes.wrapper}>
+          <FormControl required className={classes.formControl}>
+            <Field
+              name="mediaType"
+              label="Media Type"
+              component={renderSelectField}
+              options={getOptions(taxonomies.mediaType, languageId)}
+              className={classes.textField}
+              errorText={errors.errors.title}
+            />
+          </FormControl>
+        </div>
+        <div className={classes.wrapper}>
+          <FormControl required className={classes.formControl}>
+            <Field
+              name="minimumScreenResolution"
+              label="Minimum Screen Resolution"
+              component={renderSelectField}
+              options={getOptions(taxonomies.minimumScreenResolution, languageId)}
+              className={classes.textField}
+              errorText={errors.errors.title}
+            />
+          </FormControl>
+        </div>
+        <div className={classes.wrapper}>
+          <FormControl required className={classes.formControl}>
+            <Field
+              name="eqfLevel"
+              label="EQF Level"
+              component={renderSelectField}
+              options={getOptions(taxonomies.eqflevel, languageId)}
+              className={classes.textField}
+              errorText={errors.errors.title}
+            />
+          </FormControl>
+        </div>
       </div>
-      <div>
-        <FormControl>
-          <Field
-            name="suitableDumb"
-            label="Suitable for dumb"
-            component={renderCheckboxField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-            defaultChecked
-          />
-        </FormControl>
-      </div>
-    </div>
-    <div className={classes.flex}>
-      <div>
-        <FormControl>
-          <Field
-            name="publish"
-            label="Publish"
-            component={renderCheckboxField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-            value="publish"
-            defaultChecked
-          />
-        </FormControl>
-      </div>
-    </div>
-    <div className={classes.flex}>
-      <div>
-        <FormControl>
-          <Field
-            name="visiblePublic"
-            label="Visible Public"
-            component={renderCheckboxField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-            defaultChecked
-          />
-        </FormControl>
-      </div>
-      <div>
-        <FormControl>
-          <Field
-            name="visibleLexicon"
-            label="Visible Lexicon"
-            component={renderCheckboxField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-            defaultChecked
-          />
-        </FormControl>
-      </div>
-      <div>
-        <FormControl>
-          <Field
-            name="visibleCourses"
-            label="Visible Courses"
-            component={renderCheckboxField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-            defaultChecked
-          />
-        </FormControl>
-      </div>
-    </div>
 
-    <div className={classes.flex}>
-      <div className={classes.wrapper}>
-        <FormControl required className={classes.formControl}>
-          <Field
-            name="objective"
-            label="Objective"
-            component={renderTextField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
+      <div className={classes.flex}>
+        <div>
+          <FormControl>
+            <Field
+              name="suitableBlind"
+              label="Suitable for blind"
+              component={renderCheckboxField}
+              className={classes.textField}
+              errorText={errors.errors.title}
+              defaultChecked
+            />
+          </FormControl>
+        </div>
+        <div>
+          <FormControl>
+            <Field
+              name="suitableDeaf"
+              label="Suitable for deaf"
+              component={renderCheckboxField}
+              className={classes.textField}
+              errorText={errors.errors.title}
+              defaultChecked
+            />
+          </FormControl>
+        </div>
+        <div>
+          <FormControl>
+            <Field
+              name="suitableDumb"
+              label="Suitable for dumb"
+              component={renderCheckboxField}
+              className={classes.textField}
+              errorText={errors.errors.title}
+              defaultChecked
+            />
+          </FormControl>
+        </div>
       </div>
-      <div className={classes.wrapper}>
-        <FormControl required className={classes.formControl}>
-          <Field
-            name="comment"
-            label="Comment"
-            component={renderTextField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-          />
-        </FormControl>
+      <div className={classes.flex}>
+        <div>
+          <FormControl>
+            <Field
+              name="publish"
+              label="Publish"
+              component={renderCheckboxField}
+              className={classes.textField}
+              errorText={errors.errors.title}
+              value="publish"
+              defaultChecked
+            />
+          </FormControl>
+        </div>
       </div>
-    </div>
+      <div className={classes.flex}>
+        <div>
+          <FormControl>
+            <Field
+              name="visiblePublic"
+              label="Visible Public"
+              component={renderCheckboxField}
+              className={classes.textField}
+              errorText={errors.errors.title}
+              defaultChecked
+            />
+          </FormControl>
+        </div>
+        <div>
+          <FormControl>
+            <Field
+              name="visibleLexicon"
+              label="Visible Lexicon"
+              component={renderCheckboxField}
+              className={classes.textField}
+              errorText={errors.errors.title}
+              defaultChecked
+            />
+          </FormControl>
+        </div>
+        <div>
+          <FormControl>
+            <Field
+              name="visibleCourses"
+              label="Visible Courses"
+              component={renderCheckboxField}
+              className={classes.textField}
+              errorText={errors.errors.title}
+              defaultChecked
+            />
+          </FormControl>
+        </div>
+      </div>
 
-    <div className={classes.flex}>
-      <div className={classes.wrapper}>
-        <FormControl required className={classes.formControl}>
-          <Field
-            name="time"
-            type="number"
-            label="Time in minutes"
-            component={renderTextField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-            parse={(val) => parseInt(val, 10)}
-          />
-        </FormControl>
+      <div className={classes.flex}>
+        <div className={classes.wrapper}>
+          <FormControl required className={classes.formControl}>
+            <Field
+              name="objective"
+              label="Objective"
+              component={renderTextField}
+              className={classes.textField}
+              errorText={errors.errors.title}
+            />
+          </FormControl>
+        </div>
+        <div className={classes.wrapper}>
+          <FormControl required className={classes.formControl}>
+            <Field
+              name="comment"
+              label="Comment"
+              component={renderTextField}
+              className={classes.textField}
+              errorText={errors.errors.title}
+            />
+          </FormControl>
+        </div>
       </div>
-      <div className={classes.wrapper}>
-        <FormControl required className={classes.formControl}>
-          <Field
-            name="recommendedAge"
-            type="number"
-            label="Recommended Age"
-            component={renderTextField}
-            className={classes.textField}
-            errorText={errors.errors.title}
-            parse={(val) => parseInt(val, 10)}
-          />
-        </FormControl>
+
+      <div className={classes.flex}>
+        <div className={classes.wrapper}>
+          <FormControl required className={classes.formControl}>
+            <Field
+              name="time"
+              type="number"
+              label="Time in minutes"
+              component={renderTextField}
+              className={classes.textField}
+              errorText={errors.errors.title}
+              parse={(val) => parseInt(val, 10)}
+            />
+          </FormControl>
+        </div>
+        <div className={classes.wrapper}>
+          <FormControl required className={classes.formControl}>
+            <Field
+              name="recommendedAge"
+              type="number"
+              label="Recommended Age"
+              component={renderTextField}
+              className={classes.textField}
+              errorText={errors.errors.title}
+              parse={(val) => parseInt(val, 10)}
+            />
+          </FormControl>
+        </div>
       </div>
-    </div>
-    <div>
-      <Button
-        type="submit"
-        variant="contained"
-        disabled={pristine || submitting || invalid}
-      >
-        Add Knowledge Unit
-      </Button>
-    </div>
-  </form>
-);
+      <div>
+        <Button
+          type="submit"
+          variant="contained"
+          disabled={pristine || submitting || invalid}
+        >
+          Add Knowledge Unit
+        </Button>
+      </div>
+    </form>
+  );
+};
 
 KnowledgeUnitsAdd.propTypes = {
   initialValues: PropTypes.shape({}).isRequired,
@@ -426,6 +433,7 @@ KnowledgeUnitsAdd.propTypes = {
   classes: PropTypes.shape({}).isRequired,
   errors: PropTypes.shape({}).isRequired,
   submitting: PropTypes.bool.isRequired,
+  user: PropTypes.shape({}).isRequired,
   pristine: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,
 };

@@ -59,6 +59,7 @@ const KnowledgeUnitsRouter = ({
               learningUnits={learningUnits}
               handleSubmit={actions.knowledgeUnitsAdd}
               errors={knowledgeUnits.errors}
+              user={user}
             />
           )}
         />
