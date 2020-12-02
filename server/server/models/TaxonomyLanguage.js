@@ -36,7 +36,10 @@ class TaxonomyLanguage extends Model {
         notEmpty: true,
         defaultValue: 0,
       },
-    }, { sequelize });
+    }, {
+      sequelize,
+      freezeTableName: true,
+    });
   }
 }
 

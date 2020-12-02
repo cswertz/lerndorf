@@ -148,36 +148,78 @@ router.get('/:id', (req, res) => {
         as: 'msr',
         model: models.Taxonomy,
         attributes: ['id', 'type'],
+        include: [
+          {
+            model: models.TaxonomyLanguage,
+            attributes: ['LanguageId', 'vocable'],
+          },
+        ],
       },
       {
         as: 'kt',
         model: models.Taxonomy,
         attributes: ['id', 'type'],
+        include: [
+          {
+            model: models.TaxonomyLanguage,
+            attributes: ['LanguageId', 'vocable'],
+          },
+        ],
       },
       {
         as: 'cl',
         model: models.Taxonomy,
         attributes: ['id', 'type'],
+        include: [
+          {
+            model: models.TaxonomyLanguage,
+            attributes: ['LanguageId', 'vocable'],
+          },
+        ],
       },
       {
         as: 'ot',
         model: models.Taxonomy,
         attributes: ['id', 'type'],
+        include: [
+          {
+            model: models.TaxonomyLanguage,
+            attributes: ['LanguageId', 'vocable'],
+          },
+        ],
       },
       {
         as: 'mt',
         model: models.Taxonomy,
         attributes: ['id', 'type'],
+        include: [
+          {
+            model: models.TaxonomyLanguage,
+            attributes: ['LanguageId', 'vocable'],
+          },
+        ],
       },
       {
         as: 'el',
         model: models.Taxonomy,
         attributes: ['id', 'type'],
+        include: [
+          {
+            model: models.TaxonomyLanguage,
+            attributes: ['LanguageId', 'vocable'],
+          },
+        ],
       },
       {
         as: 'l',
         model: models.Taxonomy,
         attributes: ['id', 'type'],
+        include: [
+          {
+            model: models.TaxonomyLanguage,
+            attributes: ['LanguageId', 'vocable'],
+          },
+        ],
       },
       {
         as: 'author',
