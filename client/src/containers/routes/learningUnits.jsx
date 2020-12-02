@@ -103,6 +103,7 @@ const LearningUnitsRouter = ({
           user={user}
           element={(
             <LearningUnitsEdit
+              learningUnitsDeleteRelation={actions.learningUnitsDeleteRelation}
               learningUnitsAddRelation={actions.learningUnitsAddRelation}
               fetchSuggestions={actions.learningUnitsSuggestionsFetch}
               learningUnitsDeleteTag={actions.learningUnitsDeleteTag}

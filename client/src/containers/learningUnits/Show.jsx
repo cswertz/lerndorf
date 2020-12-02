@@ -47,7 +47,6 @@ class LearningUnitsShow extends Component {
     if (!item) return null;
 
     item = items.id[id][languageId];
-    console.log(item);
     return (
       <Show
         handleKnowledgeUnitDelete={handleKnowledgeUnitDelete}

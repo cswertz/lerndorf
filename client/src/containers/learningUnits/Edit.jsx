@@ -8,6 +8,7 @@ class LearningUnitsEdit extends Component {
   constructor(props) {
     super(props);
 
+    this.deleteRelation = this.deleteRelation.bind(this);
     this.addRelation = this.addRelation.bind(this);
     this.editTitle = this.editTitle.bind(this);
     this.setTarget = this.setTarget.bind(this);
@@ -77,6 +78,14 @@ class LearningUnitsEdit extends Component {
     } = match.params;
 
     learningUnitsDeleteTag(tagId, languageId, id, history);
+  }
+
+  deleteRelation(relationId) {
+    const {
+      learningUnitsDeleteRelation,
+    } = this.props;
+
+    learningUnitsDeleteRelation(relationId);
   }
 
   updateTag(e) {
@@ -154,6 +163,7 @@ class LearningUnitsEdit extends Component {
     if (items.id[id]) {
       const { title } = items.id[id][languageId];
       const tags = items.id[id][languageId].item.LearningUnitTags;
+      const relations = items.id[id][languageId].item.LearningUnit.learningUnitSource;
 
       const initialValues = {
         title,
@@ -161,6 +171,7 @@ class LearningUnitsEdit extends Component {
 
       return (
         <EditForm
+          deleteRelation={this.deleteRelation}
           fetchSuggestions={fetchSuggestions}
           addRelation={this.addRelation}
           initialValues={initialValues}
@@ -170,6 +181,8 @@ class LearningUnitsEdit extends Component {
           updateTag={this.updateTag}
           suggestions={suggestions}
           taxonomies={taxonomies}
+          languageId={parseInt(languageId, 10)}
+          relations={relations}
           addTag={this.addTag}
           errors={errors.add}
           tags={tags}
@@ -183,6 +196,7 @@ class LearningUnitsEdit extends Component {
 
 LearningUnitsEdit.propTypes = {
   fetchSuggestions: PropTypes.func.isRequired,
+  learningUnitsDeleteRelation: PropTypes.func.isRequired,
   learningUnitsAddRelation: PropTypes.func.isRequired,
   taxonomiesFetch: PropTypes.func.isRequired,
   taxonomies: PropTypes.shape({

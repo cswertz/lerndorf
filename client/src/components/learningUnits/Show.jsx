@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import DocumentTitle from 'react-document-title';
 
 import Single from '../knowledgeUnits/Single';
+import { term } from '../../utils/taxonomy';
 
 const styles = () => ({});
 
@@ -36,6 +37,25 @@ const LearningUnitsShow = ({
   ));
   const tags = item.item.LearningUnitTags.map(tag => tag.tag).join(', ');
   const languageId = item.item.Language.id;
+  const buildRelations = (relations) => {
+    let elements = null;
+    if (relations.length > 0) {
+      elements = relations.map((item) => {
+        const taxonomyTerm = term(item.Taxonomy, languageId);
+        let linkText = item.target.Translations.filter((item) => item.LanguageId === languageId);
+        linkText = linkText[0].title;
+
+        return (
+          <li>
+            {taxonomyTerm} <a href={`/learning-units/show/${languageId}/${item.targetId}`}>{linkText}</a>
+          </li>
+        );
+      });
+    }
+
+    return elements;
+  };
+  const relations = buildRelations(item.item.LearningUnit.learningUnitSource);
 
   return (
     <DocumentTitle title={`Lerndorf | ${item.title}`}>
@@ -58,6 +78,11 @@ const LearningUnitsShow = ({
         <Typography variant="caption">
           Tags: {tags}
         </Typography>
+        <Grid>
+          <ul>
+            {relations}
+          </ul>
+        </Grid>
         <Grid>
           <Button
             component={Link}

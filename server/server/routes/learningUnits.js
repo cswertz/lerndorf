@@ -97,7 +97,7 @@ router.post('/', [
 });
 
 router.post('/addTag/:learningUnitLanguageId', [
-  hasCapability('add_learning_unit'),
+  hasCapability('edit_any_learning_unit'),
   check('tag', 'tag is required')
     .isLength({ max: 255 })
     .notEmpty(),
@@ -120,8 +120,8 @@ router.post('/addTag/:learningUnitLanguageId', [
     .then((result) => res.json(result));
 });
 
-router.post('/addRelation/:id', [
-  hasCapability('add_learning_unit'),
+router.post('/relation/:id', [
+  hasCapability('edit_any_learning_unit'),
   check('targetId', 'target is required')
     .isInt()
     .notEmpty(),
@@ -148,6 +148,16 @@ router.post('/addRelation/:id', [
     .then((result) => res.json(result));
 });
 
+router.delete('/relation/:id', hasCapability('edit_any_learning_unit'), async (req, res) => {
+  const result = await models.LearningUnitRelation.destroy({
+    where: {
+      id: req.params.id,
+    },
+  });
+
+  res.json({ deleted: result });
+});
+
 router.get('/taxonomies', (req, res) => {
   models.Taxonomy.findAll({
     where: {
@@ -172,8 +182,8 @@ router.get('/taxonomies', (req, res) => {
     .then((children) => getTree(children).then((result) => res.json(result)));
 });
 
-router.get('/:id', (req, res) => {
-  models.LearningUnitLanguage.findAll({
+router.get('/:id', async (req, res) => {
+  const translations = await models.LearningUnitLanguage.findAll({
     where: {
       LearningUnitId: req.params.id,
     },
@@ -317,6 +327,36 @@ router.get('/:id', (req, res) => {
               },
             ],
           },
+          {
+            model: models.LearningUnitRelation,
+            as: 'learningUnitSource',
+            attributes: ['id', 'type', 'targetId'],
+            include: [
+              {
+                model: models.Taxonomy,
+                attributes: ['id', 'type'],
+                required: true,
+                include: [
+                  {
+                    model: models.TaxonomyLanguage,
+                    attributs: ['LanguageId', 'vocable'],
+                  },
+                ],
+              },
+              {
+                model: models.LearningUnit,
+                attributes: ['id'],
+                as: 'target',
+                include: [
+                  {
+                    model: models.LearningUnitLanguage,
+                    attributes: ['LanguageId', 'title'],
+                    as: 'Translations',
+                  },
+                ],
+              },
+            ],
+          },
         ],
       },
     ],
@@ -324,8 +364,9 @@ router.get('/:id', (req, res) => {
       [models.LearningUnit, models.KnowledgeUnit, 'id', 'asc'],
       [models.LearningUnit, models.KnowledgeUnit, 'Texts', 'id', 'asc'],
     ],
-  })
-    .then((result) => res.json(result));
+  });
+
+  return res.json(translations);
 });
 
 router.get('/suggestion/:term', (req, res) => {
@@ -349,7 +390,6 @@ router.get('/suggestion/:term', (req, res) => {
         });
       }
 
-      console.log(suggestions);
       return res.json(suggestions);
     });
 });

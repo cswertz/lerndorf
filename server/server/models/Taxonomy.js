@@ -48,6 +48,7 @@ class Taxonomy extends Model {
     Taxonomy.belongsTo(Taxonomy, { as: 'Parent', foreignKey: 'parent', onDelete: 'CASCADE' });
     Taxonomy.belongsToMany(sequelize.Language, { through: 'TaxonomyLanguage' });
     Taxonomy.hasMany(sequelize.TaxonomyLanguage);
+    Taxonomy.hasMany(sequelize.LearningUnitRelation, { foreignKey: 'type' });
   }
 }
 
