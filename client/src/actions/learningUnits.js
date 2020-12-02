@@ -274,7 +274,7 @@ export const learningUnitsUpdateTag = (tagId, value, languageId, learningUnitId,
 );
 
 export const learningUnitsAddRelation = (learningUnitId, targetId, type, languageId, history) => (
-  dispatch => fetch(`/api/learningUnits/addRelation/${learningUnitId}`, {
+  dispatch => fetch(`/api/learningUnits/relation/${learningUnitId}`, {
     method: 'post',
     headers: {
       Accept: 'application/json',
@@ -300,6 +300,27 @@ export const learningUnitsAddRelation = (learningUnitId, targetId, type, languag
     .catch((error) => {
       console.log('Error while adding knowledge unit:', error);
     })
+);
+
+export const learningUnitsDeleteRelation = (id) => (
+  async (dispatch) => {
+    try {
+      const response = await fetch(`/api/learningUnits/relation/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const json = await response.json();
+      if (json) {
+        dispatch(learningUnitsDeleteSuccess());
+      }
+    } catch (e) {
+      console.log('Error while deleting relation from learning unit:', e);
+    }
+  }
 );
 
 export const learningUnitsTaxonomiesFetch = () => (

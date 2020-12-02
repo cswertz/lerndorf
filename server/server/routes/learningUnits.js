@@ -330,7 +330,7 @@ router.get('/:id', async (req, res) => {
           {
             model: models.LearningUnitRelation,
             as: 'learningUnitSource',
-            attributes: ['type', 'targetId'],
+            attributes: ['id', 'type', 'targetId'],
             include: [
               {
                 model: models.Taxonomy,
