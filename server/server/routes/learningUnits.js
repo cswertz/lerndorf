@@ -97,7 +97,7 @@ router.post('/', [
 });
 
 router.post('/addTag/:learningUnitLanguageId', [
-  hasCapability('add_learning_unit'),
+  hasCapability('edit_any_learning_unit'),
   check('tag', 'tag is required')
     .isLength({ max: 255 })
     .notEmpty(),
@@ -120,8 +120,8 @@ router.post('/addTag/:learningUnitLanguageId', [
     .then((result) => res.json(result));
 });
 
-router.post('/addRelation/:id', [
-  hasCapability('add_learning_unit'),
+router.post('/relation/:id', [
+  hasCapability('edit_any_learning_unit'),
   check('targetId', 'target is required')
     .isInt()
     .notEmpty(),
@@ -146,6 +146,16 @@ router.post('/addRelation/:id', [
 
   return models.LearningUnitRelation.create(data)
     .then((result) => res.json(result));
+});
+
+router.delete('/relation/:id', hasCapability('edit_any_learning_unit'), async (req, res) => {
+  const result = await models.LearningUnitRelation.destroy({
+    where: {
+      id: req.params.id,
+    },
+  });
+
+  res.json({ deleted: result });
 });
 
 router.get('/taxonomies', (req, res) => {
