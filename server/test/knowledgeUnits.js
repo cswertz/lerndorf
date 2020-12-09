@@ -22,16 +22,6 @@ describe('KnowledgeUnit', () => {
   };
 
   before((done) => {
-    models.KnowledgeUnit.truncate({
-      restartIdentity: true,
-      cascade: true,
-    });
-
-    models.LearningUnit.truncate({
-      restartIdentity: true,
-      cascade: true,
-    });
-
     models.LearningUnit.create({})
       .then((result) => {
         const learningUnit = result.get();
@@ -200,6 +190,23 @@ describe('KnowledgeUnit', () => {
           res.body.should.have.property('id');
 
           done();
+        });
+    });
+
+    it('it should display KnowledgeUnit information when logged in', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .get(`/api/knowledgeUnits/${knowledgeUnits[0]}`)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('id');
+
+              done();
+            });
         });
     });
   });

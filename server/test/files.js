@@ -16,15 +16,6 @@ describe('File', () => {
   };
   const files = [];
 
-  before((done) => {
-    models.File.truncate({
-      restartIdentity: true,
-      cascade: true,
-    });
-
-    done();
-  });
-
   after((done) => {
     server.close();
 
@@ -38,7 +29,6 @@ describe('File', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
-          res.body.length.should.be.eql(0);
 
           done();
         });
