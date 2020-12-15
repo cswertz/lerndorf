@@ -708,6 +708,21 @@ module.exports = {
       parent: 93,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
+    {
+      id: 102,
+      type: 'objectType',
+      active: true,
+      parent: 1,
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    {
+      id: 103,
+      type: 'editor',
+      active: true,
+      parent: 1,
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+
   ], {}),
 
   down: queryInterface => queryInterface.bulkDelete('Taxonomies', {
