@@ -4,6 +4,7 @@ module.exports = {
       UserId: 1,
       mode: 'mode',
       navigationTool: 'navi',
+      KnowledgeUnitId: 1,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
   ], {}),

@@ -19,6 +19,7 @@
     "body-parser": "^1.18.2",
     "chai": "^4.1.2",
     "chai-http": "^4.3.0",
+    "convert-array-to-csv": "^2.0.0",
     "eslint": "^7.7.0",
     "express": "^4.16.2",
     "express-fileupload": "^1.1.7-alpha.3",

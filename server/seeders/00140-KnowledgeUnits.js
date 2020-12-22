@@ -3,11 +3,13 @@ module.exports = {
     {
       LearningUnitId: 1,
       UserId: 1,
+      visiblePublic: true,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
     {
       LearningUnitId: 2,
       UserId: 1,
+      visiblePublic: true,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
   ], {}),

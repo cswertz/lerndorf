@@ -1,3 +1,5 @@
+import path from 'path';
+
 import knowledgeUnits from '../routes/knowledgeUnits';
 import learningUnits from '../routes/learningUnits';
 import capabilities from '../routes/capabilities';
@@ -7,7 +9,7 @@ import users from '../routes/users';
 import files from '../routes/files';
 import texts from '../routes/texts';
 import roles from '../routes/roles';
-import path from 'path';
+import logs from '../routes/logs';
 
 const configRoutes = (app) => {
   app.get('/', (req, res) => {
@@ -23,6 +25,7 @@ const configRoutes = (app) => {
   app.use('/api/files', files);
   app.use('/api/texts', texts);
   app.use('/api/roles', roles);
+  app.use('/api/logs', logs);
 };
 
 export default configRoutes;

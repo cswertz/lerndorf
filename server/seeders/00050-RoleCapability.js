@@ -38,6 +38,7 @@ const roleCapabilities = [
       'add_role_to_user',
       'delete_role_from_user',
       'delete_self',
+      'view_user_logs',
     ],
   },
   {

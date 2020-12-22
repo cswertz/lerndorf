@@ -78,9 +78,9 @@ class LogUser extends Model {
   static associate(sequelize) {
     LogUser.belongsTo(sequelize.User);
 
-    LogUser.hasOne(sequelize.LearningUnit);
-    LogUser.hasOne(sequelize.KnowledgeUnit);
-    // LogUser.hasOne(sequelize.Course);
+    // LogUser.belongsTo(sequelize.Course, { foreignKey: 'CourseId' });
+    LogUser.belongsTo(sequelize.LearningUnit, { foreignKey: 'LearningUnitId' });
+    LogUser.belongsTo(sequelize.KnowledgeUnit, { foreignKey: 'KnowledgeUnitId' });
 
     LogUser.belongsToMany(sequelize.Role, { through: 'LogUserLearningUnit' });
     LogUser.belongsToMany(sequelize.Role, { through: 'LogUserRole' });
