@@ -979,6 +979,26 @@ const taxonomyLanguages = [
     language: 'de',
     vocable: 'European Qualification Framework Level 8'
   },
+  {
+    type: 'objectType',
+    language: 'en',
+    vocable: 'Objekt Typ'
+  },
+  {
+    type: 'objectType',
+    language: 'de',
+    vocable: 'Objekt Type'
+  },
+  {
+    type: 'editor',
+    language: 'de',
+    vocable: 'Editor'
+  },
+  {
+    type: 'editor',
+    language: 'en',
+    vocable: 'Editor'
+  },
 ];
 
 module.exports = {
