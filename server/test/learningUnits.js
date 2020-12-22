@@ -29,11 +29,6 @@ describe('LearningUnit', () => {
   };
 
   before((done) => {
-    models.LearningUnit.truncate({
-      restartIdentity: true,
-      cascade: true,
-    });
-
     chai.request(server).keepOpen()
       .post('/api/users')
       .send(userLearningUnit)
@@ -66,7 +61,6 @@ describe('LearningUnit', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
-          res.body.length.should.be.eql(0);
 
           done();
         });
@@ -137,6 +131,7 @@ describe('LearningUnit', () => {
               res.body.should.be.a('object');
               res.body.should.have.property('id');
               res.body.should.have.property('createdAt');
+              res.body.should.have.property('UserId');
 
               learningUnits[0] = res.body.id;
 
@@ -159,7 +154,7 @@ describe('LearningUnit', () => {
               res.body.should.have.property('id');
               res.body.should.have.property('createdAt');
 
-              learningUnits[0] = res.body.id;
+              learningUnits[1] = res.body.id;
 
               done();
             });
@@ -169,18 +164,23 @@ describe('LearningUnit', () => {
 
   describe('GET /api/learningUnits/:id', () => {
     it('it should display LearningUnit information', (done) => {
-      chai.request(server).keepOpen()
-        .get(`/api/learningUnits/${learningUnits[0]}`)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('array');
-          res.body[0].should.have.property('id');
-          res.body[0].should.have.property('title');
-          res.body[0].should.have.property('Language');
-          res.body[0].should.have.property('User');
-          res.body[0].should.have.property('LearningUnit');
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .get(`/api/learningUnits/${learningUnits[1]}`)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('array');
+              res.body[0].should.have.property('id');
+              res.body[0].should.have.property('title');
+              res.body[0].should.have.property('Language');
+              res.body[0].should.have.property('User');
+              res.body[0].should.have.property('LearningUnit');
 
-          done();
+              done();
+            });
         });
     });
   });

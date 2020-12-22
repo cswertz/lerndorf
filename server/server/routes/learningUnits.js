@@ -2,6 +2,7 @@ import { check, validationResult } from 'express-validator';
 import express from 'express';
 
 import { hasCapability } from '../helpers/auth';
+import { logView } from '../helpers/log';
 import models from '../config/sequelize';
 
 import { getTree } from '../helpers/taxonomies';
@@ -182,7 +183,7 @@ router.get('/taxonomies', (req, res) => {
     .then((children) => getTree(children).then((result) => res.json(result)));
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', logView('LearningUnit'), async (req, res) => {
   const translations = await models.LearningUnitLanguage.findAll({
     where: {
       LearningUnitId: req.params.id,

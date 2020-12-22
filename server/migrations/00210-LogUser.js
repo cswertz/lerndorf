@@ -32,13 +32,12 @@ export default {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'KnowledgeUnits',
+        model: 'LearningUnits',
         key: 'id',
       },
       onDelete: 'cascade',
     },
 
-    /*
     CourseId: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -48,18 +47,19 @@ export default {
       },
       onDelete: 'cascade',
     },
-    */
 
     mode: {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
+      defaultValue: 'view',
     },
 
     navigationTool: {
       type: DataTypes.STRING,
       allowNull: false,
       notEmpty: true,
+      defaultValue: 'navi',
     },
 
     createdAt: {

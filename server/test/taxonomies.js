@@ -28,11 +28,6 @@ describe('Taxonomy', () => {
   };
 
   before((done) => {
-    models.Taxonomy.truncate({
-      restartIdentity: true,
-      cascade: true,
-    });
-
     chai.request(server).keepOpen()
       .post('/api/users')
       .send(userTaxonomy)
@@ -65,7 +60,6 @@ describe('Taxonomy', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
-          res.body.length.should.be.eql(0);
 
           done();
         });

@@ -5,6 +5,7 @@ import {
   hasCapability,
   hasCapabilityOrOwnsKnowledgeUnit as hasCapabilityOrOwns,
 } from '../helpers/auth';
+import { logView } from '../helpers/log';
 import models from '../config/sequelize';
 
 import { getTree } from '../helpers/taxonomies';
@@ -128,8 +129,8 @@ router.patch('/markLectored/:id', hasCapability('set_knowledge_unit_lectored'), 
     .then((result) => res.json(result));
 });
 
-router.get('/:id', (req, res) => {
-  models.KnowledgeUnit.findByPk(req.params.id, {
+router.get('/:id', logView('KnowledgeUnit'), async (req, res) => {
+  const result = await models.KnowledgeUnit.findByPk(req.params.id, {
     attributes: [
       'id',
       'comment',
@@ -258,8 +259,9 @@ router.get('/:id', (req, res) => {
         ],
       },
     ],
-  })
-    .then((result) => res.json(result));
+  });
+
+  res.json(result);
 });
 
 router.delete('/:id', hasCapabilityOrOwns('delete_any_knowledge_unit'), async (req, res) => {

@@ -10,6 +10,15 @@ class LearningUnit extends Model {
         allowNull: false,
       },
 
+      UserId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+      },
+
     }, {
       sequelize,
       updatedAt: false,

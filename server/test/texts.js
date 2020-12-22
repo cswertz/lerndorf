@@ -34,21 +34,6 @@ describe('Text', () => {
   };
 
   before((done) => {
-    models.Text.truncate({
-      restartIdentity: true,
-      cascade: true,
-    });
-
-    models.LearningUnit.truncate({
-      restartIdentity: true,
-      cascade: true,
-    });
-
-    models.KnowledgeUnit.truncate({
-      restartIdentity: true,
-      cascade: true,
-    });
-
     models.LearningUnit.create({})
       .then((result) => {
         chai.request(server).keepOpen()
@@ -104,7 +89,6 @@ describe('Text', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
-          res.body.length.should.be.eql(0);
 
           done();
         });
