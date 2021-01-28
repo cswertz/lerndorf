@@ -28,7 +28,7 @@ const LogsList = ({
     logItems = logs.map((item) => (
       <TableRow key={item.id}>
         <TableCell>{item.createdAt}</TableCell>
-        <TableCell>{item.User.username}</TableCell>
+        <TableCell>{item.User.id}</TableCell>
         <TableCell>{item.KnowledgeUnitId}</TableCell>
         <TableCell>{item.LearningUnitId}</TableCell>
         <TableCell>{item.CourseId}</TableCell>

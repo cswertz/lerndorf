@@ -192,9 +192,9 @@ class MainMenu extends Component {
                       button
                       className={classes.nested}
                       component={Link}
-                      to="/logging"
+                      to="/logs"
                     >
-                      <ListItemText inset primary="Logging" />
+                      <ListItemText inset primary="Logs" />
                     </ListItem>
                   )}
                 </List>
