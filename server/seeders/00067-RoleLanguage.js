@@ -51,6 +51,16 @@ const roleLanguages = [
     language: 'de',
     vocable: 'GutachterIn',
   },
+  {
+    slug: 'researcher',
+    language: 'en',
+    vocable: 'Researcher',
+  },
+  {
+    slug: 'researcher',
+    language: 'de',
+    vocable: 'ForscherIn',
+  },
 ];
 
 module.exports = {

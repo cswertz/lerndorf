@@ -70,6 +70,12 @@ const roleCapabilities = [
       'set_knowledge_unit_reviewed',
     ],
   },
+  {
+    role: 'researcher',
+    capabilities: [
+      'view_user_logs',
+    ],
+  },
 ];
 
 export default {
