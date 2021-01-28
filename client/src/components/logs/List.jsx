@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ListItem from '@material-ui/core/ListItem';
 import EditIcon from '@material-ui/icons/Edit';
+import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -16,14 +17,25 @@ import List from '@material-ui/core/List';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const styles = () => ({});
+import LogsFilterForm from './Filter';
+
+const styles = () => ({
+  buttonWrapper: {
+    textAlign: 'right',
+    marginTop: '10px',
+  },
+});
 
 const LogsList = ({
+  handleFilterUpdate,
+  handleDownload,
+  languages,
   classes,
   history,
   logs,
 }) => {
   let logItems = null;
+  console.log(languages.languages)
   if (logs.length > 0) {
     logItems = logs.map((item) => (
       <TableRow key={item.id}>
@@ -38,13 +50,20 @@ const LogsList = ({
     ));
   }
 
+  const defaultFilter = {
+    language: 1,
+  };
+
   return (
     <div>
-      <div className={classes.filterWrapper}>
-      </div>
       <Typography variant="h5" className={classes.title}>
         Filtered Log Messages
       </Typography>
+      <LogsFilterForm
+        languages={languages.languages}
+        initialValues={defaultFilter}
+        handleFilterUpdate={handleFilterUpdate}
+      />
       <Table>
         <TableHead>
           <TableCell>Date</TableCell>
@@ -59,12 +78,25 @@ const LogsList = ({
           {logItems}
         </TableBody>
       </Table>
+
+      <div className={classes.buttonWrapper}>
+        <Button
+          type="submit"
+          variant="contained"
+          onClick={handleDownload}
+        >
+          Download CSV
+        </Button>
+      </div>
     </div>
   );
 };
 
 LogsList.propTypes = {
   logs: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  handleFilterUpdat: PropTypes.func.isRequired,
+  handleDownload: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

@@ -10,32 +10,52 @@ import { hasCapability } from '../../utils/user';
 class Logs extends Component {
   constructor(props) {
     super(props);
+
+    this.fetchItems = this.fetchItems.bind(this);
+    this.handleDownload = this.handleDownload.bind(this);
+    this.handleFilterUpdate = this.handleFilterUpdate.bind(this);
   }
 
   componentDidMount() {
-    const {
-      logs,
-      logsFetch,
-    } = this.props;
-
-    if (!logs.fetched && !logs.fetching) {
-      logsFetch();
-    }
+    this.fetchItems();
   }
 
   componentDidUpdate() {
+    this.fetchItems();
+  }
+
+  fetchItems() {
     const {
       logs,
       logsFetch,
+      languages,
+      languagesFetch,
     } = this.props;
 
     if (!logs.fetched && !logs.fetching) {
       logsFetch();
     }
+
+    if (!languages.fetched && !languages.fetching) {
+      languagesFetch();
+    }
+  }
+
+  handleFilterUpdate(e) {
+    e.preventDefault();
+    const filters = {
+      userId: parseInt(e.target.userId.value) || null,
+    }
+    console.log('Filter update', filters);
+  }
+
+  handleDownload() {
+    console.log('Trigger download');
   }
 
   render() {
     const {
+      languages,
       history,
       logs,
       user,
@@ -44,6 +64,9 @@ class Logs extends Component {
     return (
       <div>
         <List
+          handleFilterUpdate={this.handleFilterUpdate}
+          handleDownload={this.handleDownload}
+          languages={languages}
           logs={logs.items}
           history={history}
           user={user}
@@ -57,6 +80,8 @@ Logs.propTypes = {
   logsFetch: PropTypes.func.isRequired,
   logs: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
+  languages: PropTypes.shape({}).isRequired,
+  languagesFetch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

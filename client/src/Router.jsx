@@ -138,6 +138,7 @@ const Router = ({
         <RoutesLogs
           logs={logs}
           capabilities={capabilities}
+          languages={languages}
           actions={actions}
           user={user}
         />
