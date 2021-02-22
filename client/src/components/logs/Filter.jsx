@@ -137,6 +137,17 @@ const LogsFilter = ({
       <div className={classes.flex1}>
         <div className={classes.wrapper}>
           <FormControl required className={classes.formControl}>
+            <Field
+              name="language"
+              label="Language"
+              component={renderSelectField}
+              options={languages}
+              className={classes.textField}
+            />
+          </FormControl>
+        </div>
+        <div className={classes.wrapper}>
+          <FormControl required className={classes.formControl}>
             <TextField
               name="userId"
               label="User ID"
@@ -167,17 +178,6 @@ const LogsFilter = ({
             <TextField
               name="kuId"
               label="Knowledge Unit ID"
-              className={classes.textField}
-            />
-          </FormControl>
-        </div>
-        <div className={classes.wrapper}>
-          <FormControl required className={classes.formControl}>
-            <Field
-              name="language"
-              label="Language"
-              component={renderSelectField}
-              options={languages}
               className={classes.textField}
             />
           </FormControl>

@@ -1,3 +1,4 @@
+import { saveAs } from 'file-saver';
 import * as types from './constants';
 
 export const logsFetchSuccess = (items) => ({
@@ -5,10 +6,23 @@ export const logsFetchSuccess = (items) => ({
   items,
 });
 
-export const logsFetch = () => (
+const sanitizeFilters = (filters) => {
+  const validFilters = {};
+  const keys = Object.keys(filters);
+  for (let i = 0; i < keys.length; i += 1) {
+    if (filters[keys[i]] != null) {
+      validFilters[keys[i]] = filters[keys[i]];
+    }
+  }
+
+  return validFilters;
+};
+
+export const logsFetch = (filters) => (
   async (dispatch) => {
     try {
-      const response = await fetch('/api/logs', {
+      const query = new URLSearchParams(sanitizeFilters(filters));
+      const response = await fetch(`/api/logs?${query}`, {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -26,6 +40,27 @@ export const logsFetch = () => (
       }
     } catch (e) {
       console.log('Error while fetching logs:', e);
+    }
+  }
+);
+
+export const logsDownload = (filters) => (
+  async () => {
+    try {
+      const query = new URLSearchParams(sanitizeFilters(filters));
+      const response = await fetch(`/api/logs/export?${query}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'text/csv',
+          'Content-Type': 'text/csv',
+        },
+        credentials: 'include',
+        responseType: 'blob',
+      });
+      const blob = await response.blob();
+      saveAs(blob, 'export.csv');
+    } catch (e) {
+      console.log('Error while downloading logs:', e);
     }
   }
 );

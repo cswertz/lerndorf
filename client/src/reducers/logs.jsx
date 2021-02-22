@@ -6,6 +6,13 @@ import {
 const initialState = {
   fetching: false,
   fetched: false,
+  filters: {
+    userId: null,
+    courseId: null,
+    languageId: 1,
+    learningUnitId: null,
+    knowledgeUnitId: null,
+  },
   items: [],
   errors: {
     add: {

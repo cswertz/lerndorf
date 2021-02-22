@@ -27,6 +27,7 @@ const LoggingRouter = ({
             <Logs
               logs={logs}
               logsFetch={actions.logsFetch}
+              logsDownload={actions.logsDownload}
               languages={languages}
               languagesFetch={actions.languagesFetch}
             />
@@ -48,6 +49,7 @@ LoggingRouter.propTypes = {
   actions: PropTypes.shape({
     languagesFetch: PropTypes.func.isRequired,
     logsFetch: PropTypes.func.isRequired,
+    logsDownload: PropTypes.func.isRequired,
     userLogout: PropTypes.func.isRequired,
   }).isRequired,
   user: PropTypes.shape({

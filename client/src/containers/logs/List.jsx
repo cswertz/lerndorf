@@ -1,5 +1,4 @@
 import { withRouter } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -14,6 +13,16 @@ class Logs extends Component {
     this.fetchItems = this.fetchItems.bind(this);
     this.handleDownload = this.handleDownload.bind(this);
     this.handleFilterUpdate = this.handleFilterUpdate.bind(this);
+
+    this.state = {
+      filters: {
+        user_id: null,
+        course_id: null,
+        learning_unit_id: null,
+        knowledge_unit_id: null,
+        language_id: null,
+      },
+    };
   }
 
   componentDidMount() {
@@ -33,7 +42,7 @@ class Logs extends Component {
     } = this.props;
 
     if (!logs.fetched && !logs.fetching) {
-      logsFetch();
+      logsFetch({});
     }
 
     if (!languages.fetched && !languages.fetching) {
@@ -43,14 +52,33 @@ class Logs extends Component {
 
   handleFilterUpdate(e) {
     e.preventDefault();
+    const {
+      logsFetch,
+    } = this.props;
+
     const filters = {
-      userId: parseInt(e.target.userId.value) || null,
-    }
-    console.log('Filter update', filters);
+      user_id: parseInt(e.target.userId.value, 10) || null,
+      course_id: parseInt(e.target.courseId.value, 10) || null,
+      learning_unit_id: parseInt(e.target.luId.value, 10) || null,
+      knowledge_unit_id: parseInt(e.target.kuId.value, 10) || null,
+      language_id: parseInt(e.target.language.value, 10) || null,
+    };
+
+    this.setState({
+      filters,
+    });
+
+    logsFetch(filters);
   }
 
-  handleDownload() {
-    console.log('Trigger download');
+  handleDownload(e) {
+    e.preventDefault();
+    const {
+      logsDownload,
+    } = this.props;
+
+    const { filters } = this.state;
+    logsDownload(filters);
   }
 
   render() {
@@ -78,6 +106,7 @@ class Logs extends Component {
 
 Logs.propTypes = {
   logsFetch: PropTypes.func.isRequired,
+  logsDownload: PropTypes.func.isRequired,
   logs: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   languages: PropTypes.shape({}).isRequired,
