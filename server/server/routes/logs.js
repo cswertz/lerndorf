@@ -21,6 +21,9 @@ const filterLogs = async (query, limit = null) => {
 
     if (query.learning_unit_id) {
       where.LearningUnitId = query.learning_unit_id;
+      if (query.language_id) {
+        console.log('Also filter by language');
+      }
     }
 
     if (query.course_id) {
@@ -183,7 +186,7 @@ router.get('/', hasCapability('view_user_logs'), async (req, res) => {
 
     return {
       id: item.id,
-      userId: item.dataValues.id,
+      userId: item.dataValues.User.id,
       createdAt: new Date(item.dataValues.createdAt).toISOString(),
       KnowlegeUnitId: item.dataValues.KnowledgeUnitId,
       authorId,
