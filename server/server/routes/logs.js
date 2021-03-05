@@ -142,6 +142,11 @@ const filterLogs = async (query, limit = null) => {
               },
             ],
           },
+          {
+            as: 'LearningUnit',
+            model: models.LearningUnit,
+            attributes: ['id'],
+          },
         ],
       },
       {
@@ -161,11 +166,54 @@ router.get('/', hasCapability('view_user_logs'), async (req, res) => {
   const limit = 5;
   const results = await filterLogs(req.query, limit);
 
-  return res.json(results);
+  const data = results.map((item) => {
+    const ku = item.dataValues.KnowledgeUnit;
+    const authorId = ku ? ku.author.dataValues.id : null;
+    const suitableBlind = ku ? ku.dataValues.suitableBlind : null;
+    const suitableDeaf = ku ? ku.dataValues.suitableDeaf : null;
+    const suitableDumb = ku ? ku.dataValues.suitableDumb : null;
+    const recommendedAge = ku ? ku.dataValues.recommendedAge : null;
+
+    const minimumScreenResolution = (ku && ku.msr) ? ku.msr.dataValues.type : null;
+    const knowledgeType = (ku && ku.kt) ? ku.kt.dataValues.type : null;
+    const mediaType = (ku && ku.mt) ? ku.mt.dataValues.type : null;
+    const objectType = (ku && ku.ot) ? ku.ot.dataValues.type : null;
+    const eqfLevel = (ku && ku.el) ? ku.el.dataValues.type : null;
+    const courseLevel = (ku && ku.cl) ? ku.cl.dataValues.type : null;
+
+    return {
+      id: item.id,
+      userId: item.dataValues.id,
+      createdAt: new Date(item.dataValues.createdAt).toISOString(),
+      KnowlegeUnitId: item.dataValues.KnowledgeUnitId,
+      authorId,
+      mediaType,
+      knowledgeType,
+      objectType,
+      eqfLevel,
+      courseLevel,
+      suitableBlind,
+      suitableDeaf,
+      suitableDumb,
+      recommendedAge,
+      minimumScreenResolution,
+      userRating: null,
+      KnowledgeUnitLanguage: null,
+      LearningUnitId: item.dataValues.LearningUnitId || ku.LearningUnit.id,
+      title: null,
+      CourseId: item.dataValues.CourseId,
+      courseTitle: null,
+      activeSequence: null,
+      mode: item.mode,
+      navigation: item.navigationTool,
+    };
+  });
+
+  return res.json(data);
 });
 
 router.get('/export', hasCapability('view_user_logs'), async (req, res) => {
-  const results = await filterLogs(req.query);
+  const data = await filterLogs(req.query);
   const header = [
     'userId',
     'createdAt',
@@ -192,6 +240,7 @@ router.get('/export', hasCapability('view_user_logs'), async (req, res) => {
     'navigation',
   ];
 
+  /*
   const data = results.map((item) => {
     const ku = item.dataValues.KnowledgeUnit;
     const authorId = ku ? ku.author.dataValues.id : null;
@@ -233,6 +282,7 @@ router.get('/export', hasCapability('view_user_logs'), async (req, res) => {
       navigation: item.navigationTool,
     };
   });
+  */
 
   const csvString = convertArrayToCSV(data, {
     header,

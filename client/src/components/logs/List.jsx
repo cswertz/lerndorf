@@ -35,23 +35,22 @@ const LogsList = ({
   logs,
 }) => {
   let logItems = null;
-  console.log(languages.languages)
   if (logs.length > 0) {
     logItems = logs.map((item) => (
       <TableRow key={item.id}>
         <TableCell>{item.createdAt}</TableCell>
-        <TableCell>{item.User.id}</TableCell>
-        <TableCell>{item.KnowledgeUnitId}</TableCell>
+        <TableCell>{item.userId}</TableCell>
+        <TableCell>{item.KnowlegeUnitId}</TableCell>
         <TableCell>{item.LearningUnitId}</TableCell>
         <TableCell>{item.CourseId}</TableCell>
         <TableCell>{item.mode}</TableCell>
-        <TableCell>{item.navigationTool}</TableCell>
+        <TableCell>{item.navigation}</TableCell>
       </TableRow>
     ));
   }
 
   const defaultFilter = {
-    language: 1,
+    language: -1,
   };
 
   return (
@@ -95,7 +94,7 @@ const LogsList = ({
 LogsList.propTypes = {
   logs: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  handleFilterUpdat: PropTypes.func.isRequired,
+  handleFilterUpdate: PropTypes.func.isRequired,
   handleDownload: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
