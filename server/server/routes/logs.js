@@ -188,6 +188,8 @@ router.get('/export', hasCapability('view_user_logs'), async (req, res) => {
     'CourseId',
     'courseTitle',
     'activeSequence',
+    'mode',
+    'navigation',
   ];
 
   const data = results.map((item) => {
@@ -227,6 +229,8 @@ router.get('/export', hasCapability('view_user_logs'), async (req, res) => {
       CourseId: item.dataValues.CourseId,
       courseTitle: null,
       activeSequence: null,
+      mode: item.mode,
+      navigation: item.navigationTool,
     };
   });
 
