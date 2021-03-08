@@ -298,6 +298,8 @@ router.get('/export', hasCapability('view_user_logs'), async (req, res) => {
     const eqfLevel = (ku && ku.el) ? ku.el.dataValues.type : null;
     const courseLevel = (ku && ku.cl) ? ku.cl.dataValues.type : null;
 
+    const title = ku ? ku.LearningUnit.Translations[0].dataValues.title : null;
+
     return {
       userId: item.dataValues.id,
       createdAt: new Date(item.dataValues.createdAt).toISOString(),
@@ -316,7 +318,7 @@ router.get('/export', hasCapability('view_user_logs'), async (req, res) => {
       userRating: null,
       KnowledgeUnitLanguage: null,
       LearningUnitId: item.dataValues.LearningUnitId,
-      title: null,
+      title,
       CourseId: item.dataValues.CourseId,
       courseTitle: null,
       activeSequence: null,
