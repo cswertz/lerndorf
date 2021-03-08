@@ -10,7 +10,7 @@ const sanitizeFilters = (filters) => {
   const validFilters = {};
   const keys = Object.keys(filters);
   for (let i = 0; i < keys.length; i += 1) {
-    if (filters[keys[i]] != null) {
+    if (filters[keys[i]] != null && filters[keys[i]] !== -1) {
       validFilters[keys[i]] = filters[keys[i]];
     }
   }

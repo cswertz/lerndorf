@@ -132,6 +132,10 @@ const LogsFilter = ({
   languages,
   classes,
 }) => {
+  const allLanguages = [{
+    id: -1,
+    name: 'All',
+  }].concat(languages);
   return (
     <form onSubmit={handleFilterUpdate}>
       <div className={classes.flex1}>
@@ -141,7 +145,7 @@ const LogsFilter = ({
               name="language"
               label="Language"
               component={renderSelectField}
-              options={languages}
+              options={allLanguages}
               className={classes.textField}
             />
           </FormControl>

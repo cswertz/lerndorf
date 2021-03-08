@@ -10,6 +10,9 @@ const router = express.Router();
 
 const filterLogs = async (query, limit = null) => {
   const where = {};
+  const translationWhere = {};
+  let languageRequired = false;
+
   if (query) {
     if (query.user_id) {
       where.UserId = query.user_id;
@@ -21,9 +24,11 @@ const filterLogs = async (query, limit = null) => {
 
     if (query.learning_unit_id) {
       where.LearningUnitId = query.learning_unit_id;
-      if (query.language_id) {
-        console.log('Also filter by language');
-      }
+    }
+
+    if (query.language_id) {
+      translationWhere.LanguageId = query.language_id;
+      languageRequired = true;
     }
 
     if (query.course_id) {
@@ -59,8 +64,9 @@ const filterLogs = async (query, limit = null) => {
         ],
       },
       {
+        as: 'KnowledgeUnit',
         model: models.KnowledgeUnit,
-        required: false,
+        required: languageRequired,
         attributes: [
           'mediaType',
           'knowledgeType',
@@ -73,11 +79,16 @@ const filterLogs = async (query, limit = null) => {
           'recommendedAge',
           'minimumScreenResolution',
           'UserId',
+          'LearningUnitId',
         ],
         include: [
           {
             model: models.User,
             as: 'author',
+            attributes: [
+              'id',
+              'username',
+            ],
           },
           {
             as: 'msr',
@@ -148,7 +159,15 @@ const filterLogs = async (query, limit = null) => {
           {
             as: 'LearningUnit',
             model: models.LearningUnit,
-            attributes: ['id'],
+            required: languageRequired,
+            include: [
+              {
+                as: 'Translations',
+                model: models.LearningUnitLanguage,
+                required: languageRequired,
+                where: translationWhere,
+              },
+            ],
           },
         ],
       },
