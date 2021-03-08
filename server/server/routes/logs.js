@@ -29,7 +29,7 @@ const filterLogs = async (query, limit = null) => {
         where.createdAt = {};
       }
 
-      where.date.createdAt[Op.lte] = query.date_to;
+      where.createdAt[Op.lte] = query.date_to;
     }
 
     if (query.knowledge_unit_id) {
