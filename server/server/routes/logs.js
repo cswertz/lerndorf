@@ -18,6 +18,20 @@ const filterLogs = async (query, limit = null) => {
       where.UserId = query.user_id;
     }
 
+    if (query.date_from) {
+      where.createdAt = {
+        [Op.gte]: query.date_from,
+      };
+    }
+
+    if (query.date_to) {
+      if (!where.createdAt) {
+        where.createdAt = {};
+      }
+
+      where.date.createdAt[Op.lte] = query.date_to;
+    }
+
     if (query.knowledge_unit_id) {
       where.KnowledgeUnitId = query.knowledge_unit_id;
     }

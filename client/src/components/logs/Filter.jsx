@@ -2,27 +2,14 @@ import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import ListItemText from '@material-ui/core/ListItemText';
 import FormControl from '@material-ui/core/FormControl';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
 import TextField from '@material-ui/core/TextField';
-import DeleteIcon from '@material-ui/icons/Delete';
-import TableRow from '@material-ui/core/TableRow';
-import ListItem from '@material-ui/core/ListItem';
 import MenuItem from '@material-ui/core/MenuItem';
-import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
-import Table from '@material-ui/core/Table';
-import List from '@material-ui/core/List';
 
 const styles = (theme) => ({
   wrapper: {
@@ -183,6 +170,26 @@ const LogsFilter = ({
               name="kuId"
               label="Knowledge Unit ID"
               className={classes.textField}
+            />
+          </FormControl>
+        </div>
+        <div className={classes.wrapper}>
+          <FormControl required className={classes.formControl}>
+            <TextField
+              type="date"
+              name="dateFrom"
+              label="Date From"
+              className={classes.textField}
+              InputLabelProps={{ shrink: true }}
+            />
+          </FormControl>
+          <FormControl required className={classes.formControl}>
+            <TextField
+              type="date"
+              name="dateTo"
+              label="Date To"
+              className={classes.textField}
+              InputLabelProps={{ shrink: true }}
             />
           </FormControl>
         </div>

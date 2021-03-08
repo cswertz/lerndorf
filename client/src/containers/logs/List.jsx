@@ -21,6 +21,8 @@ class Logs extends Component {
         learning_unit_id: null,
         knowledge_unit_id: null,
         language_id: null,
+        date_from: null,
+        date_to: null,
       },
     };
   }
@@ -62,6 +64,8 @@ class Logs extends Component {
       learning_unit_id: parseInt(e.target.luId.value, 10) || null,
       knowledge_unit_id: parseInt(e.target.kuId.value, 10) || null,
       language_id: parseInt(e.target.language.value, 10) || null,
+      date_from: e.target.dateFrom.value ? new Date(e.target.dateFrom.value).toISOString() : null,
+      date_to: e.target.dateTo.value ? new Date(e.target.dateTo.value).toISOString() : null,
     };
 
     this.setState({
