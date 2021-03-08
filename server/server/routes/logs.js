@@ -160,12 +160,19 @@ const filterLogs = async (query, limit = null) => {
             as: 'LearningUnit',
             model: models.LearningUnit,
             required: languageRequired,
+            attributes: [
+              'id',
+            ],
             include: [
               {
                 as: 'Translations',
                 model: models.LearningUnitLanguage,
                 required: languageRequired,
                 where: translationWhere,
+                attributes: [
+                  'id',
+                  'title',
+                ],
               },
             ],
           },
@@ -235,7 +242,7 @@ router.get('/', hasCapability('view_user_logs'), async (req, res) => {
 });
 
 router.get('/export', hasCapability('view_user_logs'), async (req, res) => {
-  const data = await filterLogs(req.query);
+  const results = await filterLogs(req.query);
   const header = [
     'userId',
     'createdAt',
@@ -262,7 +269,6 @@ router.get('/export', hasCapability('view_user_logs'), async (req, res) => {
     'navigation',
   ];
 
-  /*
   const data = results.map((item) => {
     const ku = item.dataValues.KnowledgeUnit;
     const authorId = ku ? ku.author.dataValues.id : null;
@@ -304,7 +310,6 @@ router.get('/export', hasCapability('view_user_logs'), async (req, res) => {
       navigation: item.navigationTool,
     };
   });
-  */
 
   const csvString = convertArrayToCSV(data, {
     header,
