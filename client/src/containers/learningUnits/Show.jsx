@@ -66,7 +66,7 @@ LearningUnitsShow.propTypes = {
   user: PropTypes.shape({}).isRequired,
   items: PropTypes.shape({
     id: PropTypes.shape({}).isRequired,
-    fetchingId: PropTypes.number,
+    fetchingId: PropTypes.string,
   }).isRequired,
   itemFetch: PropTypes.func.isRequired,
   history: PropTypes.shape({

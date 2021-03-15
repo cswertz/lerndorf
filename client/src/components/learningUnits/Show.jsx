@@ -60,7 +60,7 @@ const LearningUnitsShow = ({
   return (
     <DocumentTitle title={`Lerndorf | ${item.title}`}>
       <div>
-        <Typography variant="headline">
+        <Typography variant="h5">
           {'"'}{item.title}{'"'}
           {user.user.id === item.item.User.id && (
             <IconButton

@@ -195,7 +195,7 @@ const KnowledgeUnitsAdd = ({
             options={taxonomies.courseLevel}
             className={classes.textField}
             errorText={errors.errors.title}
-            defaultValue={initialValues.cl.id}
+            defaultValue={initialValues.courseLevel.id}
           />
         </FormControl>
       </div>
