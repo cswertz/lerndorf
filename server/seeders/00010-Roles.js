@@ -21,6 +21,10 @@ const roles = [
     slug: 'lector',
     name: 'Lector',
   },
+  {
+    slug: 'researcher',
+    name: 'Researcher',
+  },
 ];
 
 export default {

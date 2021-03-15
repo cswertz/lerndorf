@@ -10,9 +10,26 @@ const router = express.Router();
 
 const filterLogs = async (query, limit = null) => {
   const where = {};
+  const translationWhere = {};
+  let languageRequired = false;
+
   if (query) {
     if (query.user_id) {
       where.UserId = query.user_id;
+    }
+
+    if (query.date_from) {
+      where.createdAt = {
+        [Op.gte]: query.date_from,
+      };
+    }
+
+    if (query.date_to) {
+      if (!where.createdAt) {
+        where.createdAt = {};
+      }
+
+      where.createdAt[Op.lte] = query.date_to;
     }
 
     if (query.knowledge_unit_id) {
@@ -21,6 +38,11 @@ const filterLogs = async (query, limit = null) => {
 
     if (query.learning_unit_id) {
       where.LearningUnitId = query.learning_unit_id;
+    }
+
+    if (query.language_id) {
+      translationWhere.LanguageId = query.language_id;
+      languageRequired = true;
     }
 
     if (query.course_id) {
@@ -56,8 +78,9 @@ const filterLogs = async (query, limit = null) => {
         ],
       },
       {
+        as: 'KnowledgeUnit',
         model: models.KnowledgeUnit,
-        required: false,
+        required: languageRequired,
         attributes: [
           'mediaType',
           'knowledgeType',
@@ -70,11 +93,16 @@ const filterLogs = async (query, limit = null) => {
           'recommendedAge',
           'minimumScreenResolution',
           'UserId',
+          'LearningUnitId',
         ],
         include: [
           {
             model: models.User,
             as: 'author',
+            attributes: [
+              'id',
+              'username',
+            ],
           },
           {
             as: 'msr',
@@ -142,6 +170,26 @@ const filterLogs = async (query, limit = null) => {
               },
             ],
           },
+          {
+            as: 'LearningUnit',
+            model: models.LearningUnit,
+            required: languageRequired,
+            attributes: [
+              'id',
+            ],
+            include: [
+              {
+                as: 'Translations',
+                model: models.LearningUnitLanguage,
+                required: languageRequired,
+                where: translationWhere,
+                attributes: [
+                  'id',
+                  'title',
+                ],
+              },
+            ],
+          },
         ],
       },
       {
@@ -161,7 +209,50 @@ router.get('/', hasCapability('view_user_logs'), async (req, res) => {
   const limit = 5;
   const results = await filterLogs(req.query, limit);
 
-  return res.json(results);
+  const data = results.map((item) => {
+    const ku = item.dataValues.KnowledgeUnit;
+    const authorId = ku ? ku.author.dataValues.id : null;
+    const suitableBlind = ku ? ku.dataValues.suitableBlind : null;
+    const suitableDeaf = ku ? ku.dataValues.suitableDeaf : null;
+    const suitableDumb = ku ? ku.dataValues.suitableDumb : null;
+    const recommendedAge = ku ? ku.dataValues.recommendedAge : null;
+
+    const minimumScreenResolution = (ku && ku.msr) ? ku.msr.dataValues.type : null;
+    const knowledgeType = (ku && ku.kt) ? ku.kt.dataValues.type : null;
+    const mediaType = (ku && ku.mt) ? ku.mt.dataValues.type : null;
+    const objectType = (ku && ku.ot) ? ku.ot.dataValues.type : null;
+    const eqfLevel = (ku && ku.el) ? ku.el.dataValues.type : null;
+    const courseLevel = (ku && ku.cl) ? ku.cl.dataValues.type : null;
+
+    return {
+      id: item.id,
+      userId: item.dataValues.User.id,
+      createdAt: new Date(item.dataValues.createdAt).toISOString(),
+      KnowlegeUnitId: item.dataValues.KnowledgeUnitId,
+      authorId,
+      mediaType,
+      knowledgeType,
+      objectType,
+      eqfLevel,
+      courseLevel,
+      suitableBlind,
+      suitableDeaf,
+      suitableDumb,
+      recommendedAge,
+      minimumScreenResolution,
+      userRating: null,
+      KnowledgeUnitLanguage: null,
+      LearningUnitId: item.dataValues.LearningUnitId || ku.LearningUnit.id,
+      title: null,
+      CourseId: item.dataValues.CourseId,
+      courseTitle: null,
+      activeSequence: null,
+      mode: item.mode,
+      navigation: item.navigationTool,
+    };
+  });
+
+  return res.json(data);
 });
 
 router.get('/export', hasCapability('view_user_logs'), async (req, res) => {
@@ -188,6 +279,8 @@ router.get('/export', hasCapability('view_user_logs'), async (req, res) => {
     'CourseId',
     'courseTitle',
     'activeSequence',
+    'mode',
+    'navigation',
   ];
 
   const data = results.map((item) => {
@@ -204,6 +297,8 @@ router.get('/export', hasCapability('view_user_logs'), async (req, res) => {
     const objectType = (ku && ku.ot) ? ku.ot.dataValues.type : null;
     const eqfLevel = (ku && ku.el) ? ku.el.dataValues.type : null;
     const courseLevel = (ku && ku.cl) ? ku.cl.dataValues.type : null;
+
+    const title = ku ? ku.LearningUnit.Translations[0].dataValues.title : null;
 
     return {
       userId: item.dataValues.id,
@@ -223,10 +318,12 @@ router.get('/export', hasCapability('view_user_logs'), async (req, res) => {
       userRating: null,
       KnowledgeUnitLanguage: null,
       LearningUnitId: item.dataValues.LearningUnitId,
-      title: null,
+      title,
       CourseId: item.dataValues.CourseId,
       courseTitle: null,
       activeSequence: null,
+      mode: item.mode,
+      navigation: item.navigationTool,
     };
   });
 

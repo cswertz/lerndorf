@@ -171,7 +171,7 @@ describe('LogUser', () => {
 
               const entries = res.body;
               entries.forEach((item) => {
-                item.UserId.should.be.eq(userIdFilter);
+                item.userId.should.be.eq(userIdFilter);
               });
 
               done();
@@ -196,8 +196,8 @@ describe('LogUser', () => {
 
               const entries = res.body;
               entries.forEach((item) => {
-                item.UserId.should.be.eq(userIdFilter);
-                item.KnowledgeUnitId.should.be.eq(knowledgeUntitIdFilter);
+                item.userId.should.be.eq(userIdFilter);
+                item.KnowlegeUnitId.should.be.eq(knowledgeUntitIdFilter);
               });
 
               done();
@@ -222,7 +222,7 @@ describe('LogUser', () => {
 
               const entries = res.body;
               entries.forEach((item) => {
-                item.UserId.should.be.eq(userIdFilter);
+                item.userId.should.be.eq(userIdFilter);
                 item.LearningUnitId.should.be.eq(learningUntitIdFilter);
               });
 

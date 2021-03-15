@@ -93,7 +93,7 @@ class MainMenu extends Component {
     const opened = Boolean(anchorEl);
 
     return (
-      <React.Fragment>
+      <>
         <IconButton
           aria-owns={opened ? 'main-menu' : null}
           onClick={this.handleMenu}
@@ -187,6 +187,16 @@ class MainMenu extends Component {
                       <ListItemText inset primary="Manage Users" />
                     </ListItem>
                   )}
+                  {hasCapability(user.capabilities, ['view_user_logs']) && (
+                    <ListItem
+                      button
+                      className={classes.nested}
+                      component={Link}
+                      to="/logs"
+                    >
+                      <ListItemText inset primary="Logs" />
+                    </ListItem>
+                  )}
                 </List>
               </Collapse>
             </div>
@@ -219,7 +229,7 @@ class MainMenu extends Component {
             </div>
           )}
         </Menu>
-      </React.Fragment>
+      </>
     );
   }
 }

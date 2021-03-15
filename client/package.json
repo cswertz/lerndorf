@@ -9,6 +9,7 @@
     "@material-ui/icons": "^4.9.1",
     "ckeditor5-custom-build": "./ckeditor",
     "country-list": "^2.1.0",
+    "file-saver": "^2.0.5",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-document-title": "^2.0.3",

@@ -7,3 +7,4 @@ export * from './roles';
 export * from './users';
 export * from './texts';
 export * from './user';
+export * from './logs';

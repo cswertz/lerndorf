@@ -18,6 +18,7 @@ import RoutesTaxonomies from './containers/routes/taxonomies';
 import RoutesLanguages from './containers/routes/languages';
 import RoutesUsers from './containers/routes/users';
 import RoutesTexts from './containers/routes/texts';
+import RoutesLogs from './containers/routes/logs';
 
 import * as AppActions from './actions';
 
@@ -32,6 +33,7 @@ const Router = ({
   users,
   texts,
   user,
+  logs,
 }) => (
   <Switch>
     <Route
@@ -130,11 +132,31 @@ const Router = ({
       )}
     />
 
+    <Route
+      path="/logs"
+      render={() => (
+        <RoutesLogs
+          logs={logs}
+          capabilities={capabilities}
+          languages={languages}
+          actions={actions}
+          user={user}
+        />
+      )}
+    />
+
     <Redirect to="/" />
   </Switch>
 );
 
 Router.propTypes = {
+  logs: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    errors: PropTypes.shape().isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   texts: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     errors: PropTypes.shape().isRequired,
@@ -211,6 +233,7 @@ Router.propTypes = {
     rolesAdd: PropTypes.func.isRequired,
     userRegister: PropTypes.func.isRequired,
     userLogout: PropTypes.func.isRequired,
+    logsFetch: PropTypes.func.isRequired,
   }).isRequired,
   roles: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
@@ -236,7 +259,7 @@ Router.propTypes = {
   }).isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   knowledgeUnits: state.knowledgeUnits,
   learningUnits: state.learningUnits,
   capabilities: state.capabilities,
@@ -246,9 +269,10 @@ const mapStateToProps = state => ({
   users: state.users,
   texts: state.texts,
   user: state.user,
+  logs: state.logs,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(AppActions, dispatch),
 });
 
