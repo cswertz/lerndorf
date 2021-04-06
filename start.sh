@@ -8,7 +8,7 @@ export SERVER_PORT=3001
 export CLIENT_PORT=3000
  
 # ADJUST TO YOUR PATH
-cd /var/www/ld/test/server
+cd /var/www/ld/server
 yarn install
 nohup yarn start > /dev/null 2>&1 &
 cd ../client
