@@ -80,7 +80,6 @@ const filterLogs = async (query, limit = null) => {
       {
         as: 'KnowledgeUnit',
         model: models.KnowledgeUnit,
-        required: languageRequired,
         attributes: [
           'mediaType',
           'knowledgeType',
@@ -173,7 +172,7 @@ const filterLogs = async (query, limit = null) => {
           {
             as: 'LearningUnit',
             model: models.LearningUnit,
-            required: languageRequired,
+            required: false,
             attributes: [
               'id',
             ],
@@ -181,7 +180,8 @@ const filterLogs = async (query, limit = null) => {
               {
                 as: 'Translations',
                 model: models.LearningUnitLanguage,
-                required: languageRequired,
+                // required: languageRequired,
+                required: false,
                 where: translationWhere,
                 attributes: [
                   'id',
@@ -194,7 +194,22 @@ const filterLogs = async (query, limit = null) => {
       },
       {
         model: models.LearningUnit,
-        required: false,
+        attributes: [
+          'id',
+        ],
+        include: [
+          {
+            as: 'Translations',
+            model: models.LearningUnitLanguage,
+            // required: languageRequired,
+            required: false,
+            where: translationWhere,
+            attributes: [
+              'id',
+              'title',
+            ],
+          },
+        ],
       },
     ],
     order: [
@@ -202,7 +217,19 @@ const filterLogs = async (query, limit = null) => {
     ],
   });
 
-  return results;
+  // Remove items that do not have a matching translation
+  const filtered = results.filter((item) => {
+    const lu = item.dataValues.LearningUnit ? item.dataValues.LearningUnit : null;
+    const ku = item.dataValues.KnowledgeUnit ? item.dataValues.KnowledgeUnit : null;
+
+    if ((lu && lu.Translations.length > 0) || (ku && ku.LearningUnit.Translations.length > 0)) {
+      return true;
+    }
+
+    return false;
+  });
+
+  return filtered;
 };
 
 router.get('/', hasCapability('view_user_logs'), async (req, res) => {
@@ -210,7 +237,8 @@ router.get('/', hasCapability('view_user_logs'), async (req, res) => {
   const results = await filterLogs(req.query, limit);
 
   const data = results.map((item) => {
-    const ku = item.dataValues.KnowledgeUnit;
+    const lu = item.dataValues.LearningUnit ? item.dataValues.LearningUnit : null;
+    const ku = item.dataValues.KnowledgeUnit ? item.dataValues.KnowledgeUnit : null;
     const authorId = ku ? ku.author.dataValues.id : null;
     const suitableBlind = ku ? ku.dataValues.suitableBlind : null;
     const suitableDeaf = ku ? ku.dataValues.suitableDeaf : null;
@@ -223,6 +251,11 @@ router.get('/', hasCapability('view_user_logs'), async (req, res) => {
     const objectType = (ku && ku.ot) ? ku.ot.dataValues.type : null;
     const eqfLevel = (ku && ku.el) ? ku.el.dataValues.type : null;
     const courseLevel = (ku && ku.cl) ? ku.cl.dataValues.type : null;
+
+    let title = lu ? lu.Translations[0].dataValues.title : null;
+    if (!title) {
+      title = ku ? ku.LearningUnit.Translations[0].dataValues.title : null;
+    }
 
     return {
       id: item.id,
@@ -243,7 +276,7 @@ router.get('/', hasCapability('view_user_logs'), async (req, res) => {
       userRating: null,
       KnowledgeUnitLanguage: null,
       LearningUnitId: item.dataValues.LearningUnitId || ku.LearningUnit.id,
-      title: null,
+      title,
       CourseId: item.dataValues.CourseId,
       courseTitle: null,
       activeSequence: null,
@@ -284,6 +317,7 @@ router.get('/export', hasCapability('view_user_logs'), async (req, res) => {
   ];
 
   const data = results.map((item) => {
+    const lu = item.dataValues.LearningUnit;
     const ku = item.dataValues.KnowledgeUnit;
     const authorId = ku ? ku.author.dataValues.id : null;
     const suitableBlind = ku ? ku.dataValues.suitableBlind : null;
@@ -298,7 +332,10 @@ router.get('/export', hasCapability('view_user_logs'), async (req, res) => {
     const eqfLevel = (ku && ku.el) ? ku.el.dataValues.type : null;
     const courseLevel = (ku && ku.cl) ? ku.cl.dataValues.type : null;
 
-    const title = ku ? ku.LearningUnit.Translations[0].dataValues.title : null;
+    let title = lu ? lu.Translations[0].dataValues.title : null;
+    if (!title) {
+      title = ku ? ku.LearningUnit.Translations[0].dataValues.title : null;
+    }
 
     return {
       userId: item.dataValues.id,

@@ -36,12 +36,13 @@ const LogsList = ({
 }) => {
   let logItems = null;
   if (logs.length > 0) {
+    console.log(logs);
     logItems = logs.map((item) => (
       <TableRow key={item.id}>
         <TableCell>{item.createdAt}</TableCell>
         <TableCell>{item.userId}</TableCell>
         <TableCell>{item.KnowlegeUnitId}</TableCell>
-        <TableCell>{item.LearningUnitId}</TableCell>
+        <TableCell>{item.title}</TableCell>
         <TableCell>{item.CourseId}</TableCell>
         <TableCell>{item.mode}</TableCell>
         <TableCell>{item.navigation}</TableCell>
@@ -68,7 +69,7 @@ const LogsList = ({
           <TableCell>Date</TableCell>
           <TableCell>User Id</TableCell>
           <TableCell>KU Id</TableCell>
-          <TableCell>LU Id</TableCell>
+          <TableCell>LU Title</TableCell>
           <TableCell>Course Id</TableCell>
           <TableCell>Mode</TableCell>
           <TableCell>Navigation</TableCell>
