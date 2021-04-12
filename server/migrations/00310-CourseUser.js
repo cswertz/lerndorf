@@ -40,17 +40,6 @@ export default {
       onDelete: 'cascade',
     },
 
-    sequenceId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'CourseSequence',
-        key: 'id',
-      },
-      onDelete: 'cascade',
-    },
-
-
     enrolment: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -66,5 +55,5 @@ export default {
       allowNull: false,
     },
   }),
-  down: queryInterface => queryInterface.dropTable('UserRole'),
+  down: queryInterface => queryInterface.dropTable('CourseUser'),
 };

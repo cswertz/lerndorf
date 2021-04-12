@@ -189,6 +189,7 @@ export default {
       notEmpty: true,
     },
 
+    /*
     preferredLanguage: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -197,6 +198,7 @@ export default {
         key: 'id',
       },
     },
+    */
 
     createdAt: {
       type: DataTypes.DATE,
