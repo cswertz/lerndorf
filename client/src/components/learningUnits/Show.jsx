@@ -35,21 +35,35 @@ const LearningUnitsShow = ({
       link
     />
   ));
+  const preferredLanguage = user.user.preferredLanguage;
+  const possibleLanguages = user.user.Languages.map((item) => item.id);
+
   const tags = item.item.LearningUnitTags.map(tag => tag.tag).join(', ');
   const languageId = item.item.Language.id;
   const buildRelations = (relations) => {
     let elements = null;
     if (relations.length > 0) {
       elements = relations.map((item) => {
-        const taxonomyTerm = term(item.Taxonomy, languageId);
-        let linkText = item.target.Translations.filter((item) => item.LanguageId === languageId);
-        linkText = linkText[0].title;
+        const taxonomyTerm = term(item.Taxonomy, preferredLanguage);
 
-        return (
-          <li>
-            {taxonomyTerm} <a href={`/learning-units/show/${languageId}/${item.targetId}`}>{linkText}</a>
-          </li>
-        );
+        let userLanguages = [item.target.Translations.find((item) => preferredLanguage === item.LanguageId)];
+        userLanguages = [
+          ...userLanguages,
+          ...item.target.Translations.filter((item) => possibleLanguages.includes(item.LanguageId)),
+        ];
+
+        let linkText = item.target.Translations.filter((item) => item.LanguageId === languageId);
+        if (userLanguages.length > 0) {
+          linkText = userLanguages[0].title;
+
+          return (
+            <li>
+              {taxonomyTerm} <a href={`/learning-units/show/${userLanguages[0].LanguageId}/${item.targetId}`}>{linkText}</a>
+            </li>
+          );
+        }
+
+        return null;
       });
     }
 
