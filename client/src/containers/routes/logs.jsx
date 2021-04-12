@@ -6,6 +6,7 @@ import Wrapper from '../../components/routes/wrapper';
 import Logs from '../logs/List';
 
 const LoggingRouter = ({
+  learningUnits,
   languages,
   actions,
   user,
@@ -30,6 +31,8 @@ const LoggingRouter = ({
               logsDownload={actions.logsDownload}
               languages={languages}
               languagesFetch={actions.languagesFetch}
+              suggestions={learningUnits.suggestions}
+              fetchSuggestions={actions.learningUnitsSuggestionsFetch}
             />
           )}
         />
@@ -39,6 +42,9 @@ const LoggingRouter = ({
 );
 
 LoggingRouter.propTypes = {
+  learningUnits: PropTypes.shape({
+    suggestions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  }).isRequired,
   languages: PropTypes.shape({
     languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     id: PropTypes.shape({}).isRequired,
@@ -47,6 +53,7 @@ LoggingRouter.propTypes = {
   }).isRequired,
   logs: PropTypes.shape({}).isRequired,
   actions: PropTypes.shape({
+    learningUnitsSuggestionsFetch: PropTypes.func.isRequired,
     languagesFetch: PropTypes.func.isRequired,
     logsFetch: PropTypes.func.isRequired,
     logsDownload: PropTypes.func.isRequired,

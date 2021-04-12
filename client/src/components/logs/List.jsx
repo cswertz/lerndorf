@@ -30,13 +30,14 @@ const LogsList = ({
   handleFilterUpdate,
   handleDownload,
   languages,
+  fetchSuggestions,
+  suggestions,
   classes,
   history,
   logs,
 }) => {
   let logItems = null;
   if (logs.length > 0) {
-    console.log(logs);
     logItems = logs.map((item) => (
       <TableRow key={item.id}>
         <TableCell>{item.createdAt}</TableCell>
@@ -63,6 +64,8 @@ const LogsList = ({
         languages={languages.languages}
         initialValues={defaultFilter}
         handleFilterUpdate={handleFilterUpdate}
+        fetchSuggestions={fetchSuggestions}
+        suggestions={suggestions}
       />
       <Table>
         <TableHead>
@@ -93,6 +96,8 @@ const LogsList = ({
 };
 
 LogsList.propTypes = {
+  suggestions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  fetchSuggestions: PropTypes.func.isRequired,
   logs: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   handleFilterUpdate: PropTypes.func.isRequired,

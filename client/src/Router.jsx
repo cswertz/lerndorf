@@ -137,6 +137,7 @@ const Router = ({
       render={() => (
         <RoutesLogs
           logs={logs}
+          learningUnits={learningUnits}
           capabilities={capabilities}
           languages={languages}
           actions={actions}

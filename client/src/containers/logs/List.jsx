@@ -52,21 +52,10 @@ class Logs extends Component {
     }
   }
 
-  handleFilterUpdate(e) {
-    e.preventDefault();
+  handleFilterUpdate(filters) {
     const {
       logsFetch,
     } = this.props;
-
-    const filters = {
-      user_id: parseInt(e.target.userId.value, 10) || null,
-      course_id: parseInt(e.target.courseId.value, 10) || null,
-      learning_unit_id: parseInt(e.target.luId.value, 10) || null,
-      knowledge_unit_id: parseInt(e.target.kuId.value, 10) || null,
-      language_id: parseInt(e.target.language.value, 10) || null,
-      date_from: e.target.dateFrom.value ? new Date(e.target.dateFrom.value).toISOString() : null,
-      date_to: e.target.dateTo.value ? new Date(e.target.dateTo.value).toISOString() : null,
-    };
 
     this.setState({
       filters,
@@ -89,6 +78,8 @@ class Logs extends Component {
     const {
       languages,
       history,
+      suggestions,
+      fetchSuggestions,
       logs,
       user,
     } = this.props;
@@ -99,6 +90,8 @@ class Logs extends Component {
           handleFilterUpdate={this.handleFilterUpdate}
           handleDownload={this.handleDownload}
           languages={languages}
+          suggestions={suggestions}
+          fetchSuggestions={fetchSuggestions}
           logs={logs.items}
           history={history}
           user={user}
@@ -109,6 +102,8 @@ class Logs extends Component {
 }
 
 Logs.propTypes = {
+  suggestions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  fetchSuggestions: PropTypes.func.isRequired,
   logsFetch: PropTypes.func.isRequired,
   logsDownload: PropTypes.func.isRequired,
   logs: PropTypes.shape({}).isRequired,

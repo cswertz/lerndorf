@@ -1,6 +1,6 @@
 import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useRef } from 'react';
 
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
@@ -10,6 +10,8 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
+
+import Suggest from '../../containers/learningUnits/Suggest';
 
 const styles = (theme) => ({
   wrapper: {
@@ -117,14 +119,40 @@ const validate = (values) => {
 const LogsFilter = ({
   handleFilterUpdate,
   languages,
+  suggestions,
+  fetchSuggestions,
   classes,
 }) => {
   const allLanguages = [{
     id: -1,
     name: 'All',
   }].concat(languages);
+  const luIdRef = useRef(null);
+
+  function update(e) {
+    e.preventDefault();
+
+    const filters = {
+      user_id: parseInt(e.target.userId.value, 10) || null,
+      course_id: parseInt(e.target.courseId.value, 10) || null,
+      learning_unit_id: luIdRef.current || parseInt(e.target.luId.value, 10) || null,
+      knowledge_unit_id: parseInt(e.target.kuId.value, 10) || null,
+      language_id: parseInt(e.target.language.value, 10) || null,
+      date_from: e.target.dateFrom.value ? new Date(e.target.dateFrom.value).toISOString() : null,
+      date_to: e.target.dateTo.value ? new Date(e.target.dateTo.value).toISOString() : null,
+    };
+
+    console.log(filters);
+
+    //handleFilterUpdate(filters);
+  }
+
+  function setTarget(id) {
+    luIdRef.current = id;
+  }
+
   return (
-    <form onSubmit={handleFilterUpdate}>
+    <form onSubmit={update}>
       <div className={classes.flex1}>
         <div className={classes.wrapper}>
           <FormControl required className={classes.formControl}>
@@ -153,6 +181,17 @@ const LogsFilter = ({
               label="Course ID"
               className={classes.textField}
             />
+          </FormControl>
+        </div>
+        <div className={classes.wrapper}>
+          <FormControl required className={classes.formControl}>
+            <div className={classes.textField}>
+              <Suggest
+                suggestions={suggestions}
+                fetchSuggestions={fetchSuggestions}
+                setTarget={setTarget}
+              />
+            </div>
           </FormControl>
         </div>
         <div className={classes.wrapper}>
@@ -208,6 +247,8 @@ const LogsFilter = ({
 };
 
 LogsFilter.propTypes = {
+  suggestions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  fetchSuggestions: PropTypes.func.isRequired,
   languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   handleFilterUpdate: PropTypes.func.isRequired,
 };
