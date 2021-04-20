@@ -75,33 +75,51 @@ yarn start
 ## Production build
 During development, back and front-end are run independently from one another on two different ports. This is obviously not what you want for production.
 
-### Building the client
-To prepare for production run the build script from the root directory of the project:
+1. Preperation
 ```
-    npm run build
+Create the user you want to use to run the service (any regular account will do). Login as that user.
+Install nvm, yarn and node.
+Install mysql and add an user account.
 ```
+2. Clone repository
+```
+git clone https://github.com/cswertz/lerndorf.git ./lerndorf
+cd lerndorf
+git checkout develop
+```
+3. Edit the config file.
+```
+cd server/server/config
+cp config.example.json config.json
+```
+Edit config.json and adjust to your needs
 
+4. Building the client
+Run the build script from the root directory of the project:
+```
+chmod 700 build.sh
+./build.sh
+```
 > Be aware that building is very resource intensive, your machine should at least have 8GB of RAM.
 
-This step will copy the bundled frontend to the static directory of the server from where it will be served.
+6. Prepare apache webserver (recommended)
 
-### Starting the server
-By default when starting the server, the development environment is used and the server is running on port 3000.
+If you want to run lerndorf as root on port 80, set user to root and port to 80. If you want to run lerndorf with other user (like lerndorf or www-data) set user to this user and port to 3000.
 
-In Order to use different environment and port, prefix the startup of the server with environment variables like so:
 ```
-cd server
-NODE_ENV=production SERVER_PORT=80 yarn start
+edit lerndorf.conf and adjust to your needd
+sudo cp lerndorf.conf /etc/apache/sites-enabled/lerndorf.conf
+sudo systemctl restart apache2
+```
+7. Start lerndorf automatically on reboot
+```
+edit lerndorf.sh and adjust to your needs
+chmod 700 lerndorf.sh
+edit lerndorf.service and adjust to your needd
+sudo systemctl enable /[YOURPATH]/lerndorf.service
+sudo systemctl start lerndorf
 ```
 
-> be aware that only root can use lower ports - thus it is highly recommended to run on a higher port and simply use Apache to proxy to this internal port.
-
-The frontend will then be available from the root of the server and the chosen board, eg.: http://localhost:3000/
-
-If you want to run the backend on port 80 you can run from the root directory:
-```
-  npm run start
-```
 
 ## Versioning & Branching
 This project is following versioning by [semver](https://semver.org/). Further it uses [gitflow](https://datasift.github.io/gitflow/IntroducingGitFlow.html) as a branching model. This specifically means that development is happening on the develop branch. Releases are made on the master branch and tagged accordingly. Major releases might have breaking changes to the versions before. Versions less than *1.0.0* might have breaking changes in the minor bumps to. Please consult the *[CHANGELOG](CHANGELOG.md)*.
