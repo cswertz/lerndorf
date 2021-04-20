@@ -1,7 +1,7 @@
 export default {
   up: (queryInterface, DataTypes) => queryInterface.addColumn('CourseUser', 'sequenceId', {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: 'CourseSequence',
       key: 'id',
