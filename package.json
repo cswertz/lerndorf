@@ -4,6 +4,6 @@
   "private": true,
   "scripts": {
     "build": "./build.sh",
-    "start": "cd server && NODE_ENV=production SERVER_PORT=80 yarn start"
+    "start": "cd server && yarn start"
   }
 }
