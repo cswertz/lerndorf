@@ -1,0 +1,15 @@
+[Unit]
+Description=Lerndorf - Just another Learning Management System
+After=auditd.service systemd-user-sessions.service time-sync.target network.target
+ 
+[Service]
+User=[YOUR ACCOUNT]
+Group=[YOUR GROUP]
+Type=simple
+KillMode=process
+WorkingDirectory=/var/www/[YOUR PATH]
+ExecStart=/[YOUR PATH]/lerndorf.sh
+Restart=always
+RestartSec=2
+ 
+[Install]
