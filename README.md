@@ -43,17 +43,17 @@ This repository has 2 main folders:
 * *server*: Contains all the relevant backend code and documentation
 * *client*: Contains all the relevant frontend code and documentation
 
-## Running the Development Versions
-### Install current LTS version of node, yarn, sequelize, and sqlite3
+## Running the Development Version
+1. Install current LTS version of node, yarn, sequelize, and sqlite3
 
-1. Clone repository
+2. Clone repository
 ```
 git clone https://github.com/cswertz/lerndorf.git ./lerndorf
 cd lerndorf
 git checkout develop
 ```
 
-2. Install dependencies, initialize and start the server
+3. Install dependencies, initialize and start the server
 ```
 cd server
 yarn install
@@ -63,40 +63,51 @@ cp config.example.json config.json
 yarn start
 ```
 
-3. Install dependencies and start the client
+4. Install dependencies and start the client
 ```
 cd ../../../client
 yarn install
 yarn start
 ```
 
-4. Login as *user* admin with password **admin**
+5. Login as *user* admin with password **admin**
 
-## Production build
-During development, back and front-end are run independently from one another on two different ports. This is obviously not what you want for production.
+## Installing for Production 
 
-### Building the client
-To prepare for production change to the client and build the production bundle:
+1. Install current LTS version of nvm, node, yarn, sequelize, mysql or sqlite and apache2.
+
+2. Create a user account that you want to use to run the software and login with that account
+
+3. If you use mysql: Create a database user for Lerndorf.
+
+4. Create a directory (i. e. /var/www/lerndorf) to install Lerndorf and change to that directory.
+
+5. Clone repository
 ```
-cd client
-yarn run build
+git clone https://github.com/cswertz/lerndorf.git ./
+```
+6. Copy server/server/config/config.example.json to server/server/config.json and edit 
+
+7. Set the build script as executable and run it
+```
+chmod 700 build.sh
+./build.sh
 ```
 > Be aware that building is very resource intensive, your machine should at least have 8GB of RAM.
 
-Once the build is done, you can find it in *client/build*, the contents of this folder needs to be served by the server. To do so, simply copy the content of *client/build* to *server/server/public* and start the server as usual.
+8. Set up apache 
 
-### Starting the server
-By default when starting the server, the development environment is used and the server is running on port 3000.
+Edit lerndorf.conf according to your setup. Copy it to sites-available and activate it. Restart Apache.
 
-In Order to use different environment and port, prefix the startup of the server with environment variables like so:
+9. Start Lerndorf with systemd
+
+Edit lerndorf.sh according to your setup.
+Edit lerndorf.service according to your setup.
+
 ```
-cd server
-NODE_ENV=production SERVER_PORT=80 yarn start
+sudo systemctl enable /YOURPATH/lerndorf.service
+sudo systemctl start lerndorf
 ```
-
-> be aware that only root can use lower ports - thus it is highly recommended to run on a higher port and simply use Apache to proxy to this internal port.
-
-The frontend will then be available from the root of the server and the chosen board, eg.: http://localhost:3000/
 
 ## Versioning & Branching
 This project is following versioning by [semver](https://semver.org/). Further it uses [gitflow](https://datasift.github.io/gitflow/IntroducingGitFlow.html) as a branching model. This specifically means that development is happening on the develop branch. Releases are made on the master branch and tagged accordingly. Major releases might have breaking changes to the versions before. Versions less than *1.0.0* might have breaking changes in the minor bumps to. Please consult the *[CHANGELOG](CHANGELOG.md)*.
