@@ -100,6 +100,52 @@ export const taxonomiesDelete = id => (
     })
 );
 
+export const taxonomiesDisable = (id) => (
+  async (dispatch) => {
+    const data = { active: false };
+    try {
+      const response = await fetch(`/api/taxonomies/${id}`, {
+        method: 'PATCH',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(data),
+      });
+      const json = await response.json();
+      if (json) {
+        dispatch(taxonomiesEditSuccess());
+      }
+    } catch (e) {
+      console.log('Error while disabling taxonomy term:', e);
+    }
+  }
+);
+
+export const taxonomiesEnable = (id) => (
+  async (dispatch) => {
+    const data = { active: true };
+    try {
+      const response = await fetch(`/api/taxonomies/${id}`, {
+        method: 'PATCH',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(data),
+      });
+      const json = await response.json();
+      if (json) {
+        dispatch(taxonomiesEditSuccess());
+      }
+    } catch (e) {
+      console.log('Error while disabling taxonomy term:', e);
+    }
+  }
+);
+
 export const taxonomiesEdit = (id, data, history) => (
   dispatch => fetch(`/api/taxonomies/${id}`, {
     method: 'PATCH',

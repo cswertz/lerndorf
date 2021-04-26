@@ -13,6 +13,8 @@ class Taxonomies extends Component {
 
     this.fetchItemById = this.fetchItemById.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleDisable = this.handleDisable.bind(this);
+    this.handleEnable = this.handleEnable.bind(this);
   }
 
   componentDidMount() {
@@ -45,6 +47,22 @@ class Taxonomies extends Component {
     itemsDelete(id);
   }
 
+  handleDisable(id) {
+    const {
+      itemsDisable,
+    } = this.props;
+
+    itemsDisable(id);
+  }
+
+  handleEnable(id) {
+    const {
+      itemsEnable,
+    } = this.props;
+
+    itemsEnable(id);
+  }
+
   render() {
     const {
       history,
@@ -61,6 +79,8 @@ class Taxonomies extends Component {
       rendered = (
         <List
           itemsDelete={this.handleDelete}
+          itemsDisable={this.handleDisable}
+          itemsEnable={this.handleEnable}
           items={item.children}
           history={history}
         />
@@ -91,6 +111,8 @@ class Taxonomies extends Component {
 
 Taxonomies.propTypes = {
   itemsDelete: PropTypes.func.isRequired,
+  itemsDisable: PropTypes.func.isRequired,
+  itemsEnable: PropTypes.func.isRequired,
   itemFetch: PropTypes.func.isRequired,
   items: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({

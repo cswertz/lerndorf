@@ -30,6 +30,8 @@ const Router = ({
           element={(
             <Taxonomies
               itemsDelete={actions.taxonomiesDelete}
+              itemsDisable={actions.taxonomiesDisable}
+              itemsEnable={actions.taxonomiesEnable}
               itemsFetch={actions.taxonomiesFetch}
               items={taxonomies}
             />
@@ -53,6 +55,8 @@ const Router = ({
             <TaxonomyChildren
               itemFetch={actions.taxonomiesItemFetch}
               itemsDelete={actions.taxonomiesDelete}
+              itemsDisable={actions.taxonomiesDisable}
+              itemsEnable={actions.taxonomiesEnable}
               items={taxonomies}
             />
           )}
@@ -138,6 +142,8 @@ Router.propTypes = {
   actions: PropTypes.shape({
     taxonomiesItemFetch: PropTypes.func.isRequired,
     taxonomiesDelete: PropTypes.func.isRequired,
+    taxonomiesDisable: PropTypes.func.isRequired,
+    taxonomiesEnable: PropTypes.func.isRequired,
     taxonomiesFetch: PropTypes.func.isRequired,
     taxonomiesEdit: PropTypes.func.isRequired,
     taxonomiesAdd: PropTypes.func.isRequired,

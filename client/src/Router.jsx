@@ -225,6 +225,8 @@ Router.propTypes = {
     taxonomiesDelete: PropTypes.func.isRequired,
     taxonomiesFetch: PropTypes.func.isRequired,
     taxonomiesEdit: PropTypes.func.isRequired,
+    taxonomiesDisable: PropTypes.func.isRequired,
+    taxonomiesEnable: PropTypes.func.isRequired,
     taxonomiesAdd: PropTypes.func.isRequired,
     rolesItemFetch: PropTypes.func.isRequired,
     rolesDelete: PropTypes.func.isRequired,
