@@ -85,6 +85,8 @@ router.get('/taxonomies', async (req, res) => {
           'minimumScreenResolution',
         ],
       },
+      '$Parent.active$': true,
+      active: true,
     },
     attributes: [
       'id',

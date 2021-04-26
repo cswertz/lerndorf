@@ -167,6 +167,8 @@ router.get('/taxonomies', (req, res) => {
           'relationType',
         ],
       },
+      '$Parent.active$': true,
+      active: true,
     },
     attributes: [
       'id',
