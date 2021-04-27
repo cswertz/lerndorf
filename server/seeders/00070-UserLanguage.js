@@ -15,6 +15,7 @@ module.exports = {
           {
             UserId: user,
             LanguageId: language,
+            level: '9',
             createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
             updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
           },
