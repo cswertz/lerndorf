@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "jsx": "react",
+    "baseUrl": "./src",
+    "paths": {
+      "@actions/*": ["./actions/*"],
+      "@components/*": ["./components/*"],
+      "@containers/*": ["./containers/*"],
+      "@reducers/*": ["./reducers/*"],
+      "@utils/*": ["./utils/*"]
+    }
+  },
+  "exclude": ["node_modules", "**/node_modules/*", "build"]
+}
