@@ -10,7 +10,8 @@
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "format:check": "prettier --check \"src/**/*.{js,jsx}\"",
     "lint": "eslint --fix \"src/**/*.{js,jsx}\"",
-    "lint:check": "eslint \"src/**/*.{js,jsx}\""
+    "lint:check": "eslint \"src/**/*.{js,jsx}\"",
+    "prepare": "cd .. && husky install .husky"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "22.0.0",
@@ -39,7 +40,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.11.0",
+    "husky": "^6.0.0",
     "prettier": "^2.2.1"
   },
   "proxy": "http://localhost:3000",
