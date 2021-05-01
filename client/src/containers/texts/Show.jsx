@@ -6,55 +6,34 @@ import Show from '../../components/texts/Show';
 
 class TextsShow extends Component {
   componentDidMount() {
-    const {
-      match,
-      items,
-      itemFetch,
-    } = this.props;
+    const { match, items, itemFetch } = this.props;
 
-    const {
-      id,
-    } = match.params;
+    const { id } = match.params;
 
-    if ((!items.fetching) && !items.id[id]) {
+    if (!items.fetching && !items.id[id]) {
       itemFetch(id);
     }
   }
 
   componentDidUpdate() {
-    const {
-      match,
-      items,
-      itemFetch,
-    } = this.props;
+    const { match, items, itemFetch } = this.props;
 
-    const {
-      id,
-    } = match.params;
+    const { id } = match.params;
 
-    if ((!items.fetching) && !items.id[id]) {
+    if (!items.fetching && !items.id[id]) {
       itemFetch(id);
     }
   }
 
   render() {
-    const {
-      items,
-      match,
-    } = this.props;
+    const { items, match } = this.props;
 
-    const {
-      id,
-    } = match.params;
+    const { id } = match.params;
     let item = items.id[id];
     if (!item) return null;
 
     item = items.id[id];
-    return (
-      <Show
-        item={item}
-      />
-    );
+    return <Show item={item} />;
   }
 }
 

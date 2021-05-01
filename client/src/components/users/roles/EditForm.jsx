@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-const styles = theme => ({
+const styles = (theme) => ({
   textField: {
     flex: 1,
     marginLeft: theme.spacing(),
@@ -18,12 +18,7 @@ const styles = theme => ({
   },
 });
 
-const renderTextField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
+const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
   const customOptions = custom;
   delete customOptions.errorText;
@@ -36,7 +31,7 @@ const renderTextField = ({
     helperText = error;
   }
 
-  let hasError = (touched && error);
+  let hasError = touched && error;
   if (errorText) {
     hasError = true;
   }
@@ -54,10 +49,7 @@ const renderTextField = ({
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = [
-    'type',
-    'code',
-  ];
+  const requiredFields = ['type', 'code'];
   requiredFields.forEach((field) => {
     if (!values[field]) {
       errors[field] = 'Required';
@@ -76,7 +68,7 @@ const RolesEdit = ({
   classes,
   errors,
 }) => {
-  for(let language of initialValues.Languages) {
+  for (const language of initialValues.Languages) {
     initialValues[language.code] = language.RoleLanguage.vocable;
   }
 
@@ -94,10 +86,7 @@ const RolesEdit = ({
       </div>
       {languages.map((language, index) => {
         return (
-          <div
-            key={language.id}
-            className={classes.flex}
-          >
+          <div key={language.id} className={classes.flex}>
             <Field
               required
               name={language.code}
@@ -106,14 +95,10 @@ const RolesEdit = ({
               className={classes.textField}
             />
           </div>
-        )
+        );
       })}
       <div>
-        <Button
-          type="submit"
-          variant="contained"
-          disabled={pristine || submitting}
-        >
+        <Button type="submit" variant="contained" disabled={pristine || submitting}>
           Save
         </Button>
       </div>

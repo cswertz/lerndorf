@@ -33,37 +33,22 @@ const users = (state = initialState, action) => {
     case USER_REGISTER_SUCCESS:
     case USERS_DELETE_SUCCESS:
     case USERS_EDIT_SUCCESS: {
-      return Object.assign({}, state, {
-        fetched: false,
-        fetching: false,
-        id: {},
-        items: [],
-      });
+      return { ...state, fetched: false, fetching: false, id: {}, items: [] };
     }
 
     case USERS_FETCH: {
-      return Object.assign({}, state, {
-        fetched: false,
-        fetching: true,
-      });
+      return { ...state, fetched: false, fetching: true };
     }
 
     case USERS_ITEM_FETCH_SUCCESS: {
       const ids = state.id;
       ids[action.item.id] = action.item;
 
-      return Object.assign({}, state, {
-        fetching: false,
-        id: ids,
-      });
+      return { ...state, fetching: false, id: ids };
     }
 
     case USERS_FETCH_SUCCESS: {
-      return Object.assign({}, state, {
-        fetched: true,
-        fetching: false,
-        items: action.items,
-      });
+      return { ...state, fetched: true, fetching: false, items: action.items };
     }
 
     default:

@@ -32,12 +32,7 @@ const styles = (theme) => ({
   },
 });
 
-const renderTextField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
+const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
   const customOptions = custom;
   delete customOptions.errorText;
@@ -50,7 +45,7 @@ const renderTextField = ({
     helperText = error;
   }
 
-  let hasError = (touched && error);
+  let hasError = touched && error;
   if (errorText) {
     hasError = true;
   }
@@ -58,7 +53,7 @@ const renderTextField = ({
   return (
     <TextField
       helperText={helperText}
-      error={(hasError && true)}
+      error={hasError && true}
       label={label}
       value={input.value}
       {...input}
@@ -69,9 +64,7 @@ const renderTextField = ({
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = [
-    'tag',
-  ];
+  const requiredFields = ['tag'];
   requiredFields.forEach((field) => {
     if (!values[field] || values[field] === '') {
       errors[field] = 'Required';
@@ -81,13 +74,7 @@ const validate = (values) => {
   return errors;
 };
 
-const LearningUnitsTitle = ({
-  handleSubmit,
-  submitting,
-  pristine,
-  classes,
-  title,
-}) => (
+const LearningUnitsTitle = ({ handleSubmit, submitting, pristine, classes, title }) => (
   <form onSubmit={handleSubmit}>
     <div className={classes.flex}>
       <div className={classes.wrapper}>
@@ -103,11 +90,7 @@ const LearningUnitsTitle = ({
       </div>
     </div>
     <div>
-      <Button
-        type="submit"
-        variant="contained"
-        disabled={pristine || submitting}
-      >
+      <Button type="submit" variant="contained" disabled={pristine || submitting}>
         Save Title
       </Button>
     </div>

@@ -14,10 +14,7 @@ class TaxonomiesAdd extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const {
-      history,
-      handleSubmit,
-    } = this.props;
+    const { history, handleSubmit } = this.props;
     const data = {
       parent: 1,
       type: e.target.type.value,
@@ -27,16 +24,9 @@ class TaxonomiesAdd extends Component {
   }
 
   render() {
-    const {
-      errors,
-    } = this.props;
+    const { errors } = this.props;
 
-    return (
-      <AddForm
-        handleSubmit={this.handleSubmit}
-        errors={errors.add}
-      />
-    );
+    return <AddForm handleSubmit={this.handleSubmit} errors={errors.add} />;
   }
 }
 

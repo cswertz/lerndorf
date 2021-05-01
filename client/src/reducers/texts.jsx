@@ -32,12 +32,7 @@ const texts = (state = initialState, action) => {
     case TEXTS_DELETE_SUCCESS:
     case TEXTS_EDIT_SUCCESS:
     case TEXTS_ADD_SUCCESS: {
-      return Object.assign({}, state, {
-        fetched: false,
-        fetching: false,
-        id: {},
-        items: [],
-      });
+      return { ...state, fetched: false, fetching: false, id: {}, items: [] };
     }
 
     case TEXTS_ADD_FAILED: {
@@ -46,40 +41,32 @@ const texts = (state = initialState, action) => {
         errors[item.param] = item.msg;
       });
 
-      return Object.assign({}, state, {
-        errors: Object.assign({}, state.errors, {
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
           add: {
             error: true,
             errorMessage: action.error,
             errors,
           },
-        }),
-      });
+        },
+      };
     }
 
     case TEXTS_FETCH: {
-      return Object.assign({}, state, {
-        fetched: false,
-        fetching: true,
-      });
+      return { ...state, fetched: false, fetching: true };
     }
 
     case TEXTS_ITEM_FETCH_SUCCESS: {
       const ids = state.id;
       ids[action.item.id] = action.item;
 
-      return Object.assign({}, state, {
-        fetching: false,
-        id: ids,
-      });
+      return { ...state, fetching: false, id: ids };
     }
 
     case TEXTS_FETCH_SUCCESS: {
-      return Object.assign({}, state, {
-        fetched: true,
-        fetching: false,
-        items: action.items,
-      });
+      return { ...state, fetched: true, fetching: false, items: action.items };
     }
 
     default:

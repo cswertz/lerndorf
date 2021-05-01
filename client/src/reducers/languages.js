@@ -31,10 +31,7 @@ const languages = (state = initialState, action) => {
     case LANGUAGES_DELETE_SUCCESS:
     case LANGUAGES_EDIT_SUCCESS:
     case LANGUAGES_ADD_SUCCESS: {
-      return Object.assign({}, state, {
-        fetched: false,
-        fetching: false,
-      });
+      return { ...state, fetched: false, fetching: false };
     }
 
     case LANGUAGES_ADD_FAILED: {
@@ -43,22 +40,21 @@ const languages = (state = initialState, action) => {
         errors[item.param] = item.msg;
       });
 
-      return Object.assign({}, state, {
-        errors: Object.assign({}, state.errors, {
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
           add: {
             error: true,
             errorMessage: action.error,
             errors,
           },
-        }),
-      });
+        },
+      };
     }
 
     case LANGUAGES_FETCH: {
-      return Object.assign({}, state, {
-        fetched: false,
-        fetching: true,
-      });
+      return { ...state, fetched: false, fetching: true };
     }
 
     case LANGUAGES_FETCH_SUCCESS: {
@@ -68,12 +64,7 @@ const languages = (state = initialState, action) => {
         ids[item.id] = item;
       });
 
-      return Object.assign({}, state, {
-        fetched: true,
-        fetching: false,
-        languages: action.languages,
-        id: ids,
-      });
+      return { ...state, fetched: true, fetching: false, languages: action.languages, id: ids };
     }
 
     default:

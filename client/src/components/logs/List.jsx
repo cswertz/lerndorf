@@ -77,17 +77,11 @@ const LogsList = ({
           <TableCell>Mode</TableCell>
           <TableCell>Navigation</TableCell>
         </TableHead>
-        <TableBody>
-          {logItems}
-        </TableBody>
+        <TableBody>{logItems}</TableBody>
       </Table>
 
       <div className={classes.buttonWrapper}>
-        <Button
-          type="submit"
-          variant="contained"
-          onClick={handleDownload}
-        >
+        <Button type="submit" variant="contained" onClick={handleDownload}>
           Download CSV
         </Button>
       </div>

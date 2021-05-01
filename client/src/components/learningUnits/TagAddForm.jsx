@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-const styles = theme => ({
+const styles = (theme) => ({
   wrapper: {
     display: 'flex',
     flex: 1,
@@ -32,12 +32,7 @@ const styles = theme => ({
   },
 });
 
-const renderTextField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
+const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
   const customOptions = custom;
   delete customOptions.errorText;
@@ -50,7 +45,7 @@ const renderTextField = ({
     helperText = error;
   }
 
-  let hasError = (touched && error);
+  let hasError = touched && error;
   if (errorText) {
     hasError = true;
   }
@@ -58,7 +53,7 @@ const renderTextField = ({
   return (
     <TextField
       helperText={helperText}
-      error={(hasError && true)}
+      error={hasError && true}
       label={label}
       {...input}
       {...customOptions}
@@ -68,9 +63,7 @@ const renderTextField = ({
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = [
-    'tag',
-  ];
+  const requiredFields = ['tag'];
   requiredFields.forEach((field) => {
     if (!values[field] || values[field] === '') {
       errors[field] = 'Required';
@@ -80,12 +73,7 @@ const validate = (values) => {
   return errors;
 };
 
-const LearningUnitsTag = ({
-  handleSubmit,
-  submitting,
-  pristine,
-  classes,
-}) => (
+const LearningUnitsTag = ({ handleSubmit, submitting, pristine, classes }) => (
   <form onSubmit={handleSubmit}>
     <div className={classes.flex}>
       <div className={classes.wrapper}>
@@ -101,11 +89,7 @@ const LearningUnitsTag = ({
       </div>
     </div>
     <div>
-      <Button
-        type="submit"
-        variant="contained"
-        disabled={pristine || submitting}
-      >
+      <Button type="submit" variant="contained" disabled={pristine || submitting}>
         Add Tag
       </Button>
     </div>

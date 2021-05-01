@@ -59,12 +59,7 @@ const styles = (theme) => ({
   },
 });
 
-const renderTextField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
+const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
   const customOptions = custom;
   delete customOptions.errorText;
@@ -80,7 +75,7 @@ const renderTextField = ({
   return (
     <TextField
       helperText={helperText}
-      error={((touched && error) || errorText)}
+      error={(touched && error) || errorText}
       label={label}
       value={input.value}
       {...input}
@@ -89,37 +84,22 @@ const renderTextField = ({
   );
 };
 
-const renderCheckboxField = ({
-  input,
-  label,
-  ...custom
-}) => {
+const renderCheckboxField = ({ input, label, ...custom }) => {
   const customOptions = custom;
   const customInput = input;
-  delete (customInput.value);
-  delete (customOptions.errorText);
+  delete customInput.value;
+  delete customOptions.errorText;
 
   return (
     <FormControlLabel
-      control={(
-        <Checkbox
-          label={label}
-          {...customInput}
-          {...customOptions}
-        />
-      )}
+      control={<Checkbox label={label} {...customInput} {...customOptions} />}
       label={label}
       className={custom.customclasses.label}
     />
   );
 };
 
-const renderSelectField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
+const renderSelectField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText, options } = custom;
   const customOptions = custom;
   delete customOptions.errorText;
@@ -134,7 +114,7 @@ const renderSelectField = ({
     helperText = error;
   }
 
-  let hasError = (touched && error);
+  let hasError = touched && error;
   if (errorText) {
     hasError = true;
   }
@@ -143,55 +123,42 @@ const renderSelectField = ({
   }
 
   const renderedOptions = options.map((option) => (
-    <MenuItem
-      key={option.id}
-      value={option.id}
-    >
+    <MenuItem key={option.id} value={option.id}>
       {option.name}
     </MenuItem>
   ));
 
   return (
     <>
-      <InputLabel
-        htmlFor="language"
-        error={hasError}
-        required={false}
-      >
+      <InputLabel htmlFor="language" error={hasError} required={false}>
         Language
       </InputLabel>
       <Select
-        style={{marginLeft: 0}}
+        style={{ marginLeft: 0 }}
         name="language"
         value=""
-        error={(hasError && true)}
+        error={hasError && true}
         displayEmpty
         {...input}
         {...customOptions}
       >
         {renderedOptions}
       </Select>
-      <FormHelperText
-        error={hasError}
-      >
-        {helperText}
-      </FormHelperText>
+      <FormHelperText error={hasError}>{helperText}</FormHelperText>
     </>
   );
 };
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = [
-    'email',
-  ];
+  const requiredFields = ['email'];
   requiredFields.forEach((field) => {
     if (!values[field]) {
       errors[field] = 'Required';
     }
   });
 
-  if (values.password && values.password1 && (values.password !== values.password1)) {
+  if (values.password && values.password1 && values.password !== values.password1) {
     errors.password = 'Passwords do not match';
     errors.password1 = 'Passwords do not match';
   }
@@ -199,16 +166,9 @@ const validate = (values) => {
   return errors;
 };
 
-const Language = ({
-  handlePreferred,
-  handleSubmit,
-  handleDelete,
-  languages,
-  classes,
-  user,
-}) => {
+const Language = ({ handlePreferred, handleSubmit, handleDelete, languages, classes, user }) => {
   const userLanguages = user.Languages;
-  const preferredLanguage = user.preferredLanguage;
+  const { preferredLanguage } = user;
 
   const getLanguageList = () => {
     const languageList = userLanguages.map((language) => {
@@ -217,12 +177,8 @@ const Language = ({
       const getFavoriteButton = () => {
         if (userLanguage.id === preferredLanguage) {
           return (
-            <IconButton
-              aria-label="Favorite"
-            >
-              <FavoriteIcon
-                style={{ color: 'red' }}
-              />
+            <IconButton aria-label="Favorite">
+              <FavoriteIcon style={{ color: 'red' }} />
             </IconButton>
           );
         }
@@ -239,16 +195,11 @@ const Language = ({
       };
 
       return (
-        <ListItem
-          key={userLanguage.id}
-        >
+        <ListItem key={userLanguage.id}>
           <ListItemText primary={`${language.name} (Level: ${userLanguage.level})`} />
           <ListItemSecondaryAction>
             {getFavoriteButton()}
-            <IconButton
-              aria-label="Delete"
-              onClick={() => handleDelete(userLanguage.id)}
-            >
+            <IconButton aria-label="Delete" onClick={() => handleDelete(userLanguage.id)}>
               <DeleteIcon />
             </IconButton>
           </ListItemSecondaryAction>
@@ -256,17 +207,13 @@ const Language = ({
       );
     });
 
-    return (
-      <List dense={false}>
-        {languageList}
-      </List>
-    );
+    return <List dense={false}>{languageList}</List>;
   };
 
   return (
     <div>
       <div>{getLanguageList()}</div>
-      <form onSubmit={e => handleSubmit(e)}>
+      <form onSubmit={(e) => handleSubmit(e)}>
         <Grid container className={classes.container}>
           <Grid item xs={12} sm={9}>
             <FormControl required className={classes.formControl}>
@@ -292,11 +239,7 @@ const Language = ({
           </Grid>
           <Grid item xs={12} sm={3}>
             <p>
-              <Button
-                type="submit"
-                variant="contained"
-                className={classes.fullWidth}
-              >
+              <Button type="submit" variant="contained" className={classes.fullWidth}>
                 Add Language
               </Button>
             </p>

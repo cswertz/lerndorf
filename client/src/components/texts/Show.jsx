@@ -12,10 +12,7 @@ const styles = (theme) => ({
     marginTop: theme.spacing(),
   },
 });
-const TextsShow = ({
-  classes,
-  item,
-}) => (
+const TextsShow = ({ classes, item }) => (
   <div>
     <Single text={item} />
     {!item.nextId && (

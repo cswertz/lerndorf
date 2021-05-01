@@ -55,17 +55,12 @@ const learningUnits = (state = initialState, action) => {
     case LEARNINGUNITS_ADD_SUCCESS:
     case TEXTS_EDIT_SUCCESS:
     case TEXTS_ADD_SUCCESS: {
-      return Object.assign({}, state, {
-        fetched: false,
-        fetching: false,
-        fetchingId: null,
-        id: {},
-        items: [],
-      });
+      return { ...state, fetched: false, fetching: false, fetchingId: null, id: {}, items: [] };
     }
 
     case LEARNINGUNITS_TAXONOMIES_FETCH: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         taxonomies: {
           fetched: false,
           fetching: true,
@@ -73,17 +68,18 @@ const learningUnits = (state = initialState, action) => {
             relationType: [],
           },
         },
-      });
+      };
     }
 
     case LEARNINGUNITS_TAXONOMIES_FETCH_SUCCESS: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         taxonomies: {
           fetched: true,
           fetching: false,
           items: action.items,
         },
-      });
+      };
     }
 
     case LEARNINGUNITS_ADD_FAILED: {
@@ -92,28 +88,25 @@ const learningUnits = (state = initialState, action) => {
         errors[item.param] = item.msg;
       });
 
-      return Object.assign({}, state, {
-        errors: Object.assign({}, state.errors, {
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
           add: {
             error: true,
             errorMessage: action.error,
             errors,
           },
-        }),
-      });
+        },
+      };
     }
 
     case LEARNINGUNITS_ITEM_FETCH: {
-      return Object.assign({}, state, {
-        fetchingId: action.id,
-      });
+      return { ...state, fetchingId: action.id };
     }
 
     case LEARNINGUNITS_FETCH: {
-      return Object.assign({}, state, {
-        fetched: false,
-        fetching: true,
-      });
+      return { ...state, fetched: false, fetching: true };
     }
 
     case LEARNINGUNITS_ITEM_FETCH_SUCCESS: {
@@ -128,27 +121,17 @@ const learningUnits = (state = initialState, action) => {
         };
       });
 
-      return Object.assign({}, state, {
-        fetchingId: null,
-        fetching: false,
-        id: ids,
-      });
+      return { ...state, fetchingId: null, fetching: false, id: ids };
     }
 
     case LEARNINGUNITS_SUGGESTIONS_FETCH_SUCCESS: {
       const suggestions = action.items;
 
-      return Object.assign({}, state, {
-        suggestions,
-      });
+      return { ...state, suggestions };
     }
 
     case LEARNINGUNITS_FETCH_SUCCESS: {
-      return Object.assign({}, state, {
-        fetched: true,
-        fetching: false,
-        items: action.items,
-      });
+      return { ...state, fetched: true, fetching: false, items: action.items };
     }
 
     default:

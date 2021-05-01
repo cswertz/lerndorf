@@ -11,7 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 
-const styles = theme => ({
+const styles = (theme) => ({
   wrapper: {
     display: 'flex',
     flex: 1,
@@ -36,12 +36,7 @@ const styles = theme => ({
   },
 });
 
-const renderSelectField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
+const renderSelectField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
   const customOptions = custom;
   delete customOptions.errorText;
@@ -55,7 +50,7 @@ const renderSelectField = ({
     helperText = error;
   }
 
-  let hasError = (touched && error);
+  let hasError = touched && error;
   if (errorText) {
     hasError = true;
   }
@@ -63,47 +58,31 @@ const renderSelectField = ({
     hasError = true;
   }
 
-  const options = custom.options.map(option => (
-    <MenuItem
-      key={option.key}
-      value={option.key}
-    >
+  const options = custom.options.map((option) => (
+    <MenuItem key={option.key} value={option.key}>
       {option.value}
     </MenuItem>
   ));
 
   return (
-    <React.Fragment>
-      <InputLabel
-        htmlFor="language"
-        error={hasError}
-        required={false}
-      />
+    <>
+      <InputLabel htmlFor="language" error={hasError} required={false} />
       <Select
         name="language"
         value=""
-        error={(hasError && true)}
+        error={hasError && true}
         displayEmpty
         {...input}
         {...customOptions}
       >
         {options}
       </Select>
-      <FormHelperText
-        error={hasError}
-      >
-        {helperText}
-      </FormHelperText>
-    </React.Fragment>
+      <FormHelperText error={hasError}>{helperText}</FormHelperText>
+    </>
   );
 };
 
-const renderTextField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
+const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
   const customOptions = custom;
   delete customOptions.errorText;
@@ -116,7 +95,7 @@ const renderTextField = ({
     helperText = error;
   }
 
-  let hasError = (touched && error);
+  let hasError = touched && error;
   if (errorText) {
     hasError = true;
   }
@@ -124,7 +103,7 @@ const renderTextField = ({
   return (
     <TextField
       helperText={helperText}
-      error={(hasError && true)}
+      error={hasError && true}
       label={label}
       {...input}
       {...customOptions}
@@ -134,10 +113,7 @@ const renderTextField = ({
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = [
-    'title',
-    'language',
-  ];
+  const requiredFields = ['title', 'language'];
   requiredFields.forEach((field) => {
     if (!values[field] || values[field] === '') {
       errors[field] = 'Required';
@@ -147,15 +123,8 @@ const validate = (values) => {
   return errors;
 };
 
-const LearningUnitsAdd = ({
-  handleSubmit,
-  submitting,
-  languages,
-  pristine,
-  classes,
-  errors,
-}) => {
-  const languageOptions = languages.map(language => ({
+const LearningUnitsAdd = ({ handleSubmit, submitting, languages, pristine, classes, errors }) => {
+  const languageOptions = languages.map((language) => ({
     key: language.id,
     value: language.name,
   }));
@@ -189,11 +158,7 @@ const LearningUnitsAdd = ({
         </div>
       </div>
       <div>
-        <Button
-          type="submit"
-          variant="contained"
-          disabled={pristine || submitting}
-        >
+        <Button type="submit" variant="contained" disabled={pristine || submitting}>
           Add Learning Unit
         </Button>
       </div>

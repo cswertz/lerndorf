@@ -48,11 +48,7 @@ const EditTagsList = (props) => {
 };
 
 const DeleteRelationForm = (props) => {
-  const {
-    handleDelete,
-    languageId,
-    relations,
-  } = props;
+  const { handleDelete, languageId, relations } = props;
 
   const relationsElements = relations.map((relation) => {
     const taxonomyTerm = term(relation.Taxonomy, languageId);
@@ -62,24 +58,19 @@ const DeleteRelationForm = (props) => {
     return (
       <ListItem key={relation.id}>
         <ListItemText>
-          {taxonomyTerm}&nbsp;<a href={`/learning-units/show/${languageId}/${relation.targetId}`}>{linkText}</a>
+          {taxonomyTerm}&nbsp;
+          <a href={`/learning-units/show/${languageId}/${relation.targetId}`}>{linkText}</a>
         </ListItemText>
         <ListItemSecondaryAction>
           <IconButton aria-label="Delete">
-            <DeleteIcon
-              onClick={() => handleDelete(relation.id)}
-            />
+            <DeleteIcon onClick={() => handleDelete(relation.id)} />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
     );
   });
 
-  return (
-    <List>
-      {relationsElements}
-    </List>
-  );
+  return <List>{relationsElements}</List>;
 };
 
 const LearningUnitsEdit = ({
@@ -99,18 +90,9 @@ const LearningUnitsEdit = ({
   tags,
 }) => (
   <>
-    <TitleForm
-      initialValues={initialValues}
-      handleSubmit={editTitle}
-    />
-    <EditTagsList
-      tags={tags}
-      deleteTag={deleteTag}
-      updateTag={updateTag}
-    />
-    <TagAddForm
-      handleSubmit={addTag}
-    />
+    <TitleForm initialValues={initialValues} handleSubmit={editTitle} />
+    <EditTagsList tags={tags} deleteTag={deleteTag} updateTag={updateTag} />
+    <TagAddForm handleSubmit={addTag} />
     <RelationForm
       fetchSuggestions={fetchSuggestions}
       handleSubmit={addRelation}

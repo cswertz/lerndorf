@@ -14,11 +14,7 @@ class TaxonomiesAdd extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const {
-      match,
-      history,
-      handleSubmit,
-    } = this.props;
+    const { match, history, handleSubmit } = this.props;
 
     const { id } = match.params;
 
@@ -31,16 +27,9 @@ class TaxonomiesAdd extends Component {
   }
 
   render() {
-    const {
-      errors,
-    } = this.props;
+    const { errors } = this.props;
 
-    return (
-      <AddForm
-        handleSubmit={this.handleSubmit}
-        errors={errors.add}
-      />
-    );
+    return <AddForm handleSubmit={this.handleSubmit} errors={errors.add} />;
   }
 }
 

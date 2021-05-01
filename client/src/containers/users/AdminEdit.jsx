@@ -28,10 +28,7 @@ class Edit extends Component {
   }
 
   rolesFetch() {
-    const {
-      roles,
-      rolesFetch,
-    } = this.props;
+    const { roles, rolesFetch } = this.props;
 
     if (!roles.fetching && !roles.fetched) {
       rolesFetch();
@@ -39,14 +36,10 @@ class Edit extends Component {
   }
 
   userFetch() {
-    const {
-      match,
-      items,
-      itemFetch,
-    } = this.props;
+    const { match, items, itemFetch } = this.props;
     const { id } = match.params;
 
-    if ((!items.fetching) && !items.id[id]) {
+    if (!items.fetching && !items.id[id]) {
       itemFetch(id);
     }
   }
@@ -54,11 +47,7 @@ class Edit extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const {
-      handleSubmit,
-      history,
-      match,
-    } = this.props;
+    const { handleSubmit, history, match } = this.props;
     const { id } = match.params;
 
     const data = {
@@ -97,10 +86,7 @@ class Edit extends Component {
   addRole(e, role) {
     e.preventDefault();
 
-    const {
-      match,
-      add,
-    } = this.props;
+    const { match, add } = this.props;
     const { id } = match.params;
 
     add(id, role);
@@ -109,50 +95,34 @@ class Edit extends Component {
   removeRole(e, role) {
     e.preventDefault();
 
-    const {
-      match,
-      remove,
-    } = this.props;
+    const { match, remove } = this.props;
     const { id } = match.params;
 
     remove(id, role);
   }
 
   render() {
-    const {
-      items,
-      match,
-      roles,
-      errors,
-    } = this.props;
+    const { items, match, roles, errors } = this.props;
     const { id } = match.params;
     const user = items.id[id];
 
     if (!items.id[id] || !roles.fetched) return null;
 
-    const availableIds = user.Roles.map(role => role.id);
+    const availableIds = user.Roles.map((role) => role.id);
 
-    const owned = roles.items.filter(role => availableIds.indexOf(role.id) > -1);
-    const available = roles.items
-      .filter(role => availableIds.indexOf(role.id) < 0);
+    const owned = roles.items.filter((role) => availableIds.indexOf(role.id) > -1);
+    const available = roles.items.filter((role) => availableIds.indexOf(role.id) < 0);
 
     return (
       <div>
-        <Typography variant="headline">
-          {user.username}
-        </Typography>
+        <Typography variant="headline">{user.username}</Typography>
         <AdminEditForm
           user={user}
           initialValues={user}
           errors={errors.edit}
           handleSubmit={this.handleSubmit}
         />
-        <Roles
-          remove={this.removeRole}
-          add={this.addRole}
-          available={available}
-          owned={owned}
-        />
+        <Roles remove={this.removeRole} add={this.addRole} available={available} owned={owned} />
       </div>
     );
   }

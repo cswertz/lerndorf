@@ -13,29 +13,18 @@ import React from 'react';
 
 const styles = () => ({});
 
-const LanguageList = ({
-  languagesDelete,
-  languages,
-  classes,
-  history,
-}) => {
+const LanguageList = ({ languagesDelete, languages, classes, history }) => {
   let languageItems = null;
   if (languages.length > 0) {
-    languageItems = languages.map(item => (
+    languageItems = languages.map((item) => (
       <ListItem key={item.id}>
-        <ListItemText
-          primary={`${item.name} (${item.code})`}
-        />
+        <ListItemText primary={`${item.name} (${item.code})`} />
         <ListItemSecondaryAction>
           <IconButton aria-label="Edit">
-            <EditIcon
-              onClick={() => history.push(`/languages/edit/${item.id}`)}
-            />
+            <EditIcon onClick={() => history.push(`/languages/edit/${item.id}`)} />
           </IconButton>
           <IconButton aria-label="Delete">
-            <DeleteIcon
-              onClick={() => languagesDelete(item.id)}
-            />
+            <DeleteIcon onClick={() => languagesDelete(item.id)} />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
@@ -47,9 +36,7 @@ const LanguageList = ({
       <Typography variant="title" className={classes.title}>
         Available languages
       </Typography>
-      <List dense={false}>
-        {languageItems}
-      </List>
+      <List dense={false}>{languageItems}</List>
     </div>
   );
 };

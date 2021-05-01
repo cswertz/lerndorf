@@ -10,13 +10,7 @@ import TextsShow from '../texts/Show';
 import TextsAdd from '../texts/Add';
 // import Texts from '../texts/List';
 
-const TextsRouter = ({
-  knowledgeUnits,
-  languages,
-  actions,
-  texts,
-  user,
-}) => (
+const TextsRouter = ({ knowledgeUnits, languages, actions, texts, user }) => (
   <>
     <Route
       exact
@@ -31,14 +25,14 @@ const TextsRouter = ({
           knowledgeUnits={knowledgeUnits}
           active="texts"
           user={user}
-          element={(
+          element={
             <TextsAdd
               languagesFetch={actions.languagesFetch}
               handleSubmit={actions.textsAdd}
               languages={languages}
               errors={texts.errors}
             />
-          )}
+          }
         />
       )}
     />
@@ -54,14 +48,14 @@ const TextsRouter = ({
           title="Text"
           active="texts"
           user={user}
-          element={(
+          element={
             <TextsShow
               itemFetch={actions.textsItemFetch}
               handleSubmit={actions.textsEdit}
               errors={texts.errors}
               items={texts}
             />
-          )}
+          }
         />
       )}
     />
@@ -77,7 +71,7 @@ const TextsRouter = ({
           title="Text"
           active="texts"
           user={user}
-          element={(
+          element={
             <TextsEdit
               languagesFetch={actions.languagesFetch}
               itemFetch={actions.textsItemFetch}
@@ -86,7 +80,7 @@ const TextsRouter = ({
               errors={texts.errors}
               items={texts}
             />
-          )}
+          }
         />
       )}
     />

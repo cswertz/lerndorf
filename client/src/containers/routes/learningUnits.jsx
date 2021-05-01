@@ -10,12 +10,7 @@ import LearningUnitsShow from '../learningUnits/Show';
 import LearningUnitsAdd from '../learningUnits/Add';
 import LearningUnits from '../learningUnits/List';
 
-const LearningUnitsRouter = ({
-  learningUnits,
-  languages,
-  actions,
-  user,
-}) => (
+const LearningUnitsRouter = ({ learningUnits, languages, actions, user }) => (
   <>
     <Route
       exact
@@ -28,14 +23,14 @@ const LearningUnitsRouter = ({
           active="learningUnits"
           title="Learning Units"
           user={user}
-          element={(
+          element={
             <LearningUnits
               user={user}
               learningUnitsDelete={actions.learningUnitsDelete}
               learningUnitsFetch={actions.learningUnitsFetch}
               learningUnits={learningUnits}
             />
-          )}
+          }
         />
       )}
     />
@@ -51,14 +46,14 @@ const LearningUnitsRouter = ({
           title="Add Learning Unit"
           active="learningUnits"
           user={user}
-          element={(
+          element={
             <LearningUnitsAdd
               handleSubmit={actions.learningUnitsAdd}
               languagesFetch={actions.languagesFetch}
               languages={languages}
               errors={learningUnits.errors}
             />
-          )}
+          }
         />
       )}
     />
@@ -74,7 +69,7 @@ const LearningUnitsRouter = ({
           title="Learning Unit"
           active="learningUnits"
           user={user}
-          element={(
+          element={
             <LearningUnitsShow
               handleKnowledgeUnitDelete={actions.knowledgeUnitsDelete}
               markReviewed={actions.knowledgeUnitsMarkReviewed}
@@ -85,7 +80,7 @@ const LearningUnitsRouter = ({
               errors={learningUnits.errors}
               items={learningUnits}
             />
-          )}
+          }
         />
       )}
     />
@@ -101,7 +96,7 @@ const LearningUnitsRouter = ({
           logout={actions.userLogout}
           items={learningUnits}
           user={user}
-          element={(
+          element={
             <LearningUnitsEdit
               learningUnitsDeleteRelation={actions.learningUnitsDeleteRelation}
               learningUnitsAddRelation={actions.learningUnitsAddRelation}
@@ -119,7 +114,7 @@ const LearningUnitsRouter = ({
               items={learningUnits}
               user={user}
             />
-          )}
+          }
         />
       )}
     />

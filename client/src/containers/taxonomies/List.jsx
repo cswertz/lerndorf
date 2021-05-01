@@ -17,10 +17,7 @@ class Taxonomies extends Component {
   }
 
   componentDidMount() {
-    const {
-      items,
-      itemsFetch,
-    } = this.props;
+    const { items, itemsFetch } = this.props;
 
     if (!items.fetched && !items.fetching) {
       itemsFetch();
@@ -28,10 +25,7 @@ class Taxonomies extends Component {
   }
 
   componentDidUpdate() {
-    const {
-      items,
-      itemsFetch,
-    } = this.props;
+    const { items, itemsFetch } = this.props;
 
     if (!items.fetched && !items.fetching) {
       itemsFetch();
@@ -39,39 +33,28 @@ class Taxonomies extends Component {
   }
 
   handleDelete(id) {
-    const {
-      itemsDelete,
-    } = this.props;
+    const { itemsDelete } = this.props;
 
     itemsDelete(id);
   }
 
   handleDisable(id) {
-    const {
-      itemsDisable,
-    } = this.props;
+    const { itemsDisable } = this.props;
 
     itemsDisable(id);
   }
 
   handleEnable(id) {
-    const {
-      itemsEnable,
-    } = this.props;
+    const { itemsEnable } = this.props;
     itemsEnable(id);
   }
 
   render() {
-    const {
-      history,
-      items,
-    } = this.props;
+    const { history, items } = this.props;
 
     return (
       <div>
-        <Typography variant="title">
-          Available taxonomies
-        </Typography>
+        <Typography variant="title">Available taxonomies</Typography>
         <List
           itemsDelete={this.handleDelete}
           itemsDisable={this.handleDisable}
@@ -80,10 +63,7 @@ class Taxonomies extends Component {
           history={history}
         />
         <Grid>
-          <Button
-            onClick={() => history.push('/taxonomies/add')}
-            variant="contained"
-          >
+          <Button onClick={() => history.push('/taxonomies/add')} variant="contained">
             Add new taxonomy
           </Button>
         </Grid>

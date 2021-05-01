@@ -13,33 +13,21 @@ import React from 'react';
 
 const styles = () => ({});
 
-const RolesList = ({
-  itemsDelete,
-  history,
-  items,
-}) => {
+const RolesList = ({ itemsDelete, history, items }) => {
   let renderedItems = null;
   if (items.length > 0) {
-    renderedItems = items.map(item => (
+    renderedItems = items.map((item) => (
       <ListItem key={item.id}>
-        <ListItemText
-          primary={`${item.name}`}
-        />
+        <ListItemText primary={`${item.name}`} />
         <ListItemSecondaryAction>
           <IconButton aria-label="Show">
-            <VisibilityIcon
-              onClick={() => history.push(`/users/roles/show/${item.id}`)}
-            />
+            <VisibilityIcon onClick={() => history.push(`/users/roles/show/${item.id}`)} />
           </IconButton>
           <IconButton aria-label="Edit">
-            <EditIcon
-              onClick={() => history.push(`/users/roles/edit/${item.id}`)}
-            />
+            <EditIcon onClick={() => history.push(`/users/roles/edit/${item.id}`)} />
           </IconButton>
           <IconButton aria-label="Delete">
-            <DeleteIcon
-              onClick={() => itemsDelete(item.id)}
-            />
+            <DeleteIcon onClick={() => itemsDelete(item.id)} />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
@@ -48,9 +36,7 @@ const RolesList = ({
 
   return (
     <div>
-      <List dense={false}>
-        {renderedItems}
-      </List>
+      <List dense={false}>{renderedItems}</List>
     </div>
   );
 };

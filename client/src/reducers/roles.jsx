@@ -34,12 +34,7 @@ const roles = (state = initialState, action) => {
     case ROLES_DELETE_SUCCESS:
     case ROLES_EDIT_SUCCESS:
     case ROLES_ADD_SUCCESS: {
-      return Object.assign({}, state, {
-        fetched: false,
-        fetching: false,
-        id: {},
-        items: [],
-      });
+      return { ...state, fetched: false, fetching: false, id: {}, items: [] };
     }
 
     case ROLES_ADD_FAILED: {
@@ -48,22 +43,21 @@ const roles = (state = initialState, action) => {
         errors[item.param] = item.msg;
       });
 
-      return Object.assign({}, state, {
-        errors: Object.assign({}, state.errors, {
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
           add: {
             error: true,
             errorMessage: action.error,
             errors,
           },
-        }),
-      });
+        },
+      };
     }
 
     case ROLES_FETCH: {
-      return Object.assign({}, state, {
-        fetched: false,
-        fetching: true,
-      });
+      return { ...state, fetched: false, fetching: true };
     }
 
     case ROLES_ITEM_FETCH_SUCCESS: {
@@ -71,18 +65,11 @@ const roles = (state = initialState, action) => {
       ids[action.item.id] = action.item;
       ids[action.item.id].children = action.children;
 
-      return Object.assign({}, state, {
-        fetching: false,
-        id: ids,
-      });
+      return { ...state, fetching: false, id: ids };
     }
 
     case ROLES_FETCH_SUCCESS: {
-      return Object.assign({}, state, {
-        fetched: true,
-        fetching: false,
-        items: action.items,
-      });
+      return { ...state, fetched: true, fetching: false, items: action.items };
     }
 
     default:

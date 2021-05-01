@@ -45,14 +45,8 @@ const styles = (theme) => ({
   },
 });
 
-const TextsShowPaper = ({
-  classes,
-  link,
-  text,
-}) => (
-  <Paper
-    className={classes.paper}
-  >
+const TextsShowPaper = ({ classes, link, text }) => (
+  <Paper className={classes.paper}>
     <Typography variant="headline">
       {link && (
         <Link to={`/texts/show/${text.id}`}>
@@ -73,41 +67,25 @@ const TextsShowPaper = ({
     />
     <div className={classes.clearfix} />
     {text.prevId && (
-      <Button
-        variant="contained"
-        component={Link}
-        to={`/texts/show/${text.prevId}`}
-      >
+      <Button variant="contained" component={Link} to={`/texts/show/${text.prevId}`}>
         show previous Version
       </Button>
     )}
     &nbsp;
     {text.nextId && (
-      <Button
-        variant="contained"
-        component={Link}
-        to={`/texts/show/${text.nextId}`}
-      >
+      <Button variant="contained" component={Link} to={`/texts/show/${text.nextId}`}>
         show next Version
       </Button>
     )}
     &nbsp;
     {text.rootId && (
-      <Button
-        variant="contained"
-        component={Link}
-        to={`/texts/show/${text.rootId}`}
-      >
+      <Button variant="contained" component={Link} to={`/texts/show/${text.rootId}`}>
         show root
       </Button>
     )}
     &nbsp;
     {text.currentId && text.currentId !== text.id && (
-      <Button
-        variant="contained"
-        component={Link}
-        to={`/texts/show/${text.currentId}`}
-      >
+      <Button variant="contained" component={Link} to={`/texts/show/${text.currentId}`}>
         show current version
       </Button>
     )}

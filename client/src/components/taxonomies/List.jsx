@@ -11,10 +11,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import List from '@material-ui/core/List';
 import { Link } from 'react-router-dom';
 
-import DialogBinary from '../DialogBinary';
-
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import DialogBinary from '../DialogBinary';
 
 const styles = () => ({
   wrapper: {
@@ -22,14 +21,7 @@ const styles = () => ({
   },
 });
 
-const TaxonomyList = ({
-  itemsDelete,
-  itemsDisable,
-  itemsEnable,
-  classes,
-  history,
-  items,
-}) => {
+const TaxonomyList = ({ itemsDelete, itemsDisable, itemsEnable, classes, history, items }) => {
   const [deleteId, setDeleteId] = useState(null);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
@@ -53,12 +45,7 @@ const TaxonomyList = ({
   let renderedItems = null;
   if (items.length > 0) {
     renderedItems = items.map((item) => (
-      <ListItem
-        key={item.id}
-        button
-        component={Link}
-        to={`/taxonomies/show/${item.id}`}
-      >
+      <ListItem key={item.id} button component={Link} to={`/taxonomies/show/${item.id}`}>
         <ListItemText primary={`${item.type}`} />
         <ListItemSecondaryAction>
           {!item.active && (
@@ -107,9 +94,7 @@ const TaxonomyList = ({
 
   return (
     <div className={classes.wrapper}>
-      <List dense={false}>
-        {renderedItems}
-      </List>
+      <List dense={false}>{renderedItems}</List>
 
       <DialogBinary
         onClose={hideDeleteConfirmation}

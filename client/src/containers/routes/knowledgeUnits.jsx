@@ -9,12 +9,7 @@ import KnowledgeUnitsShow from '../knowledgeUnits/Show';
 import KnowledgeUnitsAdd from '../knowledgeUnits/Add';
 // import KnowledgeUnits from '../knowledgeUnits/List';
 
-const KnowledgeUnitsRouter = ({
-  knowledgeUnits,
-  learningUnits,
-  actions,
-  user,
-}) => (
+const KnowledgeUnitsRouter = ({ knowledgeUnits, learningUnits, actions, user }) => (
   <>
     {/*
     <Route
@@ -51,7 +46,7 @@ const KnowledgeUnitsRouter = ({
           title="Add Knowledge Unit"
           active="knowledgeUnits"
           user={user}
-          element={(
+          element={
             <KnowledgeUnitsAdd
               taxonomiesFetch={actions.knowledgeUnitsTaxonomiesFetch}
               learningUnitFetch={actions.learningUnitsItemFetch}
@@ -61,7 +56,7 @@ const KnowledgeUnitsRouter = ({
               errors={knowledgeUnits.errors}
               user={user}
             />
-          )}
+          }
         />
       )}
     />
@@ -77,7 +72,7 @@ const KnowledgeUnitsRouter = ({
           title="Knowledge Unit"
           active="knowledgeUnits"
           user={user}
-          element={(
+          element={
             <KnowledgeUnitsShow
               handleDelete={actions.knowledgeUnitsDelete}
               markReviewed={actions.knowledgeUnitsMarkReviewed}
@@ -88,7 +83,7 @@ const KnowledgeUnitsRouter = ({
               items={knowledgeUnits}
               user={user}
             />
-          )}
+          }
         />
       )}
     />
@@ -104,7 +99,7 @@ const KnowledgeUnitsRouter = ({
           title="Knowledge Unit"
           active="knowledgeUnits"
           user={user}
-          element={(
+          element={
             <KnowledgeUnitsEdit
               taxonomiesFetch={actions.knowledgeUnitsTaxonomiesFetch}
               itemFetch={actions.knowledgeUnitsItemFetch}
@@ -114,7 +109,7 @@ const KnowledgeUnitsRouter = ({
               errors={knowledgeUnits.errors}
               items={knowledgeUnits}
             />
-          )}
+          }
         />
       )}
     />

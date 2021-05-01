@@ -14,10 +14,7 @@ class Login extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const {
-      handleSubmit,
-      history,
-    } = this.props;
+    const { handleSubmit, history } = this.props;
 
     const data = {
       username: e.target.username.value,
@@ -28,16 +25,9 @@ class Login extends Component {
   }
 
   render() {
-    const {
-      errors,
-    } = this.props;
+    const { errors } = this.props;
 
-    return (
-      <LoginForm
-        errors={errors.login}
-        handleSubmit={this.handleSubmit}
-      />
-    );
+    return <LoginForm errors={errors.login} handleSubmit={this.handleSubmit} />;
   }
 }
 

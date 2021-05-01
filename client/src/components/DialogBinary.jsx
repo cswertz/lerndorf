@@ -8,22 +8,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 
-const BinaryDialog = ({
-  onClose,
-  onConfirm,
-  title,
-  text,
-  open,
-}) => (
-  <Dialog
-    onClose={onClose}
-    open={open}
-  >
+const BinaryDialog = ({ onClose, onConfirm, title, text, open }) => (
+  <Dialog onClose={onClose} open={open}>
     <DialogTitle id="simple-dialog-title">{title}</DialogTitle>
     <DialogContent>
-      <DialogContentText>
-        {text}
-      </DialogContentText>
+      <DialogContentText>{text}</DialogContentText>
     </DialogContent>
     <DialogActions>
       <Button onClick={onConfirm} color="primary">

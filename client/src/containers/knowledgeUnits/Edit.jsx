@@ -13,10 +13,7 @@ class KnowledgeUnitsEdit extends Component {
   }
 
   componentDidMount() {
-    const {
-      taxonomiesFetch,
-      taxonomies,
-    } = this.props;
+    const { taxonomiesFetch, taxonomies } = this.props;
 
     if (!taxonomies.fetched && !taxonomies.fetching) {
       taxonomiesFetch();
@@ -30,15 +27,9 @@ class KnowledgeUnitsEdit extends Component {
   }
 
   fetchItem() {
-    const {
-      match,
-      items,
-      itemFetch,
-    } = this.props;
+    const { match, items, itemFetch } = this.props;
 
-    const {
-      id,
-    } = match.params;
+    const { id } = match.params;
 
     if (!items.id[id] && items.fetchingId !== id) {
       itemFetch(id);
@@ -46,20 +37,13 @@ class KnowledgeUnitsEdit extends Component {
   }
 
   handleSubmit(e) {
-
     e.preventDefault();
 
-    console.log("Update");
+    console.log('Update');
 
-    const {
-      history,
-      handleSubmit,
-      match,
-    } = this.props;
+    const { history, handleSubmit, match } = this.props;
 
-    const {
-      id,
-    } = match.params;
+    const { id } = match.params;
 
     const data = {
       objective: e.target.objective.value,
@@ -81,28 +65,21 @@ class KnowledgeUnitsEdit extends Component {
       eqfLevel: e.target.eqfLevel.value,
     };
 
-    data.minimumScreenResolution = (data.minimumScreenResolution.isInteger !== '')
-      ? data.minimumScreenResolution : null;
-    data.knowledgeType = (data.knowledgeType !== '') ? data.knowledgeType : null;
-    data.courseLevel = (data.courseLevel.isInteger !== '') ? data.courseLevel : null;
-    data.mediaType = (data.mediaType.isInteger !== '') ? data.mediaType : null;
-    data.license = (data.license.isInteger !== '') ? data.license : null;
-    data.eqfLevel = (data.eqfLevel.isInteger !== '') ? data.eqfLevel : null;
+    data.minimumScreenResolution =
+      data.minimumScreenResolution.isInteger !== '' ? data.minimumScreenResolution : null;
+    data.knowledgeType = data.knowledgeType !== '' ? data.knowledgeType : null;
+    data.courseLevel = data.courseLevel.isInteger !== '' ? data.courseLevel : null;
+    data.mediaType = data.mediaType.isInteger !== '' ? data.mediaType : null;
+    data.license = data.license.isInteger !== '' ? data.license : null;
+    data.eqfLevel = data.eqfLevel.isInteger !== '' ? data.eqfLevel : null;
 
     handleSubmit(id, data, history);
   }
 
   render() {
-    const {
-      taxonomies,
-      errors,
-      match,
-      items,
-    } = this.props;
+    const { taxonomies, errors, match, items } = this.props;
 
-    const {
-      id,
-    } = match.params;
+    const { id } = match.params;
     const item = items.id[id];
     if (!item) return null;
 
@@ -115,9 +92,7 @@ class KnowledgeUnitsEdit extends Component {
 
     return (
       <div>
-        <Typography variant="h5">
-          Edit Knowledge Unit
-        </Typography>
+        <Typography variant="h5">Edit Knowledge Unit</Typography>
         <EditForm
           handleSubmit={this.handleSubmit}
           taxonomies={taxonomies.items}

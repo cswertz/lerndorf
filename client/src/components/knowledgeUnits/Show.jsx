@@ -7,13 +7,7 @@ import Single from './Single';
 
 const styles = {};
 
-const KnowledgeUnitsShow = ({
-  handleDelete,
-  markReviewed,
-  markLectored,
-  item,
-  user,
-}) => (
+const KnowledgeUnitsShow = ({ handleDelete, markReviewed, markLectored, item, user }) => (
   <Single
     handleDelete={handleDelete}
     markReviewed={markReviewed}

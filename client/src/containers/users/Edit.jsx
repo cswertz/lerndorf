@@ -41,11 +41,7 @@ class Edit extends Component {
   submitAccountDeletion() {
     this.closeAccountDeletionDialog();
 
-    const {
-      userDelete,
-      user,
-      history,
-    } = this.props;
+    const { userDelete, user, history } = this.props;
     const { id } = user;
 
     userDelete(id, history);
@@ -69,11 +65,7 @@ class Edit extends Component {
   }
 
   handleImageUpdate(file) {
-    const {
-      handleSubmit,
-      history,
-      user,
-    } = this.props;
+    const { handleSubmit, history, user } = this.props;
 
     const { id } = user;
     const data = {
@@ -86,11 +78,7 @@ class Edit extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const {
-      handleSubmit,
-      history,
-      user,
-    } = this.props;
+    const { handleSubmit, history, user } = this.props;
 
     const { id } = user;
 
@@ -128,33 +116,23 @@ class Edit extends Component {
   }
 
   render() {
-    const {
-      user,
-      errors,
-    } = this.props;
+    const { user, errors } = this.props;
 
-    const {
-      logDeletionOpen,
-      accountDeletionOpen,
-    } = this.state;
+    const { logDeletionOpen, accountDeletionOpen } = this.state;
 
     return (
       <div>
-        <Typography variant="h5">
-          {user.username}
-        </Typography>
+        <Typography variant="h5">{user.username}</Typography>
         <EditForm
           user={user}
           initialValues={user}
           errors={errors.edit}
           handleSubmit={this.handleSubmit}
           handleImageUpdate={this.handleImageUpdate}
-
           openLogDeletionDialog={this.openLogDeletionDialog}
           closeLogDeletionDialog={this.closeLogDeletionDialog}
           submitLogDeletion={this.submitLogDeletion}
           logDeletionDialogOpen={logDeletionOpen}
-
           openAccountDeletionDialog={this.openAccountDeletionDialog}
           closeAccountDeletionDialog={this.closeAccountDeletionDialog}
           submitAccountDeletion={this.submitAccountDeletion}

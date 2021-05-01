@@ -18,38 +18,24 @@ const styles = () => ({
   },
 });
 
-const Capabilities = ({
-  available,
-  classes,
-  remove,
-  owned,
-  add,
-}) => {
-  const ownedItems = owned.map(capability => (
+const Capabilities = ({ available, classes, remove, owned, add }) => {
+  const ownedItems = owned.map((capability) => (
     <ListItem key={capability.id}>
-      <ListItemText
-        primary={`${capability.name}`}
-      />
+      <ListItemText primary={`${capability.name}`} />
       <ListItemSecondaryAction>
         <IconButton aria-label="Show">
-          <ClearIcon
-            onClick={e => remove(e, capability.id)}
-          />
+          <ClearIcon onClick={(e) => remove(e, capability.id)} />
         </IconButton>
       </ListItemSecondaryAction>
     </ListItem>
   ));
 
-  const availableItems = available.map(capability => (
+  const availableItems = available.map((capability) => (
     <ListItem key={capability.id}>
-      <ListItemText
-        primary={`${capability.name}`}
-      />
+      <ListItemText primary={`${capability.name}`} />
       <ListItemSecondaryAction>
         <IconButton aria-label="Show">
-          <AddIcon
-            onClick={e => add(e, capability.id)}
-          />
+          <AddIcon onClick={(e) => add(e, capability.id)} />
         </IconButton>
       </ListItemSecondaryAction>
     </ListItem>
@@ -59,19 +45,15 @@ const Capabilities = ({
     <Grid container spacing={16} className={classes.listing}>
       <Grid item xs={6}>
         <Typography variant="headline" gutterBottom>
-        Assigned Capabilities
+          Assigned Capabilities
         </Typography>
-        <List dense>
-          {ownedItems}
-        </List>
+        <List dense>{ownedItems}</List>
       </Grid>
       <Grid item xs={6}>
         <Typography variant="headline" gutterBottom>
-        Available Capabilities
+          Available Capabilities
         </Typography>
-        <List dense>
-          {availableItems}
-        </List>
+        <List dense>{availableItems}</List>
       </Grid>
     </Grid>
   );

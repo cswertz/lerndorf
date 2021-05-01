@@ -1,6 +1,6 @@
 import * as types from './constants';
 
-export const textsFetchSuccess = items => ({
+export const textsFetchSuccess = (items) => ({
   type: types.TEXTS_FETCH_SUCCESS,
   items,
 });
@@ -23,13 +23,13 @@ export const textsDeleteSuccess = () => ({
   type: types.TEXTS_DELETE_SUCCESS,
 });
 
-export const textsItemFetchSuccess = item => ({
+export const textsItemFetchSuccess = (item) => ({
   type: types.TEXTS_ITEM_FETCH_SUCCESS,
   item,
 });
 
-export const textsFetch = () => (
-  dispatch => fetch('/api/texts', {
+export const textsFetch = () => (dispatch) =>
+  fetch('/api/texts', {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -37,7 +37,7 @@ export const textsFetch = () => (
     },
     credentials: 'include',
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -49,11 +49,10 @@ export const textsFetch = () => (
     })
     .catch((error) => {
       console.log('Error while fetching knowledge units:', error);
-    })
-);
+    });
 
-export const textsItemFetch = id => (
-  dispatch => fetch(`/api/texts/${id}`, {
+export const textsItemFetch = (id) => (dispatch) =>
+  fetch(`/api/texts/${id}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -61,7 +60,7 @@ export const textsItemFetch = id => (
     },
     credentials: 'include',
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -73,11 +72,10 @@ export const textsItemFetch = id => (
     })
     .catch((error) => {
       console.log('Error while fetching knowledge units:', error);
-    })
-);
+    });
 
-export const textsAdd = (data, history) => (
-  dispatch => fetch('/api/texts', {
+export const textsAdd = (data, history) => (dispatch) =>
+  fetch('/api/texts', {
     method: 'post',
     headers: {
       Accept: 'application/json',
@@ -86,7 +84,7 @@ export const textsAdd = (data, history) => (
     credentials: 'include',
     body: JSON.stringify(data),
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -99,11 +97,10 @@ export const textsAdd = (data, history) => (
     })
     .catch((error) => {
       console.log('Error while adding knowledge unit:', error);
-    })
-);
+    });
 
-export const textsDelete = id => (
-  dispatch => fetch(`/api/texts/${id}`, {
+export const textsDelete = (id) => (dispatch) =>
+  fetch(`/api/texts/${id}`, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json',
@@ -116,11 +113,10 @@ export const textsDelete = id => (
     })
     .catch((error) => {
       console.log('Error while deleting knowledge unit:', error);
-    })
-);
+    });
 
-export const textsEdit = (id, data, history) => (
-  dispatch => fetch(`/api/texts/${id}`, {
+export const textsEdit = (id, data, history) => (dispatch) =>
+  fetch(`/api/texts/${id}`, {
     method: 'PATCH',
     headers: {
       Accept: 'application/json',
@@ -129,7 +125,7 @@ export const textsEdit = (id, data, history) => (
     credentials: 'include',
     body: JSON.stringify(data),
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -142,5 +138,4 @@ export const textsEdit = (id, data, history) => (
     })
     .catch((error) => {
       console.log('Error while editing knowledge unit:', error);
-    })
-);
+    });

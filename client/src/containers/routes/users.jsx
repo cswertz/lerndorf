@@ -17,14 +17,7 @@ import RolesEdit from '../users/roles/Edit';
 import RolesAdd from '../users/roles/Add';
 import Roles from '../users/roles/List';
 
-const UsersRouter = ({
-  capabilities,
-  languages,
-  actions,
-  roles,
-  users,
-  user,
-}) => (
+const UsersRouter = ({ capabilities, languages, actions, roles, users, user }) => (
   <>
     <Route
       exact
@@ -37,14 +30,14 @@ const UsersRouter = ({
           active="users"
           title="Users"
           user={user}
-          element={(
+          element={
             <Users
               itemFetch={actions.usersItemFetch}
               itemsDelete={actions.usersDelete}
               itemsFetch={actions.usersFetch}
               items={users}
             />
-          )}
+          }
         />
       )}
     />
@@ -60,12 +53,7 @@ const UsersRouter = ({
           active="register"
           title="Register"
           user={user}
-          element={(
-            <Register
-              handleSubmit={actions.userRegister}
-              errors={user.errors}
-            />
-          )}
+          element={<Register handleSubmit={actions.userRegister} errors={user.errors} />}
         />
       )}
     />
@@ -81,14 +69,14 @@ const UsersRouter = ({
           active="activation"
           title="Activation"
           user={user}
-          element={(
+          element={
             <Activate
               activate={actions.userActivate}
               activated={user.activated}
               errors={user.errors}
               active={user.active}
             />
-          )}
+          }
         />
       )}
     />
@@ -104,12 +92,7 @@ const UsersRouter = ({
           active="login"
           title="Login"
           user={user}
-          element={(
-            <Login
-              errors={user.errors}
-              handleSubmit={actions.userLogin}
-            />
-          )}
+          element={<Login errors={user.errors} handleSubmit={actions.userLogin} />}
         />
       )}
     />
@@ -125,14 +108,14 @@ const UsersRouter = ({
           title="Edit your data"
           active="user"
           user={user}
-          element={(
+          element={
             <UserEdit
               userDelete={actions.userDelete}
               handleSubmit={actions.userEdit}
               errors={user.errors}
               user={user.user}
             />
-          )}
+          }
         />
       )}
     />
@@ -148,7 +131,7 @@ const UsersRouter = ({
           title="Edit your languages"
           active="user"
           user={user}
-          element={(
+          element={
             <UserLanguage
               errors={user.errors}
               user={user.user}
@@ -158,7 +141,7 @@ const UsersRouter = ({
               languageDelete={actions.userLanguageDelete}
               languagePreferred={actions.userLanguagePreferred}
             />
-          )}
+          }
         />
       )}
     />
@@ -174,7 +157,7 @@ const UsersRouter = ({
           title="Edit User"
           active="user"
           user={user}
-          element={(
+          element={
             <UsersEdit
               itemFetch={actions.usersItemFetch}
               handleSubmit={actions.usersEdit}
@@ -185,7 +168,7 @@ const UsersRouter = ({
               items={users}
               roles={roles}
             />
-          )}
+          }
         />
       )}
     />
@@ -201,13 +184,13 @@ const UsersRouter = ({
           title="User Roles"
           active="user"
           user={user}
-          element={(
+          element={
             <Roles
               itemsDelete={actions.rolesDelete}
               itemsFetch={actions.rolesFetch}
               items={roles}
             />
-          )}
+          }
         />
       )}
     />
@@ -223,14 +206,14 @@ const UsersRouter = ({
           title="Add Role"
           active="user"
           user={user}
-          element={(
+          element={
             <RolesAdd
               languagesFetch={actions.languagesFetch}
               handleSubmit={actions.rolesAdd}
               languages={languages}
               errors={roles.errors}
             />
-          )}
+          }
         />
       )}
     />
@@ -246,7 +229,7 @@ const UsersRouter = ({
           title="Edit Role"
           active="user"
           user={user}
-          element={(
+          element={
             <RolesEdit
               capabilitiesFetch={actions.capabilitiesFetch}
               removeCapability={actions.removeCapability}
@@ -259,7 +242,7 @@ const UsersRouter = ({
               languages={languages}
               items={roles}
             />
-          )}
+          }
         />
       )}
     />
@@ -275,12 +258,7 @@ const UsersRouter = ({
           title="Roles"
           active="user"
           user={user}
-          element={(
-            <RolesShow
-              itemFetch={actions.rolesItemFetch}
-              items={roles}
-            />
-          )}
+          element={<RolesShow itemFetch={actions.rolesItemFetch} items={roles} />}
         />
       )}
     />

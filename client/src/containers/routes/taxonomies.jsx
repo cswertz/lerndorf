@@ -10,12 +10,8 @@ import TaxonomiesEdit from '../taxonomies/Edit';
 import TaxonomiesAdd from '../taxonomies/Add';
 import Taxonomies from '../taxonomies/List';
 
-const Router = ({
-  taxonomies,
-  actions,
-  user,
-}) => (
-  <React.Fragment>
+const Router = ({ taxonomies, actions, user }) => (
+  <>
     <Route
       exact
       path="/taxonomies"
@@ -27,7 +23,7 @@ const Router = ({
           active="taxonomies"
           title="Taxonomies"
           user={user}
-          element={(
+          element={
             <Taxonomies
               itemsDelete={actions.taxonomiesDelete}
               itemsDisable={actions.taxonomiesDisable}
@@ -35,7 +31,7 @@ const Router = ({
               itemsFetch={actions.taxonomiesFetch}
               items={taxonomies}
             />
-          )}
+          }
         />
       )}
     />
@@ -51,7 +47,7 @@ const Router = ({
           active="taxonomies"
           title="Taxonomies"
           user={user}
-          element={(
+          element={
             <TaxonomyChildren
               itemFetch={actions.taxonomiesItemFetch}
               itemsDelete={actions.taxonomiesDelete}
@@ -59,7 +55,7 @@ const Router = ({
               itemsEnable={actions.taxonomiesEnable}
               items={taxonomies}
             />
-          )}
+          }
         />
       )}
     />
@@ -75,12 +71,9 @@ const Router = ({
           active="taxonomies"
           title="Add Taxonomy"
           user={user}
-          element={(
-            <TaxonomiesAdd
-              handleSubmit={actions.taxonomiesAdd}
-              errors={taxonomies.errors}
-            />
-          )}
+          element={
+            <TaxonomiesAdd handleSubmit={actions.taxonomiesAdd} errors={taxonomies.errors} />
+          }
         />
       )}
     />
@@ -96,12 +89,9 @@ const Router = ({
           active="taxonomies"
           title="Add Taxonomy"
           user={user}
-          element={(
-            <TaxonomiesAddChild
-              handleSubmit={actions.taxonomiesAdd}
-              errors={taxonomies.errors}
-            />
-          )}
+          element={
+            <TaxonomiesAddChild handleSubmit={actions.taxonomiesAdd} errors={taxonomies.errors} />
+          }
         />
       )}
     />
@@ -117,18 +107,18 @@ const Router = ({
           active="taxonomies"
           title="Edit Taxonomy Term"
           user={user}
-          element={(
+          element={
             <TaxonomiesEdit
               itemFetch={actions.taxonomiesItemFetch}
               handleSubmit={actions.taxonomiesEdit}
               errors={taxonomies.errors}
               items={taxonomies}
             />
-          )}
+          }
         />
       )}
     />
-  </React.Fragment>
+  </>
 );
 
 Router.propTypes = {

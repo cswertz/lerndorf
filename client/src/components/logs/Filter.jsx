@@ -39,12 +39,7 @@ const styles = (theme) => ({
   },
 });
 
-const renderSelectField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
+const renderSelectField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
   const customOptions = custom;
   delete customOptions.errorText;
@@ -58,7 +53,7 @@ const renderSelectField = ({
     helperText = error;
   }
 
-  let hasError = (touched && error);
+  let hasError = touched && error;
   if (errorText) {
     hasError = true;
   }
@@ -67,46 +62,32 @@ const renderSelectField = ({
   }
 
   const options = custom.options.map((option) => (
-    <MenuItem
-      key={option.id}
-      value={option.id}
-    >
+    <MenuItem key={option.id} value={option.id}>
       {option.name}
     </MenuItem>
   ));
 
   return (
     <>
-      <InputLabel
-        htmlFor="language"
-        error={hasError}
-        required={false}
-      />
+      <InputLabel htmlFor="language" error={hasError} required={false} />
       <Select
         name="language"
         value=""
-        error={(hasError && true)}
+        error={hasError && true}
         displayEmpty
         {...input}
         {...customOptions}
       >
         {options}
       </Select>
-      <FormHelperText
-        error={hasError}
-      >
-        {helperText}
-      </FormHelperText>
+      <FormHelperText error={hasError}>{helperText}</FormHelperText>
     </>
   );
 };
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = [
-    'knowledgeType',
-    'mediaType',
-  ];
+  const requiredFields = ['knowledgeType', 'mediaType'];
   requiredFields.forEach((field) => {
     if (!values[field] || values[field] === '') {
       errors[field] = 'Required';
@@ -116,17 +97,13 @@ const validate = (values) => {
   return errors;
 };
 
-const LogsFilter = ({
-  handleFilterUpdate,
-  languages,
-  suggestions,
-  fetchSuggestions,
-  classes,
-}) => {
-  const allLanguages = [{
-    id: -1,
-    name: 'All',
-  }].concat(languages);
+const LogsFilter = ({ handleFilterUpdate, languages, suggestions, fetchSuggestions, classes }) => {
+  const allLanguages = [
+    {
+      id: -1,
+      name: 'All',
+    },
+  ].concat(languages);
   const luIdRef = useRef(null);
 
   function update(e) {
@@ -144,7 +121,7 @@ const LogsFilter = ({
 
     console.log(filters);
 
-    //handleFilterUpdate(filters);
+    // handleFilterUpdate(filters);
   }
 
   function setTarget(id) {
@@ -167,20 +144,12 @@ const LogsFilter = ({
         </div>
         <div className={classes.wrapper}>
           <FormControl required className={classes.formControl}>
-            <TextField
-              name="userId"
-              label="User ID"
-              className={classes.textField}
-            />
+            <TextField name="userId" label="User ID" className={classes.textField} />
           </FormControl>
         </div>
         <div className={classes.wrapper}>
           <FormControl required className={classes.formControl}>
-            <TextField
-              name="courseId"
-              label="Course ID"
-              className={classes.textField}
-            />
+            <TextField name="courseId" label="Course ID" className={classes.textField} />
           </FormControl>
         </div>
         <div className={classes.wrapper}>
@@ -196,20 +165,12 @@ const LogsFilter = ({
         </div>
         <div className={classes.wrapper}>
           <FormControl required className={classes.formControl}>
-            <TextField
-              name="luId"
-              label="Learning Unit ID"
-              className={classes.textField}
-            />
+            <TextField name="luId" label="Learning Unit ID" className={classes.textField} />
           </FormControl>
         </div>
         <div className={classes.wrapper}>
           <FormControl required className={classes.formControl}>
-            <TextField
-              name="kuId"
-              label="Knowledge Unit ID"
-              className={classes.textField}
-            />
+            <TextField name="kuId" label="Knowledge Unit ID" className={classes.textField} />
           </FormControl>
         </div>
         <div className={classes.wrapper}>
@@ -234,10 +195,7 @@ const LogsFilter = ({
         </div>
 
         <div className={classes.buttonWrapper}>
-          <Button
-            type="submit"
-            variant="contained"
-          >
+          <Button type="submit" variant="contained">
             Update Preview
           </Button>
         </div>

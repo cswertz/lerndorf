@@ -8,23 +8,19 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = {};
 
-const RolesShow = ({
-  item,
-}) => {
-  const capabilities = item.Capabilities.map(role => (
+const RolesShow = ({ item }) => {
+  const capabilities = item.Capabilities.map((role) => (
     <ListItem key={role.id}>
-      <ListItemText
-        primary={`${role.name}`}
-      />
+      <ListItemText primary={`${role.name}`} />
     </ListItem>
   ));
 
   return (
     <div>
-      Capabilities of role {'"'}{item.name}{'"'}
-      <List dense>
-        {capabilities}
-      </List>
+      Capabilities of role {'"'}
+      {item.name}
+      {'"'}
+      <List dense>{capabilities}</List>
     </div>
   );
 };

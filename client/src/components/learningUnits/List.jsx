@@ -18,24 +18,17 @@ const styles = () => ({
   },
 });
 
-const LearningUnitsList = ({
-  learningUnitsDelete,
-  learningUnits,
-  classes,
-  user,
-}) => {
+const LearningUnitsList = ({ learningUnitsDelete, learningUnits, classes, user }) => {
   let learningUnitItems = null;
   if (learningUnits.length > 0) {
     learningUnitItems = learningUnits.map((item) => {
-      const languages = item.Languages.map(language => (
+      const languages = item.Languages.map((language) => (
         <ListItem
           component={Link}
           key={`${item.id}${language.id}`}
           to={`learning-units/show/${language.id}/${item.id}`}
         >
-          <ListItemText
-            primary={`${language.LearningUnitLanguage.title} (${language.name})`}
-          />
+          <ListItemText primary={`${language.LearningUnitLanguage.title} (${language.name})`} />
           <ListItemSecondaryAction>
             {user.user.id === item.User.id && (
               <IconButton
@@ -48,9 +41,7 @@ const LearningUnitsList = ({
             )}
             {user.user.id === item.User.id && (
               <IconButton aria-label="Delete">
-                <DeleteIcon
-                  onClick={() => learningUnitsDelete(item.id)}
-                />
+                <DeleteIcon onClick={() => learningUnitsDelete(item.id)} />
               </IconButton>
             )}
           </ListItemSecondaryAction>
@@ -58,14 +49,8 @@ const LearningUnitsList = ({
       ));
       return (
         <ListItem key={item.id}>
-          <ListItemText
-            primary={`#${item.id}`}
-          />
-          <List
-            className={classes.languageList}
-          >
-            {languages}
-          </List>
+          <ListItemText primary={`#${item.id}`} />
+          <List className={classes.languageList}>{languages}</List>
         </ListItem>
       );
     });
@@ -76,9 +61,7 @@ const LearningUnitsList = ({
       <Typography variant="title" className={classes.title}>
         Available Learning Units
       </Typography>
-      <List dense={false}>
-        {learningUnitItems}
-      </List>
+      <List dense={false}>{learningUnitItems}</List>
     </div>
   );
 };

@@ -14,10 +14,7 @@ class Register extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const {
-      handleSubmit,
-      history,
-    } = this.props;
+    const { handleSubmit, history } = this.props;
 
     const data = {
       username: e.target.username.value,
@@ -29,16 +26,9 @@ class Register extends Component {
   }
 
   render() {
-    const {
-      errors,
-    } = this.props;
+    const { errors } = this.props;
 
-    return (
-      <RegisterForm
-        errors={errors.registration}
-        handleSubmit={this.handleSubmit}
-      />
-    );
+    return <RegisterForm errors={errors.registration} handleSubmit={this.handleSubmit} />;
   }
 }
 

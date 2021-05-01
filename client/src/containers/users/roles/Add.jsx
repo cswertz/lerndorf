@@ -15,20 +15,16 @@ class RolesAdd extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const {
-      history,
-      languages,
-      handleSubmit,
-    } = this.props;
+    const { history, languages, handleSubmit } = this.props;
     const data = {
       name: e.target.name.value,
       translations: [],
     };
 
-    for(let language of languages.languages) {
-      const { id, code } = language
+    for (const language of languages.languages) {
+      const { id, code } = language;
 
-      if(e.target[code]) {
+      if (e.target[code]) {
         const vocable = e.target[code].value;
         const translation = {
           id,
@@ -47,10 +43,7 @@ class RolesAdd extends Component {
   }
 
   fetchLanguages() {
-    const {
-      languages,
-      languagesFetch,
-    } = this.props;
+    const { languages, languagesFetch } = this.props;
 
     if (!languages.fetched && !languages.fetching) {
       languagesFetch();
@@ -58,10 +51,7 @@ class RolesAdd extends Component {
   }
 
   render() {
-    const {
-      errors,
-      languages
-    } = this.props;
+    const { errors, languages } = this.props;
 
     return (
       <AddForm

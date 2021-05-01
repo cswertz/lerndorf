@@ -41,13 +41,7 @@ const editorConfig = {
         value: '75',
       },
     ],
-    styles: [
-      'full',
-      'side',
-      'alignLeft',
-      'alignRight',
-      'alignCenter',
-    ],
+    styles: ['full', 'side', 'alignLeft', 'alignRight', 'alignCenter'],
     toolbar: [
       'imageStyle:full',
       'imageStyle:side',

@@ -12,15 +12,11 @@ class TaxonomiesEdit extends Component {
   }
 
   componentDidMount() {
-    const {
-      match,
-      items,
-      itemFetch,
-    } = this.props;
+    const { match, items, itemFetch } = this.props;
 
     const { id } = match.params;
 
-    if ((!items.fetching) && !items.id[id]) {
+    if (!items.fetching && !items.id[id]) {
       itemFetch(id);
     }
   }
@@ -28,11 +24,7 @@ class TaxonomiesEdit extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const {
-      match,
-      history,
-      handleSubmit,
-    } = this.props;
+    const { match, history, handleSubmit } = this.props;
 
     const { id } = match.params;
 
@@ -44,22 +36,12 @@ class TaxonomiesEdit extends Component {
   }
 
   render() {
-    const {
-      errors,
-      items,
-      match,
-    } = this.props;
+    const { errors, items, match } = this.props;
 
     const { id } = match.params;
     const item = items.id[id];
 
-    return (
-      <EditForm
-        handleSubmit={this.handleSubmit}
-        initialValues={item}
-        errors={errors.edit}
-      />
-    );
+    return <EditForm handleSubmit={this.handleSubmit} initialValues={item} errors={errors.edit} />;
   }
 }
 

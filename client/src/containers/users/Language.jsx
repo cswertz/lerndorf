@@ -15,22 +15,15 @@ class Language extends Component {
   }
 
   componentDidMount() {
-    const {
-      languages,
-      languagesFetch,
-    } = this.props;
+    const { languages, languagesFetch } = this.props;
 
-    if ((!languages.fetching) && !languages.fetching) {
+    if (!languages.fetching && !languages.fetching) {
       languagesFetch();
     }
   }
 
   handleLanguageDelete(languageId) {
-    const {
-      languageDelete,
-      history,
-      user,
-    } = this.props;
+    const { languageDelete, history, user } = this.props;
 
     const { id } = user;
 
@@ -40,11 +33,7 @@ class Language extends Component {
   handleLanguageAdd(e) {
     e.preventDefault();
 
-    const {
-      languageAdd,
-      history,
-      user,
-    } = this.props;
+    const { languageAdd, history, user } = this.props;
 
     const { id } = user;
 
@@ -59,32 +48,23 @@ class Language extends Component {
   }
 
   handlePreferred(userLanguageId) {
-    const {
-      languagePreferred,
-      history,
-      user,
-    } = this.props;
+    const { languagePreferred, history, user } = this.props;
 
     const { id } = user;
     const data = {
       id: userLanguageId,
     };
 
-    console.log("Set", data, "as favorite");
+    console.log('Set', data, 'as favorite');
     languagePreferred(id, data, history);
   }
 
   render() {
-    const {
-      user,
-      languages,
-    } = this.props;
+    const { user, languages } = this.props;
 
     return (
       <div>
-        <Typography variant="h5">
-          {user.username}
-        </Typography>
+        <Typography variant="h5">{user.username}</Typography>
         <LanguageElement
           user={user}
           handleDelete={this.handleLanguageDelete}

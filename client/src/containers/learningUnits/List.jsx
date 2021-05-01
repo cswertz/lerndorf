@@ -15,10 +15,7 @@ class LearningUnits extends Component {
   }
 
   componentDidMount() {
-    const {
-      learningUnits,
-      learningUnitsFetch,
-    } = this.props;
+    const { learningUnits, learningUnitsFetch } = this.props;
 
     if (!learningUnits.fetched && !learningUnits.fetching) {
       learningUnitsFetch();
@@ -26,10 +23,7 @@ class LearningUnits extends Component {
   }
 
   componentDidUpdate() {
-    const {
-      learningUnits,
-      learningUnitsFetch,
-    } = this.props;
+    const { learningUnits, learningUnitsFetch } = this.props;
 
     if (!learningUnits.fetched && !learningUnits.fetching) {
       learningUnitsFetch();
@@ -37,19 +31,13 @@ class LearningUnits extends Component {
   }
 
   handleDelete(id) {
-    const {
-      learningUnitsDelete,
-    } = this.props;
+    const { learningUnitsDelete } = this.props;
 
     learningUnitsDelete(id);
   }
 
   render() {
-    const {
-      learningUnits,
-      history,
-      user,
-    } = this.props;
+    const { learningUnits, history, user } = this.props;
 
     return (
       <div>
@@ -61,10 +49,7 @@ class LearningUnits extends Component {
         />
         {hasCapability(user.capabilities, ['add_learning_unit']) && (
           <Grid>
-            <Button
-              onClick={() => history.push('/learning-units/add')}
-              variant="contained"
-            >
+            <Button onClick={() => history.push('/learning-units/add')} variant="contained">
               Add new Learning Unit
             </Button>
           </Grid>

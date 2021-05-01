@@ -1,6 +1,6 @@
 import * as types from './constants';
 
-export const taxonomiesFetchSuccess = items => ({
+export const taxonomiesFetchSuccess = (items) => ({
   type: types.TAXONOMIES_FETCH_SUCCESS,
   items,
 });
@@ -29,8 +29,8 @@ export const taxonomiesDeleteSuccess = () => ({
   type: types.TAXONOMIES_DELETE_SUCCESS,
 });
 
-export const taxonomiesFetch = () => (
-  dispatch => fetch('/api/taxonomies', {
+export const taxonomiesFetch = () => (dispatch) =>
+  fetch('/api/taxonomies', {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -38,7 +38,7 @@ export const taxonomiesFetch = () => (
     },
     credentials: 'include',
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -50,11 +50,10 @@ export const taxonomiesFetch = () => (
     })
     .catch((error) => {
       console.log('Error while fetching taxonomies:', error);
-    })
-);
+    });
 
-export const taxonomiesAdd = (data, history) => (
-  dispatch => fetch('/api/taxonomies', {
+export const taxonomiesAdd = (data, history) => (dispatch) =>
+  fetch('/api/taxonomies', {
     method: 'post',
     headers: {
       Accept: 'application/json',
@@ -63,7 +62,7 @@ export const taxonomiesAdd = (data, history) => (
     credentials: 'include',
     body: JSON.stringify(data),
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -80,11 +79,10 @@ export const taxonomiesAdd = (data, history) => (
     })
     .catch((error) => {
       console.log('Error during adding language:', error);
-    })
-);
+    });
 
-export const taxonomiesDelete = id => (
-  dispatch => fetch(`/api/taxonomies/${id}`, {
+export const taxonomiesDelete = (id) => (dispatch) =>
+  fetch(`/api/taxonomies/${id}`, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json',
@@ -97,57 +95,52 @@ export const taxonomiesDelete = id => (
     })
     .catch((error) => {
       console.log('Error during adding language:', error);
-    })
-);
+    });
 
-export const taxonomiesDisable = (id) => (
-  async (dispatch) => {
-    const data = { active: false };
-    try {
-      const response = await fetch(`/api/taxonomies/${id}`, {
-        method: 'PATCH',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(data),
-      });
-      const json = await response.json();
-      if (json) {
-        dispatch(taxonomiesEditSuccess());
-      }
-    } catch (e) {
-      console.log('Error while disabling taxonomy term:', e);
+export const taxonomiesDisable = (id) => async (dispatch) => {
+  const data = { active: false };
+  try {
+    const response = await fetch(`/api/taxonomies/${id}`, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(data),
+    });
+    const json = await response.json();
+    if (json) {
+      dispatch(taxonomiesEditSuccess());
     }
+  } catch (e) {
+    console.log('Error while disabling taxonomy term:', e);
   }
-);
+};
 
-export const taxonomiesEnable = (id) => (
-  async (dispatch) => {
-    const data = { active: true };
-    try {
-      const response = await fetch(`/api/taxonomies/${id}`, {
-        method: 'PATCH',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(data),
-      });
-      const json = await response.json();
-      if (json) {
-        dispatch(taxonomiesEditSuccess());
-      }
-    } catch (e) {
-      console.log('Error while disabling taxonomy term:', e);
+export const taxonomiesEnable = (id) => async (dispatch) => {
+  const data = { active: true };
+  try {
+    const response = await fetch(`/api/taxonomies/${id}`, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(data),
+    });
+    const json = await response.json();
+    if (json) {
+      dispatch(taxonomiesEditSuccess());
     }
+  } catch (e) {
+    console.log('Error while disabling taxonomy term:', e);
   }
-);
+};
 
-export const taxonomiesEdit = (id, data, history) => (
-  dispatch => fetch(`/api/taxonomies/${id}`, {
+export const taxonomiesEdit = (id, data, history) => (dispatch) =>
+  fetch(`/api/taxonomies/${id}`, {
     method: 'PATCH',
     headers: {
       Accept: 'application/json',
@@ -156,7 +149,7 @@ export const taxonomiesEdit = (id, data, history) => (
     credentials: 'include',
     body: JSON.stringify(data),
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -169,11 +162,10 @@ export const taxonomiesEdit = (id, data, history) => (
     })
     .catch((error) => {
       console.log('Error during adding language:', error);
-    })
-);
+    });
 
-export const taxonomiesItemFetch = id => (
-  dispatch => fetch(`/api/taxonomies/${id}`, {
+export const taxonomiesItemFetch = (id) => (dispatch) =>
+  fetch(`/api/taxonomies/${id}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -181,7 +173,7 @@ export const taxonomiesItemFetch = id => (
     },
     credentials: 'include',
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -193,5 +185,4 @@ export const taxonomiesItemFetch = id => (
     })
     .catch((error) => {
       console.log('Error while fetching taxonomies:', error);
-    })
-);
+    });

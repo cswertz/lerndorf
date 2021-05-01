@@ -16,7 +16,7 @@ export const userEditFailed = (error, errors) => ({
   errors,
 });
 
-export const userEditSuccess = user => ({
+export const userEditSuccess = (user) => ({
   type: types.USER_EDIT_SUCCESS,
   user,
 });
@@ -27,7 +27,7 @@ export const userLoginFailed = (error, errors) => ({
   errors,
 });
 
-export const userLoginSuccess = user => ({
+export const userLoginSuccess = (user) => ({
   type: types.USER_LOGIN_SUCCESS,
   user,
 });
@@ -36,7 +36,7 @@ export const userLogoutSUccess = () => ({
   type: types.USER_LOGOUT_SUCCESS,
 });
 
-export const userRolesFetchSuccess = roles => ({
+export const userRolesFetchSuccess = (roles) => ({
   type: types.USER_ROLES_FETCH_SUCCESS,
   roles,
 });
@@ -49,13 +49,13 @@ export const userRegister = (data, history) => {
     formData.append(key, data[key]);
   }
 
-  return (
-    dispatch => fetch('/api/users', {
+  return (dispatch) =>
+    fetch('/api/users', {
       method: 'post',
       credentials: 'include',
       body: formData,
     })
-      .then(response => response.json())
+      .then((response) => response.json())
       .then((json) => {
         if (json) {
           if (json.error) {
@@ -68,12 +68,11 @@ export const userRegister = (data, history) => {
       })
       .catch((error) => {
         console.log('Error during registration:', error);
-      })
-  );
+      });
 };
 
-export const userLogin = (data, history) => (
-  dispatch => fetch('/api/users/login', {
+export const userLogin = (data, history) => (dispatch) =>
+  fetch('/api/users/login', {
     method: 'post',
     headers: {
       Accept: 'application/json',
@@ -82,7 +81,7 @@ export const userLogin = (data, history) => (
     credentials: 'include',
     body: JSON.stringify(data),
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -95,11 +94,10 @@ export const userLogin = (data, history) => (
     })
     .catch((error) => {
       console.log('Error during login:', error);
-    })
-);
+    });
 
-export const userLogout = history => (
-  dispatch => fetch('/api/users/logout', {
+export const userLogout = (history) => (dispatch) =>
+  fetch('/api/users/logout', {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -113,8 +111,7 @@ export const userLogout = history => (
     })
     .catch((error) => {
       console.log('Error during logout:', error);
-    })
-);
+    });
 
 export const userEdit = (id, data, history) => {
   const formData = new FormData();
@@ -124,13 +121,13 @@ export const userEdit = (id, data, history) => {
     formData.append(key, data[key]);
   }
 
-  return (
-    dispatch => fetch(`/api/users/${id}`, {
+  return (dispatch) =>
+    fetch(`/api/users/${id}`, {
       method: 'PATCH',
       credentials: 'include',
       body: formData,
     })
-      .then(response => response.json())
+      .then((response) => response.json())
       .then((json) => {
         if (json) {
           if (json.error) {
@@ -143,12 +140,11 @@ export const userEdit = (id, data, history) => {
       })
       .catch((error) => {
         console.log('Error during editing:', error);
-      })
-  );
+      });
 };
 
-export const userFetchRoles = (id) => (
-  dispatch => fetch(`/api/users/${id}`, {
+export const userFetchRoles = (id) => (dispatch) =>
+  fetch(`/api/users/${id}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -166,7 +162,6 @@ export const userFetchRoles = (id) => (
       if (json) {
         if (json.error) {
           // dispatch(userEditFailed(json.error, json.errors));
-
         } else {
           dispatch(userRolesFetchSuccess(json));
         }
@@ -174,112 +169,103 @@ export const userFetchRoles = (id) => (
     })
     .catch((error) => {
       console.log('Error during editing:', error);
-    })
-);
+    });
 
-export const userDelete = (id, data, history) => (
-  async (dispatch) => {
-    try {
-      const response = await fetch(`/api/users/${id}`, {
-        method: 'DELETE',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
+export const userDelete = (id, data, history) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/users/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
 
-      const json = await response.json();
-      if (json) {
-        if (json.error) {
-          // dispatch(userEditFailed(json.error, json.errors));
-        } else {
-          dispatch(userLogoutSUccess());
-          history.push('/');
-        }
+    const json = await response.json();
+    if (json) {
+      if (json.error) {
+        // dispatch(userEditFailed(json.error, json.errors));
+      } else {
+        dispatch(userLogoutSUccess());
+        history.push('/');
       }
-    } catch (e) {
-      console.log('Error while deleting user:', e);
     }
+  } catch (e) {
+    console.log('Error while deleting user:', e);
   }
-);
+};
 
-export const userLanguageAdd = (id, data, history) => (
-  async (dispatch) => {
-    try {
-      const response = await fetch(`/api/users/${id}/language`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(data),
-      });
-      const json = await response.json();
-      if (json) {
-        if (json.error) {
-          // dispatch(userEditFailed(json.error, json.errors));
-        } else {
-          dispatch(userEditSuccess(json));
-          history.push('/users/user/languages');
-        }
+export const userLanguageAdd = (id, data, history) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/users/${id}/language`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(data),
+    });
+    const json = await response.json();
+    if (json) {
+      if (json.error) {
+        // dispatch(userEditFailed(json.error, json.errors));
+      } else {
+        dispatch(userEditSuccess(json));
+        history.push('/users/user/languages');
       }
-    } catch (e) {
-      console.log('Error while fetching knowledge units:', e);
     }
+  } catch (e) {
+    console.log('Error while fetching knowledge units:', e);
   }
-);
+};
 
-export const userLanguageDelete = (id, languageId, history) => (
-  async (dispatch) => {
-    try {
-      const response = await fetch(`/api/users/${id}/language/${languageId}`, {
-        method: 'DELETE',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
-      const json = await response.json();
-      if (json) {
-        if (json.error) {
-          // dispatch(userEditFailed(json.error, json.errors));
-        } else {
-          dispatch(userEditSuccess(json));
-          history.push('/users/user/languages');
-        }
+export const userLanguageDelete = (id, languageId, history) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/users/${id}/language/${languageId}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+    const json = await response.json();
+    if (json) {
+      if (json.error) {
+        // dispatch(userEditFailed(json.error, json.errors));
+      } else {
+        dispatch(userEditSuccess(json));
+        history.push('/users/user/languages');
       }
-    } catch (e) {
-      console.log('Error while fetching knowledge units:', e);
     }
+  } catch (e) {
+    console.log('Error while fetching knowledge units:', e);
   }
-);
+};
 
-export const userLanguagePreferred = (id, data, history) => (
-  async (dispatch) => {
-    try {
-      const response = await fetch(`/api/users/${id}/language/preferred`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(data),
-      });
-      const json = await response.json();
-      if (json) {
-        if (json.error) {
-          // dispatch(userEditFailed(json.error, json.errors));
-        } else {
-          dispatch(userEditSuccess(json));
-          history.push('/users/user/languages');
-        }
+export const userLanguagePreferred = (id, data, history) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/users/${id}/language/preferred`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(data),
+    });
+    const json = await response.json();
+    if (json) {
+      if (json.error) {
+        // dispatch(userEditFailed(json.error, json.errors));
+      } else {
+        dispatch(userEditSuccess(json));
+        history.push('/users/user/languages');
       }
-    } catch (e) {
-      console.log('Error setting preferred language:', e);
     }
+  } catch (e) {
+    console.log('Error setting preferred language:', e);
   }
-);
+};

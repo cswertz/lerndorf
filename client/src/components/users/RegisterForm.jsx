@@ -4,7 +4,6 @@ import { Field, reduxForm } from 'redux-form';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
 import { withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
@@ -14,10 +13,7 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
-import {
-  isValidEmail,
-  isValidUrl,
-} from '../../utils/user';
+import { isValidEmail, isValidUrl } from '../../utils/user';
 
 const styles = (theme) => ({
   textField: {
@@ -45,12 +41,7 @@ const styles = (theme) => ({
   },
 });
 
-const renderTextField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
+const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
   const customOptions = custom;
   delete customOptions.errorText;
@@ -74,36 +65,22 @@ const renderTextField = ({
   );
 };
 
-const renderCheckboxField = ({
-  input,
-  label,
-  ...custom
-}) => {
+const renderCheckboxField = ({ input, label, ...custom }) => {
   const customOptions = custom;
   const customInput = input;
-  delete (customInput.value);
-  delete (customOptions.errorText);
+  delete customInput.value;
+  delete customOptions.errorText;
 
   return (
     <FormControlLabel
-      control={(
-        <Checkbox
-          label={label}
-          {...customInput}
-          {...customOptions}
-        />
-      )}
+      control={<Checkbox label={label} {...customInput} {...customOptions} />}
       label={label}
       className={custom.classes.label}
     />
   );
 };
-const renderSelectField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
+
+const renderSelectField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
   const customOptions = custom;
   const options = custom.options();
@@ -119,7 +96,7 @@ const renderSelectField = ({
     helperText = error;
   }
 
-  let hasError = (touched && error);
+  let hasError = touched && error;
   if (errorText) {
     hasError = true;
   }
@@ -127,59 +104,42 @@ const renderSelectField = ({
     hasError = true;
   }
 
-  const renderedOptions = options.map(option => (
-    <MenuItem
-      key={option}
-      value={option}
-    >
+  const renderedOptions = options.map((option) => (
+    <MenuItem key={option} value={option}>
       {option}
     </MenuItem>
   ));
 
   return (
-    <React.Fragment>
-      <InputLabel
-        htmlFor="country"
-        error={hasError}
-        required={false}
-      >
+    <>
+      <InputLabel htmlFor="country" error={hasError} required={false}>
         Country
       </InputLabel>
       <Select
         name="country"
         value=""
-        error={(hasError && true)}
+        error={hasError && true}
         displayEmpty
         {...input}
         {...customOptions}
       >
         {renderedOptions}
       </Select>
-      <FormHelperText
-        error={hasError}
-      >
-        {helperText}
-      </FormHelperText>
-    </React.Fragment>
+      <FormHelperText error={hasError}>{helperText}</FormHelperText>
+    </>
   );
 };
 
-
 const validate = (values) => {
   const errors = {};
-  const requiredFields = [
-    'username',
-    'email',
-    'password',
-    'password1',
-  ];
+  const requiredFields = ['username', 'email', 'password', 'password1'];
   requiredFields.forEach((field) => {
     if (!values[field]) {
       errors[field] = 'Required';
     }
   });
 
-  if (values.password && values.password1 && (values.password !== values.password1)) {
+  if (values.password && values.password1 && values.password !== values.password1) {
     errors.password = 'Passwords do not match';
     errors.password1 = 'Passwords do not match';
   }
@@ -195,13 +155,7 @@ const validate = (values) => {
   return errors;
 };
 
-const Register = ({
-  handleSubmit,
-  submitting,
-  pristine,
-  classes,
-  errors,
-}) => (
+const Register = ({ handleSubmit, submitting, pristine, classes, errors }) => (
   <form onSubmit={handleSubmit}>
     <div className={classes.flex}>
       <Field
@@ -249,10 +203,7 @@ const Register = ({
         errorText={errors.errors.title}
         classes={{ label: classes.labelLink }}
       />
-      <Link
-        to="/privacy-policy"
-        className={classes.link}
-      >
+      <Link to="/privacy-policy" className={classes.link}>
         Privacy Policy
       </Link>
     </div>
@@ -266,19 +217,12 @@ const Register = ({
         errorText={errors.errors.title}
         classes={{ label: classes.labelLink }}
       />
-      <Link
-        to="/terms-of-service"
-        className={classes.link}
-      >
+      <Link to="/terms-of-service" className={classes.link}>
         Terms of Service
       </Link>
     </div>
     <div>
-      <Button
-        type="submit"
-        variant="contained"
-        disabled={pristine || submitting}
-      >
+      <Button type="submit" variant="contained" disabled={pristine || submitting}>
         Register
       </Button>
     </div>

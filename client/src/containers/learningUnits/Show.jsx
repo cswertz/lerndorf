@@ -14,15 +14,9 @@ class LearningUnitsShow extends Component {
   }
 
   fetchItem() {
-    const {
-      match,
-      items,
-      itemFetch,
-    } = this.props;
+    const { match, items, itemFetch } = this.props;
 
-    const {
-      id,
-    } = match.params;
+    const { id } = match.params;
 
     if (!items.id[id] && items.fetchingId !== id) {
       itemFetch(id);
@@ -39,10 +33,7 @@ class LearningUnitsShow extends Component {
       user,
     } = this.props;
 
-    const {
-      id,
-      languageId,
-    } = match.params;
+    const { id, languageId } = match.params;
     let item = items.id[id];
     if (!item) return null;
 

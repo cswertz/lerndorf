@@ -8,14 +8,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
-    //flexGrow: 1,
-    //height: 250,
+    // flexGrow: 1,
+    // height: 250,
   },
   input: {
     display: 'flex',
-    //padding: 0,
+    // padding: 0,
   },
   valueContainer: {
     display: 'flex',
@@ -45,28 +45,17 @@ const styles = theme => ({
 });
 
 function SingleValue(props) {
-  const {
-    innerProps,
-    selectProps,
-    children,
-  } = props;
+  const { innerProps, selectProps, children } = props;
 
   return (
-    <Typography
-      className={selectProps.classes.singleValue}
-      {...innerProps}
-    >
+    <Typography className={selectProps.classes.singleValue} {...innerProps}>
       {children}
     </Typography>
   );
 }
 
 function NoOptionsMessage(props) {
-  const {
-    selectProps,
-    innerProps,
-    children,
-  } = props;
+  const { selectProps, innerProps, children } = props;
   return (
     <Typography
       color="textSecondary"
@@ -79,30 +68,16 @@ function NoOptionsMessage(props) {
 }
 
 function Placeholder(props) {
-  const {
-    selectProps,
-    innerProps,
-    children,
-  } = props;
+  const { selectProps, innerProps, children } = props;
   return (
-    <Typography
-      color="textSecondary"
-      className={selectProps.classes.placeholder}
-      {...innerProps}
-    >
+    <Typography color="textSecondary" className={selectProps.classes.placeholder} {...innerProps}>
       {children}
     </Typography>
   );
 }
 
 function Option(props) {
-  const {
-    innerProps,
-    isSelected,
-    isFocused,
-    children,
-    innerRef,
-  } = props;
+  const { innerProps, isSelected, isFocused, children, innerRef } = props;
   return (
     <MenuItem
       buttonRef={innerRef}
@@ -119,35 +94,18 @@ function Option(props) {
 }
 
 function Menu(props) {
-  const {
-    selectProps,
-    innerProps,
-    children,
-  } = props;
+  const { selectProps, innerProps, children } = props;
   return (
-    <Paper
-      square
-      className={selectProps.classes.paper}
-      {...innerProps}
-    >
+    <Paper square className={selectProps.classes.paper} {...innerProps}>
       {children}
     </Paper>
   );
 }
 
 function ValueContainer(props) {
-  const {
-    selectProps,
-    children,
-  } = props;
+  const { selectProps, children } = props;
 
-  return (
-    <div
-      className={selectProps.classes.valueContainer}
-    >
-      {children}
-    </div>
-  );
+  return <div className={selectProps.classes.valueContainer}>{children}</div>;
 }
 
 function inputComponent({ inputRef, ...props }) {
@@ -155,12 +113,7 @@ function inputComponent({ inputRef, ...props }) {
 }
 
 function Control(props) {
-  const {
-    selectProps,
-    innerRef,
-    innerProps,
-    children,
-  } = props;
+  const { selectProps, innerRef, innerProps, children } = props;
 
   return (
     <TextField
@@ -206,7 +159,7 @@ class Suggest extends Component {
   }
 
   componentDidMount() {
-    //this.fetchSuggestions('');
+    // this.fetchSuggestions('');
   }
 
   onKeyUp(e) {
@@ -236,30 +189,22 @@ class Suggest extends Component {
       setTarget(null);
     }
 
-    //this.fetchSuggestions(term);
+    // this.fetchSuggestions(term);
   }
 
   fetchSuggestions(term) {
-    const {
-      fetchSuggestions,
-    } = this.props;
+    const { fetchSuggestions } = this.props;
 
     fetchSuggestions(term);
   }
 
   render() {
-    const {
-      suggestions,
-      classes,
-      theme,
-    } = this.props;
+    const { suggestions, classes, theme } = this.props;
 
-    const {
-      term,
-    } = this.state;
+    const { term } = this.state;
 
     const selectStyles = {
-      input: base => ({
+      input: (base) => ({
         ...base,
         color: theme.palette.text.primary,
         '& input': {
@@ -275,7 +220,7 @@ class Suggest extends Component {
             classes={classes}
             options={suggestions}
             onChange={this.handleChange}
-            onKeyUp={e => this.onKeyUp(e)}
+            onKeyUp={(e) => this.onKeyUp(e)}
             placeholder="Search for a Learning unit"
             styles={selectStyles}
             value={term.value}

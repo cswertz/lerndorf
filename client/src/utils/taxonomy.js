@@ -13,8 +13,9 @@ const getOptions = (taxonomy, languageId) => {
     let vocable = taxonomyTerm.prefix || '';
     let translated = taxonomyTerm.type;
 
-    const translations = taxonomyTerm.TaxonomyLanguages
-      .filter((item) => item.LanguageId === languageId);
+    const translations = taxonomyTerm.TaxonomyLanguages.filter(
+      (item) => item.LanguageId === languageId,
+    );
     if (translations.length > 0) {
       translated = translations[0].vocable;
     }
@@ -30,7 +31,4 @@ const getOptions = (taxonomy, languageId) => {
   return options;
 };
 
-export {
-  term,
-  getOptions,
-};
+export { term, getOptions };

@@ -16,11 +16,7 @@ import Grid from '@material-ui/core/Grid';
 
 import BinaryDialog from '../DialogBinary';
 
-import {
-  isValidEmail,
-  getCountries,
-  isValidUrl,
-} from '../../utils/user';
+import { isValidEmail, getCountries, isValidUrl } from '../../utils/user';
 
 const styles = (theme) => ({
   textField: {
@@ -57,12 +53,7 @@ const styles = (theme) => ({
   },
 });
 
-const renderTextField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
+const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
   const customOptions = custom;
   delete customOptions.errorText;
@@ -78,7 +69,7 @@ const renderTextField = ({
   return (
     <TextField
       helperText={helperText}
-      error={((touched && error) || errorText)}
+      error={(touched && error) || errorText}
       label={label}
       value={input.value}
       {...input}
@@ -87,36 +78,22 @@ const renderTextField = ({
   );
 };
 
-const renderCheckboxField = ({
-  input,
-  label,
-  ...custom
-}) => {
+const renderCheckboxField = ({ input, label, ...custom }) => {
   const customOptions = custom;
   const customInput = input;
-  delete (customInput.value);
-  delete (customOptions.errorText);
+  delete customInput.value;
+  delete customOptions.errorText;
 
   return (
     <FormControlLabel
-      control={(
-        <Checkbox
-          label={label}
-          {...customInput}
-          {...customOptions}
-        />
-      )}
+      control={<Checkbox label={label} {...customInput} {...customOptions} />}
       label={label}
       className={custom.customclasses.label}
     />
   );
 };
 
-const renderImageField = ({
-  handleImageUpdate,
-  input,
-  ...custom
-}) => {
+const renderImageField = ({ handleImageUpdate, input, ...custom }) => {
   const hasProfilePicture = custom.picture;
   const style = {
     image: {
@@ -144,11 +121,7 @@ const renderImageField = ({
           nesting="asdfasdf"
           className={custom.classes.textField}
         >
-          <Button
-            variant="contained"
-            component="span"
-            className={custom.classes.pictureButton}
-          >
+          <Button variant="contained" component="span" className={custom.classes.pictureButton}>
             {buttonText}
           </Button>
         </label>
@@ -172,12 +145,7 @@ const renderImageField = ({
   );
 };
 
-const renderSelectField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
+const renderSelectField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
   const customOptions = custom;
   const options = custom.options();
@@ -193,7 +161,7 @@ const renderSelectField = ({
     helperText = error;
   }
 
-  let hasError = (touched && error);
+  let hasError = touched && error;
   if (errorText) {
     hasError = true;
   }
@@ -201,55 +169,42 @@ const renderSelectField = ({
     hasError = true;
   }
 
-  const renderedOptions = options.map(option => (
-    <MenuItem
-      key={option}
-      value={option}
-    >
+  const renderedOptions = options.map((option) => (
+    <MenuItem key={option} value={option}>
       {option}
     </MenuItem>
   ));
 
   return (
-    <React.Fragment>
-      <InputLabel
-        htmlFor="country"
-        error={hasError}
-        required={false}
-      >
+    <>
+      <InputLabel htmlFor="country" error={hasError} required={false}>
         Country
       </InputLabel>
       <Select
         name="country"
         value=""
-        error={(hasError && true)}
+        error={hasError && true}
         displayEmpty
         {...input}
         {...customOptions}
       >
         {renderedOptions}
       </Select>
-      <FormHelperText
-        error={hasError}
-      >
-        {helperText}
-      </FormHelperText>
-    </React.Fragment>
+      <FormHelperText error={hasError}>{helperText}</FormHelperText>
+    </>
   );
 };
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = [
-    'email',
-  ];
+  const requiredFields = ['email'];
   requiredFields.forEach((field) => {
     if (!values[field]) {
       errors[field] = 'Required';
     }
   });
 
-  if (values.password && values.password1 && (values.password !== values.password1)) {
+  if (values.password && values.password1 && values.password !== values.password1) {
     errors.password = 'Passwords do not match';
     errors.password1 = 'Passwords do not match';
   }
@@ -283,7 +238,7 @@ const UserEdit = ({
   errors,
   user,
 }) => (
-  <form onSubmit={e => handleSubmit(e)}>
+  <form onSubmit={(e) => handleSubmit(e)}>
     <div className={classes.flex}>
       <Field
         required
@@ -351,12 +306,7 @@ const UserEdit = ({
         component={renderTextField}
         className={classes.textField}
       />
-      <Field
-        name="phone"
-        label="Phone"
-        component={renderTextField}
-        className={classes.textField}
-      />
+      <Field name="phone" label="Phone" component={renderTextField} className={classes.textField} />
     </div>
     <div className={classes.flex}>
       <Field
@@ -365,24 +315,9 @@ const UserEdit = ({
         component={renderTextField}
         className={classes.textField}
       />
-      <Field
-        name="zip"
-        label="Zip"
-        component={renderTextField}
-        className={classes.textField}
-      />
-      <Field
-        name="city"
-        label="City"
-        component={renderTextField}
-        className={classes.textField}
-      />
-      <Field
-        name="state"
-        label="State"
-        component={renderTextField}
-        className={classes.textField}
-      />
+      <Field name="zip" label="Zip" component={renderTextField} className={classes.textField} />
+      <Field name="city" label="City" component={renderTextField} className={classes.textField} />
+      <Field name="state" label="State" component={renderTextField} className={classes.textField} />
       <div className={classes.wrapper}>
         <FormControl required className={classes.formControl}>
           <Field
@@ -500,19 +435,12 @@ const UserEdit = ({
       </Grid>
       <Grid item xs={12} sm={3}>
         <p>
-          <Button
-            variant="contained"
-            className={classes.fullWidth}
-          >
+          <Button variant="contained" className={classes.fullWidth}>
             Show logged data
           </Button>
         </p>
         <p>
-          <Button
-            variant="contained"
-            className={classes.fullWidth}
-            onClick={openLogDeletionDialog}
-          >
+          <Button variant="contained" className={classes.fullWidth} onClick={openLogDeletionDialog}>
             Delete logged data
           </Button>
         </p>
@@ -528,11 +456,7 @@ const UserEdit = ({
       </Grid>
     </Grid>
     <div>
-      <Button
-        type="submit"
-        variant="contained"
-        disabled={pristine || submitting || invalid}
-      >
+      <Button type="submit" variant="contained" disabled={pristine || submitting || invalid}>
         Save
       </Button>
     </div>

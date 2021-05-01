@@ -14,15 +14,9 @@ class WrapperText extends Component {
   }
 
   fetchKnowledgeUnits() {
-    const {
-      knowledgeUnitsItemFetch,
-      knowledgeUnits,
-      match,
-    } = this.props;
+    const { knowledgeUnitsItemFetch, knowledgeUnits, match } = this.props;
 
-    const {
-      KnowledgeUnitId,
-    } = match.params;
+    const { KnowledgeUnitId } = match.params;
 
     if (!knowledgeUnits.id[KnowledgeUnitId] && knowledgeUnits.fetchingId !== KnowledgeUnitId) {
       knowledgeUnitsItemFetch(KnowledgeUnitId);
@@ -30,15 +24,7 @@ class WrapperText extends Component {
   }
 
   render() {
-    const {
-      knowledgeUnits,
-      fetchRoles,
-      element,
-      logout,
-      user,
-      match,
-      title,
-    } = this.props;
+    const { knowledgeUnits, fetchRoles, element, logout, user, match, title } = this.props;
 
     const { KnowledgeUnitId } = match.params;
 

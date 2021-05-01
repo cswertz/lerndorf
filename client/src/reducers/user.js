@@ -65,38 +65,33 @@ const initialState = {
 const user = (state = initialState, action) => {
   switch (action.type) {
     case USER_ROLES_FETCH: {
-      return Object.assign({}, state, {
-        fetchingRoles: true,
-        fetchedRoles: false,
-      });
+      return { ...state, fetchingRoles: true, fetchedRoles: false };
     }
 
     case USER_ROLES_FETCH_SUCCESS: {
-      let capabilities = action.roles.Roles.map(
-        role => role.Capabilities.map(capability => capability.slug),
+      let capabilities = action.roles.Roles.map((role) =>
+        role.Capabilities.map((capability) => capability.slug),
       );
       capabilities = [].concat(...capabilities);
 
-      return Object.assign({}, state, {
-        fetchingRoles: false,
-        fetchedRoles: true,
-        capabilities,
-      });
+      return { ...state, fetchingRoles: false, fetchedRoles: true, capabilities };
     }
 
     case USER_REGISTER_SUCCESS: {
-      return Object.assign({}, state, {
-        errors: Object.assign({}, state.errors, {
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
           registration: {
             error: false,
             errors: {},
           },
-        }),
-      });
+        },
+      };
     }
 
     case USER_LOGOUT_SUCCESS: {
-      return Object.assign({}, initialState);
+      return { ...initialState };
     }
 
     case USER_EDIT_SUCCESS:
@@ -106,41 +101,39 @@ const user = (state = initialState, action) => {
         [current.birthdate] = current.birthdate.split('T');
       }
 
-      return Object.assign({}, state, {
+      return {
+        ...state,
         loggedIn: true,
-        user: Object.assign({}, state.user, current),
-        errors: Object.assign({}, state.errors, {
+        user: { ...state.user, ...current },
+        errors: {
+          ...state.errors,
           login: {
             error: false,
           },
-        }),
-      });
+        },
+      };
     }
 
     case USER_ACTIVATION_SUCCESS: {
-      return Object.assign({}, state, {
-        active: true,
-        activated: true,
-      });
+      return { ...state, active: true, activated: true };
     }
 
     case USER_ACTIVATION_FAILED: {
-      return Object.assign({}, state, {
-        active: false,
-        activated: true,
-      });
+      return { ...state, active: false, activated: true };
     }
 
     case USER_LOGIN_FAILED: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         loggedIn: false,
-        errors: Object.assign({}, state.errors, {
+        errors: {
+          ...state.errors,
           login: {
             error: true,
             errorMessage: action.error,
           },
-        }),
-      });
+        },
+      };
     }
 
     case USER_REGISTER_FAILED: {
@@ -149,26 +142,29 @@ const user = (state = initialState, action) => {
         errors[item.param] = item.msg;
       });
 
-      return Object.assign({}, state, {
-        errors: Object.assign({}, state.errors, {
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
           registration: {
             error: true,
             errorMessage: action.error,
             errors,
           },
-        }),
-      });
+        },
+      };
     }
 
     case REHYDRATE: {
       if (action.payload) {
-        return Object.assign({}, action.payload.user, {
+        return {
+          ...action.payload.user,
           fetchedRoles: false,
           fetchingRoles: false,
           activated: false,
           active: false,
           capabilities: [],
-        });
+        };
       }
 
       return state;

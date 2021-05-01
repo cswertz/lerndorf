@@ -9,39 +9,25 @@ import List from '@material-ui/core/List';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const UsersList = ({
-  itemsDelete,
-  history,
-  items,
-}) => {
+const UsersList = ({ itemsDelete, history, items }) => {
   let renderedItems = null;
   if (items.length > 0) {
-    renderedItems = items.map(item => (
+    renderedItems = items.map((item) => (
       <ListItem key={item.id}>
-        <ListItemText
-          primary={`${item.username}`}
-        />
+        <ListItemText primary={`${item.username}`} />
         <ListItemSecondaryAction>
           <IconButton aria-label="Edit">
-            <EditIcon
-              onClick={() => history.push(`/users/edit/${item.id}`)}
-            />
+            <EditIcon onClick={() => history.push(`/users/edit/${item.id}`)} />
           </IconButton>
           <IconButton aria-label="Delete">
-            <DeleteIcon
-              onClick={() => itemsDelete(item.id)}
-            />
+            <DeleteIcon onClick={() => itemsDelete(item.id)} />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
     ));
   }
 
-  return (
-    <List dense={false}>
-      {renderedItems}
-    </List>
-  );
+  return <List dense={false}>{renderedItems}</List>;
 };
 
 UsersList.propTypes = {

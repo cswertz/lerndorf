@@ -12,27 +12,10 @@ const styles = () => ({
   },
 });
 
-const Wrapper = ({
-  fetchRoles,
-  className,
-  classes,
-  element,
-  logout,
-  active,
-  title,
-  user,
-}) => (
+const Wrapper = ({ fetchRoles, className, classes, element, logout, active, title, user }) => (
   <div className={className}>
-    <Appbar
-      fetchRoles={fetchRoles}
-      logout={logout}
-      active={active}
-      title={title}
-      user={user}
-    />
-    <div className={classes.container}>
-      {element}
-    </div>
+    <Appbar fetchRoles={fetchRoles} logout={logout} active={active} title={title} user={user} />
+    <div className={classes.container}>{element}</div>
   </div>
 );
 

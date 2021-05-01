@@ -18,38 +18,24 @@ const styles = () => ({
   },
 });
 
-const Roles = ({
-  available,
-  classes,
-  remove,
-  owned,
-  add,
-}) => {
-  const ownedItems = owned.map(role => (
+const Roles = ({ available, classes, remove, owned, add }) => {
+  const ownedItems = owned.map((role) => (
     <ListItem key={role.id}>
-      <ListItemText
-        primary={`${role.name}`}
-      />
+      <ListItemText primary={`${role.name}`} />
       <ListItemSecondaryAction>
         <IconButton aria-label="Show">
-          <ClearIcon
-            onClick={e => remove(e, role.id)}
-          />
+          <ClearIcon onClick={(e) => remove(e, role.id)} />
         </IconButton>
       </ListItemSecondaryAction>
     </ListItem>
   ));
 
-  const availableItems = available.map(role => (
+  const availableItems = available.map((role) => (
     <ListItem key={role.id}>
-      <ListItemText
-        primary={`${role.name}`}
-      />
+      <ListItemText primary={`${role.name}`} />
       <ListItemSecondaryAction>
         <IconButton aria-label="Show">
-          <AddIcon
-            onClick={e => add(e, role.id)}
-          />
+          <AddIcon onClick={(e) => add(e, role.id)} />
         </IconButton>
       </ListItemSecondaryAction>
     </ListItem>
@@ -59,19 +45,15 @@ const Roles = ({
     <Grid container spacing={16} className={classes.listing}>
       <Grid item xs={6}>
         <Typography variant="headline" gutterBottom>
-        Assigned Roles
+          Assigned Roles
         </Typography>
-        <List dense>
-          {ownedItems}
-        </List>
+        <List dense>{ownedItems}</List>
       </Grid>
       <Grid item xs={6}>
         <Typography variant="headline" gutterBottom>
-        Available Roles
+          Available Roles
         </Typography>
-        <List dense>
-          {availableItems}
-        </List>
+        <List dense>{availableItems}</List>
       </Grid>
     </Grid>
   );

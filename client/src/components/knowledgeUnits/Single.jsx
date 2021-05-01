@@ -46,13 +46,7 @@ const KnowledgeUnitsShowPaper = ({
 }) => {
   let texts = '';
   if (unit.Texts) {
-    texts = unit.Texts.map(text => (
-      <Single
-        key={text.id}
-        text={text}
-        link
-      />
-    ));
+    texts = unit.Texts.map((text) => <Single key={text.id} text={text} link />);
   }
   const languageId = user.user.preferredLanguage || 1;
 
@@ -61,16 +55,8 @@ const KnowledgeUnitsShowPaper = ({
       <div className={classes.root}>
         <Grid item xs={12}>
           <Typography variant="headline">
-            {link && (
-              <Link to={`/knowledge-units/show/${unit.id}`}>
-                Knowledge Unit #{unit.id}
-              </Link>
-            )}
-            {!link && (
-              <span>
-                Knowledge Unit #{unit.id}
-              </span>
-            )}
+            {link && <Link to={`/knowledge-units/show/${unit.id}`}>Knowledge Unit #{unit.id}</Link>}
+            {!link && <span>Knowledge Unit #{unit.id}</span>}
           </Typography>
         </Grid>
       </div>

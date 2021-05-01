@@ -1,12 +1,12 @@
 import * as types from './constants';
 
-export const capabilitiesFetchSuccess = items => ({
+export const capabilitiesFetchSuccess = (items) => ({
   type: types.CAPABILITIES_FETCH_SUCCESS,
   items,
 });
 
-export const capabilitiesFetch = () => (
-  dispatch => fetch('/api/capabilities', {
+export const capabilitiesFetch = () => (dispatch) =>
+  fetch('/api/capabilities', {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -14,7 +14,7 @@ export const capabilitiesFetch = () => (
     },
     credentials: 'include',
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -26,5 +26,4 @@ export const capabilitiesFetch = () => (
     })
     .catch((error) => {
       console.log('Error while fetching capabilities:', error);
-    })
-);
+    });

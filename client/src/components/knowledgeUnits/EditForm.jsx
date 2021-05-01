@@ -39,12 +39,7 @@ const styles = (theme) => ({
   },
 });
 
-const renderSelectField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
+const renderSelectField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
   const customOptions = custom;
   delete customOptions.errorText;
@@ -58,7 +53,7 @@ const renderSelectField = ({
     helperText = error;
   }
 
-  let hasError = (touched && error);
+  let hasError = touched && error;
   if (errorText) {
     hasError = true;
   }
@@ -67,46 +62,30 @@ const renderSelectField = ({
   }
 
   const options = custom.options.map((option) => (
-    <MenuItem
-      key={option.id}
-      value={option.id}
-    >
+    <MenuItem key={option.id} value={option.id}>
       {option.type}
     </MenuItem>
   ));
 
   return (
     <>
-      <InputLabel
-        htmlFor="language"
-        error={hasError}
-        required={false}
-      />
+      <InputLabel htmlFor="language" error={hasError} required={false} />
       <Select
         name="language"
         value=""
-        error={(hasError && true)}
+        error={hasError && true}
         displayEmpty
         {...input}
         {...customOptions}
       >
         {options}
       </Select>
-      <FormHelperText
-        error={hasError}
-      >
-        {helperText}
-      </FormHelperText>
+      <FormHelperText error={hasError}>{helperText}</FormHelperText>
     </>
   );
 };
 
-const renderTextField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
+const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
   const customOptions = custom;
   delete customOptions.errorText;
@@ -119,7 +98,7 @@ const renderTextField = ({
     helperText = error;
   }
 
-  let hasError = (touched && error);
+  let hasError = touched && error;
   if (errorText) {
     hasError = true;
   }
@@ -127,7 +106,7 @@ const renderTextField = ({
   return (
     <TextField
       helperText={helperText}
-      error={(hasError && true)}
+      error={hasError && true}
       label={label}
       {...input}
       {...customOptions}
@@ -135,25 +114,15 @@ const renderTextField = ({
   );
 };
 
-const renderCheckboxField = ({
-  input,
-  label,
-  ...custom
-}) => {
+const renderCheckboxField = ({ input, label, ...custom }) => {
   const customOptions = custom;
   const customInput = input;
-  delete (customInput.value);
-  delete (customOptions.errorText);
+  delete customInput.value;
+  delete customOptions.errorText;
 
   return (
     <FormControlLabel
-      control={(
-        <Checkbox
-          label={label}
-          {...customInput}
-          {...customOptions}
-        />
-      )}
+      control={<Checkbox label={label} {...customInput} {...customOptions} />}
       label={label}
     />
   );
@@ -161,10 +130,7 @@ const renderCheckboxField = ({
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = [
-    'knowledgeType',
-    'mediaType',
-  ];
+  const requiredFields = ['knowledgeType', 'mediaType'];
   requiredFields.forEach((field) => {
     if (!values[field] || values[field] === '') {
       errors[field] = 'Required';
@@ -410,11 +376,7 @@ const KnowledgeUnitsAdd = ({
       </div>
     </div>
     <div>
-      <Button
-        type="submit"
-        variant="contained"
-        disabled={pristine || submitting || invalid}
-      >
+      <Button type="submit" variant="contained" disabled={pristine || submitting || invalid}>
         Save Knowledge Unit
       </Button>
     </div>

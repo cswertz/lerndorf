@@ -6,34 +6,23 @@ import Show from '../../../components/users/roles/Show';
 
 class RolesShow extends Component {
   componentDidMount() {
-    const {
-      match,
-      items,
-      itemFetch,
-    } = this.props;
+    const { match, items, itemFetch } = this.props;
 
     const { id } = match.params;
 
-    if ((!items.fetching) && !items.id[id]) {
+    if (!items.fetching && !items.id[id]) {
       itemFetch(id);
     }
   }
 
   render() {
-    const {
-      items,
-      match,
-    } = this.props;
+    const { items, match } = this.props;
 
     const { id } = match.params;
     const item = items.id[id];
     if (!item) return null;
 
-    return (
-      <Show
-        item={item}
-      />
-    );
+    return <Show item={item} />;
   }
 }
 

@@ -8,12 +8,8 @@ import LanguagesEdit from '../languages/Edit';
 import LanguagesAdd from '../languages/Add';
 import Languages from '../languages/List';
 
-const LanguagesRouter = ({
-  languages,
-  actions,
-  user,
-}) => (
-  <React.Fragment>
+const LanguagesRouter = ({ languages, actions, user }) => (
+  <>
     <Route
       exact
       path="/languages"
@@ -25,13 +21,13 @@ const LanguagesRouter = ({
           active="languages"
           title="Languages"
           user={user}
-          element={(
+          element={
             <Languages
               languagesDelete={actions.languagesDelete}
               languagesFetch={actions.languagesFetch}
               languages={languages}
             />
-          )}
+          }
         />
       )}
     />
@@ -47,12 +43,7 @@ const LanguagesRouter = ({
           title="Add Language"
           active="languages"
           user={user}
-          element={(
-            <LanguagesAdd
-              handleSubmit={actions.languagesAdd}
-              errors={languages.errors}
-            />
-          )}
+          element={<LanguagesAdd handleSubmit={actions.languagesAdd} errors={languages.errors} />}
         />
       )}
     />
@@ -68,18 +59,18 @@ const LanguagesRouter = ({
           title="Edit Language"
           active="languages"
           user={user}
-          element={(
+          element={
             <LanguagesEdit
               languagesFetch={actions.languagesFetch}
               handleSubmit={actions.languagesEdit}
               errors={languages.errors}
               languages={languages}
             />
-          )}
+          }
         />
       )}
     />
-  </React.Fragment>
+  </>
 );
 
 LanguagesRouter.propTypes = {

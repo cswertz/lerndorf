@@ -17,10 +17,7 @@ class TextsAdd extends Component {
   }
 
   componentDidMount() {
-    const {
-      languages,
-      languagesFetch,
-    } = this.props;
+    const { languages, languagesFetch } = this.props;
 
     if (!languages.fetched && !languages.fetching) {
       languagesFetch();
@@ -37,11 +34,7 @@ class TextsAdd extends Component {
     e.preventDefault();
 
     const { body } = this.state;
-    const {
-      history,
-      handleSubmit,
-      match,
-    } = this.props;
+    const { history, handleSubmit, match } = this.props;
     const { KnowledgeUnitId } = match.params;
     const data = {
       LanguageId: e.target.language.value,
@@ -53,10 +46,7 @@ class TextsAdd extends Component {
   }
 
   render() {
-    const {
-      languages,
-      errors,
-    } = this.props;
+    const { languages, errors } = this.props;
 
     return (
       <AddForm

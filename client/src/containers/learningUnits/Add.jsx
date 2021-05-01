@@ -12,10 +12,7 @@ class LearningUnitsAdd extends Component {
   }
 
   componentDidMount() {
-    const {
-      languages,
-      languagesFetch,
-    } = this.props;
+    const { languages, languagesFetch } = this.props;
 
     if (!languages.fetched && !languages.fetching) {
       languagesFetch();
@@ -25,10 +22,7 @@ class LearningUnitsAdd extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const {
-      history,
-      handleSubmit,
-    } = this.props;
+    const { history, handleSubmit } = this.props;
     const data = {
       language: e.target.language.value,
       title: e.target.title.value,
@@ -38,10 +32,7 @@ class LearningUnitsAdd extends Component {
   }
 
   render() {
-    const {
-      languages,
-      errors,
-    } = this.props;
+    const { languages, errors } = this.props;
 
     return (
       <AddForm

@@ -1,9 +1,4 @@
-import {
-  withRouter,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { withRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -48,33 +43,19 @@ const Router = ({
             logout={actions.userLogout}
             fetchRoles={actions.userFetchRoles}
           />
-          <Home
-            loggedIn={user.loggedIn}
-          />
+          <Home loggedIn={user.loggedIn} />
         </div>
       )}
     />
 
     <Route
       path="/languages"
-      render={() => (
-        <RoutesLanguages
-          languages={languages}
-          actions={actions}
-          user={user}
-        />
-      )}
+      render={() => <RoutesLanguages languages={languages} actions={actions} user={user} />}
     />
 
     <Route
       path="/taxonomies"
-      render={() => (
-        <RoutesTaxonomies
-          taxonomies={taxonomies}
-          actions={actions}
-          user={user}
-        />
-      )}
+      render={() => <RoutesTaxonomies taxonomies={taxonomies} actions={actions} user={user} />}
     />
 
     <Route
@@ -278,7 +259,4 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(AppActions, dispatch),
 });
 
-export default withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Router));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Router));

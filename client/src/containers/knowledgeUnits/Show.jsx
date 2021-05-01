@@ -16,24 +16,15 @@ class KnowledgeUnitsShow extends Component {
   }
 
   handleDelete(id) {
-    const {
-      handleDelete,
-      history,
-    } = this.props;
+    const { handleDelete, history } = this.props;
 
     handleDelete(id, history);
   }
 
   fetchItem() {
-    const {
-      match,
-      items,
-      itemFetch,
-    } = this.props;
+    const { match, items, itemFetch } = this.props;
 
-    const {
-      id,
-    } = match.params;
+    const { id } = match.params;
 
     if (!items.id[id] && items.fetchingId !== id) {
       itemFetch(id);
@@ -41,17 +32,9 @@ class KnowledgeUnitsShow extends Component {
   }
 
   render() {
-    const {
-      markReviewed,
-      markLectored,
-      items,
-      match,
-      user,
-    } = this.props;
+    const { markReviewed, markLectored, items, match, user } = this.props;
 
-    const {
-      id,
-    } = match.params;
+    const { id } = match.params;
     let item = items.id[id];
     if (!item) return null;
 

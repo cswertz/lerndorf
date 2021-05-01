@@ -56,10 +56,7 @@ class MenuAppBar extends Component {
   }
 
   handleLogout() {
-    const {
-      history,
-      logout,
-    } = this.props;
+    const { history, logout } = this.props;
 
     this.setState({ anchorEl: null });
     logout(history);
@@ -80,12 +77,7 @@ class MenuAppBar extends Component {
   }
 
   render() {
-    const {
-      fetchRoles,
-      classes,
-      title,
-      user,
-    } = this.props;
+    const { fetchRoles, classes, title, user } = this.props;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
@@ -93,10 +85,7 @@ class MenuAppBar extends Component {
       <div className={classes.root}>
         <AppBar position="static" className={classes.appbar}>
           <Toolbar>
-            <MainMenu
-              fetchRoles={fetchRoles}
-              user={user}
-            />
+            <MainMenu fetchRoles={fetchRoles} user={user} />
             <Typography variant="h6" color="inherit" className={classes.flex}>
               {title}
             </Typography>
@@ -109,10 +98,7 @@ class MenuAppBar extends Component {
                   color="inherit"
                 >
                   {user.user.picture ? (
-                    <Avatar
-                      src={`/uploads/${user.user.picture}`}
-                      alt={user.username}
-                    />
+                    <Avatar src={`/uploads/${user.user.picture}`} alt={user.username} />
                   ) : (
                     <AccountCircle />
                   )}

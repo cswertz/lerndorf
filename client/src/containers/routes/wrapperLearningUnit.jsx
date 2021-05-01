@@ -14,15 +14,9 @@ class WrapperLearningUnit extends Component {
   }
 
   fetchItem() {
-    const {
-      itemFetch,
-      match,
-      items,
-    } = this.props;
+    const { itemFetch, match, items } = this.props;
 
-    const {
-      id,
-    } = match.params;
+    const { id } = match.params;
 
     if (!items.id[id] && items.fetchingId !== id) {
       itemFetch(id);
@@ -30,14 +24,7 @@ class WrapperLearningUnit extends Component {
   }
 
   render() {
-    const {
-      fetchRoles,
-      element,
-      logout,
-      user,
-      match,
-      items,
-    } = this.props;
+    const { fetchRoles, element, logout, user, match, items } = this.props;
 
     const { id, languageId } = match.params;
 

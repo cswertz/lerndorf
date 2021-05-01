@@ -26,11 +26,7 @@ class Taxonomies extends Component {
   }
 
   fetchItemById() {
-    const {
-      items,
-      match,
-      itemFetch,
-    } = this.props;
+    const { items, match, itemFetch } = this.props;
 
     const { id } = match.params;
 
@@ -40,35 +36,25 @@ class Taxonomies extends Component {
   }
 
   handleDelete(id) {
-    const {
-      itemsDelete,
-    } = this.props;
+    const { itemsDelete } = this.props;
 
     itemsDelete(id);
   }
 
   handleDisable(id) {
-    const {
-      itemsDisable,
-    } = this.props;
+    const { itemsDisable } = this.props;
 
     itemsDisable(id);
   }
 
   handleEnable(id) {
-    const {
-      itemsEnable,
-    } = this.props;
+    const { itemsEnable } = this.props;
 
     itemsEnable(id);
   }
 
   render() {
-    const {
-      history,
-      match,
-      items,
-    } = this.props;
+    const { history, match, items } = this.props;
 
     const { id } = match.params;
 
@@ -87,7 +73,9 @@ class Taxonomies extends Component {
       );
       title = (
         <Typography variant="title">
-          Taxonomy: {'"'}{item.type}{'"'}
+          Taxonomy: {'"'}
+          {item.type}
+          {'"'}
         </Typography>
       );
     }
@@ -97,10 +85,7 @@ class Taxonomies extends Component {
         {title}
         {rendered}
         <Grid>
-          <Button
-            onClick={() => history.push(`/taxonomies/${id}/add`)}
-            variant="contained"
-          >
+          <Button onClick={() => history.push(`/taxonomies/${id}/add`)} variant="contained">
             Add new term
           </Button>
         </Grid>

@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-const styles = theme => ({
+const styles = (theme) => ({
   textField: {
     flex: 1,
     marginLeft: theme.spacing.unit,
@@ -18,12 +18,7 @@ const styles = theme => ({
   },
 });
 
-const renderTextField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
+const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
   const customOptions = custom;
   delete customOptions.errorText;
@@ -36,7 +31,7 @@ const renderTextField = ({
     helperText = error;
   }
 
-  let hasError = (touched && error);
+  let hasError = touched && error;
   if (errorText) {
     hasError = true;
   }
@@ -54,9 +49,7 @@ const renderTextField = ({
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = [
-    'type',
-  ];
+  const requiredFields = ['type'];
   requiredFields.forEach((field) => {
     if (!values[field]) {
       errors[field] = 'Required';
@@ -66,13 +59,7 @@ const validate = (values) => {
   return errors;
 };
 
-const TaxonomiesAdd = ({
-  handleSubmit,
-  submitting,
-  pristine,
-  classes,
-  errors,
-}) => (
+const TaxonomiesAdd = ({ handleSubmit, submitting, pristine, classes, errors }) => (
   <form onSubmit={handleSubmit}>
     <div className={classes.flex}>
       <Field
@@ -85,11 +72,7 @@ const TaxonomiesAdd = ({
       />
     </div>
     <div>
-      <Button
-        type="submit"
-        variant="contained"
-        disabled={pristine || submitting}
-      >
+      <Button type="submit" variant="contained" disabled={pristine || submitting}>
         Add Taxonomy
       </Button>
     </div>

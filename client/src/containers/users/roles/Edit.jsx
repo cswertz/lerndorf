@@ -16,20 +16,14 @@ class RolesEdit extends Component {
   }
 
   componentDidMount() {
-    const {
-      match,
-      capabilities,
-      capabilitiesFetch,
-      items,
-      itemFetch,
-    } = this.props;
+    const { match, capabilities, capabilitiesFetch, items, itemFetch } = this.props;
     const { id } = match.params;
 
-    if ((!items.fetching) && !items.id[id]) {
+    if (!items.fetching && !items.id[id]) {
       itemFetch(id);
     }
 
-    if ((!capabilities.fetching) && (!capabilities.fetched)) {
+    if (!capabilities.fetching && !capabilities.fetched) {
       capabilitiesFetch();
     }
 
@@ -37,23 +31,16 @@ class RolesEdit extends Component {
   }
 
   componentDidUpdate() {
-    const {
-      match,
-      items,
-      itemFetch,
-    } = this.props;
+    const { match, items, itemFetch } = this.props;
     const { id } = match.params;
 
-    if ((!items.fetching) && !items.id[id]) {
+    if (!items.fetching && !items.id[id]) {
       itemFetch(id);
     }
   }
 
   fetchLanguages() {
-    const {
-      languages,
-      languagesFetch,
-    } = this.props;
+    const { languages, languagesFetch } = this.props;
 
     if (!languages.fetched && !languages.fetching) {
       languagesFetch();
@@ -63,10 +50,7 @@ class RolesEdit extends Component {
   addCapability(e, capability) {
     e.preventDefault();
 
-    const {
-      match,
-      addCapability,
-    } = this.props;
+    const { match, addCapability } = this.props;
     const { id } = match.params;
 
     addCapability(id, capability);
@@ -75,10 +59,7 @@ class RolesEdit extends Component {
   removeCapability(e, capability) {
     e.preventDefault();
 
-    const {
-      match,
-      removeCapability,
-    } = this.props;
+    const { match, removeCapability } = this.props;
     const { id } = match.params;
 
     removeCapability(id, capability);
@@ -87,12 +68,7 @@ class RolesEdit extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const {
-      match,
-      history,
-      languages,
-      handleSubmit,
-    } = this.props;
+    const { match, history, languages, handleSubmit } = this.props;
 
     const { id } = match.params;
 
@@ -101,10 +77,10 @@ class RolesEdit extends Component {
       translations: [],
     };
 
-    for(let language of languages.languages) {
+    for (const language of languages.languages) {
       const { id, code } = language;
 
-      if(e.target[code]) {
+      if (e.target[code]) {
         const vocable = e.target[code].value;
         const translation = {
           id,
@@ -119,23 +95,20 @@ class RolesEdit extends Component {
   }
 
   render() {
-    const {
-      capabilities,
-      languages,
-      errors,
-      items,
-      match,
-    } = this.props;
+    const { capabilities, languages, errors, items, match } = this.props;
 
     const { id } = match.params;
     const item = items.id[id];
     if (!item || !capabilities.fetched) return null;
 
-    const availableIds = item.Capabilities.map(capability => capability.id);
+    const availableIds = item.Capabilities.map((capability) => capability.id);
 
-    const owned = capabilities.items.filter(capability => availableIds.indexOf(capability.id) > -1);
-    const available = capabilities.items
-      .filter(capability => availableIds.indexOf(capability.id) < 0);
+    const owned = capabilities.items.filter(
+      (capability) => availableIds.indexOf(capability.id) > -1,
+    );
+    const available = capabilities.items.filter(
+      (capability) => availableIds.indexOf(capability.id) < 0,
+    );
 
     return (
       <div>

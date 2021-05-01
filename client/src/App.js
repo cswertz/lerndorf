@@ -20,13 +20,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, lerndorfApp);
 
-const store = createStore(
-  persistedReducer,
-  undefined,
-  compose(
-    applyMiddleware(thunkMiddlware),
-  ),
-);
+const store = createStore(persistedReducer, undefined, compose(applyMiddleware(thunkMiddlware)));
 
 const persistor = persistStore(store);
 

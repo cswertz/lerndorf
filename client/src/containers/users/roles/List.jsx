@@ -15,10 +15,7 @@ class Roles extends Component {
   }
 
   componentDidMount() {
-    const {
-      items,
-      itemsFetch,
-    } = this.props;
+    const { items, itemsFetch } = this.props;
 
     if (!items.fetched && !items.fetching) {
       itemsFetch();
@@ -26,10 +23,7 @@ class Roles extends Component {
   }
 
   componentDidUpdate() {
-    const {
-      items,
-      itemsFetch,
-    } = this.props;
+    const { items, itemsFetch } = this.props;
 
     if (!items.fetched && !items.fetching) {
       itemsFetch();
@@ -37,34 +31,20 @@ class Roles extends Component {
   }
 
   handleDelete(id) {
-    const {
-      itemsDelete,
-    } = this.props;
+    const { itemsDelete } = this.props;
 
     itemsDelete(id);
   }
 
   render() {
-    const {
-      items,
-      history,
-    } = this.props;
+    const { items, history } = this.props;
 
     return (
       <div>
-        <Typography variant="headline">
-          Available roles
-        </Typography>
-        <List
-          itemsDelete={this.handleDelete}
-          items={items.items}
-          history={history}
-        />
+        <Typography variant="headline">Available roles</Typography>
+        <List itemsDelete={this.handleDelete} items={items.items} history={history} />
         <Grid>
-          <Button
-            onClick={() => history.push('/users/roles/add')}
-            variant="contained"
-          >
+          <Button onClick={() => history.push('/users/roles/add')} variant="contained">
             Add new role
           </Button>
         </Grid>

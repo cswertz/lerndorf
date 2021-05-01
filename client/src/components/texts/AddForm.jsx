@@ -45,12 +45,7 @@ const styles = (theme) => ({
   },
 });
 
-const renderSelectField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => {
+const renderSelectField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
   const customOptions = custom;
   delete customOptions.errorText;
@@ -64,7 +59,7 @@ const renderSelectField = ({
     helperText = error;
   }
 
-  let hasError = (touched && error);
+  let hasError = touched && error;
   if (errorText) {
     hasError = true;
   }
@@ -72,45 +67,31 @@ const renderSelectField = ({
     hasError = true;
   }
 
-  const options = custom.options.map(option => (
-    <MenuItem
-      key={option.key}
-      value={option.key}
-    >
+  const options = custom.options.map((option) => (
+    <MenuItem key={option.key} value={option.key}>
       {option.value}
     </MenuItem>
   ));
 
   return (
     <>
-      <InputLabel
-        htmlFor="language"
-        error={hasError}
-        required={false}
-      />
+      <InputLabel htmlFor="language" error={hasError} required={false} />
       <Select
         name="language"
         value=""
-        error={(hasError && true)}
+        error={hasError && true}
         displayEmpty
         {...input}
         {...customOptions}
       >
         {options}
       </Select>
-      <FormHelperText
-        error={hasError}
-      >
-        {helperText}
-      </FormHelperText>
+      <FormHelperText error={hasError}>{helperText}</FormHelperText>
     </>
   );
 };
 
-const renderEditor = ({
-  input,
-  ...custom
-}) => (
+const renderEditor = ({ input, ...custom }) => (
   <CKEditor
     editor={ClassicEditor}
     config={editorConfig}
@@ -125,9 +106,7 @@ const renderEditor = ({
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = [
-    'language',
-  ];
+  const requiredFields = ['language'];
   requiredFields.forEach((field) => {
     if (!values[field] || values[field] === '') {
       errors[field] = 'Required';
@@ -168,19 +147,10 @@ const TextsAdd = ({
         </div>
       </div>
       <div className={classes.wysiwyg}>
-        <Field
-          name="text"
-          label="Text"
-          component={renderEditor}
-          updateBody={updateBody}
-        />
+        <Field name="text" label="Text" component={renderEditor} updateBody={updateBody} />
       </div>
       <div>
-        <Button
-          type="submit"
-          variant="contained"
-          disabled={pristine || submitting}
-        >
+        <Button type="submit" variant="contained" disabled={pristine || submitting}>
           Save
         </Button>
       </div>

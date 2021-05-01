@@ -12,15 +12,11 @@ class LanguagesEdit extends Component {
   }
 
   componentDidMount() {
-    const {
-      match,
-      languages,
-      languagesFetch,
-    } = this.props;
+    const { match, languages, languagesFetch } = this.props;
 
     const { id } = match.params;
 
-    if ((!languages.fetched && !languages.fetching) && !languages.id[id]) {
+    if (!languages.fetched && !languages.fetching && !languages.id[id]) {
       languagesFetch();
     }
   }
@@ -28,11 +24,7 @@ class LanguagesEdit extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const {
-      match,
-      history,
-      handleSubmit,
-    } = this.props;
+    const { match, history, handleSubmit } = this.props;
 
     const { id } = match.params;
 
@@ -44,21 +36,13 @@ class LanguagesEdit extends Component {
   }
 
   render() {
-    const {
-      languages,
-      errors,
-      match,
-    } = this.props;
+    const { languages, errors, match } = this.props;
 
     const { id } = match.params;
     const language = languages.id[id];
 
     return (
-      <EditForm
-        handleSubmit={this.handleSubmit}
-        initialValues={language}
-        errors={errors.edit}
-      />
+      <EditForm handleSubmit={this.handleSubmit} initialValues={language} errors={errors.edit} />
     );
   }
 }

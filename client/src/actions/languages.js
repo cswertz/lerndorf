@@ -1,6 +1,6 @@
 import * as types from './constants';
 
-export const languagesFetchSuccess = languages => ({
+export const languagesFetchSuccess = (languages) => ({
   type: types.LANGUAGES_FETCH_SUCCESS,
   languages,
 });
@@ -23,8 +23,8 @@ export const languagesDeleteSuccess = () => ({
   type: types.LANGUAGES_DELETE_SUCCESS,
 });
 
-export const languagesFetch = () => (
-  dispatch => fetch('/api/languages', {
+export const languagesFetch = () => (dispatch) =>
+  fetch('/api/languages', {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -32,7 +32,7 @@ export const languagesFetch = () => (
     },
     credentials: 'include',
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -44,11 +44,10 @@ export const languagesFetch = () => (
     })
     .catch((error) => {
       console.log('Error while fetching languages:', error);
-    })
-);
+    });
 
-export const languagesAdd = (data, history) => (
-  dispatch => fetch('/api/languages', {
+export const languagesAdd = (data, history) => (dispatch) =>
+  fetch('/api/languages', {
     method: 'post',
     headers: {
       Accept: 'application/json',
@@ -57,7 +56,7 @@ export const languagesAdd = (data, history) => (
     credentials: 'include',
     body: JSON.stringify(data),
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -70,11 +69,10 @@ export const languagesAdd = (data, history) => (
     })
     .catch((error) => {
       console.log('Error during adding language:', error);
-    })
-);
+    });
 
-export const languagesDelete = id => (
-  dispatch => fetch(`/api/languages/${id}`, {
+export const languagesDelete = (id) => (dispatch) =>
+  fetch(`/api/languages/${id}`, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json',
@@ -87,11 +85,10 @@ export const languagesDelete = id => (
     })
     .catch((error) => {
       console.log('Error during adding language:', error);
-    })
-);
+    });
 
-export const languagesEdit = (id, data, history) => (
-  dispatch => fetch(`/api/languages/${id}`, {
+export const languagesEdit = (id, data, history) => (dispatch) =>
+  fetch(`/api/languages/${id}`, {
     method: 'PATCH',
     headers: {
       Accept: 'application/json',
@@ -100,7 +97,7 @@ export const languagesEdit = (id, data, history) => (
     credentials: 'include',
     body: JSON.stringify(data),
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -113,5 +110,4 @@ export const languagesEdit = (id, data, history) => (
     })
     .catch((error) => {
       console.log('Error during adding language:', error);
-    })
-);
+    });

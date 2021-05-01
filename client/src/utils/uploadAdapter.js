@@ -1,16 +1,18 @@
 class UploadAdapter {
   constructor(loader) {
-    console.log(loader)
+    console.log(loader);
     this.loader = loader;
   }
 
   upload() {
-    return this.loader.file
-      .then(file => new Promise((resolve, reject) => {
-        this.initRequest();
-        this.initListeners(resolve, reject, file);
-        this.sendRequest(file);
-      }));
+    return this.loader.file.then(
+      (file) =>
+        new Promise((resolve, reject) => {
+          this.initRequest();
+          this.initListeners(resolve, reject, file);
+          this.sendRequest(file);
+        }),
+    );
     /*
     return new Promise((resolve, reject) => {
       this.initRequest();
@@ -42,7 +44,7 @@ class UploadAdapter {
     xhr.addEventListener('load', () => {
       const { response } = xhr;
       if (!response || response.error) {
-        const message = (response && response.error) ? response.errors[0].msg : genericErrorText;
+        const message = response && response.error ? response.errors[0].msg : genericErrorText;
         return reject(message);
       }
 

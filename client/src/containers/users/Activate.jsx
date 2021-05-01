@@ -13,12 +13,7 @@ class Activate extends Component {
   */
 
   componentDidMount() {
-    const {
-      activated,
-      activate,
-      active,
-      match,
-    } = this.props;
+    const { activated, activate, active, match } = this.props;
     const { hash } = match.params;
 
     if (!activated && !active) {
@@ -27,10 +22,7 @@ class Activate extends Component {
   }
 
   render() {
-    const {
-      active,
-      activated,
-    } = this.props;
+    const { active, activated } = this.props;
 
     let message = <div>Activating User...</div>;
     if (active && activated) {
@@ -42,9 +34,7 @@ class Activate extends Component {
 
     return (
       <div>
-        <Typography variant="headline">
-          Activation
-        </Typography>
+        <Typography variant="headline">Activation</Typography>
         {message}
       </div>
     );

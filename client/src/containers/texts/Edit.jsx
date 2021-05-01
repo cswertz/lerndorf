@@ -17,23 +17,15 @@ class TextsEdit extends Component {
   }
 
   componentDidMount() {
-    const {
-      match,
-      items,
-      languages,
-      itemFetch,
-      languagesFetch,
-    } = this.props;
+    const { match, items, languages, itemFetch, languagesFetch } = this.props;
 
-    const {
-      id,
-    } = match.params;
+    const { id } = match.params;
 
     if (!languages.fetched && !languages.fetching) {
       languagesFetch();
     }
 
-    if ((!items.fetching) && !items.id[id]) {
+    if (!items.fetching && !items.id[id]) {
       itemFetch(id);
     }
   }
@@ -48,11 +40,7 @@ class TextsEdit extends Component {
     e.preventDefault();
 
     const { body } = this.state;
-    const {
-      history,
-      handleSubmit,
-      match,
-    } = this.props;
+    const { history, handleSubmit, match } = this.props;
     const { id } = match.params;
     const data = {
       LanguageId: e.target.language.value,
@@ -63,16 +51,9 @@ class TextsEdit extends Component {
   }
 
   render() {
-    const {
-      languages,
-      errors,
-      match,
-      items,
-    } = this.props;
+    const { languages, errors, match, items } = this.props;
 
-    const {
-      id,
-    } = match.params;
+    const { id } = match.params;
     const item = items.id[id];
     if (!item) return null;
 

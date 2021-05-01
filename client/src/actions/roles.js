@@ -1,11 +1,11 @@
 import * as types from './constants';
 
-export const rolesFetchSuccess = items => ({
+export const rolesFetchSuccess = (items) => ({
   type: types.ROLES_FETCH_SUCCESS,
   items,
 });
 
-export const rolesItemFetchSuccess = item => ({
+export const rolesItemFetchSuccess = (item) => ({
   type: types.ROLES_ITEM_FETCH_SUCCESS,
   item,
 });
@@ -32,8 +32,8 @@ export const rolesCapabilitiesUpdateSuccess = () => ({
   type: types.ROLES_CAPABILITIES_UPDATE_SUCCESS,
 });
 
-export const rolesFetch = () => (
-  dispatch => fetch('/api/roles', {
+export const rolesFetch = () => (dispatch) =>
+  fetch('/api/roles', {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -41,7 +41,7 @@ export const rolesFetch = () => (
     },
     credentials: 'include',
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -53,11 +53,10 @@ export const rolesFetch = () => (
     })
     .catch((error) => {
       console.log('Error while fetching roles:', error);
-    })
-);
+    });
 
-export const rolesAdd = (data, history) => (
-  dispatch => fetch('/api/roles', {
+export const rolesAdd = (data, history) => (dispatch) =>
+  fetch('/api/roles', {
     method: 'post',
     headers: {
       Accept: 'application/json',
@@ -66,7 +65,7 @@ export const rolesAdd = (data, history) => (
     credentials: 'include',
     body: JSON.stringify(data),
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -79,11 +78,10 @@ export const rolesAdd = (data, history) => (
     })
     .catch((error) => {
       console.log('Error during adding language:', error);
-    })
-);
+    });
 
-export const rolesDelete = id => (
-  dispatch => fetch(`/api/roles/${id}`, {
+export const rolesDelete = (id) => (dispatch) =>
+  fetch(`/api/roles/${id}`, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json',
@@ -96,11 +94,10 @@ export const rolesDelete = id => (
     })
     .catch((error) => {
       console.log('Error during adding language:', error);
-    })
-);
+    });
 
-export const rolesEdit = (id, data, history) => (
-  dispatch => fetch(`/api/roles/${id}`, {
+export const rolesEdit = (id, data, history) => (dispatch) =>
+  fetch(`/api/roles/${id}`, {
     method: 'PATCH',
     headers: {
       Accept: 'application/json',
@@ -109,7 +106,7 @@ export const rolesEdit = (id, data, history) => (
     credentials: 'include',
     body: JSON.stringify(data),
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -122,11 +119,10 @@ export const rolesEdit = (id, data, history) => (
     })
     .catch((error) => {
       console.log('Error during adding language:', error);
-    })
-);
+    });
 
-export const addCapability = (id, capability) => (
-  dispatch => fetch(`/api/roles/${id}/capability`, {
+export const addCapability = (id, capability) => (dispatch) =>
+  fetch(`/api/roles/${id}/capability`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -137,7 +133,7 @@ export const addCapability = (id, capability) => (
       id: capability,
     }),
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -149,11 +145,10 @@ export const addCapability = (id, capability) => (
     })
     .catch((error) => {
       console.log('Error during adding language:', error);
-    })
-);
+    });
 
-export const removeCapability = (id, capability) => (
-  dispatch => fetch(`/api/roles/${id}/capability/${capability}`, {
+export const removeCapability = (id, capability) => (dispatch) =>
+  fetch(`/api/roles/${id}/capability/${capability}`, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json',
@@ -161,7 +156,7 @@ export const removeCapability = (id, capability) => (
     },
     credentials: 'include',
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -173,11 +168,10 @@ export const removeCapability = (id, capability) => (
     })
     .catch((error) => {
       console.log('Error during adding language:', error);
-    })
-);
+    });
 
-export const rolesItemFetch = id => (
-  dispatch => fetch(`/api/roles/${id}`, {
+export const rolesItemFetch = (id) => (dispatch) =>
+  fetch(`/api/roles/${id}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -185,7 +179,7 @@ export const rolesItemFetch = id => (
     },
     credentials: 'include',
   })
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((json) => {
       if (json) {
         if (json.error) {
@@ -197,5 +191,4 @@ export const rolesItemFetch = id => (
     })
     .catch((error) => {
       console.log('Error while fetching roles:', error);
-    })
-);
+    });

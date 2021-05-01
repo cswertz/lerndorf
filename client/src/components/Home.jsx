@@ -2,23 +2,15 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Home = ({
-  loggedIn,
-}) => (
+const Home = ({ loggedIn }) => (
   <div className="Home">
-    <p className="App-intro">
-      Welcome to the main page.
-    </p>
+    <p className="App-intro">Welcome to the main page.</p>
     {!loggedIn && (
       <div>
         Please <Link to="/users/login">Login</Link> or <Link to="/users/register">Register</Link>.
       </div>
     )}
-    {loggedIn && (
-      <div>
-        You are logged in.
-      </div>
-    )}
+    {loggedIn && <div>You are logged in.</div>}
   </div>
 );
 

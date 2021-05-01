@@ -14,10 +14,7 @@ class Languages extends Component {
   }
 
   componentDidMount() {
-    const {
-      languages,
-      languagesFetch,
-    } = this.props;
+    const { languages, languagesFetch } = this.props;
 
     if (!languages.fetched && !languages.fetching) {
       languagesFetch();
@@ -25,10 +22,7 @@ class Languages extends Component {
   }
 
   componentDidUpdate() {
-    const {
-      languages,
-      languagesFetch,
-    } = this.props;
+    const { languages, languagesFetch } = this.props;
 
     if (!languages.fetched && !languages.fetching) {
       languagesFetch();
@@ -36,18 +30,13 @@ class Languages extends Component {
   }
 
   handleDelete(id) {
-    const {
-      languagesDelete,
-    } = this.props;
+    const { languagesDelete } = this.props;
 
     languagesDelete(id);
   }
 
   render() {
-    const {
-      languages,
-      history,
-    } = this.props;
+    const { languages, history } = this.props;
 
     return (
       <div>
@@ -57,10 +46,7 @@ class Languages extends Component {
           history={history}
         />
         <Grid>
-          <Button
-            onClick={() => history.push('/languages/add')}
-            variant="contained"
-          >
+          <Button onClick={() => history.push('/languages/add')} variant="contained">
             Add new language
           </Button>
         </Grid>

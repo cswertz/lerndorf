@@ -24,7 +24,7 @@ const LearningUnitsShow = ({
   user,
 }) => {
   const knowledgeUnits = item.item.LearningUnit.KnowledgeUnits;
-  const renderedKnowledgeUnits = knowledgeUnits.map(unit => (
+  const renderedKnowledgeUnits = knowledgeUnits.map((unit) => (
     <Single
       handleDelete={handleKnowledgeUnitDelete}
       markReviewed={markReviewed}
@@ -35,10 +35,10 @@ const LearningUnitsShow = ({
       link
     />
   ));
-  const preferredLanguage = user.user.preferredLanguage;
+  const { preferredLanguage } = user.user;
   const possibleLanguages = user.user.Languages.map((item) => item.id);
 
-  const tags = item.item.LearningUnitTags.map(tag => tag.tag).join(', ');
+  const tags = item.item.LearningUnitTags.map((tag) => tag.tag).join(', ');
   const languageId = item.item.Language.id;
   const buildRelations = (relations) => {
     let elements = null;
@@ -46,7 +46,9 @@ const LearningUnitsShow = ({
       elements = relations.map((item) => {
         const taxonomyTerm = term(item.Taxonomy, preferredLanguage);
 
-        let userLanguages = [item.target.Translations.find((item) => preferredLanguage === item.LanguageId)];
+        let userLanguages = [
+          item.target.Translations.find((item) => preferredLanguage === item.LanguageId),
+        ];
         userLanguages = [
           ...userLanguages,
           ...item.target.Translations.filter((item) => possibleLanguages.includes(item.LanguageId)),
@@ -58,7 +60,10 @@ const LearningUnitsShow = ({
 
           return (
             <li>
-              {taxonomyTerm} <a href={`/learning-units/show/${userLanguages[0].LanguageId}/${item.targetId}`}>{linkText}</a>
+              {taxonomyTerm}{' '}
+              <a href={`/learning-units/show/${userLanguages[0].LanguageId}/${item.targetId}`}>
+                {linkText}
+              </a>
             </li>
           );
         }
@@ -75,7 +80,9 @@ const LearningUnitsShow = ({
     <DocumentTitle title={`Lerndorf | ${item.title}`}>
       <div>
         <Typography variant="h5">
-          {'"'}{item.title}{'"'}
+          {'"'}
+          {item.title}
+          {'"'}
           {user.user.id === item.item.User.id && (
             <IconButton
               aria-label="Edit"
@@ -86,16 +93,10 @@ const LearningUnitsShow = ({
             </IconButton>
           )}
         </Typography>
-        <Typography variant="caption">
-          created by {item.username}
-        </Typography>
-        <Typography variant="caption">
-          Tags: {tags}
-        </Typography>
+        <Typography variant="caption">created by {item.username}</Typography>
+        <Typography variant="caption">Tags: {tags}</Typography>
         <Grid>
-          <ul>
-            {relations}
-          </ul>
+          <ul>{relations}</ul>
         </Grid>
         <Grid>
           <Button

@@ -32,11 +32,7 @@ const taxonomies = (state = initialState, action) => {
     case TAXONOMIES_DELETE_SUCCESS:
     case TAXONOMIES_EDIT_SUCCESS:
     case TAXONOMIES_ADD_SUCCESS: {
-      return Object.assign({}, state, {
-        fetched: false,
-        fetching: false,
-        id: {},
-      });
+      return { ...state, fetched: false, fetching: false, id: {} };
     }
 
     case TAXONOMIES_ADD_FAILED: {
@@ -45,22 +41,21 @@ const taxonomies = (state = initialState, action) => {
         errors[item.param] = item.msg;
       });
 
-      return Object.assign({}, state, {
-        errors: Object.assign({}, state.errors, {
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
           add: {
             error: true,
             errorMessage: action.error,
             errors,
           },
-        }),
-      });
+        },
+      };
     }
 
     case TAXONOMIES_FETCH: {
-      return Object.assign({}, state, {
-        fetched: false,
-        fetching: true,
-      });
+      return { ...state, fetched: false, fetching: true };
     }
 
     case TAXONOMIES_ITEM_FETCH_SUCCESS: {
@@ -68,18 +63,11 @@ const taxonomies = (state = initialState, action) => {
       ids[action.item.id] = action.item;
       ids[action.item.id].children = action.children;
 
-      return Object.assign({}, state, {
-        fetching: false,
-        id: ids,
-      });
+      return { ...state, fetching: false, id: ids };
     }
 
     case TAXONOMIES_FETCH_SUCCESS: {
-      return Object.assign({}, state, {
-        fetched: true,
-        fetching: false,
-        items: action.items,
-      });
+      return { ...state, fetched: true, fetching: false, items: action.items };
     }
 
     default:

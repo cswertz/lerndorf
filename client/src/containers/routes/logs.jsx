@@ -5,13 +5,7 @@ import React from 'react';
 import Wrapper from '../../components/routes/wrapper';
 import Logs from '../logs/List';
 
-const LoggingRouter = ({
-  learningUnits,
-  languages,
-  actions,
-  user,
-  logs,
-}) => (
+const LoggingRouter = ({ learningUnits, languages, actions, user, logs }) => (
   <>
     <Route
       exact
@@ -24,7 +18,7 @@ const LoggingRouter = ({
           active="logs"
           title="Logs"
           user={user}
-          element={(
+          element={
             <Logs
               logs={logs}
               logsFetch={actions.logsFetch}
@@ -34,7 +28,7 @@ const LoggingRouter = ({
               suggestions={learningUnits.suggestions}
               fetchSuggestions={actions.learningUnitsSuggestionsFetch}
             />
-          )}
+          }
         />
       )}
     />

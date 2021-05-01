@@ -36,10 +36,7 @@ class LearningUnitsEdit extends Component {
   }
 
   fetchItem() {
-    const {
-      taxonomies,
-      taxonomiesFetch,
-    } = this.props;
+    const { taxonomies, taxonomiesFetch } = this.props;
 
     if (!taxonomies.fetched && !taxonomies.fetching) {
       taxonomiesFetch();
@@ -49,16 +46,8 @@ class LearningUnitsEdit extends Component {
   addTag(e) {
     e.preventDefault();
 
-    const {
-      learningUnitsAddTag,
-      history,
-      match,
-      items,
-    } = this.props;
-    const {
-      id,
-      languageId,
-    } = match.params;
+    const { learningUnitsAddTag, history, match, items } = this.props;
+    const { id, languageId } = match.params;
     const tag = e.target.tag.value;
     const learningUnitId = id;
     const learningUnitLanguageId = items.id[id][languageId].item.id;
@@ -67,37 +56,21 @@ class LearningUnitsEdit extends Component {
   }
 
   deleteTag(tagId) {
-    const {
-      learningUnitsDeleteTag,
-      history,
-      match,
-    } = this.props;
-    const {
-      id,
-      languageId,
-    } = match.params;
+    const { learningUnitsDeleteTag, history, match } = this.props;
+    const { id, languageId } = match.params;
 
     learningUnitsDeleteTag(tagId, languageId, id, history);
   }
 
   deleteRelation(relationId) {
-    const {
-      learningUnitsDeleteRelation,
-    } = this.props;
+    const { learningUnitsDeleteRelation } = this.props;
 
     learningUnitsDeleteRelation(relationId);
   }
 
   updateTag(e) {
-    const {
-      learningUnitsUpdateTag,
-      history,
-      match,
-    } = this.props;
-    const {
-      id,
-      languageId,
-    } = match.params;
+    const { learningUnitsUpdateTag, history, match } = this.props;
+    const { id, languageId } = match.params;
 
     e.preventDefault();
     const tagId = e.target.getAttribute('tagid');
@@ -109,15 +82,8 @@ class LearningUnitsEdit extends Component {
   addRelation(e) {
     e.preventDefault();
 
-    const {
-      learningUnitsAddRelation,
-      history,
-      match,
-    } = this.props;
-    const {
-      id,
-      languageId,
-    } = match.params;
+    const { learningUnitsAddRelation, history, match } = this.props;
+    const { id, languageId } = match.params;
     const { target } = this.state;
     const type = e.target.type.value;
     const learningUnitId = id;
@@ -128,15 +94,8 @@ class LearningUnitsEdit extends Component {
   editTitle(e) {
     e.preventDefault();
 
-    const {
-      learningUnitsEdit,
-      history,
-      match,
-    } = this.props;
-    const {
-      id,
-      languageId,
-    } = match.params;
+    const { learningUnitsEdit, history, match } = this.props;
+    const { id, languageId } = match.params;
     const learningUnitId = id;
     const data = {};
     data[languageId] = {
@@ -147,18 +106,8 @@ class LearningUnitsEdit extends Component {
   }
 
   render() {
-    const {
-      fetchSuggestions,
-      suggestions,
-      taxonomies,
-      errors,
-      items,
-      match,
-    } = this.props;
-    const {
-      id,
-      languageId,
-    } = match.params;
+    const { fetchSuggestions, suggestions, taxonomies, errors, items, match } = this.props;
+    const { id, languageId } = match.params;
 
     if (items.id[id]) {
       const { title } = items.id[id][languageId];

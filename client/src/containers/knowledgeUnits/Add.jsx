@@ -13,23 +13,15 @@ class KnowledgeUnitsAdd extends Component {
   }
 
   componentDidMount() {
-    const {
-      learningUnitFetch,
-      taxonomiesFetch,
-      learningUnits,
-      taxonomies,
-      match,
-    } = this.props;
+    const { learningUnitFetch, taxonomiesFetch, learningUnits, taxonomies, match } = this.props;
 
     if (!taxonomies.fetched && !taxonomies.fetching) {
       taxonomiesFetch();
     }
 
-    const {
-      learningUnitId,
-    } = match.params;
+    const { learningUnitId } = match.params;
 
-    if ((!learningUnits.fetching) && !learningUnits.id[learningUnitId]) {
+    if (!learningUnits.fetching && !learningUnits.id[learningUnitId]) {
       learningUnitFetch(learningUnitId);
     }
   }
@@ -37,11 +29,7 @@ class KnowledgeUnitsAdd extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const {
-      history,
-      handleSubmit,
-      match,
-    } = this.props;
+    const { history, handleSubmit, match } = this.props;
     const data = {
       LearningUnitId: match.params.learningUnitId,
       objective: e.target.objective.value,
@@ -63,25 +51,19 @@ class KnowledgeUnitsAdd extends Component {
       eqfLevel: e.target.eqfLevel.value,
     };
 
-    data.minimumScreenResolution = (data.minimumScreenResolution.isInteger !== '')
-      ? data.minimumScreenResolution : null;
-    data.knowledgeType = (data.knowledgeType !== '') ? data.knowledgeType : null;
-    data.courseLevel = (data.courseLevel.isInteger !== '') ? data.courseLevel : null;
-    data.mediaType = (data.mediaType.isInteger !== '') ? data.mediaType : null;
-    data.license = (data.license.isInteger !== '') ? data.license : null;
-    data.eqfLevel = (data.eqfLevel.isInteger !== '') ? data.eqfLevel : null;
+    data.minimumScreenResolution =
+      data.minimumScreenResolution.isInteger !== '' ? data.minimumScreenResolution : null;
+    data.knowledgeType = data.knowledgeType !== '' ? data.knowledgeType : null;
+    data.courseLevel = data.courseLevel.isInteger !== '' ? data.courseLevel : null;
+    data.mediaType = data.mediaType.isInteger !== '' ? data.mediaType : null;
+    data.license = data.license.isInteger !== '' ? data.license : null;
+    data.eqfLevel = data.eqfLevel.isInteger !== '' ? data.eqfLevel : null;
 
     handleSubmit(data, history);
   }
 
   render() {
-    const {
-      learningUnits,
-      taxonomies,
-      errors,
-      match,
-      user,
-    } = this.props;
+    const { learningUnits, taxonomies, errors, match, user } = this.props;
     const { learningUnitId } = match.params;
 
     let learningUnitTitle = '';
@@ -95,7 +77,9 @@ class KnowledgeUnitsAdd extends Component {
     return (
       <div>
         <Typography variant="h5">
-          {'"'}{learningUnitTitle}{'"'}
+          {'"'}
+          {learningUnitTitle}
+          {'"'}
         </Typography>
         <AddForm
           handleSubmit={this.handleSubmit}
