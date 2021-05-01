@@ -1,9 +1,8 @@
-import { Field, reduxForm } from 'redux-form';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Field, reduxForm } from 'redux-form';
 
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import ListItemText from '@material-ui/core/ListItemText';
 import FormControl from '@material-ui/core/FormControl';
@@ -13,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import Checkbox from '@material-ui/core/Checkbox';
 import ListItem from '@material-ui/core/ListItem';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -84,20 +82,20 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   );
 };
 
-const renderCheckboxField = ({ input, label, ...custom }) => {
-  const customOptions = custom;
-  const customInput = input;
-  delete customInput.value;
-  delete customOptions.errorText;
+// const renderCheckboxField = ({ input, label, ...custom }) => {
+//   const customOptions = custom;
+//   const customInput = input;
+//   delete customInput.value;
+//   delete customOptions.errorText;
 
-  return (
-    <FormControlLabel
-      control={<Checkbox label={label} {...customInput} {...customOptions} />}
-      label={label}
-      className={custom.customclasses.label}
-    />
-  );
-};
+//   return (
+//     <FormControlLabel
+//       control={<Checkbox label={label} {...customInput} {...customOptions} />}
+//       label={label}
+//       className={custom.customclasses.label}
+//     />
+//   );
+// };
 
 const renderSelectField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText, options } = custom;

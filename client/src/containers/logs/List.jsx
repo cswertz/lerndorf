@@ -1,10 +1,8 @@
 import { withRouter } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import List from '../../components/logs/List';
-import { hasCapability } from '../../utils/user';
 
 class Logs extends Component {
   constructor(props) {

@@ -1,12 +1,11 @@
-import { Field, reduxForm } from 'redux-form';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Field, reduxForm } from 'redux-form';
 
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import { withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
-import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
@@ -84,34 +83,34 @@ const renderSelectField = ({ input, label, meta: { touched, error }, ...custom }
   );
 };
 
-const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
-  const { errorText } = custom;
-  const customOptions = custom;
-  delete customOptions.errorText;
+// const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
+//   const { errorText } = custom;
+//   const customOptions = custom;
+//   delete customOptions.errorText;
 
-  let helperText = label;
-  if (errorText) {
-    helperText = errorText;
-  }
-  if (touched && error) {
-    helperText = error;
-  }
+//   let helperText = label;
+//   if (errorText) {
+//     helperText = errorText;
+//   }
+//   if (touched && error) {
+//     helperText = error;
+//   }
 
-  let hasError = touched && error;
-  if (errorText) {
-    hasError = true;
-  }
+//   let hasError = touched && error;
+//   if (errorText) {
+//     hasError = true;
+//   }
 
-  return (
-    <TextField
-      helperText={helperText}
-      error={hasError && true}
-      label={label}
-      {...input}
-      {...customOptions}
-    />
-  );
-};
+//   return (
+//     <TextField
+//       helperText={helperText}
+//       error={hasError && true}
+//       label={label}
+//       {...input}
+//       {...customOptions}
+//     />
+//   );
+// };
 
 const validate = (values) => {
   const errors = {};

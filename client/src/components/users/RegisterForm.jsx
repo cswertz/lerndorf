@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import { withStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
@@ -80,55 +76,55 @@ const renderCheckboxField = ({ input, label, ...custom }) => {
   );
 };
 
-const renderSelectField = ({ input, label, meta: { touched, error }, ...custom }) => {
-  const { errorText } = custom;
-  const customOptions = custom;
-  const options = custom.options();
-  delete customOptions.errorText;
-  delete customOptions.error;
-  delete customOptions.options;
+// const renderSelectField = ({ input, label, meta: { touched, error }, ...custom }) => {
+//   const { errorText } = custom;
+//   const customOptions = custom;
+//   const options = custom.options();
+//   delete customOptions.errorText;
+//   delete customOptions.error;
+//   delete customOptions.options;
 
-  let helperText = label;
-  if (errorText) {
-    helperText = errorText;
-  }
-  if (touched && error) {
-    helperText = error;
-  }
+//   let helperText = label;
+//   if (errorText) {
+//     helperText = errorText;
+//   }
+//   if (touched && error) {
+//     helperText = error;
+//   }
 
-  let hasError = touched && error;
-  if (errorText) {
-    hasError = true;
-  }
-  if (hasError) {
-    hasError = true;
-  }
+//   let hasError = touched && error;
+//   if (errorText) {
+//     hasError = true;
+//   }
+//   if (hasError) {
+//     hasError = true;
+//   }
 
-  const renderedOptions = options.map((option) => (
-    <MenuItem key={option} value={option}>
-      {option}
-    </MenuItem>
-  ));
+//   const renderedOptions = options.map((option) => (
+//     <MenuItem key={option} value={option}>
+//       {option}
+//     </MenuItem>
+//   ));
 
-  return (
-    <>
-      <InputLabel htmlFor="country" error={hasError} required={false}>
-        Country
-      </InputLabel>
-      <Select
-        name="country"
-        value=""
-        error={hasError && true}
-        displayEmpty
-        {...input}
-        {...customOptions}
-      >
-        {renderedOptions}
-      </Select>
-      <FormHelperText error={hasError}>{helperText}</FormHelperText>
-    </>
-  );
-};
+//   return (
+//     <>
+//       <InputLabel htmlFor="country" error={hasError} required={false}>
+//         Country
+//       </InputLabel>
+//       <Select
+//         name="country"
+//         value=""
+//         error={hasError && true}
+//         displayEmpty
+//         {...input}
+//         {...customOptions}
+//       >
+//         {renderedOptions}
+//       </Select>
+//       <FormHelperText error={hasError}>{helperText}</FormHelperText>
+//     </>
+//   );
+// };
 
 const validate = (values) => {
   const errors = {};
