@@ -2,7 +2,7 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import AddForm from '../../components/languages/AddForm';
+import AddForm from '@components/languages/AddForm';
 
 class LanguagesAdd extends Component {
   constructor(props) {

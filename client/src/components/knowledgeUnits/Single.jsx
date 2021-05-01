@@ -1,15 +1,14 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import React from 'react';
-
 import { withStyles } from '@material-ui/core/styles';
 
-import { hasCapability } from '../../utils/user';
-import { term } from '../../utils/taxonomy';
+import { hasCapability } from '@utils/user';
+import { term } from '@utils/taxonomy';
 import Single from '../texts/Single';
 
 const styles = (theme) => ({

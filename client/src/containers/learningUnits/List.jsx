@@ -4,8 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import List from '../../components/learningUnits/List';
-import { hasCapability } from '../../utils/user';
+import List from '@components/learningUnits/List';
+import { hasCapability } from '@utils/user';
 
 class LearningUnits extends Component {
   constructor(props) {

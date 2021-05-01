@@ -9,7 +9,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
-import { isValidEmail, isValidUrl } from '../../utils/user';
+import { isValidEmail, isValidUrl } from '@utils/user';
 
 const styles = (theme) => ({
   textField: {

@@ -2,7 +2,7 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import List from '../../components/logs/List';
+import List from '@components/logs/List';
 
 class Logs extends Component {
   constructor(props) {

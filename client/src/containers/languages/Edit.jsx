@@ -2,7 +2,7 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import EditForm from '../../components/languages/EditForm';
+import EditForm from '@components/languages/EditForm';
 
 class LanguagesEdit extends Component {
   constructor(props) {

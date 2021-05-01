@@ -2,7 +2,7 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Wrapper from '../../components/routes/wrapper';
+import Wrapper from '@components/routes/wrapper';
 
 import KnowledgeUnitsEdit from '../knowledgeUnits/Edit';
 import KnowledgeUnitsShow from '../knowledgeUnits/Show';

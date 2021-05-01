@@ -14,9 +14,8 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
+import { isValidEmail, getCountries, isValidUrl } from '@utils/user';
 import BinaryDialog from '../DialogBinary';
-
-import { isValidEmail, getCountries, isValidUrl } from '../../utils/user';
 
 const styles = (theme) => ({
   textField: {

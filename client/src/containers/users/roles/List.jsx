@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import List from '../../../components/users/roles/List';
+import List from '@components/users/roles/List';
 
 class Roles extends Component {
   constructor(props) {

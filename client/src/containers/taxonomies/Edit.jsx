@@ -2,7 +2,7 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import EditForm from '../../components/taxonomies/EditForm';
+import EditForm from '@components/taxonomies/EditForm';
 
 class TaxonomiesEdit extends Component {
   constructor(props) {

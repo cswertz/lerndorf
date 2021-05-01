@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import List from '../../components/languages/List';
+import List from '@components/languages/List';
 
 class Languages extends Component {
   constructor(props) {

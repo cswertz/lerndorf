@@ -2,7 +2,7 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import RegisterForm from '../../components/users/RegisterForm';
+import RegisterForm from '@components/users/RegisterForm';
 
 class Register extends Component {
   constructor(props) {

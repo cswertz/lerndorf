@@ -12,7 +12,7 @@ import Menu from '@material-ui/core/Menu';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { hasCapability } from '../utils/user';
+import { hasCapability } from '@utils/user';
 
 const styles = {
   root: {

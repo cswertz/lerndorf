@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import List from '../../components/users/List';
+import List from '@components/users/List';
 
 const styles = () => ({
   container: {

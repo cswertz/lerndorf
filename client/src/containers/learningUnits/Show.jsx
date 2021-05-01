@@ -2,7 +2,7 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Show from '../../components/learningUnits/Show';
+import Show from '@components/learningUnits/Show';
 
 class LearningUnitsShow extends Component {
   componentDidMount() {

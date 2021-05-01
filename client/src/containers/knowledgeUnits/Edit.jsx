@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import EditForm from '../../components/knowledgeUnits/EditForm';
+import EditForm from '@components/knowledgeUnits/EditForm';
 
 class KnowledgeUnitsEdit extends Component {
   constructor(props) {

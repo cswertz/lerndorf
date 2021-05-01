@@ -3,8 +3,8 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import AdminEditForm from '../../components/users/EditForm';
-import Roles from '../../components/users/Roles';
+import AdminEditForm from '@components/users/EditForm';
+import Roles from '@components/users/Roles';
 
 class Edit extends Component {
   constructor(props) {

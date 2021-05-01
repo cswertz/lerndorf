@@ -10,7 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 
-import Suggest from '../../containers/learningUnits/Suggest';
+import Suggest from '@containers/learningUnits/Suggest';
 
 const styles = (theme) => ({
   wrapper: {

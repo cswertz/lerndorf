@@ -13,7 +13,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 
-import { getOptions } from '../../utils/taxonomy';
+import { getOptions } from '@utils/taxonomy';
 
 const styles = (theme) => ({
   wrapper: {

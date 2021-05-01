@@ -2,7 +2,7 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Appbar from '../../containers/Appbar';
+import Appbar from '@containers/Appbar';
 
 const styles = () => ({
   container: {

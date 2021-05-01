@@ -2,7 +2,7 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Show from '../../components/knowledgeUnits/Show';
+import Show from '@components/knowledgeUnits/Show';
 
 class KnowledgeUnitsShow extends Component {
   componentDidMount() {

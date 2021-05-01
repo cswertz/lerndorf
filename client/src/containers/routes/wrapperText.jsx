@@ -2,7 +2,7 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Wrapper from '../../components/routes/wrapper';
+import Wrapper from '@components/routes/wrapper';
 
 class WrapperText extends Component {
   componentDidMount() {

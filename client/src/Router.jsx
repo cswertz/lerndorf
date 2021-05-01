@@ -4,16 +4,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Appbar from './containers/Appbar';
-import Home from './components/Home';
+import Appbar from '@containers/Appbar';
+import Home from '@components/Home';
 
-import RoutesKnowledgeUnits from './containers/routes/knowledgeUnits';
-import RoutesLearningUnits from './containers/routes/learningUnits';
-import RoutesTaxonomies from './containers/routes/taxonomies';
-import RoutesLanguages from './containers/routes/languages';
-import RoutesUsers from './containers/routes/users';
-import RoutesTexts from './containers/routes/texts';
-import RoutesLogs from './containers/routes/logs';
+import RoutesKnowledgeUnits from '@containers/routes/knowledgeUnits';
+import RoutesLearningUnits from '@containers/routes/learningUnits';
+import RoutesTaxonomies from '@containers/routes/taxonomies';
+import RoutesLanguages from '@containers/routes/languages';
+import RoutesUsers from '@containers/routes/users';
+import RoutesTexts from '@containers/routes/texts';
+import RoutesLogs from '@containers/routes/logs';
 
 import * as AppActions from './actions';
 

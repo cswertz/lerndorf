@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import LanguageElement from '../../components/users/Language';
+import LanguageElement from '@components/users/Language';
 
 class Language extends Component {
   constructor(props) {

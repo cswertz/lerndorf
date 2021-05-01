@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import DocumentTitle from 'react-document-title';
 
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -9,10 +10,8 @@ import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 import Grid from '@material-ui/core/Grid';
 
-import DocumentTitle from 'react-document-title';
-
+import { term } from '@utils/taxonomy';
 import Single from '../knowledgeUnits/Single';
-import { term } from '../../utils/taxonomy';
 
 const styles = () => ({});
 

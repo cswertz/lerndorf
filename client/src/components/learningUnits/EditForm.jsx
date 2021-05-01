@@ -9,12 +9,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 
+import { term } from '@utils/taxonomy';
 import RelationForm from './RelationForm';
 import TagEditForm from './TagEditForm';
 import TagAddForm from './TagAddForm';
 import TitleForm from './TitleForm';
-
-import { term } from '../../utils/taxonomy';
 
 const styles = () => ({});
 

@@ -2,8 +2,8 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Capabilities from '../../../components/users/roles/Capabilities';
-import EditForm from '../../../components/users/roles/EditForm';
+import Capabilities from '@components/users/roles/Capabilities';
+import EditForm from '@components/users/roles/EditForm';
 
 class RolesEdit extends Component {
   constructor(props) {

@@ -2,7 +2,7 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Show from '../../../components/users/roles/Show';
+import Show from '@components/users/roles/Show';
 
 class RolesShow extends Component {
   componentDidMount() {
