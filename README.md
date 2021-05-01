@@ -67,6 +67,7 @@ yarn start
 ```
 cd ../../../client
 yarn install
+# (optionally) copy .env.example to .env and adjust
 yarn start
 ```
 
