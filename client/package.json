@@ -2,6 +2,16 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "format": "prettier --write \"src/**/*.{js,jsx}\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx}\"",
+    "lint": "eslint --fix \"src/**/*.{js,jsx}\"",
+    "lint:check": "eslint \"src/**/*.{js,jsx}\""
+  },
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "22.0.0",
     "@ckeditor/ckeditor5-react": "2.1.0",
@@ -23,19 +33,16 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "NODE_OPTIONS=--max-old-space-size=8192 react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "proxy": "http://localhost:3000",
   "devDependencies": {
     "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-react": "^7.11.0"
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.11.0",
+    "prettier": "^2.2.1"
   },
+  "proxy": "http://localhost:3000",
   "browserslist": {
     "production": [
       ">0.2%",
