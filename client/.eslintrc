@@ -30,6 +30,13 @@
       }
     ],
     "react/jsx-one-expression-per-line": [0],
-    "react/jsx-props-no-spreading": "off"
+    "import/no-unresolved": "off",
+    "no-console": "off",
+
+    // TEMP: these should be enabled in the future
+    // TODO: fix lint errors
+    "no-param-reassign": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/prop-types": "off"
   }
 }

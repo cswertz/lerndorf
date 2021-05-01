@@ -35,25 +35,31 @@ const LearningUnitsShow = ({
     />
   ));
   const { preferredLanguage } = user.user;
-  const possibleLanguages = user.user.Languages.map((item) => item.id);
+  const possibleLanguages = user.user.Languages.map((language) => language.id);
 
   const tags = item.item.LearningUnitTags.map((tag) => tag.tag).join(', ');
   const languageId = item.item.Language.id;
   const buildRelations = (relations) => {
     let elements = null;
     if (relations.length > 0) {
-      elements = relations.map((item) => {
-        const taxonomyTerm = term(item.Taxonomy, preferredLanguage);
+      elements = relations.map((relation) => {
+        const taxonomyTerm = term(relation.Taxonomy, preferredLanguage);
 
         let userLanguages = [
-          item.target.Translations.find((item) => preferredLanguage === item.LanguageId),
+          relation.target.Translations.find(
+            (translation) => preferredLanguage === translation.LanguageId,
+          ),
         ];
         userLanguages = [
           ...userLanguages,
-          ...item.target.Translations.filter((item) => possibleLanguages.includes(item.LanguageId)),
+          ...relation.target.Translations.filter((translation) =>
+            possibleLanguages.includes(translation.LanguageId),
+          ),
         ];
 
-        let linkText = item.target.Translations.filter((item) => item.LanguageId === languageId);
+        let linkText = relation.target.Translations.filter(
+          (translation) => translation.LanguageId === languageId,
+        );
         if (userLanguages.length > 0) {
           linkText = userLanguages[0].title;
 

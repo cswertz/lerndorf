@@ -2,8 +2,8 @@ import { withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Capabilities from '@components/users/roles/Capabilities';
-import EditForm from '@components/users/roles/EditForm';
+import Capabilities from '../../../components/users/roles/Capabilities';
+import EditForm from '../../../components/users/roles/EditForm';
 
 class RolesEdit extends Component {
   constructor(props) {
@@ -78,12 +78,12 @@ class RolesEdit extends Component {
     };
 
     for (const language of languages.languages) {
-      const { id, code } = language;
+      const { id: languageId, code } = language;
 
       if (e.target[code]) {
         const vocable = e.target[code].value;
         const translation = {
-          id,
+          id: languageId,
           vocable,
         };
 

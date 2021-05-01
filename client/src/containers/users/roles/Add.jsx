@@ -12,6 +12,10 @@ class RolesAdd extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.fetchLanguages();
+  }
+
   handleSubmit(e) {
     e.preventDefault();
 
@@ -36,10 +40,6 @@ class RolesAdd extends Component {
     }
 
     handleSubmit(data, history);
-  }
-
-  componentDidMount() {
-    this.fetchLanguages();
   }
 
   fetchLanguages() {
