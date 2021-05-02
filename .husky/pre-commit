@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-yarn --cwd ./client run format:check
+yarn --cwd ./client run lint:check
