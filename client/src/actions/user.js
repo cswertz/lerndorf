@@ -32,7 +32,7 @@ export const userLoginSuccess = (user) => ({
   user,
 });
 
-export const userLogoutSUccess = () => ({
+export const userLogoutSuccess = () => ({
   type: types.USER_LOGOUT_SUCCESS,
 });
 
@@ -106,7 +106,7 @@ export const userLogout = (history) => (dispatch) =>
     credentials: 'include',
   })
     .then(() => {
-      dispatch(userLogoutSUccess());
+      dispatch(userLogoutSuccess());
       history.push('/');
     })
     .catch((error) => {
@@ -154,7 +154,7 @@ export const userFetchRoles = (id) => (dispatch) =>
   })
     .then((response) => {
       if (response.status === 401) {
-        dispatch(userLogoutSUccess());
+        dispatch(userLogoutSuccess());
       }
       return response.json();
     })
@@ -187,7 +187,7 @@ export const userDelete = (id, data, history) => async (dispatch) => {
       if (json.error) {
         // dispatch(userEditFailed(json.error, json.errors));
       } else {
-        dispatch(userLogoutSUccess());
+        dispatch(userLogoutSuccess());
         history.push('/');
       }
     }
