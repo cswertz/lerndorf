@@ -7,7 +7,7 @@ import {
   ROLES_ADD_SUCCESS,
   ROLES_ADD_FAILED,
   ROLES_FETCH,
-} from '../actions/constants';
+} from '@actions/constants';
 
 const initialState = {
   fetching: false,

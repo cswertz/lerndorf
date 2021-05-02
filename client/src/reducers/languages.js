@@ -5,7 +5,7 @@ import {
   LANGUAGES_ADD_SUCCESS,
   LANGUAGES_ADD_FAILED,
   LANGUAGES_FETCH,
-} from '../actions/constants';
+} from '@actions/constants';
 
 const initialState = {
   fetching: false,

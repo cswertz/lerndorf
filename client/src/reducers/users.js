@@ -6,7 +6,7 @@ import {
   USERS_FETCH_SUCCESS,
   USERS_EDIT_SUCCESS,
   USERS_FETCH,
-} from '../actions/constants';
+} from '@actions/constants';
 
 const initialState = {
   fetching: false,

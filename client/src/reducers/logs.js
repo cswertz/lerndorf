@@ -1,4 +1,4 @@
-import { LOGS_FETCH_SUCCESS, LOGS_FETCH } from '../actions/constants';
+import { LOGS_FETCH_SUCCESS, LOGS_FETCH } from '@actions/constants';
 
 const initialState = {
   fetching: false,

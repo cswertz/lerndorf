@@ -9,7 +9,7 @@ import {
   KNOWLEDGEUNITS_ITEM_FETCH,
   KNOWLEDGEUNITS_FETCH,
   TEXTS_ADD_SUCCESS,
-} from '../actions/constants';
+} from '@actions/constants';
 
 const initialState = {
   fetching: false,

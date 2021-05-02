@@ -15,7 +15,7 @@ import {
   LEARNINGUNITS_FETCH,
   TEXTS_EDIT_SUCCESS,
   TEXTS_ADD_SUCCESS,
-} from '../actions/constants';
+} from '@actions/constants';
 
 const initialState = {
   fetching: false,

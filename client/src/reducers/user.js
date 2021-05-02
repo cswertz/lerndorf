@@ -11,7 +11,7 @@ import {
   USER_EDIT_SUCCESS,
   USER_LOGIN_FAILED,
   USER_ROLES_FETCH,
-} from '../actions/constants';
+} from '@actions/constants';
 
 const initialState = {
   loggedIn: false,

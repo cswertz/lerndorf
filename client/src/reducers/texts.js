@@ -6,7 +6,7 @@ import {
   TEXTS_ADD_SUCCESS,
   TEXTS_ADD_FAILED,
   TEXTS_FETCH,
-} from '../actions/constants';
+} from '@actions/constants';
 
 const initialState = {
   fetching: false,

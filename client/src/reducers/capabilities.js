@@ -1,4 +1,4 @@
-import { CAPABILITIES_FETCH_SUCCESS, CAPABILITIES_FETCH } from '../actions/constants';
+import { CAPABILITIES_FETCH_SUCCESS, CAPABILITIES_FETCH } from '@actions/constants';
 
 const initialState = {
   fetching: false,

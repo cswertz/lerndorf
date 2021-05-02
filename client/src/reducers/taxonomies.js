@@ -6,7 +6,7 @@ import {
   TAXONOMIES_ADD_SUCCESS,
   TAXONOMIES_ADD_FAILED,
   TAXONOMIES_FETCH,
-} from '../actions/constants';
+} from '@actions/constants';
 
 const initialState = {
   fetching: false,
