@@ -1,5 +1,5 @@
 import { withRouter } from 'react-router-dom';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Show from '@components/texts/Show';

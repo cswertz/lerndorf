@@ -1,6 +1,6 @@
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import List from '@components/users/List';

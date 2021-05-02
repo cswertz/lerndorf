@@ -33,6 +33,10 @@
     "import/no-unresolved": "off",
     "no-console": "off",
 
+    // turn these off for react v17
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+
     // TEMP: these should be enabled in the future
     // TODO: fix lint errors
     "no-param-reassign": "off",

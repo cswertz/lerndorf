@@ -9,7 +9,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import List from '@material-ui/core/List';
 
 import PropTypes from 'prop-types';
-import React from 'react';
 
 const styles = () => ({});
 

@@ -12,7 +12,7 @@ import List from '@material-ui/core/List';
 import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import DialogBinary from '../DialogBinary';
 
 const styles = () => ({

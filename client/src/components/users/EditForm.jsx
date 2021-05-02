@@ -1,6 +1,5 @@
 import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';

@@ -5,7 +5,6 @@ import { BrowserRouter } from 'react-router-dom';
 import storage from 'redux-persist/lib/storage';
 import thunkMiddlware from 'redux-thunk';
 import { Provider } from 'react-redux';
-import React from 'react';
 
 import lerndorfApp from './reducers';
 import Router from './Router';

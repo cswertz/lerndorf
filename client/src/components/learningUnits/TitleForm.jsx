@@ -1,6 +1,5 @@
 import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import FormControl from '@material-ui/core/FormControl';
 import { withStyles } from '@material-ui/core/styles';
