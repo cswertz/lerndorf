@@ -84,15 +84,17 @@ const UsersRouter = ({ capabilities, languages, actions, roles, users, user }) =
       exact
       path="/users/login"
       render={() => (
-        <Wrapper
-          fetchRoles={actions.userFetchRoles}
-          className="LoginWrapper"
-          logout={actions.userLogout}
-          active="login"
-          title="Login"
-          user={user}
-          element={<Login errors={user.errors} handleSubmit={actions.userLogin} />}
-        />
+        // <Wrapper
+        //   fetchRoles={actions.userFetchRoles}
+        //   className="LoginWrapper"
+        //   logout={actions.userLogout}
+        //   active="login"
+        //   title="Login"
+        //   user={user}
+        //   element={<Login errors={user.errors} handleSubmit={actions.userLogin} />}
+        // />
+
+        <Login errors={user.errors} handleSubmit={actions.userLogin} />
       )}
     />
 

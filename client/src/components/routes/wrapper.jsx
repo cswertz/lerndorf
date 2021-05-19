@@ -1,32 +1,55 @@
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
-import Appbar from '@containers/Appbar';
+import Drawer from '@containers/Drawer';
+import AppBar from '@containers/AppBar';
+import UserBar from '@containers/UserBar';
 
-const styles = () => ({
-  container: {
-    maxWidth: 960,
-    margin: 'auto',
-    marginTop: '10px',
+const useStyles = makeStyles((theme) => ({
+  main: {
+    marginLeft: 0,
+
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: 280,
+    },
   },
-});
+  container: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
 
-const Wrapper = ({ fetchRoles, className, classes, element, logout, active, title, user }) => (
-  <div className={className}>
-    <Appbar fetchRoles={fetchRoles} logout={logout} active={active} title={title} user={user} />
-    <div className={classes.container}>{element}</div>
-  </div>
-);
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: theme.spacing(8),
+      paddingRight: theme.spacing(8),
+    },
+  },
+}));
+
+const Wrapper = ({ className, fetchRoles, element, logout, user }) => {
+  const classes = useStyles();
+
+  return (
+    <div className={className}>
+      <Drawer user={user} fetchRoles={fetchRoles} />
+
+      <main className={classes.main}>
+        <AppBar user={user} fetchRoles={fetchRoles} />
+        <UserBar user={user} logout={logout} />
+        <div className={classes.container}>{element}</div>
+      </main>
+    </div>
+  );
+};
 
 Wrapper.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
   fetchRoles: PropTypes.func.isRequired,
   element: PropTypes.element.isRequired,
   user: PropTypes.shape({}).isRequired,
-  active: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
   logout: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(Wrapper);
+Wrapper.defaultProps = {
+  className: '',
+};
+
+export default Wrapper;

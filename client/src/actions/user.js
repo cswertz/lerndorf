@@ -107,7 +107,7 @@ export const userLogout = (history) => (dispatch) =>
   })
     .then(() => {
       dispatch(userLogoutSuccess());
-      history.push('/');
+      history.push('/login');
     })
     .catch((error) => {
       console.log('Error during logout:', error);

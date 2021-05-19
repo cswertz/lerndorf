@@ -1,10 +1,13 @@
-import { withRouter, Redirect, Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { withRouter, Redirect, Route, Switch } from 'react-router-dom';
 
-import Appbar from '@containers/Appbar';
-import Home from '@components/Home';
+import * as AppActions from '@actions';
+
+import Wrapper from '@components/routes/wrapper';
+import Dashboard from '@components/Dashboard';
+import Login from '@containers/users/Login';
 
 import RoutesKnowledgeUnits from '@containers/routes/knowledgeUnits';
 import RoutesLearningUnits from '@containers/routes/learningUnits';
@@ -14,7 +17,7 @@ import RoutesUsers from '@containers/routes/users';
 import RoutesTexts from '@containers/routes/texts';
 import RoutesLogs from '@containers/routes/logs';
 
-import * as AppActions from './actions';
+// TODO: add PrivateRoute
 
 const Router = ({
   knowledgeUnits,
@@ -28,107 +31,105 @@ const Router = ({
   texts,
   user,
   logs,
-}) => (
-  <Switch>
-    <Route
-      exact
-      path="/"
-      render={() => (
-        <div className="RegisterWrapper">
-          <Appbar
-            title="Home"
-            active="home"
+}) => {
+  return (
+    <Switch>
+      <Route path="/" exact>
+        <Wrapper
+          user={user}
+          fetchRoles={actions.userFetchRoles}
+          logout={actions.userLogout}
+          element={<Dashboard />}
+        />
+      </Route>
+
+      <Route path="/login" exact>
+        <Login handleSubmit={actions.userLogin} errors={user.errors} />
+      </Route>
+
+      <Route
+        path="/languages"
+        render={() => <RoutesLanguages languages={languages} actions={actions} user={user} />}
+      />
+
+      <Route
+        path="/taxonomies"
+        render={() => <RoutesTaxonomies taxonomies={taxonomies} actions={actions} user={user} />}
+      />
+
+      <Route
+        path="/users"
+        render={() => (
+          <RoutesUsers
+            capabilities={capabilities}
+            languages={languages}
+            actions={actions}
+            roles={roles}
+            users={users}
             user={user}
-            logout={actions.userLogout}
-            fetchRoles={actions.userFetchRoles}
           />
-          <Home loggedIn={user.loggedIn} />
-        </div>
-      )}
-    />
+        )}
+      />
 
-    <Route
-      path="/languages"
-      render={() => <RoutesLanguages languages={languages} actions={actions} user={user} />}
-    />
+      <Route
+        path="/learning-units"
+        render={() => (
+          <RoutesLearningUnits
+            learningUnits={learningUnits}
+            capabilities={capabilities}
+            languages={languages}
+            actions={actions}
+            user={user}
+          />
+        )}
+      />
 
-    <Route
-      path="/taxonomies"
-      render={() => <RoutesTaxonomies taxonomies={taxonomies} actions={actions} user={user} />}
-    />
+      <Route
+        path="/knowledge-units"
+        render={() => (
+          <RoutesKnowledgeUnits
+            learningUnits={learningUnits}
+            knowledgeUnits={knowledgeUnits}
+            capabilities={capabilities}
+            languages={languages}
+            actions={actions}
+            user={user}
+          />
+        )}
+      />
 
-    <Route
-      path="/users"
-      render={() => (
-        <RoutesUsers
-          capabilities={capabilities}
-          languages={languages}
-          actions={actions}
-          roles={roles}
-          users={users}
-          user={user}
-        />
-      )}
-    />
+      <Route
+        path="/texts"
+        render={() => (
+          <RoutesTexts
+            knowledgeUnits={knowledgeUnits}
+            capabilities={capabilities}
+            languages={languages}
+            actions={actions}
+            texts={texts}
+            user={user}
+          />
+        )}
+      />
 
-    <Route
-      path="/learning-units"
-      render={() => (
-        <RoutesLearningUnits
-          learningUnits={learningUnits}
-          capabilities={capabilities}
-          languages={languages}
-          actions={actions}
-          user={user}
-        />
-      )}
-    />
+      <Route
+        path="/logs"
+        render={() => (
+          <RoutesLogs
+            logs={logs}
+            learningUnits={learningUnits}
+            capabilities={capabilities}
+            languages={languages}
+            actions={actions}
+            user={user}
+          />
+        )}
+      />
 
-    <Route
-      path="/knowledge-units"
-      render={() => (
-        <RoutesKnowledgeUnits
-          learningUnits={learningUnits}
-          knowledgeUnits={knowledgeUnits}
-          capabilities={capabilities}
-          languages={languages}
-          actions={actions}
-          user={user}
-        />
-      )}
-    />
-
-    <Route
-      path="/texts"
-      render={() => (
-        <RoutesTexts
-          knowledgeUnits={knowledgeUnits}
-          capabilities={capabilities}
-          languages={languages}
-          actions={actions}
-          texts={texts}
-          user={user}
-        />
-      )}
-    />
-
-    <Route
-      path="/logs"
-      render={() => (
-        <RoutesLogs
-          logs={logs}
-          learningUnits={learningUnits}
-          capabilities={capabilities}
-          languages={languages}
-          actions={actions}
-          user={user}
-        />
-      )}
-    />
-
-    <Redirect to="/" />
-  </Switch>
-);
+      <Redirect to="/" />
+    </Switch>
+  );
+};
 
 Router.propTypes = {
   logs: PropTypes.shape({

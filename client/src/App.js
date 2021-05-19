@@ -1,15 +1,15 @@
 import { createStore, compose, applyMiddleware } from 'redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { persistStore, persistReducer } from 'redux-persist';
-import { BrowserRouter } from 'react-router-dom';
-import storage from 'redux-persist/lib/storage';
-import thunkMiddlware from 'redux-thunk';
 import { Provider } from 'react-redux';
+import thunkMiddlware from 'redux-thunk';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { PersistGate } from 'redux-persist/integration/react';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from '@material-ui/core/styles';
 
 import lerndorfApp from './reducers';
 import Router from './Router';
-
-import './App.css';
+import theme from './theme';
 
 const persistConfig = {
   key: 'root',
@@ -18,19 +18,17 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, lerndorfApp);
-
 const store = createStore(persistedReducer, undefined, compose(applyMiddleware(thunkMiddlware)));
-
 const persistor = persistStore(store);
 
 const App = () => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <div className="App">
+      <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Router />
         </BrowserRouter>
-      </div>
+      </ThemeProvider>
     </PersistGate>
   </Provider>
 );
