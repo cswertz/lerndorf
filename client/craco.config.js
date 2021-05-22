@@ -8,6 +8,7 @@ module.exports = {
       '@components': path.resolve(__dirname, 'src/components/'),
       '@containers': path.resolve(__dirname, 'src/containers/'),
       '@reducers': path.resolve(__dirname, 'src/reducers/'),
+      '@theme': path.resolve(__dirname, 'src/theme/'),
       '@utils': path.resolve(__dirname, 'src/utils/'),
     },
   },

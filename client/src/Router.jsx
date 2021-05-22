@@ -47,6 +47,22 @@ const Router = ({
         <Login handleSubmit={actions.userLogin} errors={user.errors} />
       </Route>
 
+      {/* <Route path="/reset-password" exact>
+        <div>test</div>
+      </Route> */}
+
+      {/* <Route path="/datenschutz" exact>
+        <div>test</div>
+      </Route> */}
+
+      {/* <Route path="/nutzungsbedingungen" exact>
+        <div>test</div>
+      </Route> */}
+
+      {/* <Route path="/impressum" exact>
+        <div>test</div>
+      </Route> */}
+
       <Route
         path="/languages"
         render={() => <RoutesLanguages languages={languages} actions={actions} user={user} />}

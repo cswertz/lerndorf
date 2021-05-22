@@ -7,9 +7,9 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
 
+import theme from '@theme';
 import lerndorfApp from './reducers';
 import Router from './Router';
-import theme from './theme';
 
 const persistConfig = {
   key: 'root',

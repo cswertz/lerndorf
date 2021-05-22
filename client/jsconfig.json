@@ -8,6 +8,7 @@
       "@components/*": ["./components/*"],
       "@containers/*": ["./containers/*"],
       "@reducers/*": ["./reducers/*"],
+      "@theme/*": ["./theme/*"],
       "@utils/*": ["./utils/*"]
     }
   },

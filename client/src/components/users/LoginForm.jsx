@@ -1,10 +1,16 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
-
 import { withStyles } from '@material-ui/core/styles';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+
+import { colors } from '@theme';
 
 const styles = (theme) => ({
   textField: {
@@ -14,6 +20,20 @@ const styles = (theme) => ({
   flex: {
     display: 'flex',
   },
+  actions: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: theme.spacing(),
+    marginBottom: theme.spacing(),
+  },
+  error: {
+    color: colors.danger,
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
+  },
 });
 
 const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
@@ -21,8 +41,8 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   const customOptions = custom;
   delete customOptions.errorText;
 
-  let helperText = ' ';
-  // let helperText = '';
+  // let helperText = ' ';
+  let helperText = '';
   if (errorText) {
     helperText = errorText;
   }
@@ -30,7 +50,7 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
     helperText = error;
   }
 
-  let hasError = touched && error;
+  let hasError = touched && !!error;
   if (errorText) {
     hasError = true;
   }
@@ -41,7 +61,6 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
       helperText={helperText}
       error={hasError}
       label={label}
-      // margin="normal"
       fullWidth
       {...input}
       {...customOptions}
@@ -60,48 +79,81 @@ const validate = (values) => {
   });
 
   return errors;
-
-  // const errors = requiredFields.filter((field) => !values[field]).map((field) => field);
 };
 
-const Login = ({ handleSubmit, submitting, pristine, classes, errors }) => (
-  <form onSubmit={handleSubmit}>
-    <Grid item xs={12}>
-      <Field
-        required
-        name="username"
-        label="E-Mail"
-        autoComplete="email"
-        component={renderTextField}
-        className={classes.textField}
-        errorText={errors.errorMessage}
-      />
-    </Grid>
-    <Grid item xs={12}>
-      <Field
-        required
-        type="password"
-        name="password"
-        label="Passwort"
-        autoComplete="new-password"
-        component={renderTextField}
-        className={classes.textField}
-        errorText={errors.errorMessage}
-      />
-    </Grid>
+const Login = ({ handleSubmit, submitting, pristine, classes, errors }) => {
+  const [state, setState] = useState({
+    // TODO: do something with this
+    stayLoggedIn: false,
+  });
 
-    <Button
-      type="submit"
-      color="primary"
-      variant="contained"
-      size="large"
-      fullWidth
-      disabled={pristine || submitting}
-    >
-      Einloggen
-    </Button>
-  </form>
-);
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Grid item xs={12}>
+        <Field
+          name="username"
+          label="E-Mail"
+          autoComplete="email"
+          component={renderTextField}
+          className={classes.textField}
+        />
+      </Grid>
+
+      <Grid item xs={12}>
+        <Field
+          type="password"
+          name="password"
+          label="Passwort"
+          margin="normal"
+          autoComplete="new-password"
+          component={renderTextField}
+          className={classes.textField}
+        />
+      </Grid>
+
+      <div className={classes.actions}>
+        <FormControlLabel
+          label={<Typography variant="body2">eingeloggt bleiben?</Typography>}
+          control={
+            <Checkbox
+              name="stayLoggedIn"
+              checked={state.stayLoggedIn}
+              color="primary"
+              onChange={handleChange}
+            />
+          }
+        />
+
+        <Link to="/login">
+          <Typography variant="body2" color="textSecondary">
+            Passwort vergessen?
+          </Typography>
+        </Link>
+      </div>
+
+      {errors.errorMessage && (
+        <Typography className={classes.error} variant="body2">
+          {errors.errorMessage}
+        </Typography>
+      )}
+
+      <Button
+        type="submit"
+        color="primary"
+        variant="contained"
+        size="large"
+        fullWidth
+        disabled={pristine || submitting}
+      >
+        Einloggen
+      </Button>
+    </form>
+  );
+};
 
 Login.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
