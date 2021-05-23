@@ -11,7 +11,7 @@ import RoutesLanguages from '@containers/routes/languages';
 import RoutesUsers from '@containers/routes/users';
 import RoutesTexts from '@containers/routes/texts';
 import RoutesLogs from '@containers/routes/logs';
-import Wrapper from '@components/routes/wrapper';
+import Wrapper from '@components/UI/Wrapper';
 import Dashboard from '@components/Dashboard';
 import Login from '@containers/users/Login';
 
@@ -34,10 +34,10 @@ const Router = ({
     <Switch>
       <Route path="/" exact>
         <Wrapper
+          element={<Dashboard />}
           user={user}
           fetchRoles={actions.userFetchRoles}
           logout={actions.userLogout}
-          element={<Dashboard />}
         />
       </Route>
 
@@ -60,6 +60,16 @@ const Router = ({
       {/* <Route path="/impressum" exact>
         <div>WIP</div>
       </Route> */}
+
+      <Route path="/messages" exact>
+        <Wrapper
+          element={<div>WIP</div>}
+          // element={<Messages />}
+          user={user}
+          fetchRoles={actions.userFetchRoles}
+          logout={actions.userLogout}
+        />
+      </Route>
 
       <Route
         path="/languages"

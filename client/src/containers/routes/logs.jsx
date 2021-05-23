@@ -1,7 +1,7 @@
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Wrapper from '@components/routes/wrapper';
+import Wrapper from '@components/UI/Wrapper';
 import Logs from '../logs/List';
 
 const LoggingRouter = ({ learningUnits, languages, actions, user, logs }) => (
