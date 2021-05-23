@@ -1,7 +1,7 @@
 // import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 // import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Drawer from '@material-ui/core/Drawer';
@@ -15,7 +15,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 // import MenuIcon from '@material-ui/icons/Menu';
 // import CloseIcon from '@material-ui/icons/Close';
 
-import MainMenu from './MainMenu';
+import MainMenu from '@containers/MainMenu';
+import Badge from '@components/UI/Badge';
 
 const drawerWidth = 280;
 
@@ -43,6 +44,15 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
 }));
+
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    border: `2px solid ${theme.palette.common.white}`,
+    padding: '0 4px',
+    right: -13,
+    top: 15,
+  },
+}))(Badge);
 
 const Sidebar = ({ user, fetchRoles }) => {
   const classes = useStyles();
@@ -92,7 +102,9 @@ const Sidebar = ({ user, fetchRoles }) => {
             <ListItemText primary="Meine Aufgaben" />
           </ListItem>
           <ListItem button divider component={Link} to="/learning-units" disabled>
-            <ListItemText primary="Meine Nachrichten" />
+            <StyledBadge color="secondary" badgeContent={4}>
+              <ListItemText primary="Meine Nachrichten" />
+            </StyledBadge>
           </ListItem>
           <ListItem button divider component={Link} to="/learning-units" disabled>
             <ListItemText primary="Meine Inhalte" />

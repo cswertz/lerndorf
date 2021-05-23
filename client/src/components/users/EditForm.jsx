@@ -14,7 +14,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
 import { isValidEmail, getCountries, isValidUrl } from '@utils/user';
-import BinaryDialog from '../DialogBinary';
+import DialogBinary from '@components/UI/DialogBinary';
 
 const styles = (theme) => ({
   textField: {
@@ -458,7 +458,7 @@ const UserEdit = ({
         Save
       </Button>
     </div>
-    <BinaryDialog
+    <DialogBinary
       open={logDeletionDialogOpen}
       onClose={closeLogDeletionDialog}
       onConfirm={submitLogDeletion}
@@ -466,7 +466,7 @@ const UserEdit = ({
       title="Delete Logs"
       text="Are you sure you want to delete your Log files?"
     />
-    <BinaryDialog
+    <DialogBinary
       open={accountDeletionDialogOpen}
       onClose={closeAccountDeletionDialog}
       onConfirm={submitAccountDeletion}

@@ -2,18 +2,19 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
-import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Avatar from '@material-ui/core/Avatar';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/MailOutline';
+
+import Badge from '@components/UI/Badge';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -88,15 +89,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StyledBadge = withStyles((theme) => ({
-  badge: {
-    border: `2px solid ${theme.palette.common.white}`,
-    padding: '0 4px',
-    right: 2,
-    top: 3,
-  },
-}))(Badge);
-
 function UserBar({ user, logout }) {
   const classes = useStyles();
   const history = useHistory();
@@ -133,9 +125,9 @@ function UserBar({ user, logout }) {
 
           <div className={classes.section}>
             <IconButton aria-label="show 4 new mails" color="inherit">
-              <StyledBadge badgeContent={4} color="secondary">
+              <Badge badgeContent={4} color="secondary">
                 <MailIcon />
-              </StyledBadge>
+              </Badge>
             </IconButton>
 
             {/* <span className={classes.title}>Dashboard</span> */}

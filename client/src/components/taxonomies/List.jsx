@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import FolderIcon from '@material-ui/icons/Folder';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -11,9 +14,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import List from '@material-ui/core/List';
 import { Link } from 'react-router-dom';
 
-import PropTypes from 'prop-types';
-import { useState } from 'react';
-import DialogBinary from '../DialogBinary';
+import DialogBinary from '@components/UI/DialogBinary';
 
 const styles = () => ({
   wrapper: {
