@@ -4,11 +4,6 @@ import { connect } from 'react-redux';
 import { withRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import * as AppActions from '@actions';
-
-import Wrapper from '@components/routes/wrapper';
-import Dashboard from '@components/Dashboard';
-import Login from '@containers/users/Login';
-
 import RoutesKnowledgeUnits from '@containers/routes/knowledgeUnits';
 import RoutesLearningUnits from '@containers/routes/learningUnits';
 import RoutesTaxonomies from '@containers/routes/taxonomies';
@@ -16,6 +11,9 @@ import RoutesLanguages from '@containers/routes/languages';
 import RoutesUsers from '@containers/routes/users';
 import RoutesTexts from '@containers/routes/texts';
 import RoutesLogs from '@containers/routes/logs';
+import Wrapper from '@components/routes/wrapper';
+import Dashboard from '@components/Dashboard';
+import Login from '@containers/users/Login';
 
 // TODO: add PrivateRoute
 
@@ -48,19 +46,19 @@ const Router = ({
       </Route>
 
       {/* <Route path="/reset-password" exact>
-        <div>test</div>
+        <div>WIP</div>
       </Route> */}
 
       {/* <Route path="/datenschutz" exact>
-        <div>test</div>
+        <div>WIP</div>
       </Route> */}
 
       {/* <Route path="/nutzungsbedingungen" exact>
-        <div>test</div>
+        <div>WIP</div>
       </Route> */}
 
       {/* <Route path="/impressum" exact>
-        <div>test</div>
+        <div>WIP</div>
       </Route> */}
 
       <Route

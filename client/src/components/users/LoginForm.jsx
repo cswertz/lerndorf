@@ -28,7 +28,7 @@ const styles = (theme) => ({
     marginBottom: theme.spacing(),
   },
   error: {
-    color: colors.danger,
+    color: colors.danger.main,
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
     paddingLeft: theme.spacing(4),

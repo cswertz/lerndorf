@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   footer: {
-    color: colors.tertiary,
+    color: colors.tertiary.main,
     display: 'none',
     justifyContent: 'center',
     alignItems: 'center',
@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   footerLink: {
-    color: colors.tertiary,
+    color: colors.tertiary.main,
   },
   separator: {
     marginLeft: theme.spacing(),

@@ -1,29 +1,72 @@
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 
 export const colors = {
-  primary: '#293244',
-  secondary: '#FF7262',
-  tertiary: '#616161',
+  primary: {
+    light: '#D8E2F7',
+    // medium: '#8997B1',
+    main: '#7A95CA',
+    // dark: '#56657F',
+    dark: '#293244',
+  },
+  secondary: {
+    // light: '#D8E2F7',
+    main: '#FF7262',
+    // dark: '#293244',
+  },
+  tertiary: {
+    // light: '#D8E2F7',
+    main: '#616161',
+    // dark: '#293244',
+  },
+  grey: {
+    50: '#ffffff',
+    100: '#f5f5f5',
+    200: '#eeeeee',
+    300: '#e0e0e0',
+    400: '#bdbdbd',
+    500: '#9e9e9e',
+    600: '#757575',
+    700: '#616161',
+    800: '#424242',
+    900: '#212121',
+  },
   textPrimary: '#2D3748',
   textSecondary: '#2B6CB0',
-  textTertiary: '',
-  success: '#0ACF2A',
-  info: '',
-  warning: '',
-  danger: '#f44336',
+  // textTertiary: '',
+  success: {
+    main: '#0ACF2A',
+  },
+  // info: {
+  //   main: '',
+  // },
+  // warning: {
+  //   main: '',
+  // },
+  danger: {
+    main: '#f44336',
+  },
 };
 
 const theme = createMuiTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
   palette: {
     primary: {
       // light: will be calculated from palette.primary.main,
-      main: colors.primary,
+      main: colors.primary.dark,
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
     },
     secondary: {
       // light: will be calculated from palette.primary.main,
-      main: colors.secondary,
+      main: colors.secondary.main,
       // dark: will be calculated from palette.secondary.main,
       contrastText: '#ffffff',
     },
@@ -34,7 +77,7 @@ const theme = createMuiTheme({
     //   contrastText: '#ffffff',
     // },
     success: {
-      main: colors.success,
+      main: colors.success.main,
     },
     text: {
       secondary: colors.textSecondary,
