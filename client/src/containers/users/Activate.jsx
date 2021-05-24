@@ -34,7 +34,7 @@ class Activate extends Component {
 
     return (
       <div>
-        <Typography variant="headline">Activation</Typography>
+        <Typography variant="h1">Activation</Typography>
         {message}
       </div>
     );

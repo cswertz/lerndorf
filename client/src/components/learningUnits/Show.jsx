@@ -56,21 +56,22 @@ const LearningUnitsShow = ({
           ),
         ];
 
-        let linkText = relation.target.Translations.filter(
-          (translation) => translation.LanguageId === languageId,
-        );
-        if (userLanguages.length > 0) {
-          linkText = userLanguages[0].title;
+        // let linkText = relation.target.Translations.filter(
+        //   (translation) => translation.LanguageId === languageId,
+        // );
 
-          return (
-            <li>
-              {taxonomyTerm}{' '}
-              <a href={`/learning-units/show/${userLanguages[0].LanguageId}/${item.targetId}`}>
-                {linkText}
-              </a>
-            </li>
-          );
-        }
+        // if (userLanguages.length > 0) {
+        //   linkText = userLanguages[0].title;
+
+        //   return (
+        //     <li>
+        //       {taxonomyTerm}{' '}
+        //       <a href={`/learning-units/show/${userLanguages[0].LanguageId}/${item.targetId}`}>
+        //         {linkText}
+        //       </a>
+        //     </li>
+        //   );
+        // }
 
         return null;
       });
@@ -104,6 +105,7 @@ const LearningUnitsShow = ({
         </Grid>
         <Grid>
           <Button
+            color="primary"
             component={Link}
             to={`/knowledge-units/add/${item.item.LearningUnit.id}`}
             variant="contained"

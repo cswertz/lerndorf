@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 
 import * as AppActions from '@actions';
 import RoutesKnowledgeUnits from '@containers/routes/knowledgeUnits';
@@ -14,6 +14,8 @@ import RoutesLogs from '@containers/routes/logs';
 import Wrapper from '@components/UI/Wrapper';
 import Dashboard from '@components/Dashboard';
 import Login from '@containers/users/Login';
+import Content from '@components/Content';
+import CreateCourse from '@components/courses/Create';
 
 // TODO: add PrivateRoute
 
@@ -25,20 +27,17 @@ const Router = ({
   languages,
   actions,
   roles,
-  users,
   texts,
+  users,
   user,
   logs,
 }) => {
   return (
     <Switch>
       <Route path="/" exact>
-        <Wrapper
-          element={<Dashboard />}
-          user={user}
-          fetchRoles={actions.userFetchRoles}
-          logout={actions.userLogout}
-        />
+        <Wrapper>
+          <Dashboard />
+        </Wrapper>
       </Route>
 
       <Route path="/login" exact>
@@ -62,93 +61,102 @@ const Router = ({
       </Route> */}
 
       <Route path="/messages" exact>
-        <Wrapper
-          element={<div>WIP</div>}
-          // element={<Messages />}
+        <Wrapper>
+          <div>Messages WIP</div>
+          use{' '}
+          <a href="https://github.com/chatscope/chat-ui-kit-react" rel="noopener">
+            https://github.com/chatscope/chat-ui-kit-react
+          </a>
+          ?
+        </Wrapper>
+      </Route>
+
+      <Route path="/course/create" exact>
+        <Wrapper>
+          <CreateCourse />
+        </Wrapper>
+      </Route>
+
+      <Route path="/course/:id" exact>
+        <Wrapper>
+          {/* <Course /> */}
+          <div>Course WIP</div>
+        </Wrapper>
+      </Route>
+
+      <Route path="/content/:id" exact>
+        <Wrapper>
+          <Content />
+        </Wrapper>
+      </Route>
+
+      <Route path="/languages">
+        <RoutesLanguages languages={languages} actions={actions} user={user} />
+      </Route>
+
+      <Route path="/taxonomies">
+        <RoutesTaxonomies taxonomies={taxonomies} actions={actions} user={user} />
+      </Route>
+
+      <Route path="/users">
+        <RoutesUsers
+          capabilities={capabilities}
+          languages={languages}
+          actions={actions}
+          roles={roles}
+          users={users}
           user={user}
-          fetchRoles={actions.userFetchRoles}
-          logout={actions.userLogout}
         />
       </Route>
 
-      <Route
-        path="/languages"
-        render={() => <RoutesLanguages languages={languages} actions={actions} user={user} />}
-      />
+      <Route path="/learning-units">
+        <RoutesLearningUnits
+          learningUnits={learningUnits}
+          capabilities={capabilities}
+          languages={languages}
+          actions={actions}
+          user={user}
+        />
+      </Route>
 
-      <Route
-        path="/taxonomies"
-        render={() => <RoutesTaxonomies taxonomies={taxonomies} actions={actions} user={user} />}
-      />
+      <Route path="/knowledge-units">
+        <RoutesKnowledgeUnits
+          learningUnits={learningUnits}
+          knowledgeUnits={knowledgeUnits}
+          capabilities={capabilities}
+          languages={languages}
+          actions={actions}
+          user={user}
+        />
+      </Route>
 
-      <Route
-        path="/users"
-        render={() => (
-          <RoutesUsers
-            capabilities={capabilities}
-            languages={languages}
-            actions={actions}
-            roles={roles}
-            users={users}
-            user={user}
-          />
-        )}
-      />
+      <Route path="/texts">
+        <RoutesTexts
+          knowledgeUnits={knowledgeUnits}
+          capabilities={capabilities}
+          languages={languages}
+          actions={actions}
+          texts={texts}
+          user={user}
+        />
+      </Route>
 
-      <Route
-        path="/learning-units"
-        render={() => (
-          <RoutesLearningUnits
-            learningUnits={learningUnits}
-            capabilities={capabilities}
-            languages={languages}
-            actions={actions}
-            user={user}
-          />
-        )}
-      />
+      <Route path="/logs">
+        <RoutesLogs
+          logs={logs}
+          learningUnits={learningUnits}
+          capabilities={capabilities}
+          languages={languages}
+          actions={actions}
+          user={user}
+        />
+      </Route>
 
-      <Route
-        path="/knowledge-units"
-        render={() => (
-          <RoutesKnowledgeUnits
-            learningUnits={learningUnits}
-            knowledgeUnits={knowledgeUnits}
-            capabilities={capabilities}
-            languages={languages}
-            actions={actions}
-            user={user}
-          />
-        )}
-      />
-
-      <Route
-        path="/texts"
-        render={() => (
-          <RoutesTexts
-            knowledgeUnits={knowledgeUnits}
-            capabilities={capabilities}
-            languages={languages}
-            actions={actions}
-            texts={texts}
-            user={user}
-          />
-        )}
-      />
-
-      <Route
-        path="/logs"
-        render={() => (
-          <RoutesLogs
-            logs={logs}
-            learningUnits={learningUnits}
-            capabilities={capabilities}
-            languages={languages}
-            actions={actions}
-            user={user}
-          />
-        )}
-      />
+      <Route path="/settings" exact>
+        <Wrapper>
+          <div>Settings WIP</div>
+        </Wrapper>
+      </Route>
 
       <Redirect to="/" />
     </Switch>
@@ -283,4 +291,4 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(AppActions, dispatch),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Router));
+export default connect(mapStateToProps, mapDispatchToProps)(Router);

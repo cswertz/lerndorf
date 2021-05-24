@@ -54,7 +54,7 @@ class Taxonomies extends Component {
 
     return (
       <div>
-        <Typography variant="title">Available taxonomies</Typography>
+        <Typography variant="h1">Available taxonomies</Typography>
         <List
           itemsDelete={this.handleDelete}
           itemsDisable={this.handleDisable}
@@ -63,7 +63,11 @@ class Taxonomies extends Component {
           history={history}
         />
         <Grid>
-          <Button onClick={() => history.push('/taxonomies/add')} variant="contained">
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => history.push('/taxonomies/add')}
+          >
             Add new taxonomy
           </Button>
         </Grid>

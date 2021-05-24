@@ -8,9 +8,9 @@ import Button from '@material-ui/core/Button';
 const styles = (theme) => ({
   textField: {
     flex: 1,
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginLeft: theme.spacing(),
+    marginRight: theme.spacing(),
+    marginBottom: theme.spacing(),
   },
   flex: {
     display: 'flex',
@@ -71,7 +71,7 @@ const TaxonomiesAdd = ({ handleSubmit, submitting, pristine, classes, errors }) 
       />
     </div>
     <div>
-      <Button type="submit" variant="contained" disabled={pristine || submitting}>
+      <Button type="submit" color="primary" variant="contained" disabled={pristine || submitting}>
         Add Taxonomy
       </Button>
     </div>

@@ -41,10 +41,14 @@ class Roles extends Component {
 
     return (
       <div>
-        <Typography variant="headline">Available roles</Typography>
+        <Typography variant="h1">Available roles</Typography>
         <List itemsDelete={this.handleDelete} items={items.items} history={history} />
         <Grid>
-          <Button onClick={() => history.push('/users/roles/add')} variant="contained">
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => history.push('/users/roles/add')}
+          >
             Add new role
           </Button>
         </Grid>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,7 +11,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import Drawer from '@material-ui/core/Drawer';
 
-import MainMenu from './MainMenu';
+import MainMenu from '@containers/MainMenu';
+import TopicsMenu from '@components/UI/TopicsMenu';
 
 const useStyles = makeStyles(
   (theme) => ({
@@ -45,8 +46,9 @@ const useStyles = makeStyles(
   // { name: 'HookGlobalStyles', index: 2 },
 );
 
-function MenuBar({ user, fetchRoles }) {
+function MenuBar() {
   const classes = useStyles();
+  const user = useSelector((state) => state.user);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawer = () => (event) => {
@@ -83,7 +85,7 @@ function MenuBar({ user, fetchRoles }) {
             <AppBar position="static" className={classes.appBar}>
               <Toolbar>
                 <Typography edge="start" variant="h6" className={classes.logo}>
-                  Lerndorf
+                  <img src="/assets/images/logo.png" alt="Lerndorf Logo" />
                 </Typography>
 
                 <div className={classes.grow} />
@@ -107,8 +109,10 @@ function MenuBar({ user, fetchRoles }) {
               role="menu"
               tabIndex={0}
             >
-              <Toolbar />
-              <MainMenu fetchRoles={fetchRoles} user={user} />
+              {/* <Toolbar /> */}
+
+              {!user.loggedIn && <TopicsMenu />}
+              {user.loggedIn && <MainMenu />}
             </div>
           </Drawer>
         </Toolbar>
@@ -116,11 +120,5 @@ function MenuBar({ user, fetchRoles }) {
     </div>
   );
 }
-
-MenuBar.propTypes = {
-  user: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired,
-  }).isRequired,
-};
 
 export default MenuBar;

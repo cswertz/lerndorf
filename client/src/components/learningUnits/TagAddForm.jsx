@@ -88,7 +88,7 @@ const LearningUnitsTag = ({ handleSubmit, submitting, pristine, classes }) => (
       </div>
     </div>
     <div>
-      <Button type="submit" variant="contained" disabled={pristine || submitting}>
+      <Button type="submit" color="primary" variant="contained" disabled={pristine || submitting}>
         Add Tag
       </Button>
     </div>

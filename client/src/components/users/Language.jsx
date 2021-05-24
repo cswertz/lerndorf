@@ -236,7 +236,12 @@ const Language = ({ handlePreferred, handleSubmit, handleDelete, languages, clas
           </Grid>
           <Grid item xs={12} sm={3}>
             <p>
-              <Button type="submit" variant="contained" className={classes.fullWidth}>
+              <Button
+                className={classes.fullWidth}
+                type="submit"
+                color="primary"
+                variant="contained"
+              >
                 Add Language
               </Button>
             </p>

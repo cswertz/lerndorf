@@ -158,7 +158,7 @@ const LearningUnitsRelation = ({
       </div>
     </div>
     <div>
-      <Button type="submit" variant="contained" disabled={pristine || submitting}>
+      <Button color="primary" type="submit" variant="contained" disabled={pristine || submitting}>
         Add Relation
       </Button>
     </div>

@@ -7,27 +7,19 @@ import LanguagesEdit from '../languages/Edit';
 import LanguagesAdd from '../languages/Add';
 import Languages from '../languages/List';
 
-const LanguagesRouter = ({ languages, actions, user }) => (
+const LanguagesRouter = ({ languages, actions }) => (
   <>
     <Route
       exact
       path="/languages"
       render={() => (
-        <Wrapper
-          fetchRoles={actions.userFetchRoles}
-          className="LanguagesWrapper"
-          logout={actions.userLogout}
-          active="languages"
-          title="Languages"
-          user={user}
-          element={
-            <Languages
-              languagesDelete={actions.languagesDelete}
-              languagesFetch={actions.languagesFetch}
-              languages={languages}
-            />
-          }
-        />
+        <Wrapper className="LanguagesWrapper" active="languages" title="Languages">
+          <Languages
+            languagesDelete={actions.languagesDelete}
+            languagesFetch={actions.languagesFetch}
+            languages={languages}
+          />
+        </Wrapper>
       )}
     />
 
@@ -35,15 +27,9 @@ const LanguagesRouter = ({ languages, actions, user }) => (
       exact
       path="/languages/add"
       render={() => (
-        <Wrapper
-          fetchRoles={actions.userFetchRoles}
-          className="LanguagesWrapper"
-          logout={actions.userLogout}
-          title="Add Language"
-          active="languages"
-          user={user}
-          element={<LanguagesAdd handleSubmit={actions.languagesAdd} errors={languages.errors} />}
-        />
+        <Wrapper className="LanguagesWrapper" title="Add Language" active="languages">
+          <LanguagesAdd handleSubmit={actions.languagesAdd} errors={languages.errors} />
+        </Wrapper>
       )}
     />
 
@@ -51,22 +37,14 @@ const LanguagesRouter = ({ languages, actions, user }) => (
       exact
       path="/languages/edit/:id"
       render={() => (
-        <Wrapper
-          fetchRoles={actions.userFetchRoles}
-          className="LanguagesWrapper"
-          logout={actions.userLogout}
-          title="Edit Language"
-          active="languages"
-          user={user}
-          element={
-            <LanguagesEdit
-              languagesFetch={actions.languagesFetch}
-              handleSubmit={actions.languagesEdit}
-              errors={languages.errors}
-              languages={languages}
-            />
-          }
-        />
+        <Wrapper className="LanguagesWrapper" title="Edit Language" active="languages">
+          <LanguagesEdit
+            languagesFetch={actions.languagesFetch}
+            handleSubmit={actions.languagesEdit}
+            errors={languages.errors}
+            languages={languages}
+          />
+        </Wrapper>
       )}
     />
   </>
@@ -85,14 +63,6 @@ LanguagesRouter.propTypes = {
     languagesEdit: PropTypes.func.isRequired,
     languagesAdd: PropTypes.func.isRequired,
     userLogout: PropTypes.func.isRequired,
-  }).isRequired,
-  user: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired,
-    errors: PropTypes.shape({
-      registration: PropTypes.shape({}).isRequired,
-      login: PropTypes.shape({}).isRequired,
-      edit: PropTypes.shape({}).isRequired,
-    }).isRequired,
   }).isRequired,
 };
 

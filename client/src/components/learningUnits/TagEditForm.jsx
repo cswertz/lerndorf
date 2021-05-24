@@ -88,11 +88,11 @@ const LearningUnitsTagEdit = ({ handleSubmit, submitting, deleteTag, pristine, c
       </div>
     </div>
     <div>
-      <Button type="submit" variant="contained" disabled={pristine || submitting}>
+      <Button type="submit" color="primary" variant="contained" disabled={pristine || submitting}>
         Save Tag
       </Button>
       &nbsp;
-      <Button onClick={() => deleteTag(id)} variant="contained">
+      <Button color="primary" onClick={() => deleteTag(id)} variant="contained">
         Delete
       </Button>
     </div>

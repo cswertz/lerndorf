@@ -26,17 +26,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Wrapper = ({ className, fetchRoles, element, logout, user }) => {
+const Wrapper = ({ className, active, title, children }) => {
   const classes = useStyles();
 
   return (
     <div className={className}>
-      <Drawer user={user} fetchRoles={fetchRoles} />
+      <Drawer />
 
       <main className={classes.main}>
-        <AppBar user={user} fetchRoles={fetchRoles} />
-        <UserBar user={user} logout={logout} />
-        <div className={classes.container}>{element}</div>
+        <AppBar />
+        <UserBar />
+        <div className={classes.container}>{children}</div>
       </main>
     </div>
   );
@@ -44,10 +44,6 @@ const Wrapper = ({ className, fetchRoles, element, logout, user }) => {
 
 Wrapper.propTypes = {
   className: PropTypes.string,
-  fetchRoles: PropTypes.func.isRequired,
-  element: PropTypes.element.isRequired,
-  user: PropTypes.shape({}).isRequired,
-  logout: PropTypes.func.isRequired,
 };
 
 Wrapper.defaultProps = {

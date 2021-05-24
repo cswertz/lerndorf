@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -12,8 +12,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Avatar from '@material-ui/core/Avatar';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import PersonIcon from '@material-ui/icons/Person';
 import MailIcon from '@material-ui/icons/MailOutline';
 
+import { userLogout } from '@actions';
 import Badge from '@components/UI/Badge';
 
 const useStyles = makeStyles((theme) => ({
@@ -81,23 +83,31 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
-  title: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'block',
+  login: {
+    color: theme.palette.grey[800],
+    display: 'flex',
+    verticalAlign: 'text-bottom',
+    textAlign: 'center',
+    alignItems: 'center',
+    marginLeft: theme.spacing(4),
+
+    '& svg': {
+      marginLeft: '0.2rem',
     },
   },
 }));
 
-function UserBar({ user, logout }) {
+function UserBar() {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
 
   const handleLogout = () => {
-    logout(history);
+    dispatch(userLogout(history));
     history.push('/');
   };
 
@@ -124,67 +134,63 @@ function UserBar({ user, logout }) {
           </div>
 
           <div className={classes.section}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-
-            {/* <span className={classes.title}>Dashboard</span> */}
-
             {!user.loggedIn && (
-              <IconButton
-                edge="end"
-                aria-label="login"
-                onClick={() => history.push('/login')}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
+              <Link className={classes.login} to="/login">
+                Login
+                <PersonIcon />
+              </Link>
             )}
 
             {user.loggedIn && (
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={(event) => setAnchorEl(event.currentTarget)}
-                color="inherit"
-              >
-                {user.user.picture ? (
-                  <Avatar src={`/uploads/${user.user.picture}`} alt={user.username} />
-                ) : (
-                  <AccountCircle />
-                )}
-              </IconButton>
+              <>
+                <IconButton
+                  color="inherit"
+                  component={Link}
+                  to="/messages"
+                  aria-label="show 4 new mails"
+                >
+                  <Badge badgeContent={4}>
+                    <MailIcon />
+                  </Badge>
+                </IconButton>
+
+                <IconButton
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={(event) => setAnchorEl(event.currentTarget)}
+                  color="inherit"
+                >
+                  {user.user.picture ? (
+                    <Avatar src={`/uploads/${user.user.picture}`} alt={user.username} />
+                  ) : (
+                    <AccountCircle />
+                  )}
+                </IconButton>
+
+                <Menu
+                  anchorEl={anchorEl}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  id={menuId}
+                  keepMounted
+                  transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  open={isMenuOpen}
+                  onClose={() => setAnchorEl(null)}
+                >
+                  <MenuItem onClick={() => history.push('/users/user/edit')}>Profile</MenuItem>
+                  <MenuItem onClick={() => history.push('/users/user/languages')}>
+                    Languages
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
+              </>
             )}
           </div>
         </Toolbar>
       </AppBar>
-
-      <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        id={menuId}
-        keepMounted
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMenuOpen}
-        onClose={() => setAnchorEl(null)}
-      >
-        <MenuItem onClick={() => history.push('/users/user/edit')}>Profile</MenuItem>
-        <MenuItem onClick={() => history.push('/users/user/languages')}>Languages</MenuItem>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-      </Menu>
     </div>
   );
 }
-
-UserBar.propTypes = {
-  logout: PropTypes.func.isRequired,
-  user: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired,
-  }).isRequired,
-};
 
 export default UserBar;

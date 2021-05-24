@@ -24,8 +24,7 @@ class WrapperLearningUnit extends Component {
   }
 
   render() {
-    const { fetchRoles, element, logout, user, match, items } = this.props;
-
+    const { children, match, items } = this.props;
     const { id, languageId } = match.params;
 
     let title = 'Editing Learning Unit: ';
@@ -34,24 +33,14 @@ class WrapperLearningUnit extends Component {
     }
 
     return (
-      <Wrapper
-        className="LearningUnitsWrapper"
-        fetchRoles={fetchRoles}
-        active="learningUnits"
-        element={element}
-        logout={logout}
-        title={title}
-        user={user}
-      />
+      <Wrapper className="LearningUnitsWrapper" active="learningUnits" title={title}>
+        {children}
+      </Wrapper>
     );
   }
 }
 
 WrapperLearningUnit.propTypes = {
-  fetchRoles: PropTypes.func.isRequired,
-  element: PropTypes.element.isRequired,
-  user: PropTypes.shape({}).isRequired,
-  logout: PropTypes.func.isRequired,
   itemFetch: PropTypes.func.isRequired,
   items: PropTypes.shape({}).isRequired,
   match: PropTypes.shape({

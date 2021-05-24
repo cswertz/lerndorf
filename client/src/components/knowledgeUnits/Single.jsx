@@ -52,7 +52,7 @@ const KnowledgeUnitsShowPaper = ({
     <Paper key={unit.id} className={classes.paper}>
       <div className={classes.root}>
         <Grid item xs={12}>
-          <Typography variant="headline">
+          <Typography variant="h1">
             {link && <Link to={`/knowledge-units/show/${unit.id}`}>Knowledge Unit #{unit.id}</Link>}
             {!link && <span>Knowledge Unit #{unit.id}</span>}
           </Typography>
@@ -156,6 +156,7 @@ const KnowledgeUnitsShowPaper = ({
             <>
               <Button
                 className={classes.button}
+                color="primary"
                 variant="contained"
                 component={Link}
                 to={`/texts/add/knowledge-units/${unit.id}`}
@@ -165,6 +166,7 @@ const KnowledgeUnitsShowPaper = ({
               &nbsp;
               <Button
                 className={classes.button}
+                color="primary"
                 variant="contained"
                 component={Link}
                 to={`/knowledge-units/edit/${unit.id}`}
@@ -177,6 +179,7 @@ const KnowledgeUnitsShowPaper = ({
           {hasCapability(user.capabilities, ['edit_any_knowledge_unit']) && (
             <Button
               className={classes.button}
+              color="primary"
               variant="contained"
               disabled={unit.lectorate}
               onClick={() => handleDelete(unit.id)}
@@ -189,6 +192,7 @@ const KnowledgeUnitsShowPaper = ({
           {hasCapability(user.capabilities, ['set_knowledge_unit_reviewed']) && (
             <Button
               className={classes.button}
+              color="primary"
               variant="contained"
               disabled={unit.review}
               onClick={() => markReviewed(unit.id)}
@@ -200,6 +204,7 @@ const KnowledgeUnitsShowPaper = ({
           {hasCapability(user.capabilities, ['set_knowledge_unit_lectored']) && (
             <Button
               className={classes.button}
+              color="primary"
               variant="contained"
               disabled={unit.lectorate}
               onClick={() => markLectored(unit.id)}

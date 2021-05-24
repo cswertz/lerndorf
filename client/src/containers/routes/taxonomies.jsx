@@ -9,29 +9,21 @@ import TaxonomiesEdit from '../taxonomies/Edit';
 import TaxonomiesAdd from '../taxonomies/Add';
 import Taxonomies from '../taxonomies/List';
 
-const Router = ({ taxonomies, actions, user }) => (
+const Router = ({ taxonomies, actions }) => (
   <>
     <Route
       exact
       path="/taxonomies"
       render={() => (
-        <Wrapper
-          fetchRoles={actions.userFetchRoles}
-          className="TaxonomiesWrapper"
-          logout={actions.userLogout}
-          active="taxonomies"
-          title="Taxonomies"
-          user={user}
-          element={
-            <Taxonomies
-              itemsDelete={actions.taxonomiesDelete}
-              itemsDisable={actions.taxonomiesDisable}
-              itemsEnable={actions.taxonomiesEnable}
-              itemsFetch={actions.taxonomiesFetch}
-              items={taxonomies}
-            />
-          }
-        />
+        <Wrapper className="TaxonomiesWrapper" active="taxonomies" title="Taxonomies">
+          <Taxonomies
+            itemsDelete={actions.taxonomiesDelete}
+            itemsDisable={actions.taxonomiesDisable}
+            itemsEnable={actions.taxonomiesEnable}
+            itemsFetch={actions.taxonomiesFetch}
+            items={taxonomies}
+          />
+        </Wrapper>
       )}
     />
 
@@ -39,23 +31,15 @@ const Router = ({ taxonomies, actions, user }) => (
       exact
       path="/taxonomies/show/:id"
       render={() => (
-        <Wrapper
-          fetchRoles={actions.userFetchRoles}
-          className="TaxonomiesWrapper"
-          logout={actions.userLogout}
-          active="taxonomies"
-          title="Taxonomies"
-          user={user}
-          element={
-            <TaxonomyChildren
-              itemFetch={actions.taxonomiesItemFetch}
-              itemsDelete={actions.taxonomiesDelete}
-              itemsDisable={actions.taxonomiesDisable}
-              itemsEnable={actions.taxonomiesEnable}
-              items={taxonomies}
-            />
-          }
-        />
+        <Wrapper className="TaxonomiesWrapper" active="taxonomies" title="Taxonomies">
+          <TaxonomyChildren
+            itemFetch={actions.taxonomiesItemFetch}
+            itemsDelete={actions.taxonomiesDelete}
+            itemsDisable={actions.taxonomiesDisable}
+            itemsEnable={actions.taxonomiesEnable}
+            items={taxonomies}
+          />
+        </Wrapper>
       )}
     />
 
@@ -63,17 +47,9 @@ const Router = ({ taxonomies, actions, user }) => (
       exact
       path="/taxonomies/add"
       render={() => (
-        <Wrapper
-          fetchRoles={actions.userFetchRoles}
-          className="TaxonomiesWrapper"
-          logout={actions.userLogout}
-          active="taxonomies"
-          title="Add Taxonomy"
-          user={user}
-          element={
-            <TaxonomiesAdd handleSubmit={actions.taxonomiesAdd} errors={taxonomies.errors} />
-          }
-        />
+        <Wrapper className="TaxonomiesWrapper" active="taxonomies" title="Add Taxonomy">
+          <TaxonomiesAdd handleSubmit={actions.taxonomiesAdd} errors={taxonomies.errors} />
+        </Wrapper>
       )}
     />
 
@@ -81,17 +57,9 @@ const Router = ({ taxonomies, actions, user }) => (
       exact
       path="/taxonomies/:id/add"
       render={() => (
-        <Wrapper
-          fetchRoles={actions.userFetchRoles}
-          className="TaxonomiesWrapper"
-          logout={actions.userLogout}
-          active="taxonomies"
-          title="Add Taxonomy"
-          user={user}
-          element={
-            <TaxonomiesAddChild handleSubmit={actions.taxonomiesAdd} errors={taxonomies.errors} />
-          }
-        />
+        <Wrapper className="TaxonomiesWrapper" active="taxonomies" title="Add Taxonomy">
+          <TaxonomiesAddChild handleSubmit={actions.taxonomiesAdd} errors={taxonomies.errors} />
+        </Wrapper>
       )}
     />
 
@@ -99,22 +67,14 @@ const Router = ({ taxonomies, actions, user }) => (
       exact
       path="/taxonomies/edit/:id"
       render={() => (
-        <Wrapper
-          fetchRoles={actions.userFetchRoles}
-          className="TaxonomiesWrapper"
-          logout={actions.userLogout}
-          active="taxonomies"
-          title="Edit Taxonomy Term"
-          user={user}
-          element={
-            <TaxonomiesEdit
-              itemFetch={actions.taxonomiesItemFetch}
-              handleSubmit={actions.taxonomiesEdit}
-              errors={taxonomies.errors}
-              items={taxonomies}
-            />
-          }
-        />
+        <Wrapper className="TaxonomiesWrapper" active="taxonomies" title="Edit Taxonomy Term">
+          <TaxonomiesEdit
+            itemFetch={actions.taxonomiesItemFetch}
+            handleSubmit={actions.taxonomiesEdit}
+            errors={taxonomies.errors}
+            items={taxonomies}
+          />
+        </Wrapper>
       )}
     />
   </>
@@ -137,14 +97,6 @@ Router.propTypes = {
     taxonomiesEdit: PropTypes.func.isRequired,
     taxonomiesAdd: PropTypes.func.isRequired,
     userLogout: PropTypes.func.isRequired,
-  }).isRequired,
-  user: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired,
-    errors: PropTypes.shape({
-      registration: PropTypes.shape({}).isRequired,
-      login: PropTypes.shape({}).isRequired,
-      edit: PropTypes.shape({}).isRequired,
-    }).isRequired,
   }).isRequired,
 };
 

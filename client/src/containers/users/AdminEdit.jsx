@@ -115,7 +115,7 @@ class Edit extends Component {
 
     return (
       <div>
-        <Typography variant="headline">{user.username}</Typography>
+        <Typography variant="h1">{user.username}</Typography>
         <AdminEditForm
           user={user}
           initialValues={user}

@@ -72,7 +72,7 @@ const LogsList = ({
       </Table>
 
       <div className={classes.buttonWrapper}>
-        <Button type="submit" variant="contained" onClick={handleDownload}>
+        <Button type="submit" color="primary" variant="contained" onClick={handleDownload}>
           Download CSV
         </Button>
       </div>

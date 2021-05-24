@@ -21,12 +21,12 @@ const styles = (theme) => ({
   },
   textField: {
     flex: 1,
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginLeft: theme.spacing(),
+    marginRight: theme.spacing(),
+    marginBottom: theme.spacing(),
   },
   formControl: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(),
     flex: 1,
     minWidth: 120,
   },
@@ -38,8 +38,8 @@ const styles = (theme) => ({
     flexDirection: 'row',
   },
   wysiwyg: {
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginTop: theme.spacing(),
+    marginBottom: theme.spacing(),
     textAlign: 'left',
   },
 });
@@ -149,7 +149,7 @@ const TextsEdit = ({
         <Field name="text" label="Text" component={renderEditor} updateBody={updateBody} />
       </div>
       <div>
-        <Button type="submit" variant="contained" disabled={pristine || submitting}>
+        <Button color="primary" type="submit" variant="contained" disabled={pristine || submitting}>
           Save Text
         </Button>
       </div>

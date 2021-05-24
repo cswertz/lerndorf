@@ -15,7 +15,6 @@ class WrapperText extends Component {
 
   fetchKnowledgeUnits() {
     const { knowledgeUnitsItemFetch, knowledgeUnits, match } = this.props;
-
     const { KnowledgeUnitId } = match.params;
 
     if (!knowledgeUnits.id[KnowledgeUnitId] && knowledgeUnits.fetchingId !== KnowledgeUnitId) {
@@ -24,8 +23,7 @@ class WrapperText extends Component {
   }
 
   render() {
-    const { knowledgeUnits, fetchRoles, element, logout, user, match, title } = this.props;
-
+    const { knowledgeUnits, children, match, title } = this.props;
     const { KnowledgeUnitId } = match.params;
 
     let topTitle = title;
@@ -36,24 +34,14 @@ class WrapperText extends Component {
     }
 
     return (
-      <Wrapper
-        className="LearningUnitsWrapper"
-        fetchRoles={fetchRoles}
-        active="learningUnits"
-        element={element}
-        logout={logout}
-        title={topTitle}
-        user={user}
-      />
+      <Wrapper className="LearningUnitsWrapper" active="learningUnits" title={topTitle}>
+        {children}
+      </Wrapper>
     );
   }
 }
 
 WrapperText.propTypes = {
-  fetchRoles: PropTypes.func.isRequired,
-  element: PropTypes.element.isRequired,
-  user: PropTypes.shape({}).isRequired,
-  logout: PropTypes.func.isRequired,
   knowledgeUnitsItemFetch: PropTypes.func.isRequired,
   knowledgeUnits: PropTypes.shape({
     id: PropTypes.shape().isRequired,

@@ -17,6 +17,7 @@
     "@ckeditor/ckeditor5-build-classic": "22.0.0",
     "@ckeditor/ckeditor5-react": "2.1.0",
     "@material-ui/core": "^4.11.4",
+    "@material-ui/data-grid": "^4.0.0-alpha.29",
     "@material-ui/icons": "^4.11.2",
     "ckeditor5-custom-build": "./ckeditor",
     "country-list": "^2.1.0",

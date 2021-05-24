@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     padding: theme.spacing(4),
+    textAlign: 'center',
     transition: '.2s background, .2s box-shadow ease-out',
 
     [theme.breakpoints.up('lg')]: {
@@ -49,10 +50,11 @@ const useStyles = makeStyles((theme) => ({
     color: '#8997B1',
     fontSize: '1.4rem',
     marginTop: theme.spacing(),
-    marginBottom: theme.spacing(2),
   },
   title: {
     color: '#56657F',
+    lineHeight: 1.3,
+    marginTop: theme.spacing(2),
     marginBottom: theme.spacing(),
   },
 }));

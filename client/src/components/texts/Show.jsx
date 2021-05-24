@@ -17,6 +17,7 @@ const TextsShow = ({ classes, item }) => (
     {!item.nextId && (
       <Button
         className={classes.button}
+        color="primary"
         variant="contained"
         component={Link}
         to={`/texts/edit/${item.id}`}

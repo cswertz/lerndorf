@@ -1,22 +1,15 @@
-// import { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-// import Button from '@material-ui/core/Button';
+import { useSelector } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-// import Divider from '@material-ui/core/Divider';
-// import IconButton from '@material-ui/core/IconButton';
-// import MenuIcon from '@material-ui/icons/Menu';
-// import CloseIcon from '@material-ui/icons/Close';
 
 import MainMenu from '@containers/MainMenu';
-import Badge from '@components/UI/Badge';
+import TopicsMenu from '@components/UI/TopicsMenu';
+import Filter from '@components/UI/Filter';
+import SettingsMenu from '@components/UI/SettingsMenu';
 
 const drawerWidth = 280;
 
@@ -43,84 +36,39 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
+  bottom: {
+    marginTop: theme.spacing(16),
+  },
 }));
 
-const StyledBadge = withStyles((theme) => ({
-  badge: {
-    border: `2px solid ${theme.palette.common.white}`,
-    padding: '0 4px',
-    right: -13,
-    top: 15,
-  },
-}))(Badge);
-
-const Sidebar = ({ user, fetchRoles }) => {
+const Sidebar = () => {
   const classes = useStyles();
+  const user = useSelector((state) => state.user);
 
   return (
     <Drawer
       className={classes.drawer}
       anchor="left"
       variant="permanent"
-      // onClose={toggleDrawer()}
-      classes={{
-        paper: classes.drawerPaper,
-      }}
+      classes={{ paper: classes.drawerPaper }}
     >
       <AppBar className={classes.appBar} position="static">
-        <Toolbar className={classes.toolbar}>
-          <Typography className={classes.logo} edge="start" variant="h4" component={Link} to="/">
+        <Toolbar className={classes.toolbar} component={Link} to="/">
+          <Typography className={classes.logo} edge="start" variant="h4">
             <img src="/assets/images/logo.png" alt="Lerndorf Logo" />
           </Typography>
-
-          <div className={classes.grow} />
-
-          {/* <IconButton
-            edge="end"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-            onClick={toggleDrawer()}
-          >
-            <CloseIcon />
-          </IconButton> */}
         </Toolbar>
       </AppBar>
 
-      <div
-        className={classes.drawerContainer}
-        // onClick={toggleDrawer()}
-        // onKeyDown={toggleDrawer()}
-        role="menu"
-        tabIndex={0}
-      >
-        <List>
-          <ListItem button divider component={Link} to="/learning-units">
-            <ListItemText primary="Meine Kurse" />
-          </ListItem>
-          <ListItem button divider component={Link} to="/learning-units" disabled>
-            <ListItemText primary="Meine Aufgaben" />
-          </ListItem>
-          <ListItem button divider component={Link} to="/learning-units" disabled>
-            <StyledBadge color="secondary" badgeContent={4}>
-              <ListItemText primary="Meine Nachrichten" />
-            </StyledBadge>
-          </ListItem>
-          <ListItem button divider component={Link} to="/learning-units" disabled>
-            <ListItemText primary="Meine Inhalte" />
-          </ListItem>
-        </List>
+      {!user.loggedIn && <TopicsMenu />}
+      {user.loggedIn && <MainMenu />}
 
-        <MainMenu fetchRoles={fetchRoles} user={user} />
+      <div className={classes.bottom}>
+        <Filter className={classes.filter} />
+        <SettingsMenu />
       </div>
     </Drawer>
   );
-};
-
-Sidebar.propTypes = {
-  user: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired,
-  }).isRequired,
 };
 
 export default Sidebar;

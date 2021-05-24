@@ -16,23 +16,19 @@ const TextsRouter = ({ knowledgeUnits, languages, actions, texts, user }) => (
       path="/texts/add/knowledge-units/:KnowledgeUnitId"
       render={() => (
         <WrapperText
-          fetchRoles={actions.userFetchRoles}
           knowledgeUnitsItemFetch={actions.knowledgeUnitsItemFetch}
           title="Add Text to Knowledge Unit: "
           className="LearningUnitsWrapper"
-          logout={actions.userLogout}
           knowledgeUnits={knowledgeUnits}
           active="texts"
-          user={user}
-          element={
-            <TextsAdd
-              languagesFetch={actions.languagesFetch}
-              handleSubmit={actions.textsAdd}
-              languages={languages}
-              errors={texts.errors}
-            />
-          }
-        />
+        >
+          <TextsAdd
+            languagesFetch={actions.languagesFetch}
+            handleSubmit={actions.textsAdd}
+            languages={languages}
+            errors={texts.errors}
+          />
+        </WrapperText>
       )}
     />
 
@@ -40,22 +36,14 @@ const TextsRouter = ({ knowledgeUnits, languages, actions, texts, user }) => (
       exact
       path="/texts/show/:id"
       render={() => (
-        <Wrapper
-          fetchRoles={actions.userFetchRoles}
-          className="TextsWrapper"
-          logout={actions.userLogout}
-          title="Text"
-          active="texts"
-          user={user}
-          element={
-            <TextsShow
-              itemFetch={actions.textsItemFetch}
-              handleSubmit={actions.textsEdit}
-              errors={texts.errors}
-              items={texts}
-            />
-          }
-        />
+        <Wrapper className="TextsWrapper" title="Text" active="texts">
+          <TextsShow
+            itemFetch={actions.textsItemFetch}
+            handleSubmit={actions.textsEdit}
+            errors={texts.errors}
+            items={texts}
+          />
+        </Wrapper>
       )}
     />
 
@@ -63,24 +51,16 @@ const TextsRouter = ({ knowledgeUnits, languages, actions, texts, user }) => (
       exact
       path="/texts/edit/:id"
       render={() => (
-        <Wrapper
-          fetchRoles={actions.userFetchRoles}
-          className="TextsWrapper"
-          logout={actions.userLogout}
-          title="Text"
-          active="texts"
-          user={user}
-          element={
-            <TextsEdit
-              languagesFetch={actions.languagesFetch}
-              itemFetch={actions.textsItemFetch}
-              handleSubmit={actions.textsEdit}
-              languages={languages}
-              errors={texts.errors}
-              items={texts}
-            />
-          }
-        />
+        <Wrapper className="TextsWrapper" title="Text" active="texts">
+          <TextsEdit
+            languagesFetch={actions.languagesFetch}
+            itemFetch={actions.textsItemFetch}
+            handleSubmit={actions.textsEdit}
+            languages={languages}
+            errors={texts.errors}
+            items={texts}
+          />
+        </Wrapper>
       )}
     />
   </>

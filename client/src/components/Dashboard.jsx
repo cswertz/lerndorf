@@ -1,4 +1,3 @@
-// import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -54,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'row',
 
       '& > *:not(:last-child)': {
-        marginRight: theme.spacing(6),
+        marginRight: theme.spacing(4),
       },
     },
   },
@@ -81,13 +80,11 @@ const Dashboard = () => {
       </Typography>
 
       <Button
-        // color="grey"
+        color="secondary"
         variant="contained"
         endIcon={<ArrowRightAltIcon />}
         component={Link}
-        to={{
-          pathname: '/learning-units/',
-        }}
+        to="/learning-units/"
       >
         Browse Courses
       </Button>
@@ -116,12 +113,12 @@ const Dashboard = () => {
           count={2}
           title="Meine Inhalte"
           component={Link}
-          to="/learning-units"
+          to="/content/1"
         />
 
         <Card
           icon={<ChatBubbleOutlineIcon />}
-          count={2}
+          count={4}
           title="Nachrichten"
           component={Link}
           to="/learning-units"
@@ -130,7 +127,5 @@ const Dashboard = () => {
     </div>
   );
 };
-
-Dashboard.propTypes = {};
 
 export default Dashboard;

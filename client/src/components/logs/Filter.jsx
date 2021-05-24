@@ -195,7 +195,7 @@ const LogsFilter = ({ handleFilterUpdate, languages, suggestions, fetchSuggestio
         </div>
 
         <div className={classes.buttonWrapper}>
-          <Button type="submit" variant="contained">
+          <Button type="submit" color="primary" variant="contained">
             Update Preview
           </Button>
         </div>

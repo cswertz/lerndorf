@@ -8,7 +8,6 @@ import ListItem from '@material-ui/core/ListItem';
 import EditIcon from '@material-ui/icons/Edit';
 import List from '@material-ui/core/List';
 import { Link } from 'react-router-dom';
-
 import PropTypes from 'prop-types';
 
 const styles = () => ({
@@ -19,13 +18,16 @@ const styles = () => ({
 
 const LearningUnitsList = ({ learningUnitsDelete, learningUnits, classes, user }) => {
   let learningUnitItems = null;
+
   if (learningUnits.length > 0) {
     learningUnitItems = learningUnits.map((item) => {
       const languages = item.Languages.map((language) => (
         <ListItem
-          component={Link}
           key={`${item.id}${language.id}`}
-          to={`learning-units/show/${language.id}/${item.id}`}
+          component={Link}
+          to={`/learning-units/show/${language.id}/${item.id}`}
+          dense
+          disableGutters
         >
           <ListItemText primary={`${language.LearningUnitLanguage.title} (${language.name})`} />
           <ListItemSecondaryAction>
@@ -46,8 +48,9 @@ const LearningUnitsList = ({ learningUnitsDelete, learningUnits, classes, user }
           </ListItemSecondaryAction>
         </ListItem>
       ));
+
       return (
-        <ListItem key={item.id}>
+        <ListItem key={item.id} dense divider disableGutters>
           <ListItemText primary={`#${item.id}`} />
           <List className={classes.languageList}>{languages}</List>
         </ListItem>
@@ -57,10 +60,14 @@ const LearningUnitsList = ({ learningUnitsDelete, learningUnits, classes, user }
 
   return (
     <div>
-      <Typography variant="title" className={classes.title}>
+      <Typography variant="subtitle1" className={classes.subtitle}>
+        Dashboard
+      </Typography>
+      <Typography variant="h1" className={classes.title}>
         Available Learning Units
       </Typography>
-      <List dense={false}>{learningUnitItems}</List>
+
+      <List dense>{learningUnitItems}</List>
     </div>
   );
 };

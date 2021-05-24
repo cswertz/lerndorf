@@ -32,7 +32,7 @@ const LanguageList = ({ languagesDelete, languages, classes, history }) => {
 
   return (
     <div>
-      <Typography variant="title" className={classes.title}>
+      <Typography variant="h1" className={classes.title}>
         Available languages
       </Typography>
       <List dense={false}>{languageItems}</List>

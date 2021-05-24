@@ -46,7 +46,11 @@ class Languages extends Component {
           history={history}
         />
         <Grid>
-          <Button onClick={() => history.push('/languages/add')} variant="contained">
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => history.push('/languages/add')}
+          >
             Add new language
           </Button>
         </Grid>

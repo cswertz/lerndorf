@@ -15,22 +15,14 @@ const LearningUnitsRouter = ({ learningUnits, languages, actions, user }) => (
       exact
       path="/learning-units"
       render={() => (
-        <Wrapper
-          fetchRoles={actions.userFetchRoles}
-          className="LearningUnitsWrapper"
-          logout={actions.userLogout}
-          active="learningUnits"
-          title="Learning Units"
-          user={user}
-          element={
-            <LearningUnits
-              user={user}
-              learningUnitsDelete={actions.learningUnitsDelete}
-              learningUnitsFetch={actions.learningUnitsFetch}
-              learningUnits={learningUnits}
-            />
-          }
-        />
+        <Wrapper className="LearningUnitsWrapper" active="learningUnits" title="Learning Units">
+          <LearningUnits
+            user={user}
+            learningUnitsDelete={actions.learningUnitsDelete}
+            learningUnitsFetch={actions.learningUnitsFetch}
+            learningUnits={learningUnits}
+          />
+        </Wrapper>
       )}
     />
 
@@ -38,22 +30,14 @@ const LearningUnitsRouter = ({ learningUnits, languages, actions, user }) => (
       exact
       path="/learning-units/add"
       render={() => (
-        <Wrapper
-          fetchRoles={actions.userFetchRoles}
-          className="LearningUnitsWrapper"
-          logout={actions.userLogout}
-          title="Add Learning Unit"
-          active="learningUnits"
-          user={user}
-          element={
-            <LearningUnitsAdd
-              handleSubmit={actions.learningUnitsAdd}
-              languagesFetch={actions.languagesFetch}
-              languages={languages}
-              errors={learningUnits.errors}
-            />
-          }
-        />
+        <Wrapper className="LearningUnitsWrapper" title="Add Learning Unit" active="learningUnits">
+          <LearningUnitsAdd
+            handleSubmit={actions.learningUnitsAdd}
+            languagesFetch={actions.languagesFetch}
+            languages={languages}
+            errors={learningUnits.errors}
+          />
+        </Wrapper>
       )}
     />
 
@@ -61,26 +45,18 @@ const LearningUnitsRouter = ({ learningUnits, languages, actions, user }) => (
       exact
       path="/learning-units/show/:languageId/:id"
       render={() => (
-        <Wrapper
-          fetchRoles={actions.userFetchRoles}
-          className="LearningUnitsWrapper"
-          logout={actions.userLogout}
-          title="Learning Unit"
-          active="learningUnits"
-          user={user}
-          element={
-            <LearningUnitsShow
-              handleKnowledgeUnitDelete={actions.knowledgeUnitsDelete}
-              markReviewed={actions.knowledgeUnitsMarkReviewed}
-              markLectored={actions.knowledgeUnitsMarkLectored}
-              user={user}
-              itemFetch={actions.learningUnitsItemFetch}
-              handleSubmit={actions.learningUnitsEdit}
-              errors={learningUnits.errors}
-              items={learningUnits}
-            />
-          }
-        />
+        <Wrapper className="LearningUnitsWrapper" title="Learning Unit" active="learningUnits">
+          <LearningUnitsShow
+            handleKnowledgeUnitDelete={actions.knowledgeUnitsDelete}
+            markReviewed={actions.knowledgeUnitsMarkReviewed}
+            markLectored={actions.knowledgeUnitsMarkLectored}
+            user={user}
+            itemFetch={actions.learningUnitsItemFetch}
+            handleSubmit={actions.learningUnitsEdit}
+            errors={learningUnits.errors}
+            items={learningUnits}
+          />
+        </Wrapper>
       )}
     />
 
@@ -90,31 +66,27 @@ const LearningUnitsRouter = ({ learningUnits, languages, actions, user }) => (
       render={() => (
         <WrapperLearningUnit
           itemFetch={actions.learningUnitsItemFetch}
-          fetchRoles={actions.userFetchRoles}
           className="LearningUnitsWrapper"
-          logout={actions.userLogout}
           items={learningUnits}
-          user={user}
-          element={
-            <LearningUnitsEdit
-              learningUnitsDeleteRelation={actions.learningUnitsDeleteRelation}
-              learningUnitsAddRelation={actions.learningUnitsAddRelation}
-              fetchSuggestions={actions.learningUnitsSuggestionsFetch}
-              learningUnitsDeleteTag={actions.learningUnitsDeleteTag}
-              learningUnitsUpdateTag={actions.learningUnitsUpdateTag}
-              taxonomiesFetch={actions.learningUnitsTaxonomiesFetch}
-              learningUnitsAddTag={actions.learningUnitsAddTag}
-              learningUnitsEdit={actions.learningUnitsEdit}
-              itemFetch={actions.learningUnitsItemFetch}
-              handleSubmit={actions.learningUnitsEdit}
-              suggestions={learningUnits.suggestions}
-              taxonomies={learningUnits.taxonomies}
-              errors={learningUnits.errors}
-              items={learningUnits}
-              user={user}
-            />
-          }
-        />
+        >
+          <LearningUnitsEdit
+            learningUnitsDeleteRelation={actions.learningUnitsDeleteRelation}
+            learningUnitsAddRelation={actions.learningUnitsAddRelation}
+            fetchSuggestions={actions.learningUnitsSuggestionsFetch}
+            learningUnitsDeleteTag={actions.learningUnitsDeleteTag}
+            learningUnitsUpdateTag={actions.learningUnitsUpdateTag}
+            taxonomiesFetch={actions.learningUnitsTaxonomiesFetch}
+            learningUnitsAddTag={actions.learningUnitsAddTag}
+            learningUnitsEdit={actions.learningUnitsEdit}
+            itemFetch={actions.learningUnitsItemFetch}
+            handleSubmit={actions.learningUnitsEdit}
+            suggestions={learningUnits.suggestions}
+            taxonomies={learningUnits.taxonomies}
+            errors={learningUnits.errors}
+            items={learningUnits}
+            user={user}
+          />
+        </WrapperLearningUnit>
       )}
     />
   </>

@@ -40,21 +40,27 @@ class LearningUnits extends Component {
     const { learningUnits, history, user } = this.props;
 
     return (
-      <div>
+      <>
         <List
           learningUnitsDelete={this.handleDelete}
           learningUnits={learningUnits.items}
           history={history}
           user={user}
+          disablePadding
         />
+
         {hasCapability(user.capabilities, ['add_learning_unit']) && (
-          <Grid>
-            <Button onClick={() => history.push('/learning-units/add')} variant="contained">
+          <Grid container justify="flex-end" alignItems="center">
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => history.push('/learning-units/add')}
+            >
               Add new Learning Unit
             </Button>
           </Grid>
         )}
-      </div>
+      </>
     );
   }
 }

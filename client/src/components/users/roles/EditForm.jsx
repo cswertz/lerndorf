@@ -97,7 +97,7 @@ const RolesEdit = ({
         );
       })}
       <div>
-        <Button type="submit" variant="contained" disabled={pristine || submitting}>
+        <Button color="primary" type="submit" variant="contained" disabled={pristine || submitting}>
           Save
         </Button>
       </div>

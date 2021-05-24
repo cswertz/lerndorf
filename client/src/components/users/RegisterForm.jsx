@@ -13,9 +13,9 @@ import { isValidEmail, isValidUrl } from '@utils/user';
 const styles = (theme) => ({
   textField: {
     flex: 1,
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginLeft: theme.spacing(),
+    marginRight: theme.spacing(),
+    marginBottom: theme.spacing(),
   },
   flex: {
     display: 'flex',
@@ -217,7 +217,7 @@ const Register = ({ handleSubmit, submitting, pristine, classes, errors }) => (
       </Link>
     </div>
     <div>
-      <Button type="submit" variant="contained" disabled={pristine || submitting}>
+      <Button color="primary" type="submit" variant="contained" disabled={pristine || submitting}>
         Register
       </Button>
     </div>

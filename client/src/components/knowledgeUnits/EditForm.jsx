@@ -375,7 +375,12 @@ const KnowledgeUnitsAdd = ({
       </div>
     </div>
     <div>
-      <Button type="submit" variant="contained" disabled={pristine || submitting || invalid}>
+      <Button
+        color="primary"
+        type="submit"
+        variant="contained"
+        disabled={pristine || submitting || invalid}
+      >
         Save Knowledge Unit
       </Button>
     </div>

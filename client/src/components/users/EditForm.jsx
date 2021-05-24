@@ -433,19 +433,25 @@ const UserEdit = ({
       </Grid>
       <Grid item xs={12} sm={3}>
         <p>
-          <Button variant="contained" className={classes.fullWidth}>
+          <Button color="primary" variant="contained" className={classes.fullWidth}>
             Show logged data
           </Button>
         </p>
         <p>
-          <Button variant="contained" className={classes.fullWidth} onClick={openLogDeletionDialog}>
+          <Button
+            className={classes.fullWidth}
+            color="primary"
+            variant="contained"
+            onClick={openLogDeletionDialog}
+          >
             Delete logged data
           </Button>
         </p>
         <p>
           <Button
-            variant="contained"
             className={classes.fullWidth}
+            color="primary"
+            variant="contained"
             onClick={openAccountDeletionDialog}
           >
             Delete Account
@@ -454,7 +460,12 @@ const UserEdit = ({
       </Grid>
     </Grid>
     <div>
-      <Button type="submit" variant="contained" disabled={pristine || submitting || invalid}>
+      <Button
+        type="submit"
+        color="primary"
+        variant="contained"
+        disabled={pristine || submitting || invalid}
+      >
         Save
       </Button>
     </div>

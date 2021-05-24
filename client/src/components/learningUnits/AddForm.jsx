@@ -157,7 +157,7 @@ const LearningUnitsAdd = ({ handleSubmit, submitting, languages, pristine, class
         </div>
       </div>
       <div>
-        <Button type="submit" variant="contained" disabled={pristine || submitting}>
+        <Button color="primary" type="submit" variant="contained" disabled={pristine || submitting}>
           Add Learning Unit
         </Button>
       </div>

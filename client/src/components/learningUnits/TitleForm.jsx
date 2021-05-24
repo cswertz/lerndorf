@@ -89,7 +89,7 @@ const LearningUnitsTitle = ({ handleSubmit, submitting, pristine, classes, title
       </div>
     </div>
     <div>
-      <Button type="submit" variant="contained" disabled={pristine || submitting}>
+      <Button color="primary" type="submit" variant="contained" disabled={pristine || submitting}>
         Save Title
       </Button>
     </div>

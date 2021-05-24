@@ -72,7 +72,7 @@ class Taxonomies extends Component {
         />
       );
       title = (
-        <Typography variant="title">
+        <Typography variant="h1">
           Taxonomy: {'"'}
           {item.type}
           {'"'}
@@ -85,7 +85,11 @@ class Taxonomies extends Component {
         {title}
         {rendered}
         <Grid>
-          <Button onClick={() => history.push(`/taxonomies/${id}/add`)} variant="contained">
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => history.push(`/taxonomies/${id}/add`)}
+          >
             Add new term
           </Button>
         </Grid>

@@ -4,31 +4,23 @@ import PropTypes from 'prop-types';
 import Wrapper from '@components/UI/Wrapper';
 import Logs from '../logs/List';
 
-const LoggingRouter = ({ learningUnits, languages, actions, user, logs }) => (
+const LoggingRouter = ({ learningUnits, languages, actions, logs }) => (
   <>
     <Route
       exact
       path="/logs"
       render={() => (
-        <Wrapper
-          fetchRoles={actions.userFetchRoles}
-          className="LogsWrapper"
-          logout={actions.userLogout}
-          active="logs"
-          title="Logs"
-          user={user}
-          element={
-            <Logs
-              logs={logs}
-              logsFetch={actions.logsFetch}
-              logsDownload={actions.logsDownload}
-              languages={languages}
-              languagesFetch={actions.languagesFetch}
-              suggestions={learningUnits.suggestions}
-              fetchSuggestions={actions.learningUnitsSuggestionsFetch}
-            />
-          }
-        />
+        <Wrapper className="LogsWrapper" active="logs" title="Logs">
+          <Logs
+            logs={logs}
+            logsFetch={actions.logsFetch}
+            logsDownload={actions.logsDownload}
+            languages={languages}
+            languagesFetch={actions.languagesFetch}
+            suggestions={learningUnits.suggestions}
+            fetchSuggestions={actions.learningUnitsSuggestionsFetch}
+          />
+        </Wrapper>
       )}
     />
   </>

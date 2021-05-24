@@ -10,7 +10,7 @@ export const colors = {
   },
   secondary: {
     // light: '#D8E2F7',
-    main: '#FF7262',
+    main: '#ffffff',
     // dark: '#293244',
   },
   tertiary: {
@@ -18,6 +18,7 @@ export const colors = {
     main: '#616161',
     // dark: '#293244',
   },
+  accent: '#FF7262',
   grey: {
     50: '#ffffff',
     100: '#f5f5f5',
@@ -59,7 +60,7 @@ const theme = createMuiTheme({
   },
   palette: {
     primary: {
-      // light: will be calculated from palette.primary.main,
+      light: colors.primary.light,
       main: colors.primary.dark,
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
@@ -68,7 +69,7 @@ const theme = createMuiTheme({
       // light: will be calculated from palette.primary.main,
       main: colors.secondary.main,
       // dark: will be calculated from palette.secondary.main,
-      contrastText: '#ffffff',
+      contrastText: colors.textPrimary,
     },
     // grey: {
     //   main: 'red',
@@ -102,6 +103,9 @@ const theme = createMuiTheme({
       textTransform: 'none',
     },
     fontFamily: ['"Helvetica"', 'Arial', 'sans-serif'].join(','),
+    h1: {
+      fontSize: '3rem',
+    },
     h3: {
       // fontSize: '1rem',
       fontWeight: 600,

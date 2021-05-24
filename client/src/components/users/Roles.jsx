@@ -43,13 +43,13 @@ const Roles = ({ available, classes, remove, owned, add }) => {
   return (
     <Grid container spacing={16} className={classes.listing}>
       <Grid item xs={6}>
-        <Typography variant="headline" gutterBottom>
+        <Typography variant="h2" gutterBottom>
           Assigned Roles
         </Typography>
         <List dense>{ownedItems}</List>
       </Grid>
       <Grid item xs={6}>
-        <Typography variant="headline" gutterBottom>
+        <Typography variant="h2" gutterBottom>
           Available Roles
         </Typography>
         <List dense>{availableItems}</List>
