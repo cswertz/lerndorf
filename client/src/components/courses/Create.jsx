@@ -1,4 +1,3 @@
-import { useCallback, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
@@ -149,11 +148,11 @@ const useStyles = makeStyles((theme) => ({
 const Create = () => {
   const classes = useStyles();
 
-  const save = useCallback(async () => {
-    // TODO: POST content to API
-    const response = await Promise.resolve('test');
-    console.log('response', response);
-  }, []);
+  // const save = useCallback(async () => {
+  //   // TODO: POST content to API
+  //   const response = await Promise.resolve('test');
+  //   console.log('response', response);
+  // }, []);
 
   return (
     <div className={classes.wrapper}>

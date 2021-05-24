@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import GetAppIcon from '@material-ui/icons/GetApp';
+// import GetAppIcon from '@material-ui/icons/GetApp';
 
 import EditContentDialog from '@components/UI/EditContentDialog';
 

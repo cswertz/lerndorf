@@ -56,22 +56,22 @@ const LearningUnitsShow = ({
           ),
         ];
 
-        // let linkText = relation.target.Translations.filter(
-        //   (translation) => translation.LanguageId === languageId,
-        // );
+        let linkText = relation.target.Translations.filter(
+          (translation) => translation.LanguageId === languageId,
+        );
 
-        // if (userLanguages.length > 0) {
-        //   linkText = userLanguages[0].title;
+        if (userLanguages.length > 0) {
+          linkText = userLanguages[0].title;
 
-        //   return (
-        //     <li>
-        //       {taxonomyTerm}{' '}
-        //       <a href={`/learning-units/show/${userLanguages[0].LanguageId}/${item.targetId}`}>
-        //         {linkText}
-        //       </a>
-        //     </li>
-        //   );
-        // }
+          return (
+            <li>
+              {taxonomyTerm}{' '}
+              <a href={`/learning-units/show/${userLanguages[0].LanguageId}/${item.targetId}`}>
+                {linkText}
+              </a>
+            </li>
+          );
+        }
 
         return null;
       });
