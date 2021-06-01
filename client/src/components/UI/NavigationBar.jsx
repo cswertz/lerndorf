@@ -26,7 +26,7 @@ const NavigationBar = () => {
         variant="contained"
         startIcon={<ArrowRightAltIcon className={classes.previousIcon} />}
         component={Link}
-        to="/learning-units"
+        to="/content/2-1"
       >
         previous Content
       </Button>
@@ -36,7 +36,7 @@ const NavigationBar = () => {
         variant="contained"
         endIcon={<ArrowRightAltIcon />}
         component={Link}
-        to="/learning-units"
+        to="/content/2-3"
       >
         next Content
       </Button>

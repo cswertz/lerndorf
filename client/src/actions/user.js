@@ -88,7 +88,7 @@ export const userLogin = (data, history) => (dispatch) =>
           dispatch(userLoginFailed(json.error, json.errors));
         } else {
           dispatch(userLoginSuccess(json));
-          history.push('/');
+          history.push('/dashboard');
         }
       }
     })
@@ -107,7 +107,7 @@ export const userLogout = (history) => (dispatch) =>
   })
     .then(() => {
       dispatch(userLogoutSuccess());
-      history.push('/login');
+      history.push('/');
     })
     .catch((error) => {
       console.log('Error during logout:', error);

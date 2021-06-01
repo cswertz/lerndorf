@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -48,8 +48,13 @@ const useStyles = makeStyles(
 
 function MenuBar() {
   const classes = useStyles();
+  const location = useLocation();
+
   const user = useSelector((state) => state.user);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const paths = ['dashboard', 'tasks', 'messages', 'languages', 'taxonomies', 'users', 'logs'];
+  const isDasboardPage = paths.some((pathName) => location.pathname.includes(pathName));
 
   const toggleDrawer = () => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -111,8 +116,8 @@ function MenuBar() {
             >
               {/* <Toolbar /> */}
 
-              {!user.loggedIn && <TopicsMenu />}
-              {user.loggedIn && <MainMenu />}
+              {!isDasboardPage && <TopicsMenu />}
+              {isDasboardPage && <MainMenu />}
             </div>
           </Drawer>
         </Toolbar>

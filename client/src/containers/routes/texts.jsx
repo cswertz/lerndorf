@@ -1,9 +1,7 @@
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Wrapper from '@components/UI/Wrapper';
 import WrapperText from './wrapperText';
-
 import TextsEdit from '../texts/Edit';
 import TextsShow from '../texts/Show';
 import TextsAdd from '../texts/Add';
@@ -36,14 +34,12 @@ const TextsRouter = ({ knowledgeUnits, languages, actions, texts, user }) => (
       exact
       path="/texts/show/:id"
       render={() => (
-        <Wrapper className="TextsWrapper" title="Text" active="texts">
-          <TextsShow
-            itemFetch={actions.textsItemFetch}
-            handleSubmit={actions.textsEdit}
-            errors={texts.errors}
-            items={texts}
-          />
-        </Wrapper>
+        <TextsShow
+          itemFetch={actions.textsItemFetch}
+          handleSubmit={actions.textsEdit}
+          errors={texts.errors}
+          items={texts}
+        />
       )}
     />
 
@@ -51,16 +47,14 @@ const TextsRouter = ({ knowledgeUnits, languages, actions, texts, user }) => (
       exact
       path="/texts/edit/:id"
       render={() => (
-        <Wrapper className="TextsWrapper" title="Text" active="texts">
-          <TextsEdit
-            languagesFetch={actions.languagesFetch}
-            itemFetch={actions.textsItemFetch}
-            handleSubmit={actions.textsEdit}
-            languages={languages}
-            errors={texts.errors}
-            items={texts}
-          />
-        </Wrapper>
+        <TextsEdit
+          languagesFetch={actions.languagesFetch}
+          itemFetch={actions.textsItemFetch}
+          handleSubmit={actions.textsEdit}
+          languages={languages}
+          errors={texts.errors}
+          items={texts}
+        />
       )}
     />
   </>

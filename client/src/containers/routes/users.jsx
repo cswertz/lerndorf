@@ -1,8 +1,6 @@
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Wrapper from '@components/UI/Wrapper';
-
 import UserLanguage from '../users/Language';
 import UsersEdit from '../users/AdminEdit';
 import Activate from '../users/Activate';
@@ -22,69 +20,50 @@ const UsersRouter = ({ capabilities, languages, actions, roles, users, user }) =
       exact
       path="/users"
       render={() => (
-        <Wrapper className="UsersListWrapper" active="users" title="Users">
-          <Users
-            itemFetch={actions.usersItemFetch}
-            itemsDelete={actions.usersDelete}
-            itemsFetch={actions.usersFetch}
-            items={users}
-          />
-        </Wrapper>
+        <Users
+          itemFetch={actions.usersItemFetch}
+          itemsDelete={actions.usersDelete}
+          itemsFetch={actions.usersFetch}
+          items={users}
+        />
       )}
     />
 
     <Route
       exact
       path="/users/register"
-      render={() => (
-        <Wrapper className="RegisterWrapper" active="register" title="Register">
-          <Register handleSubmit={actions.userRegister} errors={user.errors} />
-        </Wrapper>
-      )}
+      render={() => <Register handleSubmit={actions.userRegister} errors={user.errors} />}
     />
 
     <Route
       exact
       path="/users/activate/:hash"
       render={() => (
-        <Wrapper className="ActivateWrapper" active="activation" title="Activation">
-          <Activate
-            activate={actions.userActivate}
-            activated={user.activated}
-            errors={user.errors}
-            active={user.active}
-          />
-        </Wrapper>
+        <Activate
+          activate={actions.userActivate}
+          activated={user.activated}
+          errors={user.errors}
+          active={user.active}
+        />
       )}
     />
 
     <Route
       exact
       path="/users/login"
-      render={() => (
-        // <Wrapper
-        //   className="LoginWrapper"
-        //   active="login"
-        //   title="Login"
-        //   element={<Login errors={user.errors} handleSubmit={actions.userLogin} />}
-        // />
-
-        <Login errors={user.errors} handleSubmit={actions.userLogin} />
-      )}
+      render={() => <Login errors={user.errors} handleSubmit={actions.userLogin} />}
     />
 
     <Route
       exact
       path="/users/user/edit"
       render={() => (
-        <Wrapper className="UserEditWrapper" title="Edit your data" active="user">
-          <UserEdit
-            userDelete={actions.userDelete}
-            handleSubmit={actions.userEdit}
-            errors={user.errors}
-            user={user.user}
-          />
-        </Wrapper>
+        <UserEdit
+          userDelete={actions.userDelete}
+          handleSubmit={actions.userEdit}
+          errors={user.errors}
+          user={user.user}
+        />
       )}
     />
 
@@ -92,17 +71,15 @@ const UsersRouter = ({ capabilities, languages, actions, roles, users, user }) =
       exact
       path="/users/user/languages"
       render={() => (
-        <Wrapper className="UserEditWrapper" title="Edit your languages" active="user">
-          <UserLanguage
-            errors={user.errors}
-            user={user.user}
-            languages={languages}
-            languagesFetch={actions.languagesFetch}
-            languageAdd={actions.userLanguageAdd}
-            languageDelete={actions.userLanguageDelete}
-            languagePreferred={actions.userLanguagePreferred}
-          />
-        </Wrapper>
+        <UserLanguage
+          errors={user.errors}
+          user={user.user}
+          languages={languages}
+          languagesFetch={actions.languagesFetch}
+          languageAdd={actions.userLanguageAdd}
+          languageDelete={actions.userLanguageDelete}
+          languagePreferred={actions.userLanguagePreferred}
+        />
       )}
     />
 
@@ -110,18 +87,16 @@ const UsersRouter = ({ capabilities, languages, actions, roles, users, user }) =
       exact
       path="/users/edit/:id"
       render={() => (
-        <Wrapper className="UserEditWrapper" title="Edit User" active="user">
-          <UsersEdit
-            itemFetch={actions.usersItemFetch}
-            handleSubmit={actions.usersEdit}
-            rolesFetch={actions.rolesFetch}
-            remove={actions.removeRole}
-            add={actions.addRole}
-            errors={user.errors}
-            items={users}
-            roles={roles}
-          />
-        </Wrapper>
+        <UsersEdit
+          itemFetch={actions.usersItemFetch}
+          handleSubmit={actions.usersEdit}
+          rolesFetch={actions.rolesFetch}
+          remove={actions.removeRole}
+          add={actions.addRole}
+          errors={user.errors}
+          items={users}
+          roles={roles}
+        />
       )}
     />
 
@@ -129,9 +104,7 @@ const UsersRouter = ({ capabilities, languages, actions, roles, users, user }) =
       exact
       path="/users/roles"
       render={() => (
-        <Wrapper className="UserRoleWrapper" title="User Roles" active="user">
-          <Roles itemsDelete={actions.rolesDelete} itemsFetch={actions.rolesFetch} items={roles} />
-        </Wrapper>
+        <Roles itemsDelete={actions.rolesDelete} itemsFetch={actions.rolesFetch} items={roles} />
       )}
     />
 
@@ -139,14 +112,12 @@ const UsersRouter = ({ capabilities, languages, actions, roles, users, user }) =
       exact
       path="/users/roles/add"
       render={() => (
-        <Wrapper className="RolesWrapper" title="Add Role" active="user">
-          <RolesAdd
-            languagesFetch={actions.languagesFetch}
-            handleSubmit={actions.rolesAdd}
-            languages={languages}
-            errors={roles.errors}
-          />
-        </Wrapper>
+        <RolesAdd
+          languagesFetch={actions.languagesFetch}
+          handleSubmit={actions.rolesAdd}
+          languages={languages}
+          errors={roles.errors}
+        />
       )}
     />
 
@@ -154,31 +125,25 @@ const UsersRouter = ({ capabilities, languages, actions, roles, users, user }) =
       exact
       path="/users/roles/edit/:id"
       render={() => (
-        <Wrapper className="RolesWrapper" title="Edit Role" active="user">
-          <RolesEdit
-            capabilitiesFetch={actions.capabilitiesFetch}
-            removeCapability={actions.removeCapability}
-            languagesFetch={actions.languagesFetch}
-            addCapability={actions.addCapability}
-            itemFetch={actions.rolesItemFetch}
-            handleSubmit={actions.rolesEdit}
-            capabilities={capabilities}
-            errors={roles.errors}
-            languages={languages}
-            items={roles}
-          />
-        </Wrapper>
+        <RolesEdit
+          capabilitiesFetch={actions.capabilitiesFetch}
+          removeCapability={actions.removeCapability}
+          languagesFetch={actions.languagesFetch}
+          addCapability={actions.addCapability}
+          itemFetch={actions.rolesItemFetch}
+          handleSubmit={actions.rolesEdit}
+          capabilities={capabilities}
+          errors={roles.errors}
+          languages={languages}
+          items={roles}
+        />
       )}
     />
 
     <Route
       exact
       path="/users/roles/show/:id"
-      render={() => (
-        <Wrapper className="RolesWrapper" title="Roles" active="user">
-          <RolesShow itemFetch={actions.rolesItemFetch} items={roles} />
-        </Wrapper>
-      )}
+      render={() => <RolesShow itemFetch={actions.rolesItemFetch} items={roles} />}
     />
   </>
 );

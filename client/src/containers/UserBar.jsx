@@ -83,6 +83,15 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
+  dashboardLink: {
+    color: theme.palette.grey[800],
+    display: 'none',
+    margin: theme.spacing(3),
+
+    [theme.breakpoints.up('md')]: {
+      display: 'block',
+    },
+  },
   login: {
     color: theme.palette.grey[800],
     display: 'flex',
@@ -143,6 +152,10 @@ function UserBar() {
 
             {user.loggedIn && (
               <>
+                <Link className={classes.dashboardLink} to="/dashboard">
+                  Dashboard
+                </Link>
+
                 <IconButton
                   color="inherit"
                   component={Link}
@@ -178,6 +191,7 @@ function UserBar() {
                   open={isMenuOpen}
                   onClose={() => setAnchorEl(null)}
                 >
+                  <MenuItem onClick={() => history.push('/dashboard')}>Dashboard</MenuItem>
                   <MenuItem onClick={() => history.push('/users/user/edit')}>Profile</MenuItem>
                   <MenuItem onClick={() => history.push('/users/user/languages')}>
                     Languages

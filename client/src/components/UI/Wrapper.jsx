@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
-import Drawer from '@containers/Drawer';
+import Sidebar from '@containers/Sidebar';
 import AppBar from '@containers/AppBar';
 import UserBar from '@containers/UserBar';
 
@@ -26,12 +26,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Wrapper = ({ className, active, title, children }) => {
+const Wrapper = ({ className, children }) => {
   const classes = useStyles();
 
   return (
     <div className={className}>
-      <Drawer />
+      <Sidebar />
 
       <main className={classes.main}>
         <AppBar />

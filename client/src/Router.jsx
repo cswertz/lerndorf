@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Route, Redirect, Switch } from 'react-router-dom';
 
 import * as AppActions from '@actions';
+import PrivateRoute from '@components/PrivateRoute';
 import RoutesKnowledgeUnits from '@containers/routes/knowledgeUnits';
 import RoutesLearningUnits from '@containers/routes/learningUnits';
 import RoutesTaxonomies from '@containers/routes/taxonomies';
@@ -16,8 +17,6 @@ import Dashboard from '@components/Dashboard';
 import Login from '@containers/users/Login';
 import Content from '@components/Content';
 import CreateCourse from '@components/courses/Create';
-
-// TODO: add PrivateRoute
 
 const Router = ({
   knowledgeUnits,
@@ -34,12 +33,6 @@ const Router = ({
 }) => {
   return (
     <Switch>
-      <Route path="/" exact>
-        <Wrapper>
-          <Dashboard />
-        </Wrapper>
-      </Route>
-
       <Route path="/login" exact>
         <Login handleSubmit={actions.userLogin} errors={user.errors} />
       </Route>
@@ -60,101 +53,104 @@ const Router = ({
         <div>WIP</div>
       </Route> */}
 
-      <Route path="/messages" exact>
+      <Route path="/">
         <Wrapper>
-          <div>Messages WIP</div>
-          use{' '}
-          <a href="https://github.com/chatscope/chat-ui-kit-react" rel="noopener">
-            https://github.com/chatscope/chat-ui-kit-react
-          </a>
-          ?
-        </Wrapper>
-      </Route>
+          <Switch>
+            <Route path="/" exact>
+              <Content />
+            </Route>
 
-      <Route path="/course/create" exact>
-        <Wrapper>
-          <CreateCourse />
-        </Wrapper>
-      </Route>
+            <PrivateRoute path="/dashboard" exact>
+              <Dashboard />
+            </PrivateRoute>
 
-      <Route path="/course/:id" exact>
-        <Wrapper>
-          {/* <Course /> */}
-          <div>Course WIP</div>
-        </Wrapper>
-      </Route>
+            <PrivateRoute path="/messages" exact>
+              use{' '}
+              <a href="https://github.com/chatscope/chat-ui-kit-react" rel="noopener">
+                https://github.com/chatscope/chat-ui-kit-react
+              </a>
+              ?
+            </PrivateRoute>
 
-      <Route path="/content/:id" exact>
-        <Wrapper>
-          <Content />
-        </Wrapper>
-      </Route>
+            <Route path="/course/create" exact>
+              <CreateCourse />
+            </Route>
 
-      <Route path="/languages">
-        <RoutesLanguages languages={languages} actions={actions} user={user} />
-      </Route>
+            <Route path="/course/:id" exact>
+              {/* <Course /> */}
+              <div>Course WIP</div>
+            </Route>
 
-      <Route path="/taxonomies">
-        <RoutesTaxonomies taxonomies={taxonomies} actions={actions} user={user} />
-      </Route>
+            <Route path="/content/:id" exact>
+              <Content />
+            </Route>
 
-      <Route path="/users">
-        <RoutesUsers
-          capabilities={capabilities}
-          languages={languages}
-          actions={actions}
-          roles={roles}
-          users={users}
-          user={user}
-        />
-      </Route>
+            <Route path="/settings" exact>
+              <div>Settings WIP</div>
+            </Route>
 
-      <Route path="/learning-units">
-        <RoutesLearningUnits
-          learningUnits={learningUnits}
-          capabilities={capabilities}
-          languages={languages}
-          actions={actions}
-          user={user}
-        />
-      </Route>
+            <PrivateRoute path="/languages">
+              <RoutesLanguages languages={languages} actions={actions} user={user} />
+            </PrivateRoute>
 
-      <Route path="/knowledge-units">
-        <RoutesKnowledgeUnits
-          learningUnits={learningUnits}
-          knowledgeUnits={knowledgeUnits}
-          capabilities={capabilities}
-          languages={languages}
-          actions={actions}
-          user={user}
-        />
-      </Route>
+            <PrivateRoute path="/taxonomies">
+              <RoutesTaxonomies taxonomies={taxonomies} actions={actions} user={user} />
+            </PrivateRoute>
 
-      <Route path="/texts">
-        <RoutesTexts
-          knowledgeUnits={knowledgeUnits}
-          capabilities={capabilities}
-          languages={languages}
-          actions={actions}
-          texts={texts}
-          user={user}
-        />
-      </Route>
+            <PrivateRoute path="/users">
+              <RoutesUsers
+                capabilities={capabilities}
+                languages={languages}
+                actions={actions}
+                roles={roles}
+                users={users}
+                user={user}
+              />
+            </PrivateRoute>
 
-      <Route path="/logs">
-        <RoutesLogs
-          logs={logs}
-          learningUnits={learningUnits}
-          capabilities={capabilities}
-          languages={languages}
-          actions={actions}
-          user={user}
-        />
-      </Route>
+            <Route path="/learning-units">
+              <RoutesLearningUnits
+                learningUnits={learningUnits}
+                capabilities={capabilities}
+                languages={languages}
+                actions={actions}
+                user={user}
+              />
+            </Route>
 
-      <Route path="/settings" exact>
-        <Wrapper>
-          <div>Settings WIP</div>
+            <Route path="/knowledge-units">
+              <RoutesKnowledgeUnits
+                learningUnits={learningUnits}
+                knowledgeUnits={knowledgeUnits}
+                capabilities={capabilities}
+                languages={languages}
+                actions={actions}
+                user={user}
+              />
+            </Route>
+
+            <Route path="/texts">
+              <RoutesTexts
+                knowledgeUnits={knowledgeUnits}
+                capabilities={capabilities}
+                languages={languages}
+                actions={actions}
+                texts={texts}
+                user={user}
+              />
+            </Route>
+
+            <PrivateRoute path="/logs">
+              <RoutesLogs
+                logs={logs}
+                learningUnits={learningUnits}
+                capabilities={capabilities}
+                languages={languages}
+                actions={actions}
+                user={user}
+              />
+            </PrivateRoute>
+          </Switch>
         </Wrapper>
       </Route>
 

@@ -1,7 +1,6 @@
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Wrapper from '@components/UI/Wrapper';
 import Logs from '../logs/List';
 
 const LoggingRouter = ({ learningUnits, languages, actions, logs }) => (
@@ -10,17 +9,15 @@ const LoggingRouter = ({ learningUnits, languages, actions, logs }) => (
       exact
       path="/logs"
       render={() => (
-        <Wrapper className="LogsWrapper" active="logs" title="Logs">
-          <Logs
-            logs={logs}
-            logsFetch={actions.logsFetch}
-            logsDownload={actions.logsDownload}
-            languages={languages}
-            languagesFetch={actions.languagesFetch}
-            suggestions={learningUnits.suggestions}
-            fetchSuggestions={actions.learningUnitsSuggestionsFetch}
-          />
-        </Wrapper>
+        <Logs
+          logs={logs}
+          logsFetch={actions.logsFetch}
+          logsDownload={actions.logsDownload}
+          languages={languages}
+          languagesFetch={actions.languagesFetch}
+          suggestions={learningUnits.suggestions}
+          fetchSuggestions={actions.learningUnitsSuggestionsFetch}
+        />
       )}
     />
   </>

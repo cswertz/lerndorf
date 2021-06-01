@@ -1,8 +1,6 @@
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Wrapper from '@components/UI/Wrapper';
-
 import KnowledgeUnitsEdit from '../knowledgeUnits/Edit';
 import KnowledgeUnitsShow from '../knowledgeUnits/Show';
 import KnowledgeUnitsAdd from '../knowledgeUnits/Add';
@@ -14,13 +12,11 @@ const KnowledgeUnitsRouter = ({ knowledgeUnits, learningUnits, actions, user }) 
       exact
       path="/knowledge-units"
       render={() => (
-        <Wrapper className="KnowledgeUnitsWrapper" active="knowledgeUnits" title="Knowledge Units">
-          <KnowledgeUnits
-            knowledgeUnitsDelete={actions.knowledgeUnitsDelete}
-            knowledgeUnitsFetch={actions.knowledgeUnitsFetch}
-            knowledgeUnits={knowledgeUnits}
-          />
-        </Wrapper>
+        <KnowledgeUnits
+          knowledgeUnitsDelete={actions.knowledgeUnitsDelete}
+          knowledgeUnitsFetch={actions.knowledgeUnitsFetch}
+          knowledgeUnits={knowledgeUnits}
+        />
       )}
     /> */}
 
@@ -28,21 +24,15 @@ const KnowledgeUnitsRouter = ({ knowledgeUnits, learningUnits, actions, user }) 
       exact
       path="/knowledge-units/add/:learningUnitId"
       render={() => (
-        <Wrapper
-          className="LearningUnitsWrapper"
-          title="Add Knowledge Unit"
-          active="knowledgeUnits"
-        >
-          <KnowledgeUnitsAdd
-            taxonomiesFetch={actions.knowledgeUnitsTaxonomiesFetch}
-            learningUnitFetch={actions.learningUnitsItemFetch}
-            taxonomies={knowledgeUnits.taxonomies}
-            learningUnits={learningUnits}
-            handleSubmit={actions.knowledgeUnitsAdd}
-            errors={knowledgeUnits.errors}
-            user={user}
-          />
-        </Wrapper>
+        <KnowledgeUnitsAdd
+          taxonomiesFetch={actions.knowledgeUnitsTaxonomiesFetch}
+          learningUnitFetch={actions.learningUnitsItemFetch}
+          taxonomies={knowledgeUnits.taxonomies}
+          learningUnits={learningUnits}
+          handleSubmit={actions.knowledgeUnitsAdd}
+          errors={knowledgeUnits.errors}
+          user={user}
+        />
       )}
     />
 
@@ -50,18 +40,16 @@ const KnowledgeUnitsRouter = ({ knowledgeUnits, learningUnits, actions, user }) 
       exact
       path="/knowledge-units/show/:id"
       render={() => (
-        <Wrapper className="KnowledgeUnitsWrapper" title="Knowledge Unit" active="knowledgeUnits">
-          <KnowledgeUnitsShow
-            handleDelete={actions.knowledgeUnitsDelete}
-            markReviewed={actions.knowledgeUnitsMarkReviewed}
-            markLectored={actions.knowledgeUnitsMarkLectored}
-            itemFetch={actions.knowledgeUnitsItemFetch}
-            handleSubmit={actions.knowledgeUnitsEdit}
-            errors={knowledgeUnits.errors}
-            items={knowledgeUnits}
-            user={user}
-          />
-        </Wrapper>
+        <KnowledgeUnitsShow
+          handleDelete={actions.knowledgeUnitsDelete}
+          markReviewed={actions.knowledgeUnitsMarkReviewed}
+          markLectored={actions.knowledgeUnitsMarkLectored}
+          itemFetch={actions.knowledgeUnitsItemFetch}
+          handleSubmit={actions.knowledgeUnitsEdit}
+          errors={knowledgeUnits.errors}
+          items={knowledgeUnits}
+          user={user}
+        />
       )}
     />
 
@@ -69,17 +57,15 @@ const KnowledgeUnitsRouter = ({ knowledgeUnits, learningUnits, actions, user }) 
       exact
       path="/knowledge-units/edit/:id"
       render={() => (
-        <Wrapper className="KnowledgeUnitsWrapper" title="Knowledge Unit" active="knowledgeUnits">
-          <KnowledgeUnitsEdit
-            taxonomiesFetch={actions.knowledgeUnitsTaxonomiesFetch}
-            itemFetch={actions.knowledgeUnitsItemFetch}
-            taxonomies={knowledgeUnits.taxonomies}
-            learningUnits={learningUnits}
-            handleSubmit={actions.knowledgeUnitsEdit}
-            errors={knowledgeUnits.errors}
-            items={knowledgeUnits}
-          />
-        </Wrapper>
+        <KnowledgeUnitsEdit
+          taxonomiesFetch={actions.knowledgeUnitsTaxonomiesFetch}
+          itemFetch={actions.knowledgeUnitsItemFetch}
+          taxonomies={knowledgeUnits.taxonomies}
+          learningUnits={learningUnits}
+          handleSubmit={actions.knowledgeUnitsEdit}
+          errors={knowledgeUnits.errors}
+          items={knowledgeUnits}
+        />
       )}
     />
   </>

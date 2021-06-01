@@ -19,7 +19,7 @@ const Content = () => {
 
   const getContent = useCallback(async () => {
     // TODO: get content from API
-    const response = await Promise.resolve('test');
+    const response = await Promise.resolve('test content');
     console.log('response', response);
   }, []);
 

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -43,7 +43,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Sidebar = () => {
   const classes = useStyles();
+  const location = useLocation();
   const user = useSelector((state) => state.user);
+
+  const paths = ['dashboard', 'tasks', 'messages', 'languages', 'taxonomies', 'users', 'logs'];
+  const isDasboardPage = paths.some((pathName) => location.pathname.includes(pathName));
 
   return (
     <Drawer
@@ -60,11 +64,11 @@ const Sidebar = () => {
         </Toolbar>
       </AppBar>
 
-      {!user.loggedIn && <TopicsMenu />}
-      {user.loggedIn && <MainMenu />}
+      {!isDasboardPage && <TopicsMenu />}
+      {isDasboardPage && <MainMenu />}
 
       <div className={classes.bottom}>
-        <Filter className={classes.filter} />
+        {!isDasboardPage && user.loggedIn && <Filter className={classes.filter} />}
         <SettingsMenu />
       </div>
     </Drawer>

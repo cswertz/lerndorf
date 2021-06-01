@@ -102,7 +102,6 @@ function TreeIcon(props) {
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    maxWidth: 360,
   },
   nested: {
     paddingLeft: theme.spacing(4),

@@ -2,8 +2,6 @@ import { withRouter } from 'react-router-dom';
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Wrapper from '@components/UI/Wrapper';
-
 class WrapperLearningUnit extends Component {
   componentDidMount() {
     this.fetchItem();
@@ -27,16 +25,13 @@ class WrapperLearningUnit extends Component {
     const { children, match, items } = this.props;
     const { id, languageId } = match.params;
 
+    // TODO: title needed?
     let title = 'Editing Learning Unit: ';
     if (items.id[id]) {
       title += items.id[id][languageId].title;
     }
 
-    return (
-      <Wrapper className="LearningUnitsWrapper" active="learningUnits" title={title}>
-        {children}
-      </Wrapper>
-    );
+    return children;
   }
 }
 

@@ -1,8 +1,6 @@
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Wrapper from '@components/UI/Wrapper';
-
 import TaxonomiesAddChild from '../taxonomies/AddChild';
 import TaxonomyChildren from '../taxonomies/Children';
 import TaxonomiesEdit from '../taxonomies/Edit';
@@ -15,15 +13,13 @@ const Router = ({ taxonomies, actions }) => (
       exact
       path="/taxonomies"
       render={() => (
-        <Wrapper className="TaxonomiesWrapper" active="taxonomies" title="Taxonomies">
-          <Taxonomies
-            itemsDelete={actions.taxonomiesDelete}
-            itemsDisable={actions.taxonomiesDisable}
-            itemsEnable={actions.taxonomiesEnable}
-            itemsFetch={actions.taxonomiesFetch}
-            items={taxonomies}
-          />
-        </Wrapper>
+        <Taxonomies
+          itemsDelete={actions.taxonomiesDelete}
+          itemsDisable={actions.taxonomiesDisable}
+          itemsEnable={actions.taxonomiesEnable}
+          itemsFetch={actions.taxonomiesFetch}
+          items={taxonomies}
+        />
       )}
     />
 
@@ -31,15 +27,13 @@ const Router = ({ taxonomies, actions }) => (
       exact
       path="/taxonomies/show/:id"
       render={() => (
-        <Wrapper className="TaxonomiesWrapper" active="taxonomies" title="Taxonomies">
-          <TaxonomyChildren
-            itemFetch={actions.taxonomiesItemFetch}
-            itemsDelete={actions.taxonomiesDelete}
-            itemsDisable={actions.taxonomiesDisable}
-            itemsEnable={actions.taxonomiesEnable}
-            items={taxonomies}
-          />
-        </Wrapper>
+        <TaxonomyChildren
+          itemFetch={actions.taxonomiesItemFetch}
+          itemsDelete={actions.taxonomiesDelete}
+          itemsDisable={actions.taxonomiesDisable}
+          itemsEnable={actions.taxonomiesEnable}
+          items={taxonomies}
+        />
       )}
     />
 
@@ -47,9 +41,7 @@ const Router = ({ taxonomies, actions }) => (
       exact
       path="/taxonomies/add"
       render={() => (
-        <Wrapper className="TaxonomiesWrapper" active="taxonomies" title="Add Taxonomy">
-          <TaxonomiesAdd handleSubmit={actions.taxonomiesAdd} errors={taxonomies.errors} />
-        </Wrapper>
+        <TaxonomiesAdd handleSubmit={actions.taxonomiesAdd} errors={taxonomies.errors} />
       )}
     />
 
@@ -57,9 +49,7 @@ const Router = ({ taxonomies, actions }) => (
       exact
       path="/taxonomies/:id/add"
       render={() => (
-        <Wrapper className="TaxonomiesWrapper" active="taxonomies" title="Add Taxonomy">
-          <TaxonomiesAddChild handleSubmit={actions.taxonomiesAdd} errors={taxonomies.errors} />
-        </Wrapper>
+        <TaxonomiesAddChild handleSubmit={actions.taxonomiesAdd} errors={taxonomies.errors} />
       )}
     />
 
@@ -67,14 +57,12 @@ const Router = ({ taxonomies, actions }) => (
       exact
       path="/taxonomies/edit/:id"
       render={() => (
-        <Wrapper className="TaxonomiesWrapper" active="taxonomies" title="Edit Taxonomy Term">
-          <TaxonomiesEdit
-            itemFetch={actions.taxonomiesItemFetch}
-            handleSubmit={actions.taxonomiesEdit}
-            errors={taxonomies.errors}
-            items={taxonomies}
-          />
-        </Wrapper>
+        <TaxonomiesEdit
+          itemFetch={actions.taxonomiesItemFetch}
+          handleSubmit={actions.taxonomiesEdit}
+          errors={taxonomies.errors}
+          items={taxonomies}
+        />
       )}
     />
   </>

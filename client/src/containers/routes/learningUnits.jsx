@@ -1,9 +1,7 @@
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Wrapper from '@components/UI/Wrapper';
 import WrapperLearningUnit from './wrapperLearningUnit';
-
 import LearningUnitsEdit from '../learningUnits/Edit';
 import LearningUnitsShow from '../learningUnits/Show';
 import LearningUnitsAdd from '../learningUnits/Add';
@@ -15,14 +13,12 @@ const LearningUnitsRouter = ({ learningUnits, languages, actions, user }) => (
       exact
       path="/learning-units"
       render={() => (
-        <Wrapper className="LearningUnitsWrapper" active="learningUnits" title="Learning Units">
-          <LearningUnits
-            user={user}
-            learningUnitsDelete={actions.learningUnitsDelete}
-            learningUnitsFetch={actions.learningUnitsFetch}
-            learningUnits={learningUnits}
-          />
-        </Wrapper>
+        <LearningUnits
+          user={user}
+          learningUnitsDelete={actions.learningUnitsDelete}
+          learningUnitsFetch={actions.learningUnitsFetch}
+          learningUnits={learningUnits}
+        />
       )}
     />
 
@@ -30,14 +26,12 @@ const LearningUnitsRouter = ({ learningUnits, languages, actions, user }) => (
       exact
       path="/learning-units/add"
       render={() => (
-        <Wrapper className="LearningUnitsWrapper" title="Add Learning Unit" active="learningUnits">
-          <LearningUnitsAdd
-            handleSubmit={actions.learningUnitsAdd}
-            languagesFetch={actions.languagesFetch}
-            languages={languages}
-            errors={learningUnits.errors}
-          />
-        </Wrapper>
+        <LearningUnitsAdd
+          handleSubmit={actions.learningUnitsAdd}
+          languagesFetch={actions.languagesFetch}
+          languages={languages}
+          errors={learningUnits.errors}
+        />
       )}
     />
 
@@ -45,18 +39,16 @@ const LearningUnitsRouter = ({ learningUnits, languages, actions, user }) => (
       exact
       path="/learning-units/show/:languageId/:id"
       render={() => (
-        <Wrapper className="LearningUnitsWrapper" title="Learning Unit" active="learningUnits">
-          <LearningUnitsShow
-            handleKnowledgeUnitDelete={actions.knowledgeUnitsDelete}
-            markReviewed={actions.knowledgeUnitsMarkReviewed}
-            markLectored={actions.knowledgeUnitsMarkLectored}
-            user={user}
-            itemFetch={actions.learningUnitsItemFetch}
-            handleSubmit={actions.learningUnitsEdit}
-            errors={learningUnits.errors}
-            items={learningUnits}
-          />
-        </Wrapper>
+        <LearningUnitsShow
+          handleKnowledgeUnitDelete={actions.knowledgeUnitsDelete}
+          markReviewed={actions.knowledgeUnitsMarkReviewed}
+          markLectored={actions.knowledgeUnitsMarkLectored}
+          user={user}
+          itemFetch={actions.learningUnitsItemFetch}
+          handleSubmit={actions.learningUnitsEdit}
+          errors={learningUnits.errors}
+          items={learningUnits}
+        />
       )}
     />
 

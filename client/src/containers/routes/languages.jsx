@@ -1,8 +1,6 @@
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Wrapper from '@components/UI/Wrapper';
-
 import LanguagesEdit from '../languages/Edit';
 import LanguagesAdd from '../languages/Add';
 import Languages from '../languages/List';
@@ -13,38 +11,30 @@ const LanguagesRouter = ({ languages, actions }) => (
       exact
       path="/languages"
       render={() => (
-        <Wrapper className="LanguagesWrapper" active="languages" title="Languages">
-          <Languages
-            languagesDelete={actions.languagesDelete}
-            languagesFetch={actions.languagesFetch}
-            languages={languages}
-          />
-        </Wrapper>
+        <Languages
+          languagesDelete={actions.languagesDelete}
+          languagesFetch={actions.languagesFetch}
+          languages={languages}
+        />
       )}
     />
 
     <Route
       exact
       path="/languages/add"
-      render={() => (
-        <Wrapper className="LanguagesWrapper" title="Add Language" active="languages">
-          <LanguagesAdd handleSubmit={actions.languagesAdd} errors={languages.errors} />
-        </Wrapper>
-      )}
+      render={() => <LanguagesAdd handleSubmit={actions.languagesAdd} errors={languages.errors} />}
     />
 
     <Route
       exact
       path="/languages/edit/:id"
       render={() => (
-        <Wrapper className="LanguagesWrapper" title="Edit Language" active="languages">
-          <LanguagesEdit
-            languagesFetch={actions.languagesFetch}
-            handleSubmit={actions.languagesEdit}
-            errors={languages.errors}
-            languages={languages}
-          />
-        </Wrapper>
+        <LanguagesEdit
+          languagesFetch={actions.languagesFetch}
+          handleSubmit={actions.languagesEdit}
+          errors={languages.errors}
+          languages={languages}
+        />
       )}
     />
   </>
