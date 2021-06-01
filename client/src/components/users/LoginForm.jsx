@@ -128,7 +128,7 @@ const Login = ({ handleSubmit, submitting, pristine, classes, errors }) => {
           }
         />
 
-        <Link to="/login">
+        <Link to="/reset-password">
           <Typography variant="body2" color="textSecondary">
             Passwort vergessen?
           </Typography>

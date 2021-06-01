@@ -129,7 +129,7 @@ const Login = ({ handleSubmit, errors }) => {
 
           <div className={classes.register}>
             <Typography variant="body1">Noch keinen Account?</Typography>
-            <Link to="/users/register">
+            <Link to="/register">
               <Typography variant="body1" color="textSecondary">
                 Hier geht&apos;s zur Registrierung
               </Typography>

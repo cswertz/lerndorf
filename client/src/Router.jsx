@@ -15,6 +15,8 @@ import RoutesLogs from '@containers/routes/logs';
 import Wrapper from '@components/UI/Wrapper';
 import Dashboard from '@components/Dashboard';
 import Login from '@containers/users/Login';
+import Register from '@containers/users/Register';
+import Activate from '@containers/users/Activate';
 import Content from '@components/Content';
 import CreateCourse from '@components/courses/Create';
 
@@ -37,9 +39,22 @@ const Router = ({
         <Login handleSubmit={actions.userLogin} errors={user.errors} />
       </Route>
 
-      {/* <Route path="/reset-password" exact>
-        <div>WIP</div>
-      </Route> */}
+      <Route path="/register" exact>
+        <Register handleSubmit={actions.userRegister} errors={user.errors} />
+      </Route>
+
+      <Route path="/users/activate/:hash" exact>
+        <Activate
+          activate={actions.userActivate}
+          activated={user.activated}
+          errors={user.errors}
+          active={user.active}
+        />
+      </Route>
+
+      <Route path="/reset-password" exact>
+        <div>Reset password WIP</div>
+      </Route>
 
       {/* <Route path="/datenschutz" exact>
         <div>WIP</div>
@@ -57,6 +72,7 @@ const Router = ({
         <Wrapper>
           <Switch>
             <Route path="/" exact>
+              {/* TODO: show specific content page (welcome) */}
               <Content />
             </Route>
 

@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 
 import UserLanguage from '../users/Language';
 import UsersEdit from '../users/AdminEdit';
-import Activate from '../users/Activate';
-import Register from '../users/Register';
 import UserEdit from '../users/Edit';
-import Login from '../users/Login';
 import Users from '../users/List';
 
 import RolesShow from '../users/roles/Show';
@@ -27,31 +24,6 @@ const UsersRouter = ({ capabilities, languages, actions, roles, users, user }) =
           items={users}
         />
       )}
-    />
-
-    <Route
-      exact
-      path="/users/register"
-      render={() => <Register handleSubmit={actions.userRegister} errors={user.errors} />}
-    />
-
-    <Route
-      exact
-      path="/users/activate/:hash"
-      render={() => (
-        <Activate
-          activate={actions.userActivate}
-          activated={user.activated}
-          errors={user.errors}
-          active={user.active}
-        />
-      )}
-    />
-
-    <Route
-      exact
-      path="/users/login"
-      render={() => <Login errors={user.errors} handleSubmit={actions.userLogin} />}
     />
 
     <Route
