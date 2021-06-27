@@ -19,8 +19,6 @@ const styles = (theme) => ({
   },
   textField: {
     flex: 1,
-    marginLeft: theme.spacing(),
-    marginRight: theme.spacing(),
     marginBottom: theme.spacing(),
   },
   formControl: {
@@ -121,7 +119,7 @@ const renderCheckboxField = ({ input, label, ...custom }) => {
 
   return (
     <FormControlLabel
-      control={<Checkbox label={label} {...customInput} {...customOptions} />}
+      control={<Checkbox color="primary" label={label} {...customInput} {...customOptions} />}
       label={label}
     />
   );

@@ -89,7 +89,7 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 
 //   return (
 //     <FormControlLabel
-//       control={<Checkbox label={label} {...customInput} {...customOptions} />}
+//       control={<Checkbox color="primary" label={label} {...customInput} {...customOptions} />}
 //       label={label}
 //       className={custom.customclasses.label}
 //     />

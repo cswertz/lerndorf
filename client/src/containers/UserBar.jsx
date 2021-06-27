@@ -191,9 +191,28 @@ function UserBar() {
                   open={isMenuOpen}
                   onClose={() => setAnchorEl(null)}
                 >
-                  <MenuItem onClick={() => history.push('/dashboard')}>Dashboard</MenuItem>
-                  <MenuItem onClick={() => history.push('/users/user/edit')}>Profile</MenuItem>
-                  <MenuItem onClick={() => history.push('/users/user/languages')}>
+                  <MenuItem
+                    onClick={() => {
+                      setAnchorEl(null);
+                      history.push('/dashboard');
+                    }}
+                  >
+                    Dashboard
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setAnchorEl(null);
+                      history.push('/users/user/edit');
+                    }}
+                  >
+                    Profile
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setAnchorEl(null);
+                      history.push('/users/user/languages');
+                    }}
+                  >
                     Languages
                   </MenuItem>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>

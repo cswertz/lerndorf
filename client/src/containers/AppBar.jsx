@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+// import { useSelector } from 'react-redux';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -49,8 +49,9 @@ const useStyles = makeStyles(
 function MenuBar() {
   const classes = useStyles();
   const location = useLocation();
+  const history = useHistory();
 
-  const user = useSelector((state) => state.user);
+  // const user = useSelector((state) => state.user);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const paths = ['dashboard', 'tasks', 'messages', 'languages', 'taxonomies', 'users', 'logs'];
@@ -89,7 +90,15 @@ function MenuBar() {
           >
             <AppBar position="static" className={classes.appBar}>
               <Toolbar>
-                <Typography edge="start" variant="h6" className={classes.logo}>
+                <Typography
+                  edge="start"
+                  variant="h6"
+                  className={classes.logo}
+                  onClick={() => {
+                    setIsDrawerOpen(false);
+                    history.push('/');
+                  }}
+                >
                   <img src="/assets/images/logo.png" alt="Lerndorf Logo" />
                 </Typography>
 

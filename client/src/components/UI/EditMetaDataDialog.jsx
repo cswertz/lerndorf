@@ -5,9 +5,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 
 import Card from '@components/UI/Card';
+import DataEdit from '@components/UI/icons/DataEdit';
+import NoteEdit from '@components/UI/icons/NoteEdit';
+import UnitEdit from '@components/UI/icons/UnitEdit';
+import CourseEdit from '@components/UI/icons/CourseEdit';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -75,10 +78,10 @@ const EditMetaDataDialog = ({ open, onClose }) => {
 
       <DialogContent className={classes.content} dividers>
         {/* TODO: add onClick handlers */}
-        <Card icon={<EventAvailableIcon />} title="Edit Metadata" />
-        <Card icon={<EventAvailableIcon />} title="Edit Knowledge Unit Metadata" />
-        <Card icon={<EventAvailableIcon />} title="Edit Learning Unit Metadata" />
-        <Card icon={<EventAvailableIcon />} title="Edit Course Metadata" />
+        <Card icon={<DataEdit />} title="Edit Metadata" />
+        <Card icon={<NoteEdit />} title="Edit Knowledge Unit Metadata" />
+        <Card icon={<UnitEdit />} title="Edit Learning Unit Metadata" />
+        <Card icon={<CourseEdit />} title="Edit Course Metadata" />
       </DialogContent>
     </Dialog>
   );

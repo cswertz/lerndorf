@@ -8,8 +8,6 @@ import Button from '@material-ui/core/Button';
 const styles = (theme) => ({
   textField: {
     flex: 1,
-    marginLeft: theme.spacing(),
-    marginRight: theme.spacing(),
     marginBottom: theme.spacing(),
   },
   flex: {

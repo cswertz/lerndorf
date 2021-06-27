@@ -17,8 +17,6 @@ const styles = (theme) => ({
   },
   textField: {
     flex: 1,
-    marginLeft: theme.spacing(),
-    marginRight: theme.spacing(),
     marginBottom: theme.spacing(),
   },
   formControl: {

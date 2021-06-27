@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
       '& $icon': {
         color: colors.grey[50],
+        fill: colors.grey[50],
       },
 
       '& $count': {
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     color: '#56657F',
+    fill: '#56657F',
 
     '& svg': {
       height: 60,

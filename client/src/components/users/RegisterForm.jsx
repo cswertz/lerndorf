@@ -13,8 +13,6 @@ import { isValidEmail, isValidUrl } from '@utils/user';
 const styles = (theme) => ({
   textField: {
     flex: 1,
-    marginLeft: theme.spacing(),
-    marginRight: theme.spacing(),
     marginBottom: theme.spacing(),
   },
   flex: {
@@ -68,7 +66,7 @@ const renderCheckboxField = ({ input, label, ...custom }) => {
 
   return (
     <FormControlLabel
-      control={<Checkbox label={label} {...customInput} {...customOptions} />}
+      control={<Checkbox color="primary" label={label} {...customInput} {...customOptions} />}
       label={label}
       className={custom.classes.label}
     />

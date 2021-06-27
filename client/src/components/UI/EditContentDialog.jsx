@@ -5,9 +5,16 @@ import DialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 
 import Card from '@components/UI/Card';
+import NoteAdd from '@components/UI/icons/NoteAdd';
+import NoteDelete from '@components/UI/icons/NoteDelete';
+import UnitAdd from '@components/UI/icons/UnitAdd';
+import UnitDelete from '@components/UI/icons/UnitDelete';
+import CourseAdd from '@components/UI/icons/CourseAdd';
+import CourseDelete from '@components/UI/icons/CourseDelete';
+import UserEdit from '@components/UI/icons/UserEdit';
+import UserFilter from '@components/UI/icons/UserFilter';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -75,14 +82,14 @@ const EditContentDialog = ({ open, onClose }) => {
 
       <DialogContent className={classes.content} dividers>
         {/* TODO: add onClick handlers */}
-        <Card icon={<EventAvailableIcon />} title="Create Knowledge Unit" />
-        <Card icon={<EventAvailableIcon />} title="Delete Knowledge Unit" />
-        <Card icon={<EventAvailableIcon />} title="Create Learning Unit" />
-        <Card icon={<EventAvailableIcon />} title="Delete Learning Unit" />
-        <Card icon={<EventAvailableIcon />} title="Create Course" />
-        <Card icon={<EventAvailableIcon />} title="Delete Course" />
-        <Card icon={<EventAvailableIcon />} title="Edit Users" />
-        <Card icon={<EventAvailableIcon />} title="Edit Roles" />
+        <Card icon={<NoteAdd />} title="Create Knowledge Unit" />
+        <Card icon={<NoteDelete />} title="Delete Knowledge Unit" />
+        <Card icon={<UnitAdd />} title="Create Learning Unit" />
+        <Card icon={<UnitDelete />} title="Delete Learning Unit" />
+        <Card icon={<CourseAdd />} title="Create Course" />
+        <Card icon={<CourseDelete />} title="Delete Course" />
+        <Card icon={<UserEdit />} title="Edit Users" />
+        <Card icon={<UserFilter />} title="Edit Roles" />
       </DialogContent>
     </Dialog>
   );

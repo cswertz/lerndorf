@@ -46,7 +46,7 @@ const EditTagsList = (props) => {
 };
 
 const DeleteRelationForm = (props) => {
-  const { handleDelete, languageId, relations } = props;
+  const { handleDelete, languageId = 1, relations } = props;
 
   const relationsElements = relations.map((relation) => {
     const taxonomyTerm = term(relation.Taxonomy, languageId);
