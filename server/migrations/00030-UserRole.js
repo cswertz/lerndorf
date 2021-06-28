@@ -41,11 +41,11 @@ export default {
       allowNull: false,
     }
   }, {
-        uniqueKeys: {
-          UserRole_unique: {
-            fields: ['UserId', 'RoleId']
-        }
+      uniqueKeys: {
+        UserRole_unique: {
+          fields: ['UserId', 'RoleId']
       }
+    }
 
   }),
   down: queryInterface => queryInterface.dropTable('UserRole'),

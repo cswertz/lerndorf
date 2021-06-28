@@ -38,6 +38,12 @@ export default {
       type: DataTypes.DATE,
       allowNull: false,
     },
+  }, {
+      uniqueKeys: {
+        KnowledgeUnitUserLog_unique: {
+          fields: ['KnowledgeUnitId', 'UserId']
+        }
+    }
   }),
   down: queryInterface => queryInterface.dropTable('KnowledgeUnitUserLog'),
 };

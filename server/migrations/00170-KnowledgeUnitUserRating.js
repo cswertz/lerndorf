@@ -41,6 +41,12 @@ export default {
       type: DataTypes.DATE,
       allowNull: false,
     },
+  }, {
+      uniqueKeys: {
+        KnowledgeUnitUserRatind_unique: {
+          fields: ['UserId', 'KnowledgeUnitId']
+        }
+    }
   }),
   down: queryInterface => queryInterface.dropTable('KnowledgeUnitUserRating'),
 };

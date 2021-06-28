@@ -39,6 +39,13 @@ export default {
       type: DataTypes.DATE,
       allowNull: false,
     },
+  }, {
+      uniqueKeys: {
+        LearningUnitTag_unique: {
+          fields: ['LearningUnitLanguageId', 'tag']
+        }
+    }
+
   }),
   down: queryInterface => queryInterface.dropTable('LearningUnitTag'),
 };

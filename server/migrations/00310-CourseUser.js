@@ -54,6 +54,12 @@ export default {
       type: DataTypes.DATE,
       allowNull: false,
     },
+  }, {
+      uniqueKeys: {
+        CourseUser_unique: {
+          fields: ['courseId', 'userId', 'roleId']
+        }
+    }
   }),
   down: queryInterface => queryInterface.dropTable('CourseUser'),
 };

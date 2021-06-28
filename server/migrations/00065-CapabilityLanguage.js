@@ -13,7 +13,6 @@ export default {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
-      unique: 'capabilityIdlanguageId',
       references: {
         model: 'Capabilities',
         key: 'id',
@@ -25,7 +24,6 @@ export default {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
-      unique: 'capabilityIdlanguageId',
       references: {
         model: 'Languages',
         key: 'id',
