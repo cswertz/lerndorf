@@ -47,6 +47,13 @@ export default {
       type: DataTypes.DATE,
       allowNull: false,
     },
+  }, {
+      uniqueKeys: {
+        TaxonomyLanguage_unique: {
+          fields: ['TaxonomyId', 'LanguageId']
+        }
+    }
+    
   }),
   down: queryInterface => queryInterface.dropTable('TaxonomyLanguage'),
 };
