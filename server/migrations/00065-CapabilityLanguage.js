@@ -49,6 +49,12 @@ export default {
       type: DataTypes.DATE,
       allowNull: false,
     },
+  }, {
+      uniqueKeys: {
+        CapabilityLanguage_unique: {
+          fields: ['CapabilityId', 'LanguageId']
+        }
+      }
   }),
   down: queryInterface => queryInterface.dropTable('CapabilityLanguage'),
 };
