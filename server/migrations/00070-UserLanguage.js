@@ -46,7 +46,17 @@ export default {
     updatedAt: {
       type: DataTypes.DATE,
       allowNull: false,
-    },
+    }
+  },  {
+        uniqueKeys: {
+          UserLanguage_unique: {
+            fields: ['UserId', 'LanguageId']
+          }
+        },
+
+
+
+
   }),
   down: queryInterface => queryInterface.dropTable('UserLanguage'),
 };
