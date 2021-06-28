@@ -39,7 +39,14 @@ export default {
     updatedAt: {
       type: DataTypes.DATE,
       allowNull: false,
-    },
+    }
+  },  {
+      uniqueKeys: {
+        RoleCapability_unique: {
+          fields: ['RoleId', 'CapabilityId']
+        }
+    }
+
   }),
   down: queryInterface => queryInterface.dropTable('RoleCapability'),
 };
