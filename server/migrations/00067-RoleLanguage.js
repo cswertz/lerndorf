@@ -55,7 +55,6 @@ export default {
           fields: ['LanguageId', 'RoleId']
       }
     }
-
   }),
   down: queryInterface => queryInterface.dropTable('RoleLanguage'),
 };

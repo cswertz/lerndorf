@@ -6,13 +6,13 @@ export default {
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
-      unique: 'idcreatedAt',
     },
 
     CapabilityId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
+      unique: 'CapabilityIdLanguageId',
       references: {
         model: 'Capabilities',
         key: 'id',
@@ -24,6 +24,7 @@ export default {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
+      unique: 'CapabilityIdLanguageId',
       references: {
         model: 'Languages',
         key: 'id',
@@ -47,12 +48,13 @@ export default {
       type: DataTypes.DATE,
       allowNull: false,
     },
-  }, {
+/*  }, {
       uniqueKeys: {
         CapabilityLanguage_unique: {
           fields: ['CapabilityId', 'LanguageId']
-        }
       }
+      deactivated due to unclear UnqiueContraintError in Sequelize*/
+    }
   }),
   down: queryInterface => queryInterface.dropTable('CapabilityLanguage'),
 };
