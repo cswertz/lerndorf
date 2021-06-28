@@ -57,6 +57,12 @@ export default {
         type: DataTypes.DATE,
         allowNull: false,
       },
+    }, {
+        uniqueKeys: {
+          LearningUnitLanguage_unique: {
+            fields: ['LearningUnitId', 'LanguageId']
+          }
+      }
     })
       .then(() => queryInterface.addConstraint('LearningUnitLanguage', {
         fields: ['title', 'LanguageId'],
