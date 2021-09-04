@@ -22,23 +22,16 @@ const NavigationBar = () => {
   return (
     <div className={classes.wrapper}>
       <Button
-        color="secondary"
-        variant="contained"
+        variant="outlined"
         startIcon={<ArrowRightAltIcon className={classes.previousIcon} />}
         component={Link}
         to="/content/2-1"
       >
-        previous Content
+        previous
       </Button>
 
-      <Button
-        color="secondary"
-        variant="contained"
-        endIcon={<ArrowRightAltIcon />}
-        component={Link}
-        to="/content/2-3"
-      >
-        next Content
+      <Button variant="outlined" endIcon={<ArrowRightAltIcon />} component={Link} to="/content/2-3">
+        next
       </Button>
     </div>
   );
