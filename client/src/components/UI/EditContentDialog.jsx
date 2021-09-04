@@ -13,8 +13,6 @@ import UnitAdd from '@components/UI/icons/UnitAdd';
 import UnitDelete from '@components/UI/icons/UnitDelete';
 import CourseAdd from '@components/UI/icons/CourseAdd';
 import CourseDelete from '@components/UI/icons/CourseDelete';
-import UserEdit from '@components/UI/icons/UserEdit';
-import UserFilter from '@components/UI/icons/UserFilter';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -88,8 +86,6 @@ const EditContentDialog = ({ open, onClose }) => {
         <Card icon={<UnitDelete />} title="Delete Learning Unit" />
         <Card icon={<CourseAdd />} title="Create Course" />
         <Card icon={<CourseDelete />} title="Delete Course" />
-        <Card icon={<UserEdit />} title="Edit Users" />
-        <Card icon={<UserFilter />} title="Edit Roles" />
       </DialogContent>
     </Dialog>
   );
