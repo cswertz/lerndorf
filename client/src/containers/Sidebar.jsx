@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Drawer from '@material-ui/core/Drawer';
@@ -8,8 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 
 import MainMenu from '@containers/MainMenu';
 import TopicsMenu from '@components/UI/TopicsMenu';
-import Filter from '@components/UI/Filter';
-import SettingsMenu from '@components/UI/SettingsMenu';
+// import Filter from '@components/UI/Filter';
 
 const drawerWidth = 280;
 
@@ -44,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 const Sidebar = () => {
   const classes = useStyles();
   const location = useLocation();
-  const user = useSelector((state) => state.user);
+  // const user = useSelector((state) => state.user);
 
   const paths = ['dashboard', 'tasks', 'messages', 'languages', 'taxonomies', 'users', 'logs'];
   const isDasboardPage = paths.some((pathName) => location.pathname.includes(pathName));
@@ -68,8 +67,7 @@ const Sidebar = () => {
       {isDasboardPage && <MainMenu />}
 
       <div className={classes.bottom}>
-        {!isDasboardPage && user.loggedIn && <Filter className={classes.filter} />}
-        <SettingsMenu />
+        {/* {!isDasboardPage && user.loggedIn && <Filter className={classes.filter} />} */}
       </div>
     </Drawer>
   );

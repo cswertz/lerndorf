@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -11,14 +11,14 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 // import { userFetchRoles } from '@actions';
 // import { hasCapability } from '@utils/user';
 import AdminMenu from '@components/UI/AdminMenu';
-import Badge from '@components/UI/Badge';
+// import Badge from '@components/UI/Badge';
 
-const StyledBadge = withStyles(() => ({
-  badge: {
-    right: -13,
-    top: 15,
-  },
-}))(Badge);
+// const StyledBadge = withStyles(() => ({
+//   badge: {
+//     right: -13,
+//     top: 15,
+//   },
+// }))(Badge);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,15 +76,17 @@ const MainMenu = () => {
         </List>
       </Collapse>
 
-      <ListItem button divider component={Link} to="/learning-units" disabled>
+      {/* <ListItem button divider component={Link} to="/learning-units">
         <ListItemText primary="Meine Aufgaben" />
         <ArrowRightIcon />
-      </ListItem>
-      <ListItem button divider component={Link} to="/messages">
+      </ListItem> */}
+
+      {/* <ListItem button divider component={Link} to="/messages">
         <StyledBadge badgeContent={4}>
           <ListItemText primary="Meine Nachrichten" />
         </StyledBadge>
-      </ListItem>
+      </ListItem> */}
+
       <ListItem button divider component={Link} to="/content/1">
         <ListItemText primary="Meine Inhalte" />
         <ArrowRightIcon />

@@ -128,7 +128,7 @@ function UserBar() {
         <Toolbar className={classes.toolbar}>
           <div className={classes.grow} />
 
-          <div className={classes.search}>
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -140,7 +140,7 @@ function UserBar() {
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
-          </div>
+          </div> */}
 
           <div className={classes.section}>
             {!user.loggedIn && (
@@ -156,7 +156,7 @@ function UserBar() {
                   Dashboard
                 </Link>
 
-                <IconButton
+                {/* <IconButton
                   color="inherit"
                   component={Link}
                   to="/messages"
@@ -165,7 +165,7 @@ function UserBar() {
                   <Badge badgeContent={4}>
                     <MailIcon />
                   </Badge>
-                </IconButton>
+                </IconButton> */}
 
                 <IconButton
                   edge="end"
