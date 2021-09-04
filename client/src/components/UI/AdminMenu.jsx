@@ -92,7 +92,7 @@ const AdminMenu = () => {
         'edit_user',
       ]) && (
         <>
-          <ListItem button onClick={(event) => handleClick(event, 'administration')}>
+          <ListItem button divider onClick={(event) => handleClick(event, 'administration')}>
             <ListItemText primary="Administration" />
             {open.administration ? <ArrowDropDownIcon /> : <ArrowRightIcon />}
           </ListItem>

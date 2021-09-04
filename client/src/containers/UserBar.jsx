@@ -1,21 +1,15 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import InputBase from '@material-ui/core/InputBase';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import PersonIcon from '@material-ui/icons/Person';
 import MailIcon from '@material-ui/icons/MailOutline';
 
-import { userLogout } from '@actions';
 import Badge from '@components/UI/Badge';
 
 const useStyles = makeStyles((theme) => ({
@@ -83,15 +77,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
-  dashboardLink: {
-    color: theme.palette.grey[800],
-    display: 'none',
-    margin: theme.spacing(3),
-
-    [theme.breakpoints.up('md')]: {
-      display: 'block',
-    },
-  },
   login: {
     color: theme.palette.grey[800],
     display: 'flex',
@@ -104,23 +89,18 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: '0.2rem',
     },
   },
+  buttonText: {
+    display: 'none',
+
+    [theme.breakpoints.up('md')]: {
+      display: 'inline',
+    },
+  },
 }));
 
 function UserBar() {
   const classes = useStyles();
-  const history = useHistory();
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const isMenuOpen = Boolean(anchorEl);
-
-  const handleLogout = () => {
-    dispatch(userLogout(history));
-    history.push('/');
-  };
-
-  const menuId = 'primary-search-account-menu';
 
   return (
     <div className={classes.grow}>
@@ -152,10 +132,6 @@ function UserBar() {
 
             {user.loggedIn && (
               <>
-                <Link className={classes.dashboardLink} to="/dashboard">
-                  Dashboard
-                </Link>
-
                 {/* <IconButton
                   color="inherit"
                   component={Link}
@@ -167,56 +143,20 @@ function UserBar() {
                   </Badge>
                 </IconButton> */}
 
-                <IconButton
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={(event) => setAnchorEl(event.currentTarget)}
-                  color="inherit"
+                <Button
+                  className={classes.button}
+                  component={Link}
+                  to="/dashboard"
+                  endIcon={
+                    user.user.picture ? (
+                      <Avatar src={`/uploads/${user.user.picture}`} alt={user.username} />
+                    ) : (
+                      <AccountCircle />
+                    )
+                  }
                 >
-                  {user.user.picture ? (
-                    <Avatar src={`/uploads/${user.user.picture}`} alt={user.username} />
-                  ) : (
-                    <AccountCircle />
-                  )}
-                </IconButton>
-
-                <Menu
-                  anchorEl={anchorEl}
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  id={menuId}
-                  keepMounted
-                  transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  open={isMenuOpen}
-                  onClose={() => setAnchorEl(null)}
-                >
-                  <MenuItem
-                    onClick={() => {
-                      setAnchorEl(null);
-                      history.push('/dashboard');
-                    }}
-                  >
-                    Dashboard
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      setAnchorEl(null);
-                      history.push('/users/user/edit');
-                    }}
-                  >
-                    Profile
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      setAnchorEl(null);
-                      history.push('/users/user/languages');
-                    }}
-                  >
-                    Languages
-                  </MenuItem>
-                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                </Menu>
+                  <span className={classes.buttonText}>Dashboard</span>
+                </Button>
               </>
             )}
           </div>
