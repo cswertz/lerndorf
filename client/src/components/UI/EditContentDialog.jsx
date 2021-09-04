@@ -8,8 +8,10 @@ import Typography from '@material-ui/core/Typography';
 
 import Card from '@components/UI/Card';
 import NoteAdd from '@components/UI/icons/NoteAdd';
+import NoteEdit from '@components/UI/icons/NoteEdit';
 import NoteDelete from '@components/UI/icons/NoteDelete';
 import UnitAdd from '@components/UI/icons/UnitAdd';
+import UnitEdit from '@components/UI/icons/UnitEdit';
 import UnitDelete from '@components/UI/icons/UnitDelete';
 import CourseAdd from '@components/UI/icons/CourseAdd';
 import CourseDelete from '@components/UI/icons/CourseDelete';
@@ -81,8 +83,10 @@ const EditContentDialog = ({ open, onClose }) => {
       <DialogContent className={classes.content} dividers>
         {/* TODO: add onClick handlers */}
         <Card icon={<NoteAdd />} title="Create Knowledge Unit" />
+        <Card icon={<NoteEdit />} title="Edit Knowledge Unit" />
         <Card icon={<NoteDelete />} title="Delete Knowledge Unit" />
         <Card icon={<UnitAdd />} title="Create Learning Unit" />
+        <Card icon={<UnitEdit />} title="Edit Learning Unit" />
         <Card icon={<UnitDelete />} title="Delete Learning Unit" />
         <Card icon={<CourseAdd />} title="Create Course" />
         <Card icon={<CourseDelete />} title="Delete Course" />
