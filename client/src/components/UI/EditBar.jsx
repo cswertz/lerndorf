@@ -3,8 +3,6 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-// import GetAppIcon from '@material-ui/icons/GetApp';
-
 import EditContentDialog from '@components/UI/EditContentDialog';
 
 // Dummy Crosslinks
@@ -59,21 +57,12 @@ const EditBar = () => {
   const user = useSelector((state) => state.user);
   const [showEditModal, setShowEditModal] = useState(false);
 
-  const downloadCSV = () => {
-    console.log('download CSV');
-  };
-
   return (
     <div className={classes.wrapper}>
       {user.loggedIn && (
         <div className={classes.actions}>
           <Link className={classes.actionsItem} onClick={() => setShowEditModal(true)}>
             Edit Content <ArrowDropDownIcon />
-          </Link>
-
-          <Link className={classes.actionsItem} type="button" onClick={downloadCSV}>
-            {/* <GetAppIcon /> */}
-            Download as .csv
           </Link>
         </div>
       )}
