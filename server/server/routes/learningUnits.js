@@ -397,6 +397,46 @@ router.get('/suggestion/:term', (req, res) => {
     });
 });
 
+router.get('/:id/knowledgeUnits', async (req, res) => {
+  const knowledgeUnits = await models.KnowledgeUnit.findAll({
+    where: {
+      LearningUnitId: req.params.id,
+    },
+    attributes: ['id'],
+    include: [
+      {
+        as: 'mt',
+        model: models.Taxonomy,
+        attributes: ['id', 'type'],
+        include: [
+          {
+            model: models.TaxonomyLanguage,
+            attributes: ['LanguageId', 'vocable'],
+          },
+        ],
+      },
+    ],
+    order: [
+      [models.KnowledgeUnit, 'id', 'asc'],
+    ],
+  });
+
+  const groupedKnowledgeUnits = {};
+  knowledgeUnits.forEach((knowledgeUnit) => {
+    const key = knowledgeUnit.mt.type;
+    if (!(key in groupedKnowledgeUnits)) {
+      groupedKnowledgeUnits[key] = {
+        term: knowledgeUnit.mt,
+        units: [],
+      };
+    }
+
+    groupedKnowledgeUnits[key].units.push(knowledgeUnit);
+  });
+
+  return res.json(groupedKnowledgeUnits);
+});
+
 router.patch('/:id', hasCapability('edit_any_learning_unit'), async (req, res) => {
   const { id } = req.params;
   const languages = Object.keys(req.body);

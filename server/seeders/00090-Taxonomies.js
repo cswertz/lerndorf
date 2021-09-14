@@ -645,7 +645,7 @@ module.exports = {
       parent: 84,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
-      {
+    {
       id: 93,
       type: 'eqflevel',
       active: true,

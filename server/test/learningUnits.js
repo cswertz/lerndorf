@@ -2,7 +2,7 @@ import chaiHttp from 'chai-http';
 import chai from 'chai';
 
 import models from '../server/config/sequelize';
-import server from '../server/';
+import server from '../server';
 
 chai.should();
 chai.use(chaiHttp);
@@ -178,6 +178,31 @@ describe('LearningUnit', () => {
               res.body[0].should.have.property('Language');
               res.body[0].should.have.property('User');
               res.body[0].should.have.property('LearningUnit');
+
+              done();
+            });
+        });
+    });
+  });
+
+  describe('GET /api/learningUnits/:id/knowledgeunits', () => {
+    it('it should display LearningUnit information', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .get('/api/learningUnits/1/knowledgeUnits')
+            .end((err, res) => {
+              res.should.have.status(200);
+
+              res.body.should.be.a('object');
+              res.body.should.have.property('presentation');
+              res.body.should.have.property('animation');
+              res.body.presentation.should.have.property('term');
+              res.body.presentation.term.should.be.an('object');
+              res.body.presentation.should.have.property('units');
+              res.body.presentation.units.should.be.an('array');
 
               done();
             });

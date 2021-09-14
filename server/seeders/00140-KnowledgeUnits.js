@@ -3,6 +3,7 @@ module.exports = {
     {
       LearningUnitId: 1,
       UserId: 1,
+      mediaType: 3,
       visiblePublic: true,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
@@ -12,9 +13,29 @@ module.exports = {
       visiblePublic: true,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
+    {
+      LearningUnitId: 1,
+      UserId: 1,
+      mediaType: 3,
+      visiblePublic: true,
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    {
+      LearningUnitId: 1,
+      UserId: 1,
+      mediaType: 3,
+      visiblePublic: true,
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    {
+      LearningUnitId: 1,
+      UserId: 1,
+      mediaType: 4,
+      visiblePublic: true,
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
   ], {}),
-
-  down: queryInterface => queryInterface.bulkDelete('KnowledgeUnits', {
+  down: (queryInterface) => queryInterface.bulkDelete('KnowledgeUnits', {
     // Where clause
   }),
 };
