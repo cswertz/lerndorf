@@ -54,15 +54,15 @@ const hasRole = (...allowed) => (req, res, next) => {
 };
 
 const checkCapability = (user, allowed) => {
-    const { capabilities } = user;
-    const permit = allowed.filter((item) => capabilities.indexOf(item) > -1);
+  const { capabilities } = user;
+  const permit = allowed.filter((item) => capabilities.indexOf(item) > -1);
 
-    if (permit.length > 0) {
-      return true;
-    }
+  if (permit.length > 0) {
+    return true;
+  }
 
-    return false;
-}
+  return false;
+};
 
 const return401 = (res) => res.status(401).send({
   error: 'Not logged in.',

@@ -1,6 +1,5 @@
 export default {
   up: (queryInterface, DataTypes) => queryInterface.createTable('CapabilityLanguage', {
-
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -48,13 +47,14 @@ export default {
       type: DataTypes.DATE,
       allowNull: false,
     },
-/*  }, {
-      uniqueKeys: {
-        CapabilityLanguage_unique: {
-          fields: ['CapabilityId', 'LanguageId']
-      }
-      deactivated due to unclear UnqiueContraintError in Sequelize*/
-    }
+  }, {
+    /*
+    uniqueKeys: {
+      CapabilityLanguage_unique: {
+        fields: ['CapabilityId', 'LanguageId'],
+      },
+    },
+    */
   }),
-  down: queryInterface => queryInterface.dropTable('CapabilityLanguage'),
+  down: (queryInterface) => queryInterface.dropTable('CapabilityLanguage'),
 };

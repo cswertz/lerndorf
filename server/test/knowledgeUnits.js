@@ -211,6 +211,25 @@ describe('KnowledgeUnit', () => {
     });
   });
 
+  describe('GET /api/knowledgeUnits/own', () => {
+    it('it should display a users knowledge units', (done) => {
+      agent
+        .post('/api/users/login')
+        .send(admin)
+        .end(() => {
+          agent
+            .get('/api/knowledgeUnits/own')
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('array');
+              res.body.length.should.be.gte(1);
+
+              done();
+            });
+        });
+    });
+  });
+
   describe('PATCH /api/knowledgeUnits/markLectored:id', () => {
     it('it should not be possible to add mark a Knowledge Unit lectored when not logged in', (done) => {
       chai.request(server).keepOpen()
