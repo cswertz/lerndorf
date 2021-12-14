@@ -72,8 +72,8 @@ const Router = ({
         <Wrapper>
           <Switch>
             <Route path="/" exact>
-              {/* TODO: show specific content page (welcome) */}
-              <Content />
+              {/* show specific content page (welcome) */}
+              <Content id={1} />
             </Route>
 
             <PrivateRoute path="/dashboard" exact>
