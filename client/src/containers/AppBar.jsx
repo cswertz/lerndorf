@@ -19,7 +19,7 @@ const useStyles = makeStyles(
     root: {
       flexGrow: 1,
 
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up('lg')]: {
         display: 'none',
       },
     },
