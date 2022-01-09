@@ -1,7 +1,8 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 
+import { textsItemFetch } from '@actions';
 import EditBar from '@components/UI/EditBar';
 import NavigationBar from '@components/UI/NavigationBar';
 
@@ -14,60 +15,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Content = () => {
+const Content = ({ id }) => {
   const classes = useStyles();
-
-  const getContent = useCallback(async () => {
-    // TODO: get content from API
-    const response = await Promise.resolve('test content');
-    console.log('response', response);
-  }, []);
+  const dispatch = useDispatch();
+  const content = useSelector((state) => state.texts?.id[id]?.content);
 
   useEffect(() => {
-    getContent();
-  }, [getContent]);
+    dispatch(textsItemFetch(id));
+  }, [dispatch, id]);
 
   return (
     <div className={classes.wrapper}>
-      <Typography className={classes.subtitle} variant="subtitle1">
-        Welcome to LMS
-      </Typography>
-
-      <Typography className={classes.title} variant="h3">
-        Orientation Headline
-      </Typography>
-
-      <Typography className={classes.content} variant="body1">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Rhoncus euismod sed eu metus lorem
-        congue. In faucibus leo, pellentesque pharetra elementum nibh nunc dui. Fringilla habitant
-        ipsum tempus, faucibus. In mattis vitae pellentesque iaculis etiam diam commodo risus
-        aliquet. Eu massa nisi aliquam integer.
-        <br />
-        <br />
-        Accumsan iaculis vulputate tellus sed in cras. Vitae purus phasellus augue donec. Quis et
-        neque urna dapibus eu.Iaculis in nascetur ut faucibus ridiculus ac ultricies malesuada. Non
-        non turpis ut nunc. At ullamcorper leo integer fermentum lectus nam arcu ut. Lorem ipsum
-        dolor sit amet, consectetur adipiscing elit. Rhoncus euismod sed eu metus lorem congue. In
-        faucibus leo, pellentesque pharetra elementum nibh nunc dui. Fringilla habitant ipsum
-        teLorem ipsum dolor sit amet, consectetur adipiscing elit. Rhoncus euismod sed eu metus
-        lorem congue. In faucibus leo, pellentesque pharetra elementum nibh nunc dui. Fringilla
-        habitant ipsum tempus, faucibus. In mattis vitae pellentesque iaculis etiam diam commodo
-        risus aliquet. Eu massa nisi aliquam integer. Accumsan iaculis vulputate tellus sed in cras.
-        Vitae purus phasellus augue donec. Quis et neque urna dapibus eu.Iaculis in nascetur ut
-        faucibus ridiculus ac ultricies malesuada.
-        <br />
-        <br />
-        Non non turpis ut nunc. At ullamcorper leo integer fermentum lectus nam arcu ut. Lorem ipsum
-        dolor sit amet, consectetur adipiscing elit. Rhoncus euismod sed eu metus lorem congue. In
-        faucibus leo, pellentesque pharetra elementum nibh nunc dui. Fringilla habitant ipsum
-        teLorem ipsum dolor sit amet, consectetur adipiscing elit. Rhoncus euismod sed eu metus
-        lorem congue. In faucibus leo, pellentesque pharetra elementum nibh nunc dui. Fringilla
-        habitant ipsum tempus, faucibus. In mattis vitae pellentesque iaculis etiam diam commodo
-        risus aliquet. Eu massa nisi aliquam integer. Accumsan iaculis vulputate tellus sed in cras.
-        Vitae purus phasellus augue donec. Quis et neque urna dapibus eu.Iaculis in nascetur ut
-        faucibus ridiculus ac ultricies malesuada. Non non turpis ut nunc. At ullamcorper leo
-        integer fermentum lectus nam arcu ut.
-      </Typography>
+      <div className={classes.content}>{content}</div>
 
       <EditBar />
       <NavigationBar />
