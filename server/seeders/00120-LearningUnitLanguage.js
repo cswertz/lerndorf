@@ -17,7 +17,7 @@ module.exports = {
             LearningUnitId: 1,
             LanguageId: language,
             UserId: user,
-            title: 'Title for Learning Unit #1',
+            title: 'Lerndorf Homepage',
             createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
             updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
           },

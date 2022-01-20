@@ -2,8 +2,8 @@ module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.bulkInsert('Texts', [
     {
       LanguageId: 1,
-      KnowledgeUnitId: 1,
-      content: 'Content comes here',
+      KnowledgeUnitId: 1,      
+      content: 'Default Homepage',
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
     {
