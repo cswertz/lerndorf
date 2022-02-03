@@ -34,7 +34,7 @@ Courses are selections of KUs. KUs can thus easily be resused across courses. Wi
 - [ ] Recommender System
 
 ## Documentation
-Please find further documentation (data model, interface) at [GoogleDrive](https://drive.google.com/drive/folders/0B-VurHfSvlzpQi1mM2ZXQVZYbDg?usp=sharing)
+Please find further documentation (data model, interface) at [GoogleDrive](https://drive.google.com/drive/folders/0B-VurHfSvlzpQi1mM2ZXQVZYbDg?resourcekey=0-JfrVTo-HObkrOflmamA7Fw&usp=sharing)
 and in the readme-files in the server and client directory. Lerndorf is based on the results of the [INTUITEL project](https://www.riverpublishers.com/pdf/ebook/RP_E9788793519503.pdf) which was based on the [Web Dicatic concept](https://lerndorf.at/meder/privat/Meder_2006_Web-Didaktik.pdf).
 
 ## Structure
