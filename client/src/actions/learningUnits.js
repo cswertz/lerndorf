@@ -345,3 +345,27 @@ export const learningUnitsTaxonomiesFetch = () => async (dispatch) => {
     console.log('Error while fetching knowledge units:', e);
   }
 };
+
+export const learningUnitsKnowledgeTypes = (id, languageId) => (dispatch) =>
+  fetch(`/api/learningUnits/${id}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json);
+    })
+    .catch((error) => {
+      console.log('Error while editing knowledge unit:', error);
+    });
+
+export const navKnowledgeBase = async () => {
+  const navigation = await fetch(`/api/navigations/knowledge`);
+  const result = await navigation.json();
+  console.error(result);
+  return result;
+};

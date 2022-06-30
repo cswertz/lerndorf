@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useState, setState, useEffect, useRef } from 'react';
 // import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -9,6 +10,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import MainMenu from '@containers/MainMenu';
 import TopicsMenu from '@components/UI/TopicsMenu';
 // import Filter from '@components/UI/Filter';
+
+import { navKnowledgeBase } from '@actions/learningUnits';
 
 const drawerWidth = 280;
 
@@ -48,6 +51,13 @@ const Sidebar = () => {
   const paths = ['dashboard', 'tasks', 'messages', 'languages', 'taxonomies', 'users', 'logs'];
   const isDasboardPage = paths.some((pathName) => location.pathname.includes(pathName));
 
+  const [topics, setTopics] = useState([]);
+
+  useEffect(async () => {
+    const nav = await navKnowledgeBase();
+    setTopics(nav);
+  }, []);
+
   return (
     <Drawer
       className={classes.drawer}
@@ -63,7 +73,7 @@ const Sidebar = () => {
         </Toolbar>
       </AppBar>
 
-      {!isDasboardPage && <TopicsMenu />}
+      {!isDasboardPage && <TopicsMenu nav={topics} />}
       {isDasboardPage && <MainMenu />}
 
       <div className={classes.bottom}>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, setState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -9,86 +9,6 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import Collapse from '@material-ui/core/Collapse';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-
-// dummy menu structure
-const topics = [
-  {
-    id: 1,
-    title: 'Topic 1',
-    items: [
-      { id: '1-1', title: 'Course 1' },
-      {
-        id: '1-2',
-        title: 'Course 2',
-        items: [
-          { id: '1-2-1', title: 'Content 1' },
-          { id: '1-2-2', title: 'Content 2' },
-          { id: '1-2-3', title: 'Content 3' },
-          { id: '1-2-4', title: 'Content 4' },
-        ],
-      },
-      { id: '1-3', title: 'Course 3' },
-      { id: '1-4', title: 'Course 4' },
-    ],
-  },
-  {
-    id: 2,
-    title: 'Topic 2',
-    items: [
-      { id: '2-1', title: 'Course 1' },
-      {
-        id: '2-2',
-        title: 'Course 2',
-        items: [
-          { id: '2-2-1', title: 'Content 1' },
-          { id: '2-2-2', title: 'Content 2' },
-          { id: '2-2-3', title: 'Content 3' },
-          { id: '2-2-4', title: 'Content 4' },
-        ],
-      },
-      { id: '2-3', title: 'Course 3' },
-      { id: '2-4', title: 'Course 4' },
-    ],
-  },
-  {
-    id: 3,
-    title: 'Topic 3',
-    items: [
-      { id: '3-1', title: 'Course 1' },
-      {
-        id: '3-2',
-        title: 'Course 2',
-        items: [
-          { id: '3-2-1', title: 'Content 1' },
-          { id: '3-2-2', title: 'Content 2' },
-          { id: '3-2-3', title: 'Content 3' },
-          { id: '3-2-4', title: 'Content 4' },
-        ],
-      },
-      { id: '3-3', title: 'Course 3' },
-      { id: '3-4', title: 'Course 4' },
-    ],
-  },
-  {
-    id: 4,
-    title: 'Topic 4',
-    items: [
-      { id: '4-1', title: 'Course 1' },
-      {
-        id: '4-2',
-        title: 'Course 2',
-        items: [
-          { id: '4-2-1', title: 'Content 1' },
-          { id: '4-2-2', title: 'Content 2' },
-          { id: '4-2-3', title: 'Content 3' },
-          { id: '4-2-4', title: 'Content 4' },
-        ],
-      },
-      { id: '4-3', title: 'Course 3' },
-      { id: '4-4', title: 'Course 4' },
-    ],
-  },
-];
 
 function TreeIcon(props) {
   return (
@@ -208,12 +128,14 @@ const TopicMenuItem = ({ topic }) => {
   );
 };
 
-const TopicsMenu = () => {
+const TopicsMenu = (props) => {
   const classes = useStyles();
+
+  const { nav } = props;
 
   return (
     <List className={classes.root} component="nav" aria-labelledby="nested-list">
-      {topics.map((topic) => (
+      {nav.map((topic) => (
         <TopicMenuItem key={topic.id} topic={topic} />
       ))}
     </List>
