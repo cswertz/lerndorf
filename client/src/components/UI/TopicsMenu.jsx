@@ -1,4 +1,4 @@
-import { useState, setState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -133,9 +133,13 @@ const TopicsMenu = (props) => {
 
   const { nav } = props;
 
+  if (nav === undefined) {
+    return '';
+  }
+
   return (
     <List className={classes.root} component="nav" aria-labelledby="nested-list">
-      {nav.map((topic) => (
+      {[...nav].map((topic) => (
         <TopicMenuItem key={topic.id} topic={topic} />
       ))}
     </List>

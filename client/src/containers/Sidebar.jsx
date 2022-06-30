@@ -11,7 +11,7 @@ import MainMenu from '@containers/MainMenu';
 import TopicsMenu from '@components/UI/TopicsMenu';
 // import Filter from '@components/UI/Filter';
 
-import { navKnowledgeBase } from '@actions/learningUnits';
+import { navKnowledgeBase } from '@actions/navigations';
 
 const drawerWidth = 280;
 
@@ -54,8 +54,14 @@ const Sidebar = () => {
   const [topics, setTopics] = useState([]);
 
   useEffect(async () => {
-    const nav = await navKnowledgeBase();
-    setTopics(nav);
+    let nav = null;
+    if (location.pathname.includes(['knowledge-base'])) {
+      nav = await navKnowledgeBase();
+      console.error(nav);
+    }
+    if (nav != null) {
+      setTopics(nav);
+    }
   }, []);
 
   return (
