@@ -5,6 +5,7 @@ import {
   hasCapability,
   hasCapabilityOrOwnsKnowledgeUnit as hasCapabilityOrOwns,
   isLoggedIn,
+  isAdmin
 } from '../helpers/auth';
 import { logView } from '../helpers/log';
 import models from '../config/sequelize';
@@ -13,30 +14,39 @@ import KnowledgeUnit from '../models/KnowledgeUnit';
 const { Op } = models.Sequelize;
 const router = express.Router();
 
-const resolveLanguages = async(req) => {
+const resolveLanguages = async(req, res) => {
+
+    const languageSystemDefault = await models.Language.findAll({limit:1});
+    console.error(languageSystemDefault);
 
     // Method to get the list of possible menu items
-    const languageSystemDefault = await models.Language.findAll({limit:1});
     let languages = [languageSystemDefault[0].id];
   
     // Check the user default language
-    if (req.user && req.user.preferredLanguage){
-      languages = [req.user.preferredLanguage];
-    }
-    else if (req.user){
-      const user = await models.User.findByPk(req.user.id, {
-        include: [
-          {
-            model: models.Language,
-            order: [
-              ['level', 'DESC'],
+    if (req.user){
+        const user = await models.User.findByPk(req.user.id, {
+            include: [
+              {
+                model: models.Language,
+                order: [
+                  ['level', 'DESC'],
+                ],
+              },
             ],
-          },
-        ],
-      });
-      languages = user.Languages.map((Language) => {
-        return Language.id;
-      });
+          });
+
+        let preferredLanguage = null;
+
+        if (req.user !== null && req.user !== undefined && req.user.preferredLanguage !== null) {
+           const preferredLanguageResult = await models.UserLanguage.findByPk(req.user.preferredLanguage);
+           if (preferredLanguageResult !== null){
+                preferredLanguage = preferredLanguageResult.LanguageId;
+           }
+        }
+
+        languages = preferredLanguage !== null ? [preferredLanguage] : user.Languages.map((Language) => {
+            return Language.id;
+        });
     }
  
     return languages;
@@ -45,7 +55,8 @@ const resolveLanguages = async(req) => {
 
 router.get('/knowledge', async (req, res) => {
 
-    const languages = await resolveLanguages(req);
+    const languages = await resolveLanguages(req, res);
+    const currentRequestIsFromAdmin = (req.user !== undefined && await isAdmin(req.user.id) === true);
 
     const learningUnits = await models.LearningUnit.findAll({
       attributes: ['id'],
@@ -63,13 +74,13 @@ router.get('/knowledge', async (req, res) => {
               'title',
             ],
           },
-          where: {
+          where: currentRequestIsFromAdmin === true ? {} : {
             id: languages
           }
         },
         {
           model:  models.KnowledgeUnit,
-          where: {
+          where: currentRequestIsFromAdmin === true ? {} : {
             review: true,
             lectorate: true,
             publish: true,
@@ -85,7 +96,7 @@ router.get('/knowledge', async (req, res) => {
                 {
                   model: models.TaxonomyLanguage,
                   attributes: ['LanguageId', 'vocable'],
-                  where: {
+                  where: currentRequestIsFromAdmin === true ? {} :{
                     LanguageId: languages
                   }
                 },                
@@ -156,13 +167,15 @@ router.get('/knowledge', async (req, res) => {
          }
      });
 
+     console.error('ISADMIN:', currentRequestIsFromAdmin, languages);
+
     res.json(responseData);
 
   });
 
 router.get('/courses', async (req, res) => {
 
-    const languages = await resolveLanguages(req);
+    const languages = await resolveLanguages(req, res);
     let responseData = [];
 
     res.json(responseData);
@@ -171,7 +184,7 @@ router.get('/courses', async (req, res) => {
 
 router.get('/content', async (req, res) => {
 
-    const languages = await resolveLanguages(req);
+    const languages = await resolveLanguages(req, res);
     let responseData = [];
 
     res.json(responseData);
