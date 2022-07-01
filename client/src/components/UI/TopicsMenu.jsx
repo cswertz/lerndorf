@@ -78,7 +78,7 @@ const ContentMenuItem = ({ item }) => {
                 className={classes.nested}
                 button
                 component={Link}
-                to={`/content/${item.id}`}
+                to={`${subItem.href}`}
               >
                 <ListItemIcon className={classes.nestedListIcon}>
                   <TreeIcon />

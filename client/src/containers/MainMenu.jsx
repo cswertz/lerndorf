@@ -36,7 +36,7 @@ const MainMenu = () => {
 
   return (
     <List className={classes.root} component="nav" aria-labelledby="nested-list">
-      <ListItem button divider component={Link} to="/knowledge-base">
+      <ListItem button divider component={Link} to="/knowledge-units">
         <ListItemText primary="Knowledge base" />
         <ArrowRightIcon />
       </ListItem>
