@@ -147,6 +147,13 @@ const isAdmin = async (id) => {
   return adminRoles.length > 0;
 };
 
+const isUser = async (id) => {
+  const user = await models.User.findByPk(id);
+  const roles = await user.getRoles();
+  const adminRoles = roles.filter((role) => role.dataValues.slug === 'user');
+  return adminRoles.length > 0;
+};
+
 const isLastAdmin = async (id) => {
   if (isAdmin(id)) {
     const adminUsers = await models.User.findAll({
@@ -176,8 +183,8 @@ export {
   hasCapability,
   isLastAdmin,
   isAdmin,
+  isUser,
   isLoggedIn,
   hasRole,
   isSelf,
-
 };

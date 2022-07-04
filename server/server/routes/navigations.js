@@ -5,7 +5,8 @@ import {
   hasCapability,
   hasCapabilityOrOwnsKnowledgeUnit as hasCapabilityOrOwns,
   isLoggedIn,
-  isAdmin
+  isAdmin,
+  isUser
 } from '../helpers/auth';
 import { logView } from '../helpers/log';
 import models from '../config/sequelize';
@@ -17,7 +18,6 @@ const router = express.Router();
 const resolveLanguages = async(req, res) => {
 
     const languageSystemDefault = await models.Language.findAll({limit:1});
-    console.error(languageSystemDefault);
 
     // Method to get the list of possible menu items
     let languages = [languageSystemDefault[0].id];
@@ -54,9 +54,26 @@ const resolveLanguages = async(req, res) => {
 }
 
 router.get('/knowledge', async (req, res) => {
-
+    // Get the current language for the user
     const languages = await resolveLanguages(req, res);
+
+    // Is the current user an admin?
     const currentRequestIsFromAdmin = (req.user !== undefined && await isAdmin(req.user.id) === true);
+
+    // Is the current user an logged user?
+    const knowledgeUnitQuery = currentRequestIsFromAdmin == false && req.user !== undefined && await isUser(req.user.id) === true ?  {
+      review: true,
+      lectorate: true,
+      publish: true,
+      VisiblePublic: true,
+      nextId: null,
+    } : {
+      review: true,
+      lectorate: true,
+      publish: true,
+      VisibleLexicon: true,
+      nextId: null,
+    };
 
     const learningUnits = await models.LearningUnit.findAll({
       attributes: ['id'],
@@ -80,13 +97,7 @@ router.get('/knowledge', async (req, res) => {
         },
         {
           model:  models.KnowledgeUnit,
-          where: currentRequestIsFromAdmin === true ? {} : {
-            review: true,
-            lectorate: true,
-            publish: true,
-            VisiblePublic: true,
-            nextId: null,
-          },
+          where: currentRequestIsFromAdmin === true ? {} : knowledgeUnitQuery,
           include: [
             {
               as: 'kt',
@@ -166,8 +177,6 @@ router.get('/knowledge', async (req, res) => {
              return learningUnit;
          }
      });
-
-     console.error('ISADMIN:', currentRequestIsFromAdmin, languages);
 
     res.json(responseData);
 
