@@ -11,9 +11,20 @@ import {
 import { logView } from '../helpers/log';
 import models from '../config/sequelize';
 import KnowledgeUnit from '../models/KnowledgeUnit';
+import Language from '../models/Language';
 
 const { Op } = models.Sequelize;
 const router = express.Router();
+
+const getAllLanguages = async(req, res) => {
+
+  const languageSystemDefault = await models.Language.findAll();
+
+  return languageSystemDefault.map((Language) => {
+     return Language.id;
+  });
+
+}
 
 const resolveLanguages = async(req, res) => {
 
@@ -51,6 +62,59 @@ const resolveLanguages = async(req, res) => {
  
     return languages;
 
+}
+
+const transformQuery = (learningUnits, currentRequestIsFromAdmin, baseUrl, allowEmpty) => {
+  const responseData = learningUnits.map(learningUnit => {
+        
+    let secondLevelData = [];
+
+    // extract the knowledge units and the knowledge type as second level and add the mt as third level
+    const knowledgeTypesForLearningUnit = learningUnit.KnowledgeUnits.filter((KnowledgeUnit) => {
+        if (KnowledgeUnit.kt != null) {
+            return KnowledgeUnit;
+        }
+    }).map((KnowledgeUnit) => {
+        return {
+            id: KnowledgeUnit.kt.id,
+            type: KnowledgeUnit.kt.type,
+            title: KnowledgeUnit.kt.TaxonomyLanguages[0].vocable,
+            items: learningUnit.KnowledgeUnits.filter((KnowledgeUnitForThridLevel) => {
+                if (KnowledgeUnitForThridLevel.mt != null && KnowledgeUnitForThridLevel.kt != null && KnowledgeUnitForThridLevel.kt.type == KnowledgeUnit.kt.type) {
+                    return KnowledgeUnitForThridLevel;
+                }
+            }).map((KnowledgeUnitForThridLevel) => {
+                // transfrom the items for the thrid level
+                return {
+                    id: KnowledgeUnitForThridLevel.id,
+                    type: KnowledgeUnitForThridLevel.type,
+                    title: KnowledgeUnitForThridLevel.mt.TaxonomyLanguages[0].vocable,
+                    href: `${baseUrl}${KnowledgeUnitForThridLevel.id}`
+                }
+            })
+        }
+    }).filter((value, index, self) => {
+        if (self.findIndex((t) => (
+            t.type === value.type
+          )) === index) {
+              return value;
+          }
+    });
+
+    // return the leaning units with the grouped data structure
+    return {
+       id: learningUnit.id,
+       title: learningUnit.Languages[0].LearningUnitLanguage.title,
+       items: [...knowledgeTypesForLearningUnit]
+    }
+
+ }).filter(learningUnit => {
+     if (learningUnit.items.length > 0 || currentRequestIsFromAdmin === true || allowEmpty === true) {
+         return learningUnit;
+     }
+ });
+
+ return responseData;
 }
 
 router.get('/knowledge', async (req, res) => {
@@ -127,80 +191,33 @@ router.get('/knowledge', async (req, res) => {
       ],
     });
 
-    const responseData = learningUnits.map(learningUnit => {
-        
-        let secondLevelData = [];
-
-        // extract the knowledge units and the knowledge type as second level and add the mt as third level
-        const knowledgeTypesForLearningUnit = learningUnit.KnowledgeUnits.filter((KnowledgeUnit) => {
-            if (KnowledgeUnit.kt != null) {
-                return KnowledgeUnit;
-            }
-        }).map((KnowledgeUnit) => {
-            return {
-                id: KnowledgeUnit.kt.id,
-                type: KnowledgeUnit.kt.type,
-                title: KnowledgeUnit.kt.TaxonomyLanguages[0].vocable,
-                items: learningUnit.KnowledgeUnits.filter((KnowledgeUnitForThridLevel) => {
-                    if (KnowledgeUnitForThridLevel.mt != null && KnowledgeUnitForThridLevel.kt != null && KnowledgeUnitForThridLevel.kt.type == KnowledgeUnit.kt.type) {
-                        return KnowledgeUnitForThridLevel;
-                    }
-                }).map((KnowledgeUnitForThridLevel) => {
-                    // transfrom the items for the thrid level
-                    return {
-                        id: KnowledgeUnitForThridLevel.id,
-                        type: KnowledgeUnitForThridLevel.type,
-                        title: KnowledgeUnitForThridLevel.mt.TaxonomyLanguages[0].vocable,
-                        href: `/knowledge-units/show/${KnowledgeUnitForThridLevel.id}`
-                    }
-                })
-            }
-        }).filter((value, index, self) => {
-            if (self.findIndex((t) => (
-                t.type === value.type
-              )) === index) {
-                  return value;
-              }
-        });
-
-        // return the leaning units with the grouped data structure
-        return {
-           id: learningUnit.id,
-           title: learningUnit.Languages[0].LearningUnitLanguage.title,
-           items: [...knowledgeTypesForLearningUnit]
-        }
-   
-     }).filter(learningUnit => {
-       console.error(currentRequestIsFromAdmin);
-         if (learningUnit.items.length > 0 || currentRequestIsFromAdmin === true) {
-             return learningUnit;
-         }
-     });
-
-    res.json(responseData);
+    res.json(transformQuery(learningUnits, currentRequestIsFromAdmin, '/knowledge-units/show/'));
 
   });
 
-router.get('/courses', async (req, res) => {
+router.get('/content', async (req, res) => {
 
     let responseData = [];
 
     // Unlogged user does not have any courses - fail early
-    if (req.user === undefined || (req.user !== undefined && await isLoggedIn(req.user.id) === false)){
+    /*if (req.user === undefined || (req.user !== undefined && await isLoggedIn(req.user.id) === false)){
       res.json([]);
       return;
-    }
+    }*/
+
 
     // Get the current language for the user
-    const languages = await resolveLanguages(req, res);
+    const languages = await getAllLanguages(req, res);
 
     // Is the current user an admin?
     const currentRequestIsFromAdmin = (req.user !== undefined && await isAdmin(req.user.id) === true);
 
+    console.error(currentRequestIsFromAdmin);
+
     const learningUnits = await models.LearningUnit.findAll({
       attributes: ['id'],
-      where: {
-         
+      where: currentRequestIsFromAdmin === true ? {} : {
+         UserId: req.user.id
       },
       include: [
         {
@@ -213,23 +230,52 @@ router.get('/courses', async (req, res) => {
               'title',
             ],
           },
+        },
+        {
+          model:  models.KnowledgeUnit,
+          required: false,
           where: currentRequestIsFromAdmin === true ? {} : {
-            id: languages
-          }
+            UserId: req.user.id
+          },
+          include: [
+            {
+              as: 'kt',
+              model: models.Taxonomy,
+              attributes: ['id', 'type'],
+            
+              include: [
+                {
+                  model: models.TaxonomyLanguage,
+                  attributes: ['LanguageId', 'vocable'],
+                  where: currentRequestIsFromAdmin === true ? {} :{
+                    LanguageId: languages,
+                  }
+                },                
+              ],
+            },
+            {
+                as: 'mt',
+                model: models.Taxonomy,
+                attributes: ['id', 'type'],
+                include: [
+                  {
+                    model: models.TaxonomyLanguage,
+                    attributes: ['LanguageId', 'vocable'],
+                  },
+                ],
+            },
+          ]
         }
       ],
     });
 
-    res.json(learningUnits);
+    res.json(transformQuery(learningUnits, currentRequestIsFromAdmin, '/content/', true));
 
 });
 
-router.get('/content', async (req, res) => {
+router.get('/courses', async (req, res) => {
 
-    const languages = await resolveLanguages(req, res);
-    let responseData = [];
-
-    res.json(responseData);
+    res.json([]);
 
 });
 
