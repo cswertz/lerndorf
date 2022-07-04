@@ -18,6 +18,7 @@ import User from '../models/User';
 import Role from '../models/Role';
 import File from '../models/File';
 import Text from '../models/Text';
+import Course from '../models/Course';
 
 const models = [
   KnowledgeUnitUserRating,
@@ -38,6 +39,7 @@ const models = [
   Role,
   File,
   Text,
+  Course
 ];
 
 /* istanbul ignore next */

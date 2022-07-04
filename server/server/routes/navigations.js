@@ -20,9 +20,11 @@ const getAllLanguages = async(req, res) => {
 
   const languageSystemDefault = await models.Language.findAll();
 
-  return languageSystemDefault.map((Language) => {
+  const data = languageSystemDefault.map((Language) => {
      return Language.id;
   });
+
+  return data;
 
 }
 
@@ -118,6 +120,7 @@ const transformQuery = (learningUnits, currentRequestIsFromAdmin, baseUrl, allow
 }
 
 router.get('/knowledge', async (req, res) => {
+  
     // Get the current language for the user
     const languages = await resolveLanguages(req, res);
 
@@ -197,29 +200,22 @@ router.get('/knowledge', async (req, res) => {
 
 router.get('/content', async (req, res) => {
 
-    let responseData = [];
-
-    // Unlogged user does not have any courses - fail early
-    /*if (req.user === undefined || (req.user !== undefined && await isLoggedIn(req.user.id) === false)){
+    if (req.user === undefined){
       res.json([]);
       return;
-    }*/
+    }
 
+    const currentRequestIsFromAdmin = (req.user !== undefined && await isAdmin(req.user.id) === true);
 
     // Get the current language for the user
     const languages = await getAllLanguages(req, res);
 
-    // Is the current user an admin?
-    const currentRequestIsFromAdmin = (req.user !== undefined && await isAdmin(req.user.id) === true);
-
-    console.error(currentRequestIsFromAdmin);
-
     const learningUnits = await models.LearningUnit.findAll({
       attributes: ['id'],
       where: currentRequestIsFromAdmin === true ? {} : {
-         UserId: req.user.id
+          UserId: req.user.id
       },
-      include: [
+      include: [ 
         {
           model: models.Language,
           attributes: [
@@ -235,7 +231,7 @@ router.get('/content', async (req, res) => {
           model:  models.KnowledgeUnit,
           required: false,
           where: currentRequestIsFromAdmin === true ? {} : {
-            UserId: req.user.id
+             UserId: req.user.id
           },
           include: [
             {
@@ -275,7 +271,22 @@ router.get('/content', async (req, res) => {
 
 router.get('/courses', async (req, res) => {
 
-    res.json([]);
+  if (req.user === undefined){
+   // res.json([]);
+ //   return;
+  }
+
+  // const currentRequestIsFromAdmin = (req.user !== undefined && await isAdmin(req.user.id) === true);
+
+  // Get the current language for the user
+  const languages = await getAllLanguages(req, res);
+
+  // Get Courses
+
+  const courses = models.Course.findAll();
+
+  res.json(courses);
+
 
 });
 
