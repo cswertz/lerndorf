@@ -77,9 +77,6 @@ router.get('/knowledge', async (req, res) => {
 
     const learningUnits = await models.LearningUnit.findAll({
       attributes: ['id'],
-      where: {
-         
-      },
       include: [
         {
           model: models.Language,
@@ -98,6 +95,7 @@ router.get('/knowledge', async (req, res) => {
         {
           model:  models.KnowledgeUnit,
           where: currentRequestIsFromAdmin === true ? {} : knowledgeUnitQuery,
+          required: !currentRequestIsFromAdmin,
           include: [
             {
               as: 'kt',
@@ -173,7 +171,8 @@ router.get('/knowledge', async (req, res) => {
         }
    
      }).filter(learningUnit => {
-         if (learningUnit.items.length > 0) {
+       console.error(currentRequestIsFromAdmin);
+         if (learningUnit.items.length > 0 || currentRequestIsFromAdmin === true) {
              return learningUnit;
          }
      });
@@ -184,10 +183,44 @@ router.get('/knowledge', async (req, res) => {
 
 router.get('/courses', async (req, res) => {
 
-    const languages = await resolveLanguages(req, res);
     let responseData = [];
 
-    res.json(responseData);
+    // Unlogged user does not have any courses - fail early
+    if (req.user === undefined || (req.user !== undefined && await isLoggedIn(req.user.id) === false)){
+      res.json([]);
+      return;
+    }
+
+    // Get the current language for the user
+    const languages = await resolveLanguages(req, res);
+
+    // Is the current user an admin?
+    const currentRequestIsFromAdmin = (req.user !== undefined && await isAdmin(req.user.id) === true);
+
+    const learningUnits = await models.LearningUnit.findAll({
+      attributes: ['id'],
+      where: {
+         
+      },
+      include: [
+        {
+          model: models.Language,
+          attributes: [
+            'name',            
+          ],
+          through: {
+            attributes: [
+              'title',
+            ],
+          },
+          where: currentRequestIsFromAdmin === true ? {} : {
+            id: languages
+          }
+        }
+      ],
+    });
+
+    res.json(learningUnits);
 
 });
 
