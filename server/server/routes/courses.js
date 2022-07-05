@@ -49,7 +49,30 @@ router.get('/my', (req, res) => {
 
 router.get('/:id', (req, res) => {
   models.Course.findByPk(req.params.id)
-  .then((results) => res.json(results));
+  .then((results) => {
+    console.log(results);
+    if (results === null){
+      res.status(404).json({
+        'message':'entry not found'
+      });
+      return;
+    }
+    console.error('"');
+    res.json(results);
+  });
+});
+
+router.get('/:id/content', async  (req, res) => {
+ 
+  const course = await models.Course.findByPk(req.params.id);
+
+  if (course === undefined || course === null){
+    res.status(404).json({
+      'message':'entry not found'
+    });
+    return;
+  }
+
 });
 
 export default router;

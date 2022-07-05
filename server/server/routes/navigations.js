@@ -12,59 +12,10 @@ import { logView } from '../helpers/log';
 import models from '../config/sequelize';
 import KnowledgeUnit from '../models/KnowledgeUnit';
 import Language from '../models/Language';
+import { getAllLanguages, resolveLanguages } from '../helpers/utils';
 
 const { Op } = models.Sequelize;
 const router = express.Router();
-
-const getAllLanguages = async(req, res) => {
-
-  const languageSystemDefault = await models.Language.findAll();
-
-  const data = languageSystemDefault.map((Language) => {
-     return Language.id;
-  });
-
-  return data;
-
-}
-
-const resolveLanguages = async(req, res) => {
-
-    const languageSystemDefault = await models.Language.findAll({limit:1});
-
-    // Method to get the list of possible menu items
-    let languages = [languageSystemDefault[0].id];
-  
-    // Check the user default language
-    if (req.user){
-        const user = await models.User.findByPk(req.user.id, {
-            include: [
-              {
-                model: models.Language,
-                order: [
-                  ['level', 'DESC'],
-                ],
-              },
-            ],
-          });
-
-        let preferredLanguage = null;
-
-        if (req.user !== null && req.user !== undefined && req.user.preferredLanguage !== null) {
-           const preferredLanguageResult = await models.UserLanguage.findByPk(req.user.preferredLanguage);
-           if (preferredLanguageResult !== null){
-                preferredLanguage = preferredLanguageResult.LanguageId;
-           }
-        }
-
-        languages = preferredLanguage !== null ? [preferredLanguage] : user.Languages.map((Language) => {
-            return Language.id;
-        });
-    }
- 
-    return languages;
-
-}
 
 const transformQuery = (learningUnits, currentRequestIsFromAdmin, baseUrl, allowEmpty) => {
   const responseData = learningUnits.map(learningUnit => {
@@ -208,7 +159,7 @@ router.get('/content', async (req, res) => {
     const currentRequestIsFromAdmin = (req.user !== undefined && await isAdmin(req.user.id) === true);
 
     // Get the current language for the user
-    const languages = await getAllLanguages(req, res);
+    const languages = await getAllLanguages();
 
     const learningUnits = await models.LearningUnit.findAll({
       attributes: ['id'],
