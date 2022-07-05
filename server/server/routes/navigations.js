@@ -220,4 +220,123 @@ router.get('/content', async (req, res) => {
 
 });
 
+router.get('/courses', async (req, res) => {
+
+   const baseUrl = '';
+
+   if (req.user === undefined || req.user === null) {
+      res.json([]);
+      return;
+   }
+
+   // Get the current language for the user
+   const languages = await resolveLanguages(req, res);
+
+   // Is the current user an admin?
+   const currentRequestIsFromAdmin = (req.user !== undefined && await isAdmin(req.user.id) === true);
+
+  const userId = req.user.id ;
+
+  const myCourses = await models.Course.findAll({
+    include: [
+      {
+        model: models.CourseUser,
+        as: 'users'
+      },
+      {
+        model: models.CourseSequence,
+        as: 'sequences',
+        include: [
+          {
+            model: models.CourseSequenceKnowledgeUnit,
+            as: 'units'
+          }
+        ]
+      }
+    ]
+  })
+
+  // extract all the knowledge unit ids for the second query
+  const knowledgUnitIds = myCourses.map((Course) => {
+    return Course.sequences.map((sequence) => {
+      return sequence.units.map(item => item.knowledgeUnitId);
+   }).flat();
+  }).flat();
+
+  const knowledgeUnits = await models.KnowledgeUnit.findAll({
+    where: {
+      id: knowledgUnitIds
+    },
+    include: [
+      {
+        as: 'kt',
+        model: models.Taxonomy,
+        attributes: ['id', 'type'],
+      
+        include: [
+          {
+            model: models.TaxonomyLanguage,
+            attributes: ['LanguageId', 'vocable'],
+            where: currentRequestIsFromAdmin === true ? {} :{
+              LanguageId: languages,
+            }
+          },                
+        ],
+      },
+      {
+          as: 'mt',
+          model: models.Taxonomy,
+          attributes: ['id', 'type'],
+          include: [
+            {
+              model: models.TaxonomyLanguage,
+              attributes: ['LanguageId', 'vocable'],
+            },
+          ],
+      },
+    ]
+  })
+
+
+  res.json(myCourses.map((Course) => {
+
+      let knowledgeIds = Course.sequences.map((sequence) => {
+        return sequence.units.map(item => item.knowledgeUnitId);
+      }).flat();
+
+      const knowledgeTypesForLearningUnit = knowledgeUnits.filter((KnowledgeUnit) => {
+        if (KnowledgeUnit.kt != null) {
+            return KnowledgeUnit;
+        }
+      }).map((KnowledgeUnit) => {
+          return {
+              id: KnowledgeUnit.kt.id,
+              type: KnowledgeUnit.kt.type,
+              title: KnowledgeUnit.kt.TaxonomyLanguages[0].vocable,
+              items: knowledgeUnits.filter((KnowledgeUnitForThridLevel) => {
+                  if (KnowledgeUnitForThridLevel.mt != null && KnowledgeUnitForThridLevel.kt != null && KnowledgeUnitForThridLevel.kt.type == KnowledgeUnit.kt.type) {
+                      return KnowledgeUnitForThridLevel;
+                  }
+              }).map((KnowledgeUnitForThridLevel) => {
+                  // transfrom the items for the thrid level
+                  return {
+                      id: KnowledgeUnitForThridLevel.id,
+                      type: KnowledgeUnitForThridLevel.type,
+                      title: KnowledgeUnitForThridLevel.mt.TaxonomyLanguages[0].vocable,
+                      href: `${baseUrl}${KnowledgeUnitForThridLevel.id}`
+                  }
+              })
+          }
+      });
+
+      return {
+        id: Course.id,
+        title: Course.title,
+        items: [...knowledgeTypesForLearningUnit]
+      }
+
+  }));
+
+});
+
 export default router;
