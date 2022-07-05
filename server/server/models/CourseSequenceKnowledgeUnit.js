@@ -50,4 +50,4 @@ class CourseSequenceKnowledgeUnit extends Model {
   }
 }
 
-export default CourseSequence;
+export default CourseSequenceKnowledgeUnit;

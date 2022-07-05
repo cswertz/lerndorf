@@ -22,6 +22,7 @@ import Course from '../models/Course';
 import CourseUser from '../models/CourseUser';
 import CourseSequence from '../models/CourseSequence';
 import CourseContent from '../models/CourseContent';
+import CourseSequenceKnowledgeUnit from '../models/CourseSequenceKnowledgeUnit';
 
 const models = [
   KnowledgeUnitUserRating,
@@ -45,7 +46,8 @@ const models = [
   Course,
   CourseUser,
   CourseSequence,
-  CourseContent
+  CourseSequenceKnowledgeUnit,
+  CourseContent,
 ];
 
 /* istanbul ignore next */

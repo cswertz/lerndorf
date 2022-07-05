@@ -12,6 +12,7 @@ import { logView } from '../helpers/log';
 import models from '../config/sequelize';
 import KnowledgeUnit from '../models/KnowledgeUnit';
 import Language from '../models/Language';
+import { resolveLanguages } from '../helpers/utils';
 
 const { Op } = models.Sequelize;
 const router = express.Router();
@@ -64,14 +65,79 @@ router.get('/:id', (req, res) => {
 
 router.get('/:id/content', async  (req, res) => {
  
-  const course = await models.Course.findByPk(req.params.id);
+  const courses = await models.Course.findAll({
+    where: {
+      id:req.params.id
+    },
+    include: [
+      {
+        model: models.CourseUser,
+        as: 'users'
+      },
+      {
+        model: models.CourseSequence,
+        as: 'sequences',
+        include: [
+          {
+            model: models.CourseSequenceKnowledgeUnit,
+            as: 'units'
+          }
+        ]
+      }
+    ]
+  });
 
-  if (course === undefined || course === null){
+  if (courses[0] === undefined || courses[0] === null){
     res.status(404).json({
       'message':'entry not found'
     });
     return;
   }
+
+  // Extract the knowledge unit ids
+  const ids = courses[0].sequences.map((sequence) => {
+     return sequence.units.map(item => item.knowledgeUnitId);
+  }).flat();
+
+
+  const languages = await resolveLanguages(req, res);
+
+  // Knowledge units
+  const units = await models.KnowledgeUnit.findAll({
+      where:{
+        id:  ids
+      },
+      include: [
+        {
+          as: 'kt',
+          model: models.Taxonomy,
+          attributes: ['id', 'type'],
+          include: [
+            {
+              model: models.TaxonomyLanguage,
+              attributes: ['LanguageId', 'vocable'],
+              where: {
+                LanguageId: languages
+              }
+            },                
+          ],
+        },
+        {
+            as: 'mt',
+            model: models.Taxonomy,
+            attributes: ['id', 'type'],
+            include: [
+              {
+                model: models.TaxonomyLanguage,
+                attributes: ['LanguageId', 'vocable'],
+              },
+            ],
+        },
+      ]
+  })
+
+  // load the 
+  res.json(units);
 
 });
 
