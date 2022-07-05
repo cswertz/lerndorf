@@ -90,8 +90,9 @@ class Course extends Model {
   }
 
   static associate(sequelize) {
-
-   
+    Course.hasMany(sequelize.CourseUser, { as: 'users', foreignKey: 'courseId'});
+    Course.hasMany(sequelize.CourseSequence, { as: 'sequences', foreignKey: 'courseId'});
+    Course.hasMany(sequelize.CourseContent, { as: 'content', foreignKey: 'courseId'});
   }
 }
 

@@ -269,25 +269,4 @@ router.get('/content', async (req, res) => {
 
 });
 
-router.get('/courses', async (req, res) => {
-
-  if (req.user === undefined){
-   // res.json([]);
- //   return;
-  }
-
-  // const currentRequestIsFromAdmin = (req.user !== undefined && await isAdmin(req.user.id) === true);
-
-  // Get the current language for the user
-  const languages = await getAllLanguages(req, res);
-
-  // Get Courses
-
-  const courses = models.Course.findAll();
-
-  res.json(courses);
-
-
-});
-
 export default router;
