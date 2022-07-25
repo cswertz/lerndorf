@@ -283,6 +283,12 @@ router.get('/:id', logView('KnowledgeUnit'), async (req, res) => {
   res.json(result);
 });
 
+router.get('/:id/media-types', logView('KnowledgeUnit'), async (req, res) => {
+  const result = await models.KnowledgeUnit.findByPk(req.params.id, knowledgeUnitDetailData);
+
+  res.json(result);
+});
+
 router.delete('/:id', hasCapabilityOrOwns('delete_any_knowledge_unit'), async (req, res) => {
   const result = await models.KnowledgeUnit.destroy({
     where: {

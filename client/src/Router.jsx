@@ -170,7 +170,7 @@ const Router = ({
         </Wrapper>
       </Route>
 
-      <Redirect to="/" />
+      <Redirect to="/dashboard" />
     </Switch>
   );
 };

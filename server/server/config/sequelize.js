@@ -18,6 +18,11 @@ import User from '../models/User';
 import Role from '../models/Role';
 import File from '../models/File';
 import Text from '../models/Text';
+import Course from '../models/Course';
+import CourseUser from '../models/CourseUser';
+import CourseSequence from '../models/CourseSequence';
+import CourseContent from '../models/CourseContent';
+import CourseSequenceKnowledgeUnit from '../models/CourseSequenceKnowledgeUnit';
 
 const models = [
   KnowledgeUnitUserRating,
@@ -38,6 +43,11 @@ const models = [
   Role,
   File,
   Text,
+  Course,
+  CourseUser,
+  CourseSequence,
+  CourseSequenceKnowledgeUnit,
+  CourseContent,
 ];
 
 /* istanbul ignore next */

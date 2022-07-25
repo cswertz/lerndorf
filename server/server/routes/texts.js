@@ -42,6 +42,10 @@ router.post('/', [
 });
 
 router.get('/:id', (req, res) => {
+  if (req.params && req.params.id === 'undefined'){
+    res.json({});
+    return;
+  }
   models.Text.findByPk(req.params.id, {
     attributes: [
       'id',

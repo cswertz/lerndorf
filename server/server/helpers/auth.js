@@ -144,7 +144,13 @@ const isAdmin = async (id) => {
   const user = await models.User.findByPk(id);
   const roles = await user.getRoles();
   const adminRoles = roles.filter((role) => role.dataValues.slug === 'admin');
+  return adminRoles.length > 0;
+};
 
+const isUser = async (id) => {
+  const user = await models.User.findByPk(id);
+  const roles = await user.getRoles();
+  const adminRoles = roles.filter((role) => role.dataValues.slug === 'user');
   return adminRoles.length > 0;
 };
 
@@ -170,11 +176,14 @@ const isLastAdmin = async (id) => {
   return false;
 };
 
+
 export {
   hasCapabilityOrOwnsKnowledgeUnit,
   isSelfOrHasCapability,
   hasCapability,
   isLastAdmin,
+  isAdmin,
+  isUser,
   isLoggedIn,
   hasRole,
   isSelf,

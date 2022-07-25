@@ -398,6 +398,7 @@ router.get('/suggestion/:term', (req, res) => {
 });
 
 router.get('/:id/knowledgeUnits', async (req, res) => {
+
   const knowledgeUnits = await models.KnowledgeUnit.findAll({
     where: {
       LearningUnitId: req.params.id,
@@ -415,6 +416,10 @@ router.get('/:id/knowledgeUnits', async (req, res) => {
           },
         ],
       },
+      {
+        model: models.LearningUnit,
+        attributes: [ "id" ]
+      }
     ],
     order: [
       [models.KnowledgeUnit, 'id', 'asc'],
@@ -424,6 +429,7 @@ router.get('/:id/knowledgeUnits', async (req, res) => {
   const groupedKnowledgeUnits = {};
   knowledgeUnits.forEach((knowledgeUnit) => {
     const key = knowledgeUnit.mt.type;
+
     if (!(key in groupedKnowledgeUnits)) {
       groupedKnowledgeUnits[key] = {
         term: knowledgeUnit.mt,
