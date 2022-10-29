@@ -117,9 +117,7 @@ const LogsFilter = ({ handleFilterUpdate, languages, suggestions, fetchSuggestio
       date_to: e.target.dateTo.value ? new Date(e.target.dateTo.value).toISOString() : null,
     };
 
-    console.log(filters);
-
-    // handleFilterUpdate(filters);
+    handleFilterUpdate(filters);
   }
 
   function setTarget(id) {
