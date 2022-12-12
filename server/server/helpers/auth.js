@@ -176,7 +176,6 @@ const isLastAdmin = async (id) => {
   return false;
 };
 
-
 export {
   hasCapabilityOrOwnsKnowledgeUnit,
   isSelfOrHasCapability,
