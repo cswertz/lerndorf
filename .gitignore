@@ -3,3 +3,7 @@ config.json
 lerndorf.service
 lerndorf.conf
 lerndorf.sh
+
+server/server/public/asset-manifest.json
+
+server/server/public/index.html
