@@ -10,6 +10,8 @@ import List from '@material-ui/core/List';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { formatDateWithTime } from '@utils/date';
+import { hasCapability } from '@utils/user';
+import users from '@reducers/users';
 
 const styles = () => ({
   languageList: {
@@ -19,22 +21,37 @@ const styles = () => ({
 
 const ForumList = ({ classes, user, posts, history }) => {
   let threads = null;
+  console.warn(user);
   if (posts.length > 0) {
     threads = posts.map((item) => (
-      <ListItem key={item.id} dense disableGutters>
+      <ListItem key={item.id} dense disableGutters divider>
         <ListItemText>
           <div>
             <a href={`/threads/${item.id}`}>{item.summary}</a>
           </div>
           <div>{formatDateWithTime(item.updatedAt)}</div>
         </ListItemText>
+        <ListItemSecondaryAction>
+          {hasCapability(user.capabilities, ['edit_threads']) && (
+            <IconButton aria-label="Edit" component={Link} to={`/threads/${item.id}/edit`}>
+              <EditIcon />
+            </IconButton>
+          )}
+          {!hasCapability(user.capabilities, ['edit_threads']) &&
+            hasCapability(user.capabilities, ['edit_own_threads']) &&
+            user.user.id === item.userId && (
+              <IconButton aria-label="Edit" component={Link} to={`/threads/${item.id}/edit`}>
+                <EditIcon />
+              </IconButton>
+            )}
+        </ListItemSecondaryAction>
       </ListItem>
     ));
   }
 
   return (
     <div>
-      <Typography variant="subtitle1" className={classes.subtitle}>
+      <Typography variant="h1" className={classes.subtitle}>
         Forum
       </Typography>
       <List dense={false}>{threads}</List>

@@ -242,7 +242,7 @@ module.exports = {
     },
   ], {}),
 
-  down: queryInterface => queryInterface.bulkDelete('Capabilities', {
+  down: (queryInterface) => queryInterface.bulkDelete('Capabilities', {
     // Where clause
   }),
 };
