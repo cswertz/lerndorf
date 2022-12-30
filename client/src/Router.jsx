@@ -12,6 +12,7 @@ import RoutesLanguages from '@containers/routes/languages';
 import RoutesUsers from '@containers/routes/users';
 import RoutesTexts from '@containers/routes/texts';
 import RoutesLogs from '@containers/routes/logs';
+import RouterForums from '@containers/routes/forum';
 import Wrapper from '@components/UI/Wrapper';
 import Dashboard from '@components/Dashboard';
 import Login from '@containers/users/Login';
@@ -32,6 +33,7 @@ const Router = ({
   users,
   user,
   logs,
+  forum,
 }) => {
   return (
     <Switch>
@@ -156,6 +158,10 @@ const Router = ({
               />
             </Route>
 
+            <Route path="/forum">
+              <RouterForums user={user} actions={actions} forum={forum} />
+            </Route>
+
             <PrivateRoute path="/logs">
               <RoutesLogs
                 logs={logs}
@@ -221,12 +227,19 @@ Router.propTypes = {
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
+  forum: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   actions: PropTypes.shape({
     userFetchRoles: PropTypes.func.isRequired,
     removeRole: PropTypes.func.isRequired,
     addRole: PropTypes.func.isRequired,
     removeCapability: PropTypes.func.isRequired,
     addCapability: PropTypes.func.isRequired,
+    forumPublicThreadsFetch: PropTypes.func.isRequired,
     languagesDelete: PropTypes.func.isRequired,
     languagesFetch: PropTypes.func.isRequired,
     languagesEdit: PropTypes.func.isRequired,
@@ -297,6 +310,7 @@ const mapStateToProps = (state) => ({
   texts: state.texts,
   user: state.user,
   logs: state.logs,
+  forum: state.forum,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -102,7 +102,7 @@ const Dashboard = () => {
           count={4}
           title="Nachrichten"
           component={Link}
-          to="/learning-units"
+          to="/forum"
         />
       </div>
     </div>

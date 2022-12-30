@@ -39,5 +39,5 @@ export default {
       allowNull: false,
     },
   }),
-  down: queryInterface => queryInterface.dropTable('UserRole'),
+  down: (queryInterface) => queryInterface.dropTable('UserRole'),
 };
