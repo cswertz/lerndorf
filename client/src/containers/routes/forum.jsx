@@ -2,13 +2,20 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import ForumList from '../forum/List';
+import ForumThread from '../forum/Show';
 
-const ForumRouter = ({ forum, actions, user }) => (
+const ForumRouter = ({ forum, thread, actions, user }) => (
   <>
+    {console.warn('hallo', forum)}
     <Route
       exact
-      path="/forum"
+      path="/threads"
       render={() => <ForumList user={user} actions={actions} items={forum ?? []} />}
+    />
+    <Route
+      exact
+      path="/threads/:id"
+      render={() => <ForumThread user={user} actions={actions} thread={thread ?? {}} />}
     />
   </>
 );
@@ -16,6 +23,7 @@ const ForumRouter = ({ forum, actions, user }) => (
 ForumRouter.propTypes = {
   actions: PropTypes.shape({
     forumPublicThreadsFetch: PropTypes.func.isRequired,
+    forumThreadFetch: PropTypes.func.isRequired,
   }).isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,

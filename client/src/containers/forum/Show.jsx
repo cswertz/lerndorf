@@ -2,9 +2,9 @@ import { withRouter } from 'react-router-dom';
 import { Component, useState } from 'react';
 import PropTypes from 'prop-types';
 import { hasCapability } from '@utils/user';
-import List from '@components/forum/List';
+import Show from '@components/forum/Show';
 
-class Forum extends Component {
+class ForumThread extends Component {
   componentDidMount() {
     this.fetchData();
     this.handleDelete = this.handleDelete.bind(this);
@@ -13,11 +13,8 @@ class Forum extends Component {
   componentDidUpdate() {}
 
   fetchData() {
-    const { actions, match, items } = this.props;
-    if (items?.items.length > 0) {
-      return;
-    }
-    actions.forumPublicThreadsFetch();
+    const { actions, match, thread } = this.props;
+    actions.forumThreadFetch(match?.params?.id);
   }
 
   handleDelete(id) {
@@ -27,17 +24,12 @@ class Forum extends Component {
   }
 
   render() {
-    const { user, items } = this.props;
-
-    return (
-      <>
-        <List user={user} posts={items?.items ?? []} />
-      </>
-    );
+    const { user, thread } = this.props;
+    return <>{thread.fetched && <Show user={user} thread={thread.item} />}</>;
   }
 }
 
-Forum.propTypes = {
+ForumThread.propTypes = {
   actions: PropTypes.shape({
     forumPublicThreadsFetch: PropTypes.func.isRequired,
     forumThreadFetch: PropTypes.func.isRequired,
@@ -48,6 +40,6 @@ Forum.propTypes = {
   }).isRequired,
 };
 
-const ForumWithRouter = withRouter(Forum);
+const ForumThreadWithRouter = withRouter(ForumThread);
 
-export default ForumWithRouter;
+export default ForumThreadWithRouter;

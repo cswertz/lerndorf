@@ -17,30 +17,37 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', isSelfOrHasCapability('view_threads'), async (req, res) => {
-  const user = await models.User.findByPk(req.params.id, {
+  const thread = await models.Thread.findByPk(req.params.id, {
     attributes: [
       'id',
-      'username',
+      'summary',
+      'userId',
     ],
     include: [
       {
-        model: models.Role,
-        attributes: ['id', 'slug', 'name'],
-        through: { attributes: [] },
-        include: [
-          {
-            model: models.Capability,
-            attributes: ['id', 'slug', 'name'],
-          },
-        ],
+        model: models.User,
+        as: 'user',
       },
       {
-        model: models.Language,
+        model: models.ThreadPost,
+        as: 'posts',
+        include: [
+          {
+            model: models.User,
+            as: 'user',
+          },
+        ],
       },
     ],
   });
 
-  res.json(user);
+  if (!thread) {
+    return res.status(400).send({
+      error: 'There is no forum thread with this id.',
+    });
+  }
+
+  res.json(thread);
 });
 
 export default router;

@@ -34,6 +34,7 @@ const Router = ({
   user,
   logs,
   forum,
+  thread,
 }) => {
   return (
     <Switch>
@@ -158,8 +159,8 @@ const Router = ({
               />
             </Route>
 
-            <Route path="/forum">
-              <RouterForums user={user} actions={actions} forum={forum} />
+            <Route path="/threads">
+              <RouterForums user={user} actions={actions} forum={forum} thread={thread} />
             </Route>
 
             <PrivateRoute path="/logs">
@@ -233,6 +234,12 @@ Router.propTypes = {
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
+  thread: PropTypes.shape({
+    item: PropTypes.shape({}).isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   actions: PropTypes.shape({
     userFetchRoles: PropTypes.func.isRequired,
     removeRole: PropTypes.func.isRequired,
@@ -240,6 +247,7 @@ Router.propTypes = {
     removeCapability: PropTypes.func.isRequired,
     addCapability: PropTypes.func.isRequired,
     forumPublicThreadsFetch: PropTypes.func.isRequired,
+    forumThreadFetch: PropTypes.func.isRequired,
     languagesDelete: PropTypes.func.isRequired,
     languagesFetch: PropTypes.func.isRequired,
     languagesEdit: PropTypes.func.isRequired,
@@ -311,6 +319,7 @@ const mapStateToProps = (state) => ({
   user: state.user,
   logs: state.logs,
   forum: state.forum,
+  thread: state.thread,
 });
 
 const mapDispatchToProps = (dispatch) => ({

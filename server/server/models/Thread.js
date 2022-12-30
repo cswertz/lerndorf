@@ -46,7 +46,7 @@ class Thread extends Model {
   static associate(sequelize) {
     Thread.belongsTo(sequelize.Course, { as: 'course', foreignKey: 'courseId' });
     Thread.belongsTo(sequelize.User, { as: 'user', foreignKey: 'userId' });
-    Thread.hasMany(sequelize.ThreadPost, { foreignKey: 'threadId' });
+    Thread.hasMany(sequelize.ThreadPost, { as: 'posts', foreignKey: 'threadId' });
   }
 }
 
