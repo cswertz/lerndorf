@@ -22,6 +22,17 @@ export const forumThreadFetchFailed = (error, errors) => ({
   errors,
 });
 
+export const forumThreadFetchAddAnswerSuccess = (item) => ({
+  type: types.THREAD_ITEM_FETCH_SUCCESS,
+  item,
+});
+
+export const forumThreadFetchAddAnswerFailed = (error, errors) => ({
+  type: types.THREAD_ITEM_FETCH_FAILED,
+  error,
+  errors,
+});
+
 export const forumPublicThreadsFetch = () => async (dispatch) =>
   fetch('/api/threads', {
     method: 'GET',
@@ -62,4 +73,29 @@ export const forumThreadFetch = (id) => async (dispatch) =>
     })
     .catch((error) => {
       console.log('Error while fetching knowledge units:', error);
+    });
+
+export const forumThreadFetchAddAnswer = (id, data, history) => (dispatch) =>
+  fetch(`/api/threads/${id}/answers`, {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json) {
+        if (json.error) {
+          dispatch(forumThreadFetchAddAnswerFailed(json.error, json.errors));
+        } else {
+          dispatch(forumThreadFetchAddAnswerSuccess());
+          history.push(`/threads/${json.id}`);
+        }
+      }
+    })
+    .catch((error) => {
+      console.log('Error while answering to a forum thread:', error);
     });

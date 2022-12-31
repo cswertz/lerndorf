@@ -248,6 +248,7 @@ Router.propTypes = {
     addCapability: PropTypes.func.isRequired,
     forumPublicThreadsFetch: PropTypes.func.isRequired,
     forumThreadFetch: PropTypes.func.isRequired,
+    forumThreadFetchAddAnswer: PropTypes.func.isRequired,
     languagesDelete: PropTypes.func.isRequired,
     languagesFetch: PropTypes.func.isRequired,
     languagesEdit: PropTypes.func.isRequired,

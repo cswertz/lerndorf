@@ -5,9 +5,14 @@ import { hasCapability } from '@utils/user';
 import Show from '@components/forum/Show';
 
 class ForumThread extends Component {
+  constructor(props) {
+    super(props);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleAddPost = this.handleAddPost.bind(this);
+  }
+
   componentDidMount() {
     this.fetchData();
-    this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentDidUpdate() {}
@@ -23,9 +28,28 @@ class ForumThread extends Component {
     handleDelete(id, history);
   }
 
+  handleAddPost(e, data) {
+    const { history, actions, match } = this.props;
+    e.preventDefault();
+    actions
+      .forumThreadFetchAddAnswer(match?.params?.id, data, history)
+      .then((result) => {
+        console.warn(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   render() {
-    const { user, thread } = this.props;
-    return <>{thread.fetched && <Show user={user} thread={thread.item} />}</>;
+    const { user, thread, actions } = this.props;
+    return (
+      <>
+        {thread.fetched && (
+          <Show user={user} thread={thread.item} handleAddPost={this.handleAddPost} />
+        )}
+      </>
+    );
   }
 }
 
@@ -33,6 +57,7 @@ ForumThread.propTypes = {
   actions: PropTypes.shape({
     forumPublicThreadsFetch: PropTypes.func.isRequired,
     forumThreadFetch: PropTypes.func.isRequired,
+    forumThreadFetchAddAnswer: PropTypes.func.isRequired,
   }).isRequired,
   user: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({

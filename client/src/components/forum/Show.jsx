@@ -13,6 +13,9 @@ import { formatDateWithTime } from '@utils/date';
 import { hasCapability } from '@utils/user';
 import users from '@reducers/users';
 import Post from './Post';
+import AddThreadPost from './AddThreadPost';
+
+const state = { text: null, postId: null };
 
 const styles = () => ({
   languageList: {
@@ -20,7 +23,11 @@ const styles = () => ({
   },
 });
 
-const ForumThead = ({ classes, user, thread, history }) => {
+const updateBody = (value) => {
+  state.text = value;
+};
+
+const ForumThead = ({ classes, user, thread, history, handleAddPost }) => {
   return (
     <div>
       <div className="mediumMarginBottom">
@@ -41,6 +48,9 @@ const ForumThead = ({ classes, user, thread, history }) => {
           );
         })}
       </div>
+      <div className={classes.wysiwyg}>
+        <AddThreadPost postId={thread.id} handleSubmit={handleAddPost} updateBody={updateBody} />
+      </div>
     </div>
   );
 };
@@ -49,6 +59,7 @@ ForumThead.propTypes = {
   user: PropTypes.shape({}).isRequired,
   thread: PropTypes.shape({}).isRequired,
   classes: PropTypes.shape({}).isRequired,
+  handleAddPost: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ForumThead);

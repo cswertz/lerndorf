@@ -20,7 +20,6 @@ const initialState = {
 };
 
 const thread = (state = initialState, action) => {
-  console.error('thread', action.type, action);
   switch (action.type) {
     case THREAD_ITEM_FETCH_FAILED: {
       return { ...state, fetched: true, fetching: false, item: {} };
