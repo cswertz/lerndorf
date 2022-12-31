@@ -176,6 +176,42 @@ const isLastAdmin = async (id) => {
   return false;
 };
 
+const isCreatorOrInCourse = (models) => async (req, res, next) => {
+  if (req.user) {
+    const entityItem = await models.Thread.findByPk(req.params.id);
+    if (entityItem === null) {
+      return res.status(403).send({
+        error: 'You do not have permission to this thread.',
+      });
+    }
+
+    if (entityItem.courseId === null || isAdmin(req.user.id) === true) {
+      return next();
+    }
+
+    const courseUsersWithId = await models.CourseUser.findAll({
+      where: {
+        userId: req.user.id,
+        courseId: entityItem.courseId,
+      },
+    });
+
+    if (courseUsersWithId.length === 0) {
+      return res.status(403).send({
+        error: 'You do not have permission to this course related thread.',
+      });
+    }
+
+    return res.status(403).send({
+      error: { thread: courseUsersWithId, entityItem },
+    });
+  }
+
+  return res.status(401).send({
+    error: 'Not logged in.',
+  });
+};
+
 export {
   hasCapabilityOrOwnsKnowledgeUnit,
   isSelfOrHasCapability,
@@ -186,4 +222,5 @@ export {
   isLoggedIn,
   hasRole,
   isSelf,
+  isCreatorOrInCourse,
 };

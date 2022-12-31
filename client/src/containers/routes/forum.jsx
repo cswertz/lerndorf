@@ -6,7 +6,6 @@ import ForumThread from '../forum/Show';
 
 const ForumRouter = ({ forum, thread, actions, user }) => (
   <>
-    {console.warn('hallo', forum)}
     <Route
       exact
       path="/threads"

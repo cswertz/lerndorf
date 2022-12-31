@@ -15,11 +15,22 @@ class ForumThread extends Component {
     this.fetchData();
   }
 
-  componentDidUpdate() {}
+  componentDidUpdate() {
+    const { actions, match, thread } = this.props;
+    if (!thread?.item) {
+      this.fetchData();
+    }
+  }
 
   fetchData() {
-    const { actions, match, thread } = this.props;
-    actions.forumThreadFetch(match?.params?.id);
+    const { actions, match, thread, history } = this.props;
+    actions.forumThreadFetch(match?.params?.id).catch((err) => {
+      if (err.cause === 403) {
+        history.push('/errors/403');
+      } else if (err.cause === 401) {
+        history.push('/errors/401');
+      }
+    });
   }
 
   handleDelete(id) {
@@ -30,6 +41,7 @@ class ForumThread extends Component {
 
   handleAddPost(e, data) {
     const { history, actions, match } = this.props;
+    console.warn('TEST');
     e.preventDefault();
     actions
       .forumThreadFetchAddAnswer(match?.params?.id, data, history)
@@ -45,7 +57,7 @@ class ForumThread extends Component {
     const { user, thread, actions } = this.props;
     return (
       <>
-        {thread.fetched && (
+        {thread && thread.fetched && (
           <Show user={user} thread={thread.item} handleAddPost={this.handleAddPost} />
         )}
       </>

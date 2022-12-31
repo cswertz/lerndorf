@@ -51,7 +51,7 @@ export const forumPublicThreadsFetch = () => async (dispatch) =>
       }
     })
     .catch((error) => {
-      console.log('Error while fetching knowledge units:', error);
+      dispatch(forumItemsFetchFailed(error));
     });
 
 export const forumThreadFetch = (id) => async (dispatch) =>
@@ -63,16 +63,18 @@ export const forumThreadFetch = (id) => async (dispatch) =>
     },
     credentials: 'include',
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.status === 403 || response.status === 401) {
+        throw new Error('Invalid response', { cause: response.status });
+      }
+      return response.json();
+    })
     .then((json) => {
       if (json) {
         if (!json.error) {
           dispatch(forumThreadFetchSuccess(json));
         }
       }
-    })
-    .catch((error) => {
-      console.log('Error while fetching knowledge units:', error);
     });
 
 export const forumThreadFetchAddAnswer = (id, data, history) => (dispatch) =>
@@ -87,12 +89,12 @@ export const forumThreadFetchAddAnswer = (id, data, history) => (dispatch) =>
   })
     .then((response) => response.json())
     .then((json) => {
+      console.error(json);
       if (json) {
         if (json.error) {
           dispatch(forumThreadFetchAddAnswerFailed(json.error, json.errors));
         } else {
           dispatch(forumThreadFetchAddAnswerSuccess());
-          history.push(`/threads/${json.id}`);
         }
       }
     })

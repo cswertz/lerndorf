@@ -12,24 +12,35 @@ import PropTypes from 'prop-types';
 import { formatDateWithTime } from '@utils/date';
 import { hasCapability } from '@utils/user';
 import users from '@reducers/users';
+import { Avatar, Grid } from '../../../node_modules/@material-ui/core/index';
 
 const styles = () => ({
-  languageList: {
+  listItem: {
     flex: 1,
   },
 });
 
 const ForumList = ({ classes, user, posts, history }) => {
   let threads = null;
-  console.warn(user);
   if (posts.length > 0) {
     threads = posts.map((item) => (
       <ListItem key={item.id} dense disableGutters divider>
-        <ListItemText>
-          <div>
-            <a href={`/threads/${item.id}`}>{item.summary}</a>
-          </div>
-          <div>{formatDateWithTime(item.updatedAt)}</div>
+        <ListItemText style={styles.listItem}>
+          <Grid container spacing={0}>
+            <Grid item sm={1}>
+              <Avatar>{item.lastPostUser?.username.substr(0, 1).toUpperCase()}</Avatar>
+            </Grid>
+            <Grid styles={{ padding: 10 }} item sm={11}>
+              <a href={`/threads/${item.id}`}>
+                <strong>{item.summary}</strong>
+              </a>
+              <div>
+                {formatDateWithTime(item.lastPostAt)}
+                <span> from </span>
+                <strong>{item.lastPostUser?.username}</strong>
+              </div>
+            </Grid>
+          </Grid>
         </ListItemText>
         <ListItemSecondaryAction>
           {hasCapability(user.capabilities, ['edit_threads']) && (

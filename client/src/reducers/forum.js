@@ -1,9 +1,4 @@
-import {
-  FORUM_ITEMS_FETCH_SUCCESS,
-  FORUM_ITEMS_FETCH_FAILED,
-  THREAD_ITEM_FETCH_FAILED,
-  THREAD_ITEM_FETCH_SUCCESS,
-} from '@actions/constants';
+import { FORUM_ITEMS_FETCH_SUCCESS, FORUM_ITEMS_FETCH_FAILED } from '@actions/constants';
 
 const initialState = {
   fetching: false,

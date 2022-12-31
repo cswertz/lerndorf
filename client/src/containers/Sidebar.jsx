@@ -48,7 +48,17 @@ const Sidebar = () => {
   const location = useLocation();
   // const user = useSelector((state) => state.user);
 
-  const paths = ['dashboard', 'tasks', 'messages', 'languages', 'taxonomies', 'users', 'logs'];
+  const paths = [
+    'dashboard',
+    'tasks',
+    'messages',
+    'languages',
+    'taxonomies',
+    'users',
+    'logs',
+    'threads',
+    'errors',
+  ];
   const isDasboardPage = paths.some((pathName) => location.pathname.includes(pathName));
 
   const [topics, setTopics] = useState([]);

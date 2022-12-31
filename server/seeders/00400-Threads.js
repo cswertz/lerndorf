@@ -5,6 +5,8 @@ module.exports = {
         summary: 'Demo',
         userId: 1,
         courseId: null,
+        lastPostFrom: 1,
+        lastPostAt: Sequelize.literal('CURRENT_TIMESTAMP'),
         createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
         updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
@@ -12,6 +14,8 @@ module.exports = {
         summary: 'Demo in Course',
         userId: 1,
         courseId: 1,
+        lastPostFrom: 1,
+        lastPostAt: Sequelize.literal('CURRENT_TIMESTAMP'),
         createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
         updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
@@ -19,14 +23,14 @@ module.exports = {
 
     queryInterface.bulkInsert('ThreadPosts', [
       {
-        text: 'I am a demo thread entry that is public available.',
+        text: '<p>I am a demo thread entry that is public available.</p>',
         threadId: 1,
         userId: 1,
         createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
         updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       {
-        text: 'I am a demo thread entry that is NOT public available.',
+        text: '<p>I am a demo thread entry that is NOT public available.</p>',
         threadId: 2,
         userId: 1,
         createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),

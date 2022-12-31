@@ -17,11 +17,7 @@ import AddThreadPost from './AddThreadPost';
 
 const state = { text: null, postId: null };
 
-const styles = () => ({
-  languageList: {
-    flex: 1,
-  },
-});
+const styles = () => ({});
 
 const updateBody = (value) => {
   state.text = value;
@@ -32,11 +28,11 @@ const ForumThead = ({ classes, user, thread, history, handleAddPost }) => {
     <div>
       <div className="mediumMarginBottom">
         <Typography variant="h1" className={classes.subtitle}>
-          {thread.summary ?? 'No thread found'}
+          {thread?.summary ?? 'No thread found'}
         </Typography>
       </div>
       <div className="smallMargin">
-        {thread.posts.map((post, index) => {
+        {thread?.posts.map((post, index) => {
           return (
             <Post
               key={post.id}
@@ -49,7 +45,9 @@ const ForumThead = ({ classes, user, thread, history, handleAddPost }) => {
         })}
       </div>
       <div className={classes.wysiwyg}>
-        <AddThreadPost postId={thread.id} handleSubmit={handleAddPost} updateBody={updateBody} />
+        {thread && (
+          <AddThreadPost postId={thread.id} handleSubmit={handleAddPost} updateBody={updateBody} />
+        )}
       </div>
     </div>
   );

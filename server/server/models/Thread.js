@@ -34,6 +34,21 @@ class Thread extends Model {
         allowEmpty: false,
       },
 
+      lastPostFrom: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+      },
+
+      lastPostAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        allowEmpty: false,
+      },
+
     }, {
       sequelize,
       tableName: 'threads',
@@ -46,6 +61,7 @@ class Thread extends Model {
   static associate(sequelize) {
     Thread.belongsTo(sequelize.Course, { as: 'course', foreignKey: 'courseId' });
     Thread.belongsTo(sequelize.User, { as: 'user', foreignKey: 'userId' });
+    Thread.belongsTo(sequelize.User, { as: 'lastPostUser', foreignKey: 'lastPostFrom' });
     Thread.hasMany(sequelize.ThreadPost, { as: 'posts', foreignKey: 'threadId' });
   }
 }

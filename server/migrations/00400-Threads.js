@@ -36,6 +36,22 @@ export default {
       allowNull: false,
     },
 
+    lastPostFrom: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      notEmpty: true,
+      unique: 'threadUserId',
+      references: {
+        model: 'Users',
+        key: 'id',
+      },
+    },
+
+    lastPostAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,

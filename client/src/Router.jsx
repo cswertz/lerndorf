@@ -20,6 +20,7 @@ import Register from '@containers/users/Register';
 import Activate from '@containers/users/Activate';
 import Content from '@components/Content';
 import CreateCourse from '@components/courses/Create';
+import Page from '@containers/errors/Page';
 
 const Router = ({
   knowledgeUnits,
@@ -59,18 +60,6 @@ const Router = ({
         <div>Reset password WIP</div>
       </Route>
 
-      {/* <Route path="/datenschutz" exact>
-        <div>WIP</div>
-      </Route> */}
-
-      {/* <Route path="/nutzungsbedingungen" exact>
-        <div>WIP</div>
-      </Route> */}
-
-      {/* <Route path="/impressum" exact>
-        <div>WIP</div>
-      </Route> */}
-
       <Route path="/">
         <Wrapper>
           <Switch>
@@ -81,14 +70,6 @@ const Router = ({
 
             <PrivateRoute path="/dashboard" exact>
               <Dashboard />
-            </PrivateRoute>
-
-            <PrivateRoute path="/messages" exact>
-              use{' '}
-              <a href="https://github.com/chatscope/chat-ui-kit-react" rel="noopener">
-                https://github.com/chatscope/chat-ui-kit-react
-              </a>
-              ?
             </PrivateRoute>
 
             <Route path="/course/create" exact>
@@ -159,8 +140,24 @@ const Router = ({
               />
             </Route>
 
-            <Route path="/threads">
+            <PrivateRoute path="/threads">
               <RouterForums user={user} actions={actions} forum={forum} thread={thread} />
+            </PrivateRoute>
+
+            <Route path="/errors/403" exact>
+              <Page
+                user={user}
+                headline="403 No permission!"
+                text="You do not have the right permissions for the requested page."
+              />
+            </Route>
+
+            <Route path="/errors/404" exact>
+              <Page
+                user={user}
+                headline="404 Could not be found"
+                text="The requested page could not be found."
+              />
             </Route>
 
             <PrivateRoute path="/logs">
@@ -173,6 +170,7 @@ const Router = ({
                 user={user}
               />
             </PrivateRoute>
+            <Redirect to="/errors/404" />
           </Switch>
         </Wrapper>
       </Route>
