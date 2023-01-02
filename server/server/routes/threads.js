@@ -1,7 +1,7 @@
 import { check, validationResult, buildCheckFunction } from 'express-validator';
 import express from 'express';
 import models from '../config/sequelize';
-import { isCreatorOrInCourse, isSelfOrHasCapability } from '../helpers/auth';
+import { isCreatorOrInCourse, isSelfOrHasCapability, isThreadCreatorOrAdmin } from '../helpers/auth';
 
 const router = express.Router();
 
@@ -61,6 +61,65 @@ router.get('/:id', isCreatorOrInCourse(models), async (req, res) => {
   }
 
   res.json(thread);
+});
+
+router.patch('/:id', [
+  isThreadCreatorOrAdmin(models),
+  check('text', 'text is required')
+    .isLength({ min: 1 })
+    .notEmpty(),
+  check('summary', 'summary is required')
+    .isLength({ min: 1 })
+    .notEmpty(),
+], async (req, res) => {
+  // Find the first entry
+  const thread = await models.Thread.findByPk(req.params.id, {
+    attributes: [
+      'id',
+      'summary',
+      'userId',
+    ],
+    include: [
+      {
+        model: models.ThreadPost,
+        as: 'posts',
+        include: [
+          {
+            model: models.User,
+            as: 'user',
+          },
+        ],
+      },
+    ],
+  });
+  if (!thread || !thread.id) {
+    return res.status(404).send({
+      error: `There is no forum thread with this id. (${req.params.id})`,
+    });
+  }
+
+  // Get the first posting
+  // const firstPost = thread.posts[0];
+
+  // Update the related thread
+  models.Thread.update({
+    summary: req.body.summary,
+  }, {
+    where: {
+      id: req.params.id,
+    },
+  }, req.params.id);
+
+  // Update the related first entry
+  models.ThreadPost.update({
+    text: req.body.text,
+  }, {
+    where: {
+      id: thread.posts[0].id,
+    },
+  }, thread.posts[0].id);
+
+  res.status(200).send({ status: 'OK' });
 });
 
 router.post('/:id/answers', [

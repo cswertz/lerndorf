@@ -33,6 +33,17 @@ export const forumThreadFetchAddAnswerFailed = (error, errors) => ({
   errors,
 });
 
+export const forumThreadUpdateSuccess = (item) => ({
+  type: types.THREAD_ITEM_UPDATE_SUCCESS,
+  item,
+});
+
+export const forumThreadUpdateFailed = (error, errors) => ({
+  type: types.THREAD_ITEM_UPDATE_FAILED,
+  error,
+  errors,
+});
+
 export const forumPublicThreadsFetch = () => async (dispatch) =>
   fetch('/api/threads', {
     method: 'GET',
@@ -70,9 +81,32 @@ export const forumThreadFetch = (id) => async (dispatch) =>
       return response.json();
     })
     .then((json) => {
+      if (json && !json.error) {
+        dispatch(forumThreadFetchSuccess(json));
+      }
+    });
+
+export const forumThreadUpdate = (id, data, history) => async (dispatch) =>
+  fetch(`/api/threads/${id}`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      if (response.status === 403 || response.status === 401) {
+        dispatch(forumThreadUpdateFailed(response.json()));
+        throw new Error('Invalid response', { cause: response.status });
+      }
+      return response.json();
+    })
+    .then((json) => {
       if (json) {
         if (!json.error) {
-          dispatch(forumThreadFetchSuccess(json));
+          dispatch(forumThreadUpdateSuccess(json));
         }
       }
     });

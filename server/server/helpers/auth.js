@@ -212,6 +212,29 @@ const isCreatorOrInCourse = (models) => async (req, res, next) => {
   });
 };
 
+const isThreadCreatorOrAdmin = (models) => async (req, res, next) => {
+  if (req.user) {
+    const entityItem = await models.Thread.findByPk(req.params.id);
+    if (entityItem === null) {
+      return res.status(403).send({
+        error: 'You do not have permission to this thread.',
+      });
+    }
+
+    if (await isAdmin(req.user.id) === true || entityItem.userId === req.user.id) {
+      return next();
+    }
+
+    return res.status(403).send({
+      error: 'You do not have permission to this course related thread.',
+    });
+  }
+
+  return res.status(401).send({
+    error: 'Not logged in.',
+  });
+};
+
 export {
   hasCapabilityOrOwnsKnowledgeUnit,
   isSelfOrHasCapability,
@@ -223,4 +246,5 @@ export {
   hasRole,
   isSelf,
   isCreatorOrInCourse,
+  isThreadCreatorOrAdmin,
 };

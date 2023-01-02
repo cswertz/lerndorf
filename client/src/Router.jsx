@@ -20,7 +20,7 @@ import Register from '@containers/users/Register';
 import Activate from '@containers/users/Activate';
 import Content from '@components/Content';
 import CreateCourse from '@components/courses/Create';
-import Page from '@containers/errors/Page';
+import ErrorPage from '@containers/errors/ErrorPage';
 
 const Router = ({
   knowledgeUnits,
@@ -145,7 +145,7 @@ const Router = ({
             </PrivateRoute>
 
             <Route path="/errors/403" exact>
-              <Page
+              <ErrorPage
                 user={user}
                 headline="403 No permission!"
                 text="You do not have the right permissions for the requested page."
@@ -153,7 +153,7 @@ const Router = ({
             </Route>
 
             <Route path="/errors/404" exact>
-              <Page
+              <ErrorPage
                 user={user}
                 headline="404 Could not be found"
                 text="The requested page could not be found."
@@ -247,6 +247,7 @@ Router.propTypes = {
     forumPublicThreadsFetch: PropTypes.func.isRequired,
     forumThreadFetch: PropTypes.func.isRequired,
     forumThreadFetchAddAnswer: PropTypes.func.isRequired,
+    forumThreadUpdate: PropTypes.func.isRequired,
     languagesDelete: PropTypes.func.isRequired,
     languagesFetch: PropTypes.func.isRequired,
     languagesEdit: PropTypes.func.isRequired,

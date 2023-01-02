@@ -21,6 +21,7 @@ const ForumTheadPost = ({ classes, user, post, index, isLast, history }) => {
           <div className="small smallMargin">
             {' '}
             {post?.user.username} <span>wrote at</span> {formatDateWithTime(post?.createdAt)}
+            {post.updatedAt !== post.createdAt && <div>(edited)</div>}
           </div>
           <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(post?.text) }} />
         </Grid>
