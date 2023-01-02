@@ -33,6 +33,17 @@ export const forumThreadFetchAddAnswerFailed = (error, errors) => ({
   errors,
 });
 
+export const forumThreadCreateSuccess = (item) => ({
+  type: types.THREAD_ITEM_CREATE_SUCCESS,
+  item,
+});
+
+export const forumThreadCreateFailed = (error, errors) => ({
+  type: types.THREAD_ITEM_CREATE_FAILED,
+  error,
+  errors,
+});
+
 export const forumThreadUpdateSuccess = (item) => ({
   type: types.THREAD_ITEM_UPDATE_SUCCESS,
   item,
@@ -83,6 +94,32 @@ export const forumThreadFetch = (id) => async (dispatch) =>
     .then((json) => {
       if (json && !json.error) {
         dispatch(forumThreadFetchSuccess(json));
+      }
+    });
+
+export const forumThreadCreate = (data, history) => async (dispatch) =>
+  fetch(`/api/threads`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      if (response.status === 403 || response.status === 401) {
+        dispatch(forumThreadCreateFailed(response.json()));
+        throw new Error('Invalid response', { cause: response.status });
+      }
+      return response.json();
+    })
+    .then((json) => {
+      if (json) {
+        console.error(json);
+        if (!json.error) {
+          dispatch(forumThreadCreateSuccess(json));
+        }
       }
     });
 

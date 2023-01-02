@@ -155,7 +155,7 @@ const isUser = async (id) => {
 };
 
 const isLastAdmin = async (id) => {
-  if (isAdmin(id)) {
+  if (await isAdmin(id)) {
     const adminUsers = await models.User.findAll({
       attributes: ['id'],
       include: [
@@ -176,7 +176,34 @@ const isLastAdmin = async (id) => {
   return false;
 };
 
+const isInCourse = (user, courseId) => async (req, res, next) => {
+  if (!user) {
+    return false;
+  }
+
+  if (await isAdmin(user.id) === true) {
+    return true;
+  }
+
+  const courseUsersWithId = await models.CourseUser.findAll({
+    where: {
+      userId: user.id,
+      courseId,
+    },
+  });
+
+  if (courseUsersWithId.length === 0) {
+    return false;
+  }
+
+  return true;
+};
+
 const isCreatorOrInCourse = (models) => async (req, res, next) => {
+  if (req.params.id === 'create') {
+    return next();
+  }
+
   if (req.user) {
     const entityItem = await models.Thread.findByPk(req.params.id);
     if (entityItem === null) {
@@ -185,26 +212,17 @@ const isCreatorOrInCourse = (models) => async (req, res, next) => {
       });
     }
 
-    if (entityItem.courseId === null || isAdmin(req.user.id) === true) {
+    if (entityItem.courseId === null || await isAdmin(req.user.id) === true) {
       return next();
     }
 
-    const courseUsersWithId = await models.CourseUser.findAll({
-      where: {
-        userId: req.user.id,
-        courseId: entityItem.courseId,
-      },
-    });
-
-    if (courseUsersWithId.length === 0) {
+    if (await isInCourse(req.user.id, entityItem.courseId) === false) {
       return res.status(403).send({
         error: 'You do not have permission to this course related thread.',
       });
     }
 
-    return res.status(403).send({
-      error: { thread: courseUsersWithId, entityItem },
-    });
+    return next();
   }
 
   return res.status(401).send({
@@ -246,5 +264,6 @@ export {
   hasRole,
   isSelf,
   isCreatorOrInCourse,
+  isInCourse,
   isThreadCreatorOrAdmin,
 };

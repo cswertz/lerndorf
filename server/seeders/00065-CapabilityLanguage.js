@@ -297,6 +297,11 @@ const capabilityLanguages = [
     vocable: 'jede Lerneinheit beabeiten',
   },
   {
+    slug: 'create_threads',
+    language: 'en',
+    vocable: 'create threads',
+  },
+  {
     slug: 'view_threads',
     language: 'en',
     vocable: 'view any public threads',

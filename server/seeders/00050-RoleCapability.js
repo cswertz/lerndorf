@@ -44,6 +44,7 @@ const roleCapabilities = [
       'edit_threads',
       'edit_own_threads',
       'view_threads',
+      'create_threads',
     ],
   },
   {
@@ -61,6 +62,7 @@ const roleCapabilities = [
       'delete_own_threads',
       'edit_own_threads',
       'view_threads',
+      'create_threads',
     ],
   },
   {

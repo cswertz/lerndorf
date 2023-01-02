@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import ForumList from '../forum/List';
 import ForumThread from '../forum/Show';
+import ForumThreadCreate from '../forum/Create';
 import ForumThreadEdit from '../forum/Edit';
 
 const ForumRouter = ({ forum, thread, actions, user }) => (
@@ -16,6 +17,11 @@ const ForumRouter = ({ forum, thread, actions, user }) => (
       exact
       path="/threads/:id"
       render={() => <ForumThread user={user} actions={actions} thread={thread ?? {}} />}
+    />
+    <Route
+      exact
+      path="/threads/create"
+      render={() => <ForumThreadCreate user={user} actions={actions} />}
     />
     <Route
       exact

@@ -84,8 +84,8 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   const customOptions = custom;
   delete customOptions.errorText;
 
-  if (input.value === '' && custom.initialValue) {
-    input.value = custom.initialValue;
+  if (input.value === '' && custom?.initialValue) {
+    input.value = custom?.initialValue;
   }
 
   let helperText = label;
@@ -140,7 +140,7 @@ const ForumTheadEdit = ({
               component={renderTextField}
               className={classes.textField}
               onChange={updateSummary}
-              initialValue={thread.summary}
+              initialValue={thread?.summary}
             />
           </FormControl>
         </div>
@@ -151,7 +151,7 @@ const ForumTheadEdit = ({
           label="Text"
           component={renderEditor}
           updateBody={updateBody}
-          initialValue={thread.posts[0].text}
+          initialValue={thread?.posts[0].text}
         />
       </div>
       <div>

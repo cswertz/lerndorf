@@ -13,6 +13,7 @@ import { formatDateWithTime } from '@utils/date';
 import { hasCapability } from '@utils/user';
 import users from '@reducers/users';
 import { Avatar, Grid } from '../../../node_modules/@material-ui/core/index';
+import { AddComment, PlusOneOutlined } from '../../../node_modules/@material-ui/icons/index';
 
 const styles = () => ({
   listItem: {
@@ -64,6 +65,11 @@ const ForumList = ({ classes, user, posts, history }) => {
     <div>
       <Typography variant="h1" className={classes.subtitle}>
         Forum
+        {hasCapability(user.capabilities, ['create_threads']) && (
+          <IconButton aria-label="Create" component={Link} to="/threads/create">
+            <AddComment />
+          </IconButton>
+        )}
       </Typography>
       <List dense={false}>{threads}</List>
     </div>

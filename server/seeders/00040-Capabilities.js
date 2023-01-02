@@ -211,6 +211,12 @@ module.exports = {
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
     {
+      slug: 'create_threads',
+      name: 'Create threads',
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    {
       slug: 'view_threads',
       name: 'View threads',
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),

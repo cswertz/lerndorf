@@ -1,7 +1,7 @@
 import { check, validationResult, buildCheckFunction } from 'express-validator';
 import express from 'express';
 import models from '../config/sequelize';
-import { isCreatorOrInCourse, isSelfOrHasCapability, isThreadCreatorOrAdmin } from '../helpers/auth';
+import { hasCapability, isCreatorOrInCourse, isInCourse, isSelfOrHasCapability, isThreadCreatorOrAdmin } from '../helpers/auth';
 
 const router = express.Router();
 
@@ -61,6 +61,48 @@ router.get('/:id', isCreatorOrInCourse(models), async (req, res) => {
   }
 
   res.json(thread);
+});
+
+router.post('/', [
+  hasCapability('create_threads'),
+  check('text', 'text is required')
+    .isLength({ min: 1 })
+    .notEmpty(),
+  check('summary', 'summary is required')
+    .isLength({ min: 1 })
+    .notEmpty(),
+], async (req, res) => {
+  // Check if the user added a course id
+  if (req.body.courseId && await isInCourse(req.user, req.body.courseId) === false) {
+    return res.status(403).send({
+      error: 'You cannot create a thread for this course.',
+    });
+  }
+
+  const thread = await models.Thread.create({
+    userId: req.user.id,
+    summary: req.body.summary,
+    courseId: req.body.courseId || null,
+    lastPostAt: new Date(),
+    lastPostFrom: req.user.id,
+  }, {})
+    .then((result) => res.json(result))
+    .catch((err) => res.status(422).send({
+      error: 'There have been database errors.',
+      errors: err.errors.map((error) => ({
+        param: error.path,
+        msg: error.message,
+      })),
+    }));
+
+  await models.ThreadPost.create({
+    userId: req.user.id,
+    text: req.body.text,
+    threadId: thread.id,
+  }, {})
+    .then((result) => res.json(result));
+
+  return res.status(200).send({ id: thread.id });
 });
 
 router.patch('/:id', [
