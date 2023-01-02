@@ -3,6 +3,7 @@ import { Component, useState } from 'react';
 import PropTypes from 'prop-types';
 import { hasCapability } from '@utils/user';
 import Edit from '@components/forum/Edit';
+import { Typography } from '@material-ui/core/index';
 
 class ForumThreadCreate extends Component {
   constructor(props) {
@@ -13,7 +14,10 @@ class ForumThreadCreate extends Component {
   componentDidMount() {}
 
   componentDidUpdate() {
-    const { actions, match, thread } = this.props;
+    const { history, actions, match, thread } = this.props;
+    if (thread?.item?.id) {
+      history.push(`/threads/${thread.item.id}/details`);
+    }
   }
 
   handleCreate(e, data) {
@@ -22,8 +26,7 @@ class ForumThreadCreate extends Component {
     actions
       .forumThreadCreate(data, history)
       .then((result) => {
-        console.error(result);
-        history.push(`/threads/${result.id}`);
+        history.push(`/threads/${result.id}/details`);
       })
       .catch((err) => {
         console.log(err);
@@ -34,6 +37,7 @@ class ForumThreadCreate extends Component {
     const { user, actions } = this.props;
     return (
       <>
+        <Typography variant="h1">Create new thread</Typography>
         <Edit user={user} thread={null} handleUpdate={this.handleCreate} />
       </>
     );
@@ -43,7 +47,7 @@ class ForumThreadCreate extends Component {
 ForumThreadCreate.propTypes = {
   actions: PropTypes.shape({
     forumThreadFetch: PropTypes.func.isRequired,
-    forumThreadUpdate: PropTypes.func.isRequired,
+    forumThreadCreate: PropTypes.func.isRequired,
   }).isRequired,
   user: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({

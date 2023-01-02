@@ -40,7 +40,7 @@ const renderEditor = ({ input, ...custom }) => (
   <CKEditor
     editor={ClassicEditor}
     config={editorConfigSimple}
-    data={custom.initialValue}
+    data={custom.initialvalue}
     onChange={(event, editor) => {
       const data = editor.getData();
       state.text = data;
@@ -84,8 +84,8 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
   const customOptions = custom;
   delete customOptions.errorText;
 
-  if (input.value === '' && custom?.initialValue) {
-    input.value = custom?.initialValue;
+  if (input.value === '' && custom?.initialvalue) {
+    input.value = custom?.initialvalue;
   }
 
   let helperText = label;
@@ -140,7 +140,7 @@ const ForumTheadEdit = ({
               component={renderTextField}
               className={classes.textField}
               onChange={updateSummary}
-              initialValue={thread?.summary}
+              initialvalue={thread?.summary}
             />
           </FormControl>
         </div>
@@ -151,7 +151,7 @@ const ForumTheadEdit = ({
           label="Text"
           component={renderEditor}
           updateBody={updateBody}
-          initialValue={thread?.posts[0].text}
+          initialvalue={thread?.posts[0]?.text}
         />
       </div>
       <div>
@@ -165,7 +165,6 @@ const ForumTheadEdit = ({
 
 ForumTheadEdit.propTypes = {
   user: PropTypes.shape({}).isRequired,
-  thread: PropTypes.shape({}).isRequired,
   classes: PropTypes.shape({}).isRequired,
   submitting: PropTypes.bool.isRequired,
   handleUpdate: PropTypes.func.isRequired,

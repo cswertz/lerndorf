@@ -3,6 +3,7 @@ import { Component, useState } from 'react';
 import PropTypes from 'prop-types';
 import { hasCapability } from '@utils/user';
 import Edit from '@components/forum/Edit';
+import { Typography } from '@material-ui/core/index';
 
 class ForumThreadEdit extends Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class ForumThreadEdit extends Component {
     actions
       .forumThreadUpdate(match?.params?.id, data, history)
       .then((result) => {
-        history.push(`/threads/${match?.params?.id}`);
+        history.push(`/threads/${match?.params?.id}/details`);
       })
       .catch((err) => {
         console.log(err);
@@ -52,9 +53,11 @@ class ForumThreadEdit extends Component {
   }
 
   render() {
-    const { user, thread, actions } = this.props;
+    const { user, thread, actions, match } = this.props;
     return (
       <>
+        <Typography variant="h1">Edit thread</Typography>
+
         {thread && thread.fetched && (
           <Edit user={user} thread={thread.item} handleUpdate={this.handleUpdate} />
         )}

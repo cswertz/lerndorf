@@ -3,7 +3,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import DeleteIcon from '@material-ui/icons/Delete';
 import ListItem from '@material-ui/core/ListItem';
 import EditIcon from '@material-ui/icons/Edit';
 import List from '@material-ui/core/List';
@@ -11,7 +10,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { formatDateWithTime } from '@utils/date';
 import { hasCapability } from '@utils/user';
-import users from '@reducers/users';
+import React from 'react';
+import DeleteConfirm from './DeleteConfirm';
 import { Avatar, Grid } from '../../../node_modules/@material-ui/core/index';
 import { AddComment, PlusOneOutlined } from '../../../node_modules/@material-ui/icons/index';
 
@@ -21,7 +21,7 @@ const styles = () => ({
   },
 });
 
-const ForumList = ({ classes, user, posts, history }) => {
+const ForumList = ({ classes, user, posts, history, onDeleteConfirm }) => {
   let threads = null;
   if (posts.length > 0) {
     threads = posts.map((item) => (
@@ -32,7 +32,7 @@ const ForumList = ({ classes, user, posts, history }) => {
               <Avatar>{item.lastPostUser?.username.substr(0, 1).toUpperCase()}</Avatar>
             </Grid>
             <Grid styles={{ padding: 10 }} item sm={11}>
-              <a href={`/threads/${item.id}`}>
+              <a href={`/threads/${item.id}/details`}>
                 <strong>{item.summary}</strong>
               </a>
               <div>
@@ -56,6 +56,16 @@ const ForumList = ({ classes, user, posts, history }) => {
                 <EditIcon />
               </IconButton>
             )}
+          {hasCapability(user.capabilities, ['delete_threads']) && (
+            <DeleteConfirm
+              id={item.id}
+              headline="Delete Thread?"
+              message="Do you want to delete the thread? All related data will be deleted."
+              onConfirm={(id) => {
+                onDeleteConfirm(id);
+              }}
+            />
+          )}
         </ListItemSecondaryAction>
       </ListItem>
     ));
@@ -71,7 +81,8 @@ const ForumList = ({ classes, user, posts, history }) => {
           </IconButton>
         )}
       </Typography>
-      <List dense={false}>{threads}</List>
+      {posts.length > 0 && <List dense={false}>{threads}</List>}
+      {posts.length === 0 && <div>No threads created.</div>}
     </div>
   );
 };
@@ -80,6 +91,7 @@ ForumList.propTypes = {
   user: PropTypes.shape({}).isRequired,
   posts: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   classes: PropTypes.shape({}).isRequired,
+  onDeleteConfirm: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ForumList);

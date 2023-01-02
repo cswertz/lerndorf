@@ -2,6 +2,7 @@ import { check, validationResult, buildCheckFunction } from 'express-validator';
 import express from 'express';
 import models from '../config/sequelize';
 import { hasCapability, isCreatorOrInCourse, isInCourse, isSelfOrHasCapability, isThreadCreatorOrAdmin } from '../helpers/auth';
+import ThreadPost from '../models/ThreadPost';
 
 const router = express.Router();
 
@@ -78,14 +79,26 @@ router.post('/', [
       error: 'You cannot create a thread for this course.',
     });
   }
-
-  const thread = await models.Thread.create({
+  models.Thread.create({
     userId: req.user.id,
     summary: req.body.summary,
     courseId: req.body.courseId || null,
     lastPostAt: new Date(),
     lastPostFrom: req.user.id,
-  }, {})
+    posts: [
+      {
+        userId: req.user.id,
+        text: req.body.text,
+      },
+    ],
+  }, {
+    include: [
+      {
+        model: models.ThreadPost,
+        as: 'posts',
+      },
+    ],
+  })
     .then((result) => res.json(result))
     .catch((err) => res.status(422).send({
       error: 'There have been database errors.',
@@ -95,14 +108,7 @@ router.post('/', [
       })),
     }));
 
-  await models.ThreadPost.create({
-    userId: req.user.id,
-    text: req.body.text,
-    threadId: thread.id,
-  }, {})
-    .then((result) => res.json(result));
-
-  return res.status(200).send({ id: thread.id });
+  return res.status(200);
 });
 
 router.patch('/:id', [
@@ -160,6 +166,58 @@ router.patch('/:id', [
       id: thread.posts[0].id,
     },
   }, thread.posts[0].id);
+
+  res.status(200).send({ status: 'OK' });
+});
+
+router.delete('/:id', [
+  isThreadCreatorOrAdmin(models),
+  check('text', 'text is required')
+    .isLength({ min: 1 })
+    .notEmpty(),
+  check('summary', 'summary is required')
+    .isLength({ min: 1 })
+    .notEmpty(),
+], async (req, res) => {
+  // Find the first entry
+  const thread = await models.Thread.findByPk(req.params.id, {
+    attributes: [
+      'id',
+      'summary',
+      'userId',
+    ],
+    include: [
+      {
+        model: models.ThreadPost,
+        as: 'posts',
+        include: [
+          {
+            model: models.User,
+            as: 'user',
+          },
+        ],
+      },
+    ],
+  });
+  if (!thread || !thread.id) {
+    return res.status(404).send({
+      error: `There is no forum thread with this id. (${req.params.id})`,
+    });
+  }
+
+  // Delete the related thread
+  models.Thread.destroy({
+    where: {
+      id: req.params.id,
+    },
+  }, req.params.id);
+
+  // Delete the related posts
+  models.ThreadPost.destroy({
+    where: {
+      threadId: req.params.id,
+    },
+  }, req.params.id);
 
   res.status(200).send({ status: 'OK' });
 });

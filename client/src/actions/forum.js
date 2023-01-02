@@ -55,6 +55,17 @@ export const forumThreadUpdateFailed = (error, errors) => ({
   errors,
 });
 
+export const forumThreadDeleteSuccess = (item) => ({
+  type: types.THREAD_ITEM_DELETE_SUCCESS,
+  item,
+});
+
+export const forumThreadDeleteFailed = (error, errors) => ({
+  type: types.THREAD_ITEM_DELETE_FAILED,
+  error,
+  errors,
+});
+
 export const forumPublicThreadsFetch = () => async (dispatch) =>
   fetch('/api/threads', {
     method: 'GET',
@@ -116,9 +127,8 @@ export const forumThreadCreate = (data, history) => async (dispatch) =>
     })
     .then((json) => {
       if (json) {
-        console.error(json);
         if (!json.error) {
-          dispatch(forumThreadCreateSuccess(json));
+          dispatch(forumThreadFetch(json.id));
         }
       }
     });
@@ -144,6 +154,30 @@ export const forumThreadUpdate = (id, data, history) => async (dispatch) =>
       if (json) {
         if (!json.error) {
           dispatch(forumThreadUpdateSuccess(json));
+        }
+      }
+    });
+
+export const forumThreadDelete = (id, history) => async (dispatch) =>
+  fetch(`/api/threads/${id}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((response) => {
+      if (response.status === 403 || response.status === 401) {
+        dispatch(forumThreadDeleteFailed(response.json()));
+        throw new Error('Invalid response', { cause: response.status });
+      }
+      return response.json();
+    })
+    .then((json) => {
+      if (json) {
+        if (!json.error) {
+          dispatch(forumThreadDeleteSuccess(json));
         }
       }
     });

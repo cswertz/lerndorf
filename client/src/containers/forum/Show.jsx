@@ -7,16 +7,22 @@ import Show from '@components/forum/Show';
 class ForumThread extends Component {
   constructor(props) {
     super(props);
-    this.handleDelete = this.handleDelete.bind(this);
     this.handleAddPost = this.handleAddPost.bind(this);
   }
 
   componentDidMount() {
+    const { actions, match, thread } = this.props;
+    if (match.params.id === 'create') {
+      return;
+    }
     this.fetchData();
   }
 
   componentDidUpdate() {
-    const { actions, match, thread } = this.props;
+    const { actions, match, thread, history } = this.props;
+    if (match.params.id === 'create') {
+      return;
+    }
     if (!thread?.item) {
       this.fetchData();
     }
@@ -31,12 +37,6 @@ class ForumThread extends Component {
         history.push('/errors/401');
       }
     });
-  }
-
-  handleDelete(id) {
-    const { handleDelete, history } = this.props;
-
-    handleDelete(id, history);
   }
 
   handleAddPost(e, data) {

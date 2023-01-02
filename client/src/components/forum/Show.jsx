@@ -32,7 +32,7 @@ const ForumThead = ({ classes, user, thread, history, handleAddPost }) => {
         </Typography>
       </div>
       <div className="smallMargin">
-        {thread?.posts.map((post, index) => {
+        {thread?.posts?.map((post, index) => {
           return (
             <Post
               key={post.id}

@@ -15,13 +15,13 @@ const ForumRouter = ({ forum, thread, actions, user }) => (
     />
     <Route
       exact
-      path="/threads/:id"
-      render={() => <ForumThread user={user} actions={actions} thread={thread ?? {}} />}
+      path="/threads/create"
+      render={() => <ForumThreadCreate user={user} actions={actions} thread={thread ?? {}} />}
     />
     <Route
       exact
-      path="/threads/create"
-      render={() => <ForumThreadCreate user={user} actions={actions} />}
+      path="/threads/:id/details"
+      render={() => <ForumThread user={user} actions={actions} thread={thread ?? {}} />}
     />
     <Route
       exact

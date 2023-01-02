@@ -27,11 +27,19 @@ class Forum extends Component {
   }
 
   render() {
-    const { user, items } = this.props;
+    const { user, items, history, actions } = this.props;
 
     return (
       <>
-        <List user={user} posts={items?.items ?? []} />
+        <List
+          user={user}
+          posts={items?.items ?? []}
+          onDeleteConfirm={(id) => {
+            actions.forumThreadDelete(id, history).then((result) => {
+              history.go(0);
+            });
+          }}
+        />
       </>
     );
   }
@@ -41,6 +49,7 @@ Forum.propTypes = {
   actions: PropTypes.shape({
     forumPublicThreadsFetch: PropTypes.func.isRequired,
     forumThreadFetch: PropTypes.func.isRequired,
+    forumThreadDelete: PropTypes.func.isRequired,
   }).isRequired,
   user: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
