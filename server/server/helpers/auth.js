@@ -147,6 +147,24 @@ const isAdmin = async (id) => {
   return adminRoles.length > 0;
 };
 
+const isCourseUser = async (userId, courseId) => {
+  if (await isAdmin(userId) === true) {
+    return true;
+  }
+
+  const courseUsersWithId = await models.CourseUser.findAll({
+    where: {
+      userId,
+      courseId,
+    },
+  });
+  if (courseUsersWithId.length === 0) {
+    return false;
+  }
+
+  return true;
+};
+
 const isUser = async (id) => {
   const user = await models.User.findByPk(id);
   const roles = await user.getRoles();
@@ -176,29 +194,6 @@ const isLastAdmin = async (id) => {
   return false;
 };
 
-const isInCourse = (user, courseId) => async (req, res, next) => {
-  if (!user) {
-    return false;
-  }
-
-  if (await isAdmin(user.id) === true) {
-    return true;
-  }
-
-  const courseUsersWithId = await models.CourseUser.findAll({
-    where: {
-      userId: user.id,
-      courseId,
-    },
-  });
-
-  if (courseUsersWithId.length === 0) {
-    return false;
-  }
-
-  return true;
-};
-
 const isCreatorOrInCourse = (models) => async (req, res, next) => {
   if (req.params.id === 'create') {
     return next();
@@ -207,8 +202,8 @@ const isCreatorOrInCourse = (models) => async (req, res, next) => {
   if (req.user) {
     const entityItem = await models.Thread.findByPk(req.params.id);
     if (entityItem === null) {
-      return res.status(403).send({
-        error: 'You do not have permission to this thread.',
+      return res.status(400).send({
+        error: `You do not have permission to this thread, cause it does not exits. (${req.params.id})`,
       });
     }
 
@@ -216,11 +211,15 @@ const isCreatorOrInCourse = (models) => async (req, res, next) => {
       return next();
     }
 
-    if (await isInCourse(req.user.id, entityItem.courseId) === false) {
+    const isInCourseResult = await isCourseUser(req.user.id, entityItem.courseId);
+
+    if (isInCourseResult === false) {
       return res.status(403).send({
         error: 'You do not have permission to this course related thread.',
       });
     }
+
+    console.error(req.params.id, req.user, entityItem);
 
     return next();
   }
@@ -264,6 +263,6 @@ export {
   hasRole,
   isSelf,
   isCreatorOrInCourse,
-  isInCourse,
+  isCourseUser,
   isThreadCreatorOrAdmin,
 };

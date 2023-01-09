@@ -70,7 +70,6 @@ router.post('/', [
 
     return res.json(result);
   } catch (err) {
-    console.log(err);
     res.status(422).send({
       error: 'There have been database errors.',
       errors: err.errors.map((error) => ({

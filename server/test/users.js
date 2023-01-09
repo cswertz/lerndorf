@@ -8,11 +8,16 @@ chai.should();
 chai.use(chaiHttp);
 const agent = chai.request.agent(server);
 
-describe('User', () => {
+describe('User', async () => {
   const user = {
-    username: 'username',
+    username: `username${(new Date()).getMilliseconds()}`,
     password: 'password',
     email: 'username@host.com',
+  };
+  const userWithNoRole = {
+    username: 'userWithNoRole',
+    password: 'password',
+    email: 'no@example.com',
   };
   const userSameEmail = {
     username: 'username_different',
@@ -25,36 +30,16 @@ describe('User', () => {
     email: 'username1@host.com',
   };
 
-  const userUsers = {
-    username: 'user_users',
-    password: 'password',
-    email: 'user@users.com',
-  };
   const admin = {
     username: 'admin',
     password: 'admin',
   };
-  const users = [];
+
+  const users = await models.User.findAll();
   const languages = [];
 
   before((done) => {
-    chai.request(server).keepOpen()
-      .post('/api/users')
-      .send(userUsers)
-      .end((err, res) => {
-        res.should.have.status(200);
-
-        models.User.update({
-          active: true,
-        }, {
-          where: {
-            username: userUsers.username,
-          },
-        })
-          .then(() => {
-            done();
-          });
-      });
+    done();
   });
 
   after((done) => {
@@ -79,7 +64,7 @@ describe('User', () => {
     it('it should not be possible to get users without proper capability', (done) => {
       agent
         .post('/api/users/login')
-        .send(userUsers)
+        .send(userWithNoRole)
         .end(() => {
           agent
             .get('/api/users')
@@ -103,7 +88,6 @@ describe('User', () => {
             .end((err, res) => {
               res.should.have.status(200);
               res.body.should.be.a('array');
-
               done();
             });
         });
@@ -260,7 +244,7 @@ describe('User', () => {
     });
 
     it('it should add a new user', (done) => {
-      chai.request(server).keepOpen()
+      agent
         .post('/api/users')
         .send(user)
         .end((err, res) => {
@@ -269,9 +253,6 @@ describe('User', () => {
           res.body.should.have.property('id');
           res.body.should.have.property('username');
           res.body.should.not.have.property('password');
-
-          users[0] = res.body.id;
-
           done();
         });
     });
@@ -317,8 +298,6 @@ describe('User', () => {
           res.body.should.have.property('username');
           res.body.should.not.have.property('password');
 
-          users[1] = res.body.id;
-
           models.User.findOne({
             where: {
               username: user1.username,
@@ -341,7 +320,7 @@ describe('User', () => {
   describe('GET /api/users/:id', () => {
     it('it should not be possible to get user details when not logged in', (done) => {
       chai.request(server).keepOpen()
-        .get(`/api/users/${users[0]}`)
+        .get(`/api/users/${users[0].id}`)
         .end((err, res) => {
           res.should.have.status(401);
           res.body.should.be.a('object');
@@ -354,7 +333,7 @@ describe('User', () => {
     it('it should not be possible to get user details without proper capability', (done) => {
       agent
         .post('/api/users/login')
-        .send(userUsers)
+        .send(userWithNoRole)
         .end(() => {
           agent
             .get(`/api/users/${users[0]}`)
@@ -374,7 +353,7 @@ describe('User', () => {
         .send(admin)
         .end(() => {
           agent
-            .get(`/api/users/${users[0]}`)
+            .get(`/api/users/${users[0].id}`)
             .end((err, res) => {
               res.should.have.status(200);
               res.body.should.be.a('object');
@@ -541,23 +520,28 @@ describe('User', () => {
     });
 
     it('it should allow to change own password when logged in', (done) => {
-      agent
-        .post('/api/users/login')
-        .send(user)
-        .end(() => {
-          agent
-            .patch(`/api/users/${users[0]}`)
-            .send({
-              password: 'newPassword',
-            })
-            .end((err, res) => {
-              res.should.have.status(200);
-              res.body.should.be.a('object');
-              res.body.should.have.property('username');
-
-              done();
-            });
-        });
+      models.User.findAll({
+        where: {
+          username: user.username,
+        },
+      }).then((currentUser) => {
+        agent
+          .post('/api/users/login')
+          .send(user)
+          .end(() => {
+            agent
+              .patch(`/api/users/${currentUser[0].id}`)
+              .send({
+                password: 'newPassword',
+              })
+              .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                res.body.should.have.property('username');
+                done();
+              });
+          });
+      });
     });
 
     it('it should not log in a user after password change', (done) => {
@@ -576,10 +560,10 @@ describe('User', () => {
     it('it should allow an empty patch', (done) => {
       agent
         .post('/api/users/login')
-        .send(user1)
+        .send(admin)
         .end(() => {
           agent
-            .patch(`/api/users/${users[1]}`)
+            .patch(`/api/users/${users[0].id}`)
             .send({})
             .end((err, res) => {
               res.should.have.status(200);
@@ -613,7 +597,7 @@ describe('User', () => {
         .send(admin)
         .end(() => {
           agent
-            .patch(`/api/users/${users[0]}`)
+            .patch(`/api/users/${users[1].id}`)
             .send({})
             .end((err, res) => {
               agent
@@ -692,7 +676,7 @@ describe('User', () => {
         .send(admin)
         .end(() => {
           agent
-            .post(`/api/users/${users[0]}/role`)
+            .post(`/api/users/${users[0].id}/role`)
             .send({
               id: 999999,
             })
@@ -712,7 +696,7 @@ describe('User', () => {
         .send(admin)
         .end(() => {
           agent
-            .post(`/api/users/${users[0]}/role`)
+            .post(`/api/users/${users[1].id}/role`)
             .send({
               id: 1,
             })
@@ -726,10 +710,11 @@ describe('User', () => {
     });
   });
 
-  describe('DELETE /api/users/:id/role/:role', () => {
+  describe('DELETE /api/users/:id/role/:role', async () => {
     it('it should not be possible to remove a role by a guest user', (done) => {
+      const userToDelete = models.User.create({ username: (new Date().getMilliseconds.toString()) });
       chai.request(server).keepOpen()
-        .delete(`/api/users/${users[0]}/role/1`)
+        .delete(`/api/users/${userToDelete.id}/role/1`)
         .end((err, res) => {
           res.should.have.status(401);
           res.body.should.be.a('object');
@@ -759,14 +744,21 @@ describe('User', () => {
       agent
         .post('/api/users/login')
         .send(admin)
-        .end(() => {
+        .end((err, res) => {
+          res.should.have.status(200);
           agent
-            .delete(`/api/users/${users[0]}/role/${1}`)
-            .end((err, res) => {
-              res.should.have.status(200);
-              res.body.should.be.a('object');
-
-              done();
+            .post(`/api/users/${users[1].id}/role`)
+            .send({
+              id: 3,
+            })
+            .end(() => {
+              agent
+                .delete(`/api/users/${users[1].id}/role/3`)
+                .end((err, res) => {
+                  res.should.have.status(200);
+                  res.body.should.be.a('object');
+                  done();
+                });
             });
         });
     });
@@ -813,10 +805,10 @@ describe('User', () => {
     it('it should be possible to add a language to a user with proper capability', (done) => {
       agent
         .post('/api/users/login')
-        .send(user1)
+        .send(admin)
         .end(() => {
           agent
-            .post(`/api/users/${users[1]}/language`)
+            .post(`/api/users/${users[0].id}/language`)
             .send({
               id: 1,
               level: 3,
@@ -839,10 +831,10 @@ describe('User', () => {
     it('it should not be possible to add the same language twice', (done) => {
       agent
         .post('/api/users/login')
-        .send(user1)
+        .send(admin)
         .end(() => {
           agent
-            .post(`/api/users/${users[1]}/language`)
+            .post(`/api/users/${users[0].id}/language`)
             .send({
               id: 1,
               level: 6,
@@ -863,10 +855,10 @@ describe('User', () => {
     it('it should be possible to add a preferred language to a user with proper capability', (done) => {
       agent
         .post('/api/users/login')
-        .send(user1)
+        .send(admin)
         .end(() => {
           agent
-            .post(`/api/users/${users[1]}/language/preferred`)
+            .post(`/api/users/${users[0].id}/language/preferred`)
             .send({
               id: languages[0],
             })
@@ -887,7 +879,7 @@ describe('User', () => {
   describe('DELETE /api/users/:id', () => {
     it('it should not be possible to delete a user without being logged in', (done) => {
       chai.request(server).keepOpen()
-        .delete(`/api/users/${users[0]}`)
+        .delete(`/api/users/${users[1].id}`)
         .send(user)
         .end((err, res) => {
           res.should.have.status(401);
@@ -921,12 +913,11 @@ describe('User', () => {
         .send(admin)
         .end(() => {
           agent
-            .delete(`/api/users/${users[0]}`)
+            .delete(`/api/users/${users[1].id}`)
             .end((err, res) => {
               res.should.have.status(200);
               res.body.should.be.a('object');
               res.body.should.have.property('deleted');
-
               done();
             });
         });
@@ -938,11 +929,10 @@ describe('User', () => {
         .send(admin)
         .end(() => {
           agent
-            .delete('/api/users/1')
+            .delete(`/api/users/${users[0].id}`)
             .end((err, res) => {
               res.should.have.status(400);
               res.body.should.be.a('object');
-
               done();
             });
         });

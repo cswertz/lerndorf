@@ -2,7 +2,7 @@ import chaiHttp from 'chai-http';
 import chai from 'chai';
 
 import models from '../server/config/sequelize';
-import server from '../server/';
+import server from '../server';
 
 chai.should();
 chai.use(chaiHttp);

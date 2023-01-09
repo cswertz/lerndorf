@@ -1,7 +1,9 @@
 import { check, validationResult, buildCheckFunction } from 'express-validator';
 import express from 'express';
 import models from '../config/sequelize';
-import { hasCapability, isCreatorOrInCourse, isInCourse, isSelfOrHasCapability, isThreadCreatorOrAdmin } from '../helpers/auth';
+import {
+  hasCapability, isCreatorOrInCourse, isCourseUser, isSelfOrHasCapability, isThreadCreatorOrAdmin, isAdmin,
+} from '../helpers/auth';
 import ThreadPost from '../models/ThreadPost';
 
 const router = express.Router();
@@ -55,13 +57,7 @@ router.get('/:id', isCreatorOrInCourse(models), async (req, res) => {
     ],
   });
 
-  if (!thread) {
-    return res.status(400).send({
-      error: 'There is no forum thread with this id.',
-    });
-  }
-
-  res.json(thread);
+  return res.status(200).send(thread);
 });
 
 router.post('/', [
@@ -74,7 +70,7 @@ router.post('/', [
     .notEmpty(),
 ], async (req, res) => {
   // Check if the user added a course id
-  if (req.body.courseId && await isInCourse(req.user, req.body.courseId) === false) {
+  if (req.body.courseId && await isCourseUser(req.user.id, req.body.courseId) === false) {
     return res.status(403).send({
       error: 'You cannot create a thread for this course.',
     });
@@ -140,11 +136,6 @@ router.patch('/:id', [
       },
     ],
   });
-  if (!thread || !thread.id) {
-    return res.status(404).send({
-      error: `There is no forum thread with this id. (${req.params.id})`,
-    });
-  }
 
   // Get the first posting
   // const firstPost = thread.posts[0];
@@ -199,11 +190,6 @@ router.delete('/:id', [
       },
     ],
   });
-  if (!thread || !thread.id) {
-    return res.status(404).send({
-      error: `There is no forum thread with this id. (${req.params.id})`,
-    });
-  }
 
   // Delete the related thread
   models.Thread.destroy({
@@ -226,7 +212,15 @@ router.post('/:id/answers', [
   check('text', 'text is required')
     .isLength({ min: 1 })
     .notEmpty(),
-], (req, res) => {
+], async (req, res) => {
+  const currentThread = await models.Thread.findByPk(req.params.id);
+
+  if (currentThread.courseId !== null && (await isCourseUser(req.user.id, currentThread.courseId) === false && currentThread.userId !== req.user.id) && await isAdmin(req.user.id) === false) {
+    return res.status(403).send({
+      error: 'You cannot create an answer for this thread.',
+    });
+  }
+
   const item = models.ThreadPost.create({
     userId: req.user.id,
     text: req.body.text,
@@ -251,7 +245,26 @@ router.post('/:id/answers', [
     },
   }, req.params.id);
 
-  res.status(200).send(item);
+  const thread = await models.Thread.findByPk(req.params.id, {
+    attributes: [
+      'id',
+      'summary',
+      'userId',
+    ],
+    include: [
+      {
+        model: models.ThreadPost,
+        as: 'posts',
+        include: [
+          {
+            model: models.User,
+            as: 'user',
+          },
+        ],
+      },
+    ],
+  });
+  return res.status(200).send(thread);
 });
 
 export default router;
