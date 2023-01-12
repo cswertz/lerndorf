@@ -194,7 +194,6 @@ export const forumThreadFetchAddAnswer = (id, data, history) => (dispatch) =>
   })
     .then((response) => response.json())
     .then((json) => {
-      console.error(json);
       if (json) {
         if (json.error) {
           dispatch(forumThreadFetchAddAnswerFailed(json.error, json.errors));

@@ -78,7 +78,7 @@ const Dashboard = () => {
           count={2}
           title="Meine Kurse"
           component={Link}
-          to="/learning-units"
+          to="/courses/my"
         />
 
         <Card

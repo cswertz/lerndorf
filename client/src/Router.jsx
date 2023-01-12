@@ -13,6 +13,7 @@ import RoutesUsers from '@containers/routes/users';
 import RoutesTexts from '@containers/routes/texts';
 import RoutesLogs from '@containers/routes/logs';
 import RouterForums from '@containers/routes/forum';
+import RouterCourses from '@containers/routes/courses';
 import Wrapper from '@components/UI/Wrapper';
 import Dashboard from '@components/Dashboard';
 import Login from '@containers/users/Login';
@@ -36,6 +37,7 @@ const Router = ({
   logs,
   forum,
   thread,
+  courses,
 }) => {
   return (
     <Switch>
@@ -64,8 +66,7 @@ const Router = ({
         <Wrapper>
           <Switch>
             <Route path="/" exact>
-              {/* show specific content page (welcome) */}
-              <Content id={1} />
+              <Dashboard />
             </Route>
 
             <PrivateRoute path="/dashboard" exact>
@@ -142,6 +143,10 @@ const Router = ({
 
             <PrivateRoute path="/threads">
               <RouterForums user={user} actions={actions} forum={forum} thread={thread} />
+            </PrivateRoute>
+
+            <PrivateRoute path="/courses">
+              <RouterCourses user={user} actions={actions} courses={courses} />
             </PrivateRoute>
 
             <Route path="/errors/403" exact>
@@ -232,6 +237,11 @@ Router.propTypes = {
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
+  courses: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   thread: PropTypes.shape({
     item: PropTypes.shape({}).isRequired,
     id: PropTypes.shape({}).isRequired,
@@ -248,6 +258,7 @@ Router.propTypes = {
     forumThreadFetch: PropTypes.func.isRequired,
     forumThreadFetchAddAnswer: PropTypes.func.isRequired,
     forumThreadUpdate: PropTypes.func.isRequired,
+    coursesFetchMy: PropTypes.func.isRequired,
     languagesDelete: PropTypes.func.isRequired,
     languagesFetch: PropTypes.func.isRequired,
     languagesEdit: PropTypes.func.isRequired,
@@ -320,6 +331,7 @@ const mapStateToProps = (state) => ({
   logs: state.logs,
   forum: state.forum,
   thread: state.thread,
+  courses: state.courses,
 });
 
 const mapDispatchToProps = (dispatch) => ({

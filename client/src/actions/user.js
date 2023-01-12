@@ -143,7 +143,7 @@ export const userEdit = (id, data, history) => {
       });
 };
 
-export const userFetchRoles = (id) => (dispatch) =>
+export const userFetchRoles = (id, history) => (dispatch) =>
   fetch(`/api/users/${id}`, {
     method: 'GET',
     headers: {
@@ -155,6 +155,9 @@ export const userFetchRoles = (id) => (dispatch) =>
     .then((response) => {
       if (response.status === 401) {
         dispatch(userLogoutSuccess());
+        if (history) {
+          history.push('/');
+        }
       }
       return response.json();
     })

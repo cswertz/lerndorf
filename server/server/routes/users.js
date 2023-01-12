@@ -234,7 +234,6 @@ router.delete('/:id', isSelfOrHasCapability('delete_user'), async (req, res) => 
   const { id } = req.params;
 
   const lastAdmin = await isLastAdmin(id);
-  console.error('LASTADMIN:', lastAdmin);
 
   // Last admin can not be deleted
   if (!lastAdmin) {

@@ -49,6 +49,7 @@ const Sidebar = () => {
   // const user = useSelector((state) => state.user);
 
   const paths = [
+    '',
     'dashboard',
     'tasks',
     'messages',

@@ -28,13 +28,23 @@ router.get('/my', (req, res) => {
     return;
   }
 
-  const userId = res.user.id;
+  const userId = req.user.id;
+
+  if (userId === null) {
+    return res.status(401).json(req.user);
+  }
 
   models.Course.findAll({
     include: [
       {
         model: models.CourseUser,
         as: 'users',
+        include: [
+          {
+            model: models.RoleLanguage,
+            as: 'roleTranslation',
+          },
+        ],
         where: {
           userId,
         },

@@ -42,7 +42,12 @@ const AdminMenu = () => {
   });
 
   useEffect(() => {
-    if (!user.fetchingRoles && !user.fetchedRoles && user.user.username !== 'Guest') {
+    if (
+      user?.loggedIn === true &&
+      !user.fetchingRoles &&
+      !user.fetchedRoles &&
+      user.user.username !== 'Guest'
+    ) {
       dispatch(userFetchRoles(user.user.id));
     }
   });

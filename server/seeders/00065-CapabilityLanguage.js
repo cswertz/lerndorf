@@ -326,6 +326,16 @@ const capabilityLanguages = [
     language: 'en',
     vocable: 'delete any thread',
   },
+  {
+    slug: 'enrole_course',
+    language: 'en',
+    vocable: 'enrole a course',
+  },
+  {
+    slug: 'create_course',
+    language: 'en',
+    vocable: 'create a course',
+  },
 ];
 
 module.exports = {

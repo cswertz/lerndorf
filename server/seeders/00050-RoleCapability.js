@@ -45,6 +45,10 @@ const roleCapabilities = [
       'edit_own_threads',
       'view_threads',
       'create_threads',
+      'enrole_course',
+      'leave_course',
+      'edit_course',
+      'delete_course',
     ],
   },
   {
@@ -63,6 +67,9 @@ const roleCapabilities = [
       'edit_own_threads',
       'view_threads',
       'create_threads',
+      'create_course',
+      'enrole_course',
+      'leave_course',
     ],
   },
   {
@@ -70,6 +77,9 @@ const roleCapabilities = [
     capabilities: [
       'set_knowledge_unit_lectored',
       'delete_editor_role_from_user',
+      'enrole_course',
+      'edit_course',
+      'delete_course',
     ],
   },
   {
@@ -78,6 +88,11 @@ const roleCapabilities = [
       'delete_lector_role_from_user',
       'set_knowledge_unit_lectored',
       'set_knowledge_unit_reviewed',
+      'craete',
+      'enrole_course',
+      'edit_course',
+      'delete_course',
+      'leave_course',
     ],
   },
   {
