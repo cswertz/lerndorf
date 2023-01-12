@@ -44,11 +44,9 @@ class CourseUserLog extends Model {
   }
 
   static associate(sequelize) {
-
     CourseUserLog.belongsTo(sequelize.Course, { as: 'course', foreignKey: 'courseId' });
     CourseUserLog.belongsTo(sequelize.CourseUser, { as: 'courseUser', foreignKey: 'userId' });
     CourseUserLog.belongsTo(sequelize.KnowledgeUnit, { as: 'knowledgeUnit', foreignKey: 'KnowledgeUnitId' });
-   
   }
 }
 

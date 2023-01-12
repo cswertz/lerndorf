@@ -12,6 +12,7 @@ import roles from '../routes/roles';
 import logs from '../routes/logs';
 import navigations from '../routes/navigations';
 import courses from '../routes/courses';
+import threads from '../routes/threads';
 
 const configRoutes = (app) => {
   app.get('/', (req, res) => {
@@ -30,6 +31,7 @@ const configRoutes = (app) => {
   app.use('/api/logs', logs);
   app.use('/api/navigations', navigations);
   app.use('/api/courses', courses);
+  app.use('/api/threads', threads);
 };
 
 export default configRoutes;

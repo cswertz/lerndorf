@@ -296,6 +296,36 @@ const capabilityLanguages = [
     language: 'de',
     vocable: 'jede Lerneinheit beabeiten',
   },
+  {
+    slug: 'create_threads',
+    language: 'en',
+    vocable: 'create threads',
+  },
+  {
+    slug: 'view_threads',
+    language: 'en',
+    vocable: 'view any public threads',
+  },
+  {
+    slug: 'delete_own_threads',
+    language: 'en',
+    vocable: 'delete own threads',
+  },
+  {
+    slug: 'edit_own_threads',
+    language: 'en',
+    vocable: 'edit own threads',
+  },
+  {
+    slug: 'edit_threads',
+    language: 'en',
+    vocable: 'edit any thread',
+  },
+  {
+    slug: 'delete_threads',
+    language: 'en',
+    vocable: 'delete any thread',
+  },
 ];
 
 module.exports = {
