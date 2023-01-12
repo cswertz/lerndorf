@@ -39,6 +39,12 @@ const roleCapabilities = [
       'delete_role_from_user',
       'delete_self',
       'view_user_logs',
+      'delete_own_threads',
+      'delete_threads',
+      'edit_threads',
+      'edit_own_threads',
+      'view_threads',
+      'create_threads',
     ],
   },
   {
@@ -53,6 +59,10 @@ const roleCapabilities = [
       'add_knowledge_unit_version',
       'add_learning_unit',
       'delete_self',
+      'delete_own_threads',
+      'edit_own_threads',
+      'view_threads',
+      'create_threads',
     ],
   },
   {

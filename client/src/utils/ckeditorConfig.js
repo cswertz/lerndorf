@@ -58,4 +58,11 @@ const editorConfig = {
   },
 };
 
-export default editorConfig;
+const editorConfigSimple = {
+  extraPlugins: [CustomUploadAdapterPlugin],
+  toolbar: {
+    items: ['bold', 'italic', 'link', 'bulletedList', 'numberedList'],
+  },
+};
+
+export { editorConfig, editorConfigSimple };

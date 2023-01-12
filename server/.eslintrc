@@ -5,6 +5,22 @@
     "describe": false,
     "before": false,
     "after": false,
-    "it": false,
+    "it": false
+  },
+  "ignorePatterns": ["**/server/public/static/js/*.js", "**/server/public/service-worker.js","**/server/public/precache-manifest.*"],
+  "rules": {
+    "no-console": "off",
+    "no-await-in-loop": "off",
+    "no-restricted-syntax": "off",
+    "consistent-return": "off",
+    "max-len": "off",
+    "no-unused-vars": "off",
+    "implicit-arrow-linebreak": "off",
+    "array-callback-return": "off",
+    "no-shadow": "off",
+    "import/named": "off",
+    "import/prefer-default-export": "off",
+    "import/extensions": "off",
+    "react/no-danger":"off"
   }
 }

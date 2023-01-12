@@ -4,6 +4,7 @@
   "main": "./server/index.js",
   "license": "MIT",
   "scripts": {
+    "test-prepare": "rm -rf test.sqlite",
     "test": "rm -rf test.sqlite && NODE_ENV=test sequelize db:migrate && NODE_ENV=test sequelize db:seed:all && SERVER_PORT=9999 NODE_ENV=test nyc mocha --require server/config/babelHook.js --timeout 10000 --exit",
     "test-watch": "SERVER_PORT=9999 NODE_ENV=test mocha --require server/config/babelHook.js --timeout 10000 --exit --watch",
     "start": "sequelize db:migrate && sequelize db:seed:all && rm -rf ./build && webpack --config webpack.config.server.js",

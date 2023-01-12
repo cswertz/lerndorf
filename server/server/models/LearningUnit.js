@@ -30,9 +30,9 @@ class LearningUnit extends Model {
 
     LearningUnit.hasMany(sequelize.KnowledgeUnit);
 
-    //LearningUnit.hasOne(LearningUnit, { foreignKey: 'rootId' });
-    //LearningUnit.hasOne(LearningUnit, { foreignKey: 'prevId' });
-    //LearningUnit.hasOne(LearningUnit, { foreignKey: 'nextId' });
+    // LearningUnit.hasOne(LearningUnit, { foreignKey: 'rootId' });
+    // LearningUnit.hasOne(LearningUnit, { foreignKey: 'prevId' });
+    // LearningUnit.hasOne(LearningUnit, { foreignKey: 'nextId' });
 
     LearningUnit.belongsToMany(sequelize.Language, { through: 'LearningUnitLanguage' });
     LearningUnit.belongsToMany(sequelize.LearningUnit, { through: 'LearningUnitRelation', foreignKey: 'sourceId', as: 'source' });

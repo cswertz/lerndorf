@@ -32,10 +32,8 @@ class CourseSequence extends Model {
   }
 
   static associate(sequelize) {
-
     CourseSequence.belongsTo(sequelize.Course, { as: 'course', foreignKey: 'courseId' });
-    CourseSequence.hasMany(sequelize.CourseSequenceKnowledgeUnit, { as: 'units', foreignKey: 'courseSequenceId'});
-   
+    CourseSequence.hasMany(sequelize.CourseSequenceKnowledgeUnit, { as: 'units', foreignKey: 'courseSequenceId' });
   }
 }
 

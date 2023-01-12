@@ -10,7 +10,6 @@ import { hasCapability } from '@utils/user';
 class LearningUnits extends Component {
   constructor(props) {
     super(props);
-
     this.handleDelete = this.handleDelete.bind(this);
   }
 
