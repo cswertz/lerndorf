@@ -2,6 +2,8 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import MyCourses from '../courses/MyCourses';
+import EnroleCourses from '../courses/EnroleCourses';
+import CreateCourse from '../courses/CreateCourse';
 
 const CoursesRouter = ({ courses, actions, user }) => (
   <>
@@ -9,6 +11,16 @@ const CoursesRouter = ({ courses, actions, user }) => (
       exact
       path="/courses/my"
       render={() => <MyCourses user={user} actions={actions} courses={courses} />}
+    />
+    <Route
+      exact
+      path="/courses/enrole"
+      render={() => <EnroleCourses user={user} actions={actions} courses={courses} />}
+    />
+    <Route
+      exact
+      path="/courses/create"
+      render={() => <CreateCourse user={user} actions={actions} />}
     />
   </>
 );
