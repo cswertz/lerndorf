@@ -11,8 +11,6 @@ import users from './users';
 import texts from './texts';
 import user from './user';
 import logs from './logs';
-import forum from './forum';
-import thread from './thread';
 
 const lerndorfApp = combineReducers({
   form: formReducer,
@@ -26,8 +24,6 @@ const lerndorfApp = combineReducers({
   texts,
   user,
   logs,
-  forum,
-  thread,
 });
 
 export default lerndorfApp;

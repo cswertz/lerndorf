@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, setState, useEffect, useRef } from 'react';
 // import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -48,17 +48,7 @@ const Sidebar = () => {
   const location = useLocation();
   // const user = useSelector((state) => state.user);
 
-  const paths = [
-    'dashboard',
-    'tasks',
-    'messages',
-    'languages',
-    'taxonomies',
-    'users',
-    'logs',
-    'threads',
-    'errors',
-  ];
+  const paths = ['dashboard', 'tasks', 'messages', 'languages', 'taxonomies', 'users', 'logs'];
   const isDasboardPage = paths.some((pathName) => location.pathname.includes(pathName));
 
   const [topics, setTopics] = useState([]);

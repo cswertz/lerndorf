@@ -59,8 +59,10 @@ class CourseUser extends Model {
   }
 
   static associate(sequelize) {
+
     CourseUser.belongsTo(sequelize.Course, { as: 'course', foreignKey: 'courseId' });
     CourseUser.belongsTo(sequelize.User, { as: 'user', foreignKey: 'userId' });
+   
   }
 }
 

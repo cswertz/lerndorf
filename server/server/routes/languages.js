@@ -94,8 +94,8 @@ router.delete('/:id', hasCapability('delete_language'), async (req, res) => {
 
   let hasContent = false;
   for (const model of checkModels) {
-    const items = language[`${model}s`];
-    if (items.length > 0) {
+    const items = language[model + "s"];
+    if(items.length > 0) {
       hasContent = true;
     }
   }

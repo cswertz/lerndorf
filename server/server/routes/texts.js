@@ -42,7 +42,7 @@ router.post('/', [
 });
 
 router.get('/:id', (req, res) => {
-  if (req.params && req.params.id === 'undefined') {
+  if (req.params && req.params.id === 'undefined'){
     res.json({});
     return;
   }

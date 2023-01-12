@@ -9,7 +9,7 @@ export default {
 
     courseId: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
       notEmpty: true,
       unique: 'courseIduserIdKnowledgeUnitId',
       references: {

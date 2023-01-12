@@ -100,9 +100,9 @@ const Dashboard = () => {
         <Card
           icon={<ChatBubbleOutlineIcon />}
           count={4}
-          title="Threads"
+          title="Nachrichten"
           component={Link}
-          to="/threads"
+          to="/learning-units"
         />
       </div>
     </div>

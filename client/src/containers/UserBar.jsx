@@ -8,6 +8,9 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import PersonIcon from '@material-ui/icons/Person';
+import MailIcon from '@material-ui/icons/MailOutline';
+
+import Badge from '@components/UI/Badge';
 
 const useStyles = makeStyles((theme) => ({
   grow: {

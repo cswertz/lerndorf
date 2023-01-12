@@ -39,43 +39,43 @@ class Course extends Model {
         type: DataTypes.TIME,
         allowNull: false,
         notEmpty: true,
-      },
+      }, 
 
       enrolmentConfirmation: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        notEmpty: true,
+        notEmpty: true
       },
 
       enrolmentByTutor: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        notEmpty: true,
+        notEmpty: true
       },
 
       access: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        notEmpty: true,
+        notEmpty: true
       },
 
       copyAllowed: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        notEmpty: true,
+        notEmpty: true
       },
 
       courseStart: {
         type: DataTypes.TIME,
         allowNull: false,
         notEmpty: true,
-      },
+      }, 
 
       courseEnd: {
         type: DataTypes.TIME,
         allowNull: false,
         notEmpty: true,
-      },
+      }, 
 
       mainLanguage: {
         type: DataTypes.INTEGER,
@@ -90,9 +90,9 @@ class Course extends Model {
   }
 
   static associate(sequelize) {
-    Course.hasMany(sequelize.CourseUser, { as: 'users', foreignKey: 'courseId' });
-    Course.hasMany(sequelize.CourseSequence, { as: 'sequences', foreignKey: 'courseId' });
-    Course.hasMany(sequelize.CourseContent, { as: 'content', foreignKey: 'courseId' });
+    Course.hasMany(sequelize.CourseUser, { as: 'users', foreignKey: 'courseId'});
+    Course.hasMany(sequelize.CourseSequence, { as: 'sequences', foreignKey: 'courseId'});
+    Course.hasMany(sequelize.CourseContent, { as: 'content', foreignKey: 'courseId'});
   }
 }
 

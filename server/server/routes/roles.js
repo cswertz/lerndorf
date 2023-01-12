@@ -29,7 +29,7 @@ const defaultRoleFields = {
         ],
       },
     },
-  ],
+  ]
 };
 
 router.get('/', async (req, res) => {
@@ -58,8 +58,8 @@ router.post('/', [
 
   try {
     const result = await models.Role.create(req.body);
-    if (req.body.translations) {
-      for (const translation of req.body.translations) {
+    if(req.body.translations) {
+      for(let translation of req.body.translations) {
         await models.RoleLanguage.create({
           RoleId: result.id,
           LanguageId: translation.id,
@@ -70,6 +70,7 @@ router.post('/', [
 
     return res.json(result);
   } catch (err) {
+    console.log(err);
     res.status(422).send({
       error: 'There have been database errors.',
       errors: err.errors.map((error) => ({
@@ -128,15 +129,15 @@ router.patch('/:id', hasCapability('edit_role'), async (req, res) => {
     },
   });
 
-  if (req.body.translations) {
-    for (const translation of req.body.translations) {
+  if(req.body.translations) {
+    for(let translation of req.body.translations) {
       const foundItem = await models.RoleLanguage.findOne({
         where: {
           RoleId: req.params.id,
-          LanguageId: translation.id,
-        },
+          LanguageId: translation.id
+        }
       });
-      if (foundItem) {
+      if(foundItem) {
         await foundItem.update({
           vocable: translation.vocable,
         });

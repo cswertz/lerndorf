@@ -198,6 +198,7 @@ describe('LearningUnit', () => {
 
               res.body.should.be.a('object');
               res.body.should.have.property('presentation');
+              res.body.should.have.property('animation');
               res.body.presentation.should.have.property('term');
               res.body.presentation.term.should.be.an('object');
               res.body.presentation.should.have.property('units');

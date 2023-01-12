@@ -265,7 +265,7 @@ router.patch('/markLectored/:id', hasCapability('set_knowledge_unit_lectored'), 
 });
 
 router.get('/own', isLoggedIn, async (req, res) => {
-  const query = { knowledgeUnitDetailData };
+  const query = Object.assign({}, knowledgeUnitDetailData);
   query.where = {
     UserId: {
       [Op.eq]: req.user.id,

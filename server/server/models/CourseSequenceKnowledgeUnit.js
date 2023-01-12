@@ -44,7 +44,9 @@ class CourseSequenceKnowledgeUnit extends Model {
   }
 
   static associate(sequelize) {
+
     CourseSequenceKnowledgeUnit.belongsTo(sequelize.CourseSequenceKnowledgeUnit, { as: 'knowledgeUnit', foreignKey: 'rootId' });
+   
   }
 }
 

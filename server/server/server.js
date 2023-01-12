@@ -51,6 +51,6 @@ app.use((req, res, next) => {
 });
 
 routeConfig(app);
-console.log(__dirname);
+console.log(__dirname)
 
 export default app;

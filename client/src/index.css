@@ -21,23 +21,3 @@ input {
 image {
   display: block;
 }
-
-.small {
-  font-size: 10px!important;
-}
-
-.smallMargin {
-  margin-top: 4px!important;
-}
-
-.smallMarginBottom {
-  margin-bottom: 4px!important;
-}
-
-.mediumMargin {
-  margin-top: 15px!important;
-}
-
-.mediumMarginBottom {
-  margin-bottom: 15px!important;
-}

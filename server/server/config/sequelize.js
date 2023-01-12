@@ -23,8 +23,6 @@ import CourseUser from '../models/CourseUser';
 import CourseSequence from '../models/CourseSequence';
 import CourseContent from '../models/CourseContent';
 import CourseSequenceKnowledgeUnit from '../models/CourseSequenceKnowledgeUnit';
-import Thread from '../models/Thread';
-import ThreadPost from '../models/ThreadPost';
 
 const models = [
   KnowledgeUnitUserRating,
@@ -50,8 +48,6 @@ const models = [
   CourseSequence,
   CourseSequenceKnowledgeUnit,
   CourseContent,
-  Thread,
-  ThreadPost,
 ];
 
 /* istanbul ignore next */

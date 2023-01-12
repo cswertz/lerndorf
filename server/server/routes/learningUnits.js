@@ -398,6 +398,7 @@ router.get('/suggestion/:term', (req, res) => {
 });
 
 router.get('/:id/knowledgeUnits', async (req, res) => {
+
   const knowledgeUnits = await models.KnowledgeUnit.findAll({
     where: {
       LearningUnitId: req.params.id,
@@ -417,8 +418,8 @@ router.get('/:id/knowledgeUnits', async (req, res) => {
       },
       {
         model: models.LearningUnit,
-        attributes: ['id'],
-      },
+        attributes: [ "id" ]
+      }
     ],
     order: [
       [models.KnowledgeUnit, 'id', 'asc'],
@@ -445,8 +446,8 @@ router.get('/:id/knowledgeUnits', async (req, res) => {
 router.patch('/:id', hasCapability('edit_any_learning_unit'), async (req, res) => {
   const { id } = req.params;
   const languages = Object.keys(req.body);
-  for (const language of languages) {
-    const { title } = req.body[language];
+  for(let language of languages) {
+    const title = req.body[language].title;
     await models.LearningUnitLanguage.update({
       title,
     }, {

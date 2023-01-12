@@ -35,7 +35,9 @@ class CourseContent extends Model {
   }
 
   static associate(sequelize) {
+
     CourseContent.belongsTo(sequelize.Course, { as: 'course', foreignKey: 'courseId' });
+   
   }
 }
 

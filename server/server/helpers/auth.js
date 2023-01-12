@@ -147,24 +147,6 @@ const isAdmin = async (id) => {
   return adminRoles.length > 0;
 };
 
-const isCourseUser = async (userId, courseId) => {
-  if (await isAdmin(userId) === true) {
-    return true;
-  }
-
-  const courseUsersWithId = await models.CourseUser.findAll({
-    where: {
-      userId,
-      courseId,
-    },
-  });
-  if (courseUsersWithId.length === 0) {
-    return false;
-  }
-
-  return true;
-};
-
 const isUser = async (id) => {
   const user = await models.User.findByPk(id);
   const roles = await user.getRoles();
@@ -173,7 +155,7 @@ const isUser = async (id) => {
 };
 
 const isLastAdmin = async (id) => {
-  if (await isAdmin(id)) {
+  if (isAdmin(id)) {
     const adminUsers = await models.User.findAll({
       attributes: ['id'],
       include: [
@@ -194,63 +176,6 @@ const isLastAdmin = async (id) => {
   return false;
 };
 
-const isCreatorOrInCourse = (models) => async (req, res, next) => {
-  if (req.params.id === 'create') {
-    return next();
-  }
-
-  if (req.user) {
-    const entityItem = await models.Thread.findByPk(req.params.id);
-    if (entityItem === null) {
-      return res.status(400).send({
-        error: `You do not have permission to this thread, cause it does not exits. (${req.params.id})`,
-      });
-    }
-
-    if (entityItem.courseId === null || await isAdmin(req.user.id) === true) {
-      return next();
-    }
-
-    const isInCourseResult = await isCourseUser(req.user.id, entityItem.courseId);
-
-    if (isInCourseResult === false) {
-      return res.status(403).send({
-        error: 'You do not have permission to this course related thread.',
-      });
-    }
-
-    console.error(req.params.id, req.user, entityItem);
-
-    return next();
-  }
-
-  return res.status(401).send({
-    error: 'Not logged in.',
-  });
-};
-
-const isThreadCreatorOrAdmin = (models) => async (req, res, next) => {
-  if (req.user) {
-    const entityItem = await models.Thread.findByPk(req.params.id);
-    if (entityItem === null) {
-      return res.status(403).send({
-        error: 'You do not have permission to this thread.',
-      });
-    }
-
-    if (await isAdmin(req.user.id) === true || entityItem.userId === req.user.id) {
-      return next();
-    }
-
-    return res.status(403).send({
-      error: 'You do not have permission to this course related thread.',
-    });
-  }
-
-  return res.status(401).send({
-    error: 'Not logged in.',
-  });
-};
 
 export {
   hasCapabilityOrOwnsKnowledgeUnit,
@@ -262,7 +187,4 @@ export {
   isLoggedIn,
   hasRole,
   isSelf,
-  isCreatorOrInCourse,
-  isCourseUser,
-  isThreadCreatorOrAdmin,
 };

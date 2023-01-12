@@ -170,11 +170,6 @@ router.patch('/:id', isSelfOrHasCapability('edit_user'), (req, res) => {
   delete (req.body.username);
   delete (req.body.id);
 
-  // clear data if invalid
-  if (req.body.birthdate === '') {
-    delete (req.body.birthdate);
-  }
-
   if (req.body.password) {
     req.body.password = hashPassword(req.body.password);
   }
@@ -234,7 +229,6 @@ router.delete('/:id', isSelfOrHasCapability('delete_user'), async (req, res) => 
   const { id } = req.params;
 
   const lastAdmin = await isLastAdmin(id);
-  console.error('LASTADMIN:', lastAdmin);
 
   // Last admin can not be deleted
   if (!lastAdmin) {

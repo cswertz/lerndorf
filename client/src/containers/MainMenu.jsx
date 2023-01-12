@@ -74,11 +74,6 @@ const MainMenu = () => {
 
       <AdminMenu />
 
-      <ListItem button divider component={Link} to="/threads">
-        <ListItemText primary="Forum" />
-        <ArrowRightIcon />
-      </ListItem>
-
       <ListItem button onClick={handleLogout}>
         <ListItemText primary="Logout" />
         <ArrowRightIcon />

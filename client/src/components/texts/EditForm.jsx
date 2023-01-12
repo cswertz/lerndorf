@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import ClassicEditor from 'ckeditor5-custom-build/build/ckeditor';
 import CKEditor from '@ckeditor/ckeditor5-react';
 
-import { editorConfig } from '@utils/ckeditorConfig';
+import editorConfig from '@utils/ckeditorConfig';
 
 const styles = (theme) => ({
   wrapper: {

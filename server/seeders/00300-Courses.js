@@ -18,7 +18,7 @@ module.exports = {
     },
   ], {}),
 
-  down: (queryInterface) => queryInterface.bulkDelete('Courses', {
+  down: queryInterface => queryInterface.bulkDelete('Courses', {
     shortTitle: 'Demo',
   }),
 };

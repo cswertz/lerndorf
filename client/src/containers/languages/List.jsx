@@ -9,6 +9,7 @@ import List from '@components/languages/List';
 class Languages extends Component {
   constructor(props) {
     super(props);
+
     this.handleDelete = this.handleDelete.bind(this);
   }
 
