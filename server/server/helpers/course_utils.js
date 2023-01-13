@@ -70,9 +70,31 @@ const attachCommonCourseMetaData = (data, user) => data.map((raw) => {
   return entry;
 });
 
+const getStudentRoleId = async () => {
+  const roles = await models.Role.findAll({ where: { slug: 'learner' } });
+  return roles.length > 0 ? roles[0].id : null;
+};
+
+const getLastCourseSequendId = async (courseId) => {
+  const course = await models.Course.findByPk(courseId, {
+    include: [
+      {
+        model: models.CourseSequence,
+        as: 'sequences',
+        order: [
+          ['id', 'DESC'],
+        ],
+      },
+    ],
+  });
+  return course && course.sequences && course.sequences.length > 0 ? course.sequences[0].id : null;
+};
+
 export {
   attachPlayButtonState,
   attachUserRoleText,
   attachTrainerInformation,
   attachCommonCourseMetaData,
+  getStudentRoleId,
+  getLastCourseSequendId,
 };

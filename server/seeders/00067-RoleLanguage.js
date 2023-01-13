@@ -81,6 +81,16 @@ const roleLanguages = [
     language: 'de',
     vocable: 'TrainerIn',
   },
+  {
+    slug: 'learner',
+    language: 'en',
+    vocable: 'Learner',
+  },
+  {
+    slug: 'learner',
+    language: 'de',
+    vocable: 'Lerner/Lernende',
+  },
 ];
 
 module.exports = {

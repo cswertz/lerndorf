@@ -41,7 +41,7 @@ export default {
     },
 
     enrolment: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIME,
       allowNull: false,
     },
 
@@ -67,5 +67,5 @@ export default {
       },
     },
   }),
-  down: queryInterface => queryInterface.dropTable('CourseUser'),
+  down: (queryInterface) => queryInterface.dropTable('CourseUser'),
 };

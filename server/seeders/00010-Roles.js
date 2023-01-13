@@ -33,6 +33,10 @@ const roles = [
     slug: 'tutor',
     name: 'Tutor',
   },
+  {
+    slug: 'learner',
+    name: 'Learner',
+  },
 ];
 
 export default {

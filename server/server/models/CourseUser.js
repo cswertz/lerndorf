@@ -52,7 +52,7 @@ class CourseUser extends Model {
 
       sequenceId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'CourseSequence',
           key: 'id',

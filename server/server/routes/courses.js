@@ -13,7 +13,7 @@ import models from '../config/sequelize';
 import KnowledgeUnit from '../models/KnowledgeUnit';
 import Language from '../models/Language';
 import { resolveLanguages } from '../helpers/utils';
-import { attachCommonCourseMetaData, attachPlayButtonState, attachUserRoleText } from '../helpers/course_utils';
+import { attachCommonCourseMetaData, attachPlayButtonState, attachUserRoleText, getLastCourseSequendId, getStudentRoleId } from '../helpers/course_utils';
 
 const { Op } = require('sequelize');
 const moment = require('moment');
@@ -27,14 +27,8 @@ router.get('/', (req, res) => {
 
 router.get('/my', async (req, res) => {
   if (req.user === undefined) {
-    res.json([]);
+    res.status(401).json([]);
     return;
-  }
-
-  const userId = req.user.id;
-
-  if (userId === null) {
-    return res.status(401).json(req.user);
   }
 
   models.Course.findAll({
@@ -151,6 +145,62 @@ router.get('/:id', (req, res) => {
       }
       res.json(results);
     });
+});
+
+router.get('/:id/enrole', async (req, res) => {
+  try {
+    const course = await models.Course.findByPk(req.params.id, {
+      include: [
+        {
+          model: models.CourseUser,
+          as: 'users',
+          include: [
+            {
+              model: models.User,
+              as: 'user',
+              attributes: ['id', 'firstName', 'lastName', 'username'],
+              where: {
+                id: req.user.id,
+              },
+            },
+            {
+              model: models.Role,
+              as: 'role',
+              include: [
+                {
+                  model: models.RoleLanguage,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    if (course.users.length > 0) {
+      return res.status(400).send({
+        error: 'You cannot re-enrole.',
+      });
+    }
+
+    const roleId = await getStudentRoleId();
+    const sequeneceId = await getLastCourseSequendId(course.id);
+
+    // Create a course user entry to the course.
+    const courseUser = await models.CourseUser.create({
+      enrolmentConfirmation: false,
+      courseId: course.id,
+      userId: req.user.id,
+      roleId,
+      enrolment: moment().toDate(),
+      sequeneceId,
+    });
+
+    return res.status(200).send(courseUser);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ err });
+  }
 });
 
 router.get('/:id/content', async (req, res) => {
