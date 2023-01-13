@@ -12,6 +12,7 @@ import RoutesLanguages from '@containers/routes/languages';
 import RoutesUsers from '@containers/routes/users';
 import RoutesTexts from '@containers/routes/texts';
 import RoutesLogs from '@containers/routes/logs';
+import RouterForums from '@containers/routes/forum';
 import Wrapper from '@components/UI/Wrapper';
 import Dashboard from '@components/Dashboard';
 import Login from '@containers/users/Login';
@@ -19,6 +20,7 @@ import Register from '@containers/users/Register';
 import Activate from '@containers/users/Activate';
 import Content from '@components/Content';
 import CreateCourse from '@components/courses/Create';
+import ErrorPage from '@containers/errors/ErrorPage';
 
 const Router = ({
   knowledgeUnits,
@@ -32,6 +34,8 @@ const Router = ({
   users,
   user,
   logs,
+  forum,
+  thread,
 }) => {
   return (
     <Switch>
@@ -56,18 +60,6 @@ const Router = ({
         <div>Reset password WIP</div>
       </Route>
 
-      {/* <Route path="/datenschutz" exact>
-        <div>WIP</div>
-      </Route> */}
-
-      {/* <Route path="/nutzungsbedingungen" exact>
-        <div>WIP</div>
-      </Route> */}
-
-      {/* <Route path="/impressum" exact>
-        <div>WIP</div>
-      </Route> */}
-
       <Route path="/">
         <Wrapper>
           <Switch>
@@ -78,14 +70,6 @@ const Router = ({
 
             <PrivateRoute path="/dashboard" exact>
               <Dashboard />
-            </PrivateRoute>
-
-            <PrivateRoute path="/messages" exact>
-              use{' '}
-              <a href="https://github.com/chatscope/chat-ui-kit-react" rel="noopener">
-                https://github.com/chatscope/chat-ui-kit-react
-              </a>
-              ?
             </PrivateRoute>
 
             <Route path="/course/create" exact>
@@ -156,6 +140,26 @@ const Router = ({
               />
             </Route>
 
+            <PrivateRoute path="/threads">
+              <RouterForums user={user} actions={actions} forum={forum} thread={thread} />
+            </PrivateRoute>
+
+            <Route path="/errors/403" exact>
+              <ErrorPage
+                user={user}
+                headline="403 No permission!"
+                text="You do not have the right permissions for the requested page."
+              />
+            </Route>
+
+            <Route path="/errors/404" exact>
+              <ErrorPage
+                user={user}
+                headline="404 Could not be found"
+                text="The requested page could not be found."
+              />
+            </Route>
+
             <PrivateRoute path="/logs">
               <RoutesLogs
                 logs={logs}
@@ -166,6 +170,7 @@ const Router = ({
                 user={user}
               />
             </PrivateRoute>
+            <Redirect to="/errors/404" />
           </Switch>
         </Wrapper>
       </Route>
@@ -221,12 +226,28 @@ Router.propTypes = {
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
+  forum: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
+  thread: PropTypes.shape({
+    item: PropTypes.shape({}).isRequired,
+    id: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   actions: PropTypes.shape({
     userFetchRoles: PropTypes.func.isRequired,
     removeRole: PropTypes.func.isRequired,
     addRole: PropTypes.func.isRequired,
     removeCapability: PropTypes.func.isRequired,
     addCapability: PropTypes.func.isRequired,
+    forumPublicThreadsFetch: PropTypes.func.isRequired,
+    forumThreadFetch: PropTypes.func.isRequired,
+    forumThreadFetchAddAnswer: PropTypes.func.isRequired,
+    forumThreadUpdate: PropTypes.func.isRequired,
     languagesDelete: PropTypes.func.isRequired,
     languagesFetch: PropTypes.func.isRequired,
     languagesEdit: PropTypes.func.isRequired,
@@ -297,6 +318,8 @@ const mapStateToProps = (state) => ({
   texts: state.texts,
   user: state.user,
   logs: state.logs,
+  forum: state.forum,
+  thread: state.thread,
 });
 
 const mapDispatchToProps = (dispatch) => ({

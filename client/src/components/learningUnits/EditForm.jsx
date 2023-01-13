@@ -52,7 +52,6 @@ const DeleteRelationForm = (props) => {
     const taxonomyTerm = term(relation.Taxonomy, languageId);
     let linkText = relation.target.Translations.filter((item) => item.LanguageId === languageId);
     linkText = linkText[0].title;
-    console.log(relation);
     return (
       <ListItem key={relation.id}>
         <ListItemText>

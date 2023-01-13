@@ -8,3 +8,4 @@ export * from './users';
 export * from './texts';
 export * from './user';
 export * from './logs';
+export * from './forum';

@@ -10,7 +10,7 @@ const agent = chai.request.agent(server);
 
 describe('Role', () => {
   const role = {
-    slug: 'edit_users_test',
+    slug: 'edit_users_test' +,
     name: 'Edit Users Test',
   };
   const role1 = {

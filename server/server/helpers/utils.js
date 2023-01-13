@@ -24,54 +24,47 @@ const sendMail = (address, subjectLine, message) => {
   }
 };
 
-const getAllLanguages = async() => {
-
+const getAllLanguages = async () => {
   const languageSystemDefault = await models.Language.findAll();
 
-  const data = languageSystemDefault.map((Language) => {
-     return Language.id;
-  });
+  const data = languageSystemDefault.map((Language) => Language.id);
 
   return data;
-}
+};
 
-const resolveLanguages = async(req, res) => {
-
-  const languageSystemDefault = await models.Language.findAll({limit:1});
+const resolveLanguages = async (req, res) => {
+  const languageSystemDefault = await models.Language.findAll({ limit: 1 });
 
   // Method to get the list of possible menu items
   let languages = [languageSystemDefault[0].id];
 
   // Check the user default language
-  if (req.user){
-      const user = await models.User.findByPk(req.user.id, {
-          include: [
-            {
-              model: models.Language,
-              order: [
-                ['level', 'DESC'],
-              ],
-            },
+  if (req.user) {
+    const user = await models.User.findByPk(req.user.id, {
+      include: [
+        {
+          model: models.Language,
+          order: [
+            ['level', 'DESC'],
           ],
-        });
+        },
+      ],
+    });
 
-      let preferredLanguage = null;
+    let preferredLanguage = null;
 
-      if (req.user !== null && req.user !== undefined && req.user.preferredLanguage !== null) {
-         const preferredLanguageResult = await models.UserLanguage.findByPk(req.user.preferredLanguage);
-         if (preferredLanguageResult !== null){
-              preferredLanguage = preferredLanguageResult.LanguageId;
-         }
+    if (req.user !== null && req.user !== undefined && req.user.preferredLanguage !== null) {
+      const preferredLanguageResult = await models.UserLanguage.findByPk(req.user.preferredLanguage);
+      if (preferredLanguageResult !== null) {
+        preferredLanguage = preferredLanguageResult.LanguageId;
       }
+    }
 
-      languages = preferredLanguage !== null ? [preferredLanguage] : user.Languages.map((Language) => {
-          return Language.id;
-      });
+    languages = preferredLanguage !== null ? [preferredLanguage] : user.Languages.map((Language) => Language.id);
   }
 
   return languages;
-
-}
+};
 
 export {
   sendMail,
@@ -79,5 +72,5 @@ export {
   hashPassword,
   comparePasswords,
   getAllLanguages,
-  resolveLanguages
+  resolveLanguages,
 };

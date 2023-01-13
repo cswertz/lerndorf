@@ -8,9 +8,25 @@ module.exports = {
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
+    {
+      username: 'username',
+      password: '$2a$08$jKZV3y4GPOA/R97TTgBAyeE9U15ssrrYQJEYCQwSIPgQMRLaknNMu',
+      email: 'username@example.com',
+      active: true,
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    {
+      username: 'userWithNoRole',
+      password: '$2a$08$jKZV3y4GPOA/R97TTgBAyeE9U15ssrrYQJEYCQwSIPgQMRLaknNMu',
+      email: 'no@example.com',
+      active: true,
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
   ], {}),
 
-  down: queryInterface => queryInterface.bulkDelete('Users', {
+  down: (queryInterface) => queryInterface.bulkDelete('Users', {
     username: 'admin',
   }),
 };
