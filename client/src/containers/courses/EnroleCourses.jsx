@@ -19,7 +19,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { PlayArrow, Assignment, Add } from '@material-ui/icons/index';
-import { Grid } from '@material-ui/core/index';
+
+const moment = require('moment');
 
 const styles = () => ({
   languageList: {
@@ -59,10 +60,13 @@ class EnroleCourses extends Component {
           <TableCell component="th" scope="row">
             {row.shortTitle && row.shortTitle.length > 0 ? row.shortTitle : row.title}
           </TableCell>
-          <TableCell align="left">...</TableCell>
+          <TableCell align="left">
+            {row.courseStart != null ? moment(row.courseStart).format('DD.MM.YYYY') : 'n/a'} -{' '}
+            {row.courseEnd != null ? moment(row.courseEnd).format('DD.MM.YYYY') : 'n/a'}
+          </TableCell>
           <TableCell align="left">{row.trainerName}</TableCell>
           <TableCell align="right">
-            <IconButton aria-label="Start" component={Link}>
+            <IconButton aria-label="Enrole to course" component={Link}>
               <PlayArrow />
             </IconButton>
           </TableCell>

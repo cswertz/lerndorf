@@ -24,6 +24,7 @@
     "date-fns": "^2.29.3",
     "file-saver": "^2.0.5",
     "html-to-react": "^1.5.0",
+    "moment": "^2.29.4",
     "prop-types": "^15.6.2",
     "react": "^17.0.2",
     "react-document-title": "^2.0.3",
