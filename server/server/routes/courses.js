@@ -14,7 +14,9 @@ import KnowledgeUnit from '../models/KnowledgeUnit';
 import Language from '../models/Language';
 import { resolveLanguages } from '../helpers/utils';
 
-const { Op } = models.Sequelize;
+const { Op } = require('sequelize');
+const moment = require('moment');
+
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -55,6 +57,68 @@ router.get('/my', (req, res) => {
   });
 });
 
+router.get('/enroleable', async (req, res) => {
+  if (req.user === undefined) {
+    res.json([]);
+    return;
+  }
+
+  const userId = req.user.id;
+
+  if (userId === null) {
+    return res.status(401).json(req.user);
+  }
+
+  const userLanguages = await models.UserLanguage.findAll({ where: { UserId: req.user.id}});
+  const languageIds = userLanguages.map((userLanguage) => userLanguage.LanguageId);
+
+  console.error(languageIds);
+
+  models.Course.findAll({
+    include: [
+      {
+        model: models.CourseUser,
+        as: 'users',
+        include: [
+          {
+            model: models.RoleLanguage,
+            as: 'roleTranslation',
+          },
+        ],
+      },
+    ],
+    where: {
+      [Op.and]: [
+        {
+          [Op.or]: [
+            {
+              enrolmentStart: {
+                [Op.lte]: moment().startOf('day').toDate(),
+              },
+            },
+            { enrolmentStart: null },
+          ],
+        },
+        {
+          [Op.or]: [
+            {
+              enrolmentEnd: {
+                [Op.gte]: moment().endOf('day').toDate(),
+              },
+            },
+            { enrolmentEnd: null },
+          ],
+        },
+        {
+          mainLanguage: languageIds,
+        },
+      ],
+    },
+  }).then((result) => {
+    res.json(result);
+  });
+});
+
 router.get('/:id', (req, res) => {
   models.Course.findByPk(req.params.id)
     .then((results) => {
@@ -65,7 +129,6 @@ router.get('/:id', (req, res) => {
         });
         return;
       }
-      console.error('"');
       res.json(results);
     });
 });

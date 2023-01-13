@@ -28,6 +28,7 @@ const CoursesRouter = ({ courses, actions, user }) => (
 CoursesRouter.propTypes = {
   actions: PropTypes.shape({
     coursesFetchMy: PropTypes.func.isRequired,
+    coursesFetchMyPossible: PropTypes.func.isRequired,
   }).isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,

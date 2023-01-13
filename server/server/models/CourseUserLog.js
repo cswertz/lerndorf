@@ -19,6 +19,15 @@ class CourseUserLog extends Model {
         },
       },
 
+      courseSequenceId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'CourseSequence',
+          key: 'id',
+        },
+      },
+
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -46,6 +55,7 @@ class CourseUserLog extends Model {
   static associate(sequelize) {
     CourseUserLog.belongsTo(sequelize.Course, { as: 'course', foreignKey: 'courseId' });
     CourseUserLog.belongsTo(sequelize.CourseUser, { as: 'courseUser', foreignKey: 'userId' });
+    CourseUserLog.belongsTo(sequelize.CourseSequence, { as: 'courseSequence', foreignKey: 'courseSequenceId' });
     CourseUserLog.belongsTo(sequelize.KnowledgeUnit, { as: 'knowledgeUnit', foreignKey: 'KnowledgeUnitId' });
   }
 }

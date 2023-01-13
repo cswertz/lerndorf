@@ -55,6 +55,7 @@ class CreateCourse extends Component {
 CreateCourse.propTypes = {
   actions: PropTypes.shape({
     coursesFetchMy: PropTypes.func.isRequired,
+    coursesFetchMyPossible: PropTypes.func.isRequired,
   }).isRequired,
   user: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({

@@ -51,7 +51,31 @@ describe('Courses', () => {
                 res.should.have.status(200);
                 res.body.should.be.a('array');
                 expect(res.body.length).to.equal(courses.length);
-                console.error(res.body);
+                done();
+              });
+          });
+      }).catch((rr) => {
+        console.error(rr);
+      });
+    });
+  });
+  describe('GET /api/courses/possible', () => {
+    it('it should return a list of possible courses', (done) => {
+      models.Course.findAll({
+
+      }).then((courses) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .get('/api/courses/enroleable')
+              .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('array');
+                expect(res.body.length).to.equal(courses.length);
                 done();
               });
           });

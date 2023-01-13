@@ -39,22 +39,56 @@ class EnroleCourses extends Component {
 
   fetchData() {
     const { actions, history } = this.props;
+    actions.coursesFetchMyPossible().catch((err) => {
+      if (err.cause === 403) {
+        history.push('/errors/403');
+      } else if (err.cause === 401) {
+        history.push('/errors/401');
+      }
+    });
   }
 
   render() {
     const { user, courses, actions } = this.props;
 
-    const enroleableCourses = [];
+    let enroleableCourses = [];
+
+    if (courses.items?.length > 0) {
+      enroleableCourses = courses.items.map((row) => (
+        <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+          <TableCell component="th" scope="row">
+            {row.shortTitle && row.shortTitle.length > 0 ? row.shortTitle : row.title}
+          </TableCell>
+          <TableCell align="left">
+            {row.users[0]?.roleTranslation ? row.users[0]?.roleTranslation.vocable : 'n/a'}
+          </TableCell>
+          <TableCell align="left">
+            {row.users[0]?.roleTranslation ? row.users[0]?.roleTranslation.vocable : 'n/a'}
+          </TableCell>
+          <TableCell align="right">
+            <IconButton aria-label="Start" component={Link}>
+              <PlayArrow />
+            </IconButton>
+          </TableCell>
+        </TableRow>
+      ));
+    }
 
     return (
       <>
         <Typography variant="h1">Enrole to Course</Typography>
         <TableContainer>
-          <Table aria-label="My courses">
+          <Table aria-label="Enrole to courses">
             <TableHead>
               <TableRow>
                 <TableCell>
                   <strong>Title</strong>
+                </TableCell>
+                <TableCell>
+                  <strong>Date</strong>
+                </TableCell>
+                <TableCell>
+                  <strong>Trainer</strong>
                 </TableCell>
                 <TableCell align="right" />
               </TableRow>
@@ -70,6 +104,7 @@ class EnroleCourses extends Component {
 EnroleCourses.propTypes = {
   actions: PropTypes.shape({
     coursesFetchMy: PropTypes.func.isRequired,
+    coursesFetchMyPossible: PropTypes.func.isRequired,
   }).isRequired,
   user: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
