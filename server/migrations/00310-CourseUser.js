@@ -45,6 +45,12 @@ export default {
       allowNull: false,
     },
 
+    enrolmentConfirmation: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -55,11 +61,11 @@ export default {
       allowNull: false,
     },
   }, {
-      uniqueKeys: {
-        CourseUser_unique: {
-          fields: ['courseId', 'userId', 'roleId']
-        }
-    }
+    uniqueKeys: {
+      CourseUser_unique: {
+        fields: ['courseId', 'userId', 'roleId'],
+      },
+    },
   }),
   down: queryInterface => queryInterface.dropTable('CourseUser'),
 };

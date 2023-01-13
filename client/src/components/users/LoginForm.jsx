@@ -96,8 +96,8 @@ const Login = ({ handleSubmit, submitting, pristine, classes, errors }) => {
       <Grid item xs={12}>
         <Field
           name="username"
-          label="E-Mail"
-          autoComplete="email"
+          label="Username"
+          autoComplete="username"
           component={renderTextField}
           className={classes.textField}
         />

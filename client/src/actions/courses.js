@@ -33,7 +33,7 @@ export const coursesFetchMy = () => async (dispatch) =>
     });
 
 export const coursesFetchMyPossible = () => async (dispatch) =>
-  fetch('/api/courses/possible', {
+  fetch('/api/courses/enroleable', {
     method: 'GET',
     headers: {
       Accept: 'application/json',

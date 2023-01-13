@@ -59,12 +59,8 @@ class EnroleCourses extends Component {
           <TableCell component="th" scope="row">
             {row.shortTitle && row.shortTitle.length > 0 ? row.shortTitle : row.title}
           </TableCell>
-          <TableCell align="left">
-            {row.users[0]?.roleTranslation ? row.users[0]?.roleTranslation.vocable : 'n/a'}
-          </TableCell>
-          <TableCell align="left">
-            {row.users[0]?.roleTranslation ? row.users[0]?.roleTranslation.vocable : 'n/a'}
-          </TableCell>
+          <TableCell align="left">...</TableCell>
+          <TableCell align="left">{row.trainerName}</TableCell>
           <TableCell align="right">
             <IconButton aria-label="Start" component={Link}>
               <PlayArrow />

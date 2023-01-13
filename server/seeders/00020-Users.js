@@ -7,6 +7,7 @@ module.exports = {
       active: true,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      environment: 'production',
     },
     {
       username: 'username',
@@ -15,6 +16,7 @@ module.exports = {
       active: true,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      environment: 'production',
     },
     {
       username: 'userWithNoRole',
@@ -23,8 +25,19 @@ module.exports = {
       active: true,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      environment: 'test',
     },
-  ], {}),
+  ].filter((userEntry) => {
+    if (process.env.NODE_ENV === 'test') {
+      return userEntry;
+    }
+    if (userEntry.environment !== 'test') {
+      return userEntry;
+    }
+  }).map((user) => {
+    delete user.environment;
+    return user;
+  }), {}),
 
   down: (queryInterface) => queryInterface.bulkDelete('Users', {
     username: 'admin',

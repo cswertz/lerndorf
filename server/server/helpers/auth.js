@@ -261,6 +261,7 @@ export {
   isUser,
   isLoggedIn,
   hasRole,
+  checkRole,
   isSelf,
   isCreatorOrInCourse,
   isCourseUser,

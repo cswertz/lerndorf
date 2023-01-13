@@ -13,6 +13,7 @@ import models from '../config/sequelize';
 import KnowledgeUnit from '../models/KnowledgeUnit';
 import Language from '../models/Language';
 import { resolveLanguages } from '../helpers/utils';
+import { attachCommonCourseMetaData, attachPlayButtonState, attachUserRoleText } from '../helpers/course_utils';
 
 const { Op } = require('sequelize');
 const moment = require('moment');
@@ -24,7 +25,7 @@ router.get('/', (req, res) => {
     .then((results) => res.json(results));
 });
 
-router.get('/my', (req, res) => {
+router.get('/my', async (req, res) => {
   if (req.user === undefined) {
     res.json([]);
     return;
@@ -43,8 +44,18 @@ router.get('/my', (req, res) => {
         as: 'users',
         include: [
           {
-            model: models.RoleLanguage,
-            as: 'roleTranslation',
+            model: models.User,
+            as: 'user',
+            attributes: ['id', 'firstName', 'lastName', 'username'],
+          },
+          {
+            model: models.Role,
+            as: 'role',
+            include: [
+              {
+                model: models.RoleLanguage,
+              },
+            ],
           },
         ],
         where: {
@@ -52,8 +63,9 @@ router.get('/my', (req, res) => {
         },
       },
     ],
-  }).then((result) => {
-    res.json(result);
+  }).then(async (result) => {
+    const coursesRaw = await result;
+    res.status(200).json(attachCommonCourseMetaData(coursesRaw, req.user));
   });
 });
 
@@ -69,10 +81,8 @@ router.get('/enroleable', async (req, res) => {
     return res.status(401).json(req.user);
   }
 
-  const userLanguages = await models.UserLanguage.findAll({ where: { UserId: req.user.id}});
+  const userLanguages = await models.UserLanguage.findAll({ where: { UserId: req.user.id } });
   const languageIds = userLanguages.map((userLanguage) => userLanguage.LanguageId);
-
-  console.error(languageIds);
 
   models.Course.findAll({
     include: [
@@ -81,8 +91,18 @@ router.get('/enroleable', async (req, res) => {
         as: 'users',
         include: [
           {
-            model: models.RoleLanguage,
-            as: 'roleTranslation',
+            model: models.User,
+            as: 'user',
+            attributes: ['id', 'firstName', 'lastName', 'username'],
+          },
+          {
+            model: models.Role,
+            as: 'role',
+            include: [
+              {
+                model: models.RoleLanguage,
+              },
+            ],
           },
         ],
       },
@@ -114,15 +134,15 @@ router.get('/enroleable', async (req, res) => {
         },
       ],
     },
-  }).then((result) => {
-    res.json(result);
+  }).then(async (result) => {
+    const coursesRaw = await result;
+    res.status(200).json(attachCommonCourseMetaData(coursesRaw, req.user));
   });
 });
 
 router.get('/:id', (req, res) => {
   models.Course.findByPk(req.params.id)
     .then((results) => {
-      console.log(results);
       if (results === null) {
         res.status(404).json({
           message: 'entry not found',
