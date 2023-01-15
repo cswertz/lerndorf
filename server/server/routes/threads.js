@@ -19,6 +19,12 @@ router.get('/', (req, res) => {
       {
         model: models.User,
         as: 'lastPostUser',
+        include: [
+          {
+            model: models.User,
+            as: 'lastPostUser',
+          },
+        ],
       },
     ],
     order: [

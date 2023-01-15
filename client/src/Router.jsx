@@ -259,6 +259,8 @@ Router.propTypes = {
     forumThreadFetchAddAnswer: PropTypes.func.isRequired,
     forumThreadUpdate: PropTypes.func.isRequired,
     coursesFetchMy: PropTypes.func.isRequired,
+    courseEnroleTo: PropTypes.func.isRequired,
+    courseDelete: PropTypes.func.isRequired,
     languagesDelete: PropTypes.func.isRequired,
     languagesFetch: PropTypes.func.isRequired,
     languagesEdit: PropTypes.func.isRequired,

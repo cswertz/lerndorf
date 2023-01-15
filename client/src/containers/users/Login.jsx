@@ -112,7 +112,7 @@ const Login = ({ handleSubmit, errors }) => {
             style={{
               height: '100vh',
               width: '100%',
-              backgroundImage: 'url(' + 'https://random.imagecdn.app/1000/1000' + ')',
+              backgroundImage: 'url(https://random.imagecdn.app/1000/1000)',
               backgroundPosition: 'center',
               backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat',
@@ -122,14 +122,6 @@ const Login = ({ handleSubmit, errors }) => {
         <Grid item xs={12} lg={6}>
           <div className={classes.contentContainer}>
             <div className={classes.content}>
-              <div className={classes.mobileImageContainer}>
-                <img
-                  className={classes.image}
-                  src="https://via.placeholder.com/320x180"
-                  alt="Lerndorf"
-                />
-              </div>
-
               <Typography variant="subtitle1">Willkommen zurück!</Typography>
               <Typography variant="h4">Loggen Sie sich ein.</Typography>
 

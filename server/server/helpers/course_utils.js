@@ -52,12 +52,15 @@ const attachTrainerInformation = (data) => {
   });
   const course = data;
   let trainerName = 'n/a';
+  let trainerId = null;
   if (CourseUserEntries.length > 0) {
     trainerName = `${CourseUserEntries[0].user.firstName || ''} ${CourseUserEntries[0].user.lastName || ''}`;
     if (trainerName === ' ') {
       trainerName = CourseUserEntries[0].user.username;
     }
+    trainerId = CourseUserEntries[0].user.id;
   }
+  course.trainerId = trainerId;
   course.trainerName = trainerName;
   return course;
 };
@@ -70,10 +73,14 @@ const attachCommonCourseMetaData = (data, user) => data.map((raw) => {
   return entry;
 });
 
-const getStudentRoleId = async () => {
-  const roles = await models.Role.findAll({ where: { slug: 'learner' } });
+const getRoleId = async (slug) => {
+  const roles = await models.Role.findAll({ where: { slug } });
   return roles.length > 0 ? roles[0].id : null;
 };
+
+const getStudentRoleId = async () => getRoleId('learner');
+
+const getTrainerRoleId = async () => getRoleId('trainer');
 
 const getLastCourseSequendId = async (courseId) => {
   const course = await models.Course.findByPk(courseId, {
@@ -96,5 +103,7 @@ export {
   attachTrainerInformation,
   attachCommonCourseMetaData,
   getStudentRoleId,
+  getTrainerRoleId,
+  getRoleId,
   getLastCourseSequendId,
 };

@@ -20,6 +20,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { PlayArrow, Assignment, Add } from '@material-ui/icons/index';
 import { Grid } from '@material-ui/core/index';
+import DeleteCourse from '@components/courses/DeleteCourse';
 
 const styles = () => ({
   languageList: {
@@ -50,6 +51,7 @@ class MyCourses extends Component {
 
   render() {
     const { user, courses, actions } = this.props;
+    console.error(user);
 
     let courseItems = [];
     if (courses.items?.length > 0) {
@@ -64,14 +66,19 @@ class MyCourses extends Component {
               <PlayArrow />
             </IconButton>
             {hasCapability(user.capabilities, ['edit_course']) && (
-              <IconButton aria-label="Edit" component={Link}>
+              <IconButton aria-label="Edit" component={Link} to={`/courses/${row.id}/edit`}>
                 <EditIcon />
               </IconButton>
             )}
-            {hasCapability(user.capabilities, ['delete_course']) && (
-              <IconButton aria-label="Edit" component={Link}>
-                <DeleteIcon />
-              </IconButton>
+            {hasCapability(user.capabilities, ['delete_course']) && user.user.id === row.trainerId && (
+              <DeleteCourse
+                user={user.user}
+                course={row}
+                actions={actions}
+                fetch={() => {
+                  this.fetchData();
+                }}
+              />
             )}
           </TableCell>
         </TableRow>

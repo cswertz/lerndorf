@@ -5,15 +5,17 @@ import {
   hasCapability,
   hasCapabilityOrOwnsKnowledgeUnit as hasCapabilityOrOwns,
   isLoggedIn,
-  isAdmin,
   isUser,
+  isAdmin,
 } from '../helpers/auth';
 import { logView } from '../helpers/log';
 import models from '../config/sequelize';
 import KnowledgeUnit from '../models/KnowledgeUnit';
 import Language from '../models/Language';
 import { resolveLanguages } from '../helpers/utils';
-import { attachCommonCourseMetaData, attachPlayButtonState, attachUserRoleText, getLastCourseSequendId, getStudentRoleId } from '../helpers/course_utils';
+import {
+  attachCommonCourseMetaData, attachUserRoleText, getLastCourseSequendId, getStudentRoleId, getTrainerRoleId,
+} from '../helpers/course_utils';
 
 const { Op } = require('sequelize');
 const moment = require('moment');
@@ -53,7 +55,7 @@ router.get('/my', async (req, res) => {
           },
         ],
         where: {
-          userId,
+          userId: req.user.id,
         },
       },
     ],
@@ -70,10 +72,6 @@ router.get('/enroleable', async (req, res) => {
   }
 
   const userId = req.user.id;
-
-  if (userId === null) {
-    return res.status(401).json(req.user);
-  }
 
   const userLanguages = await models.UserLanguage.findAll({ where: { UserId: req.user.id } });
   const languageIds = userLanguages.map((userLanguage) => userLanguage.LanguageId);
@@ -179,7 +177,7 @@ router.get('/:id/enrole', async (req, res) => {
 
     if (course.users.length > 0) {
       return res.status(400).send({
-        error: 'You cannot re-enrole.',
+        error: 'You cannot re-enrole, cause you are already enroled to this course.',
       });
     }
 
@@ -198,7 +196,6 @@ router.get('/:id/enrole', async (req, res) => {
 
     return res.status(200).send(courseUser);
   } catch (err) {
-    console.log(err);
     return res.status(500).send({ err });
   }
 });
@@ -274,6 +271,55 @@ router.get('/:id/content', async (req, res) => {
 
   // load the
   res.json(units);
+});
+
+router.delete('/:id', hasCapability('delete_course'), async (req, res) => {
+  const isCurrentUserAdmin = await isAdmin(req.user.id);
+  const trainerRoleId = await getTrainerRoleId();
+  const course = await models.Course.findByPk(req.params.id, {
+    include: [
+      {
+        model: models.CourseUser,
+        as: 'users',
+        include: [
+          {
+            model: models.User,
+            as: 'user',
+            attributes: ['id', 'firstName', 'lastName', 'username'],
+          },
+          {
+            model: models.Role,
+            as: 'role',
+            include: [
+              {
+                model: models.RoleLanguage,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  });
+  if (course === null) {
+    return res.status(404).send({ message: 'entry not found' });
+  }
+
+  const courseUser = course.users.filter((user) => {
+    if ((user.userId === req.user.id && user.roleId === trainerRoleId)) {
+      return user;
+    }
+  });
+
+  if (isCurrentUserAdmin === false && courseUser.length === 0) {
+    return res.status(403).send({ message: 'you cannot delete this entry unless you are the trainer or an admin.' });
+  }
+
+  /* await models.Course.destroy({
+    where: {
+      id: req.params.id,
+    },
+  }); */
+  return res.status(200).send({ message: 'course has been deleted.' });
 });
 
 export default router;

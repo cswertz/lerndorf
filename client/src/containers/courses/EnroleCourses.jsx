@@ -7,18 +7,14 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ListItem from '@material-ui/core/ListItem';
-import EditIcon from '@material-ui/icons/Edit';
-import List from '@material-ui/core/List';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { PlayArrow, Assignment, Add } from '@material-ui/icons/index';
+import { PlayArrow, Assignment, Add, ArrowBack } from '@material-ui/icons/index';
+import EnroleToCourse from '@components/courses/EnroleToCourse';
 
 const moment = require('moment');
 
@@ -50,7 +46,7 @@ class EnroleCourses extends Component {
   }
 
   render() {
-    const { user, courses, actions } = this.props;
+    const { user, courses, history, actions } = this.props;
 
     let enroleableCourses = [];
 
@@ -66,9 +62,7 @@ class EnroleCourses extends Component {
           </TableCell>
           <TableCell align="left">{row.trainerName}</TableCell>
           <TableCell align="right">
-            <IconButton aria-label="Enrole to course" component={Link}>
-              <PlayArrow />
-            </IconButton>
+            <EnroleToCourse course={row} history={history} actions={actions} />
           </TableCell>
         </TableRow>
       ));
@@ -96,6 +90,9 @@ class EnroleCourses extends Component {
             <TableBody>{enroleableCourses}</TableBody>
           </Table>
         </TableContainer>
+        <IconButton component={Link} aria-label="Go back" to="/courses/my">
+          <ArrowBack />
+        </IconButton>
       </>
     );
   }
@@ -105,6 +102,7 @@ EnroleCourses.propTypes = {
   actions: PropTypes.shape({
     coursesFetchMy: PropTypes.func.isRequired,
     coursesFetchMyPossible: PropTypes.func.isRequired,
+    courseEnroleTo: PropTypes.func.isRequired,
   }).isRequired,
   user: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({

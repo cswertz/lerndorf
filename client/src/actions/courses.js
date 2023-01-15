@@ -11,6 +11,28 @@ export const coursesFetchFailed = (error, errors) => ({
   errors,
 });
 
+export const coursesDeleteSuccess = (items) => ({
+  type: types.COURSES_DELETE_SUCCESS,
+  items,
+});
+
+export const coursesDeleteFailed = (error, errors) => ({
+  type: types.COURSES_DELETE_FAILED,
+  error,
+  errors,
+});
+
+export const coursesEnroleSuccess = (items) => ({
+  type: types.COURSES_ENROLE_SUCCESS,
+  items,
+});
+
+export const coursesEnroleFailed = (error, errors) => ({
+  type: types.COURSES_ENROLE_FAILED,
+  error,
+  errors,
+});
+
 export const coursesFetchMy = () => async (dispatch) =>
   fetch('/api/courses/my', {
     method: 'GET',
@@ -51,4 +73,48 @@ export const coursesFetchMyPossible = () => async (dispatch) =>
     })
     .catch((error) => {
       dispatch(coursesFetchFailed(error));
+    });
+
+export const courseEnroleTo = (id, history) => async (dispatch) =>
+  fetch(`/api/courses/${id}/enrole`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json) {
+        if (!json.error) {
+          dispatch(coursesEnroleSuccess(json));
+        }
+      }
+      return json;
+    })
+    .catch((error) => {
+      dispatch(coursesEnroleFailed(error));
+    });
+
+export const courseDelete = (id, history) => async (dispatch) =>
+  fetch(`/api/courses/${id}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json) {
+        if (!json.error) {
+          dispatch(coursesDeleteSuccess(json));
+        }
+      }
+      return json;
+    })
+    .catch((error) => {
+      dispatch(coursesDeleteFailed(error));
     });
