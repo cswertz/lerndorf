@@ -127,6 +127,57 @@ describe('Courses', () => {
       });
     });
   });
+
+  describe('GET /api/courses/my/stats', () => {
+    it('it should return an amount of my courses', (done) => {
+      models.Course.findAll({
+
+      }).then((courses) => {
+        models.CourseUser.create({
+          enrolmentConfirmation: false,
+          courseId: courses[0].id,
+          userId: 1,
+          roleId: 7, // Student
+          enrolment: moment().toDate(),
+          sequenceId: null,
+        });
+
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .get('/api/courses/my/stats')
+              .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                expect(res.body.amount).to.equal(1);
+                done();
+              });
+          });
+      }).catch((rr) => {
+        console.error(rr);
+      });
+    });
+    it('it should return 401 if not logged in', (done) => {
+      models.Course.findAll({
+
+      }).then((courses) => {
+        const session = chai.request.agent(server);
+        session
+          .get('/api/courses/my/stats')
+          .end((err, res) => {
+            res.should.have.status(401);
+            done();
+          });
+      }).catch((rr) => {
+        console.error(rr);
+      });
+    });
+  });
+
   describe('GET /api/courses/enroleable', () => {
     it('it should return a empty list of enroleable courses if not user is logged in', (done) => {
       models.Course.findAll({

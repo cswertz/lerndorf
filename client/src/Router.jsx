@@ -65,12 +65,12 @@ const Router = ({
       <Route path="/">
         <Wrapper>
           <Switch>
-            <Route path="/" exact>
-              <Dashboard />
-            </Route>
+            <PrivateRoute path="/" exact>
+              <Dashboard actions={actions} />
+            </PrivateRoute>
 
             <PrivateRoute path="/dashboard" exact>
-              <Dashboard />
+              <Dashboard actions={actions} />
             </PrivateRoute>
 
             <Route path="/course/create" exact>
@@ -259,6 +259,7 @@ Router.propTypes = {
     forumThreadFetchAddAnswer: PropTypes.func.isRequired,
     forumThreadUpdate: PropTypes.func.isRequired,
     coursesFetchMy: PropTypes.func.isRequired,
+    coursesFetchMyStats: PropTypes.func.isRequired,
     courseEnroleTo: PropTypes.func.isRequired,
     courseDelete: PropTypes.func.isRequired,
     languagesDelete: PropTypes.func.isRequired,

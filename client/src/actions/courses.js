@@ -1,5 +1,16 @@
 import * as types from './constants';
 
+export const coursesFetchMyStatsSuccess = (items) => ({
+  type: types.COURSES_STATS_FETCH_SUCCESS,
+  items,
+});
+
+export const coursesFetchMyStatsFailed = (error, errors) => ({
+  type: types.COURSES_STATS_FETCH_FAILED,
+  error,
+  errors,
+});
+
 export const coursesFetchSuccess = (items) => ({
   type: types.COURSES_ITEMS_FETCH_SUCCESS,
   items,
@@ -54,6 +65,28 @@ export const coursesFetchMy = () => async (dispatch) =>
       dispatch(coursesFetchFailed(error));
     });
 
+export const coursesFetchMyStats = () => async (dispatch) =>
+  fetch('/api/courses/my/stats', {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json) {
+        if (!json.error) {
+          dispatch(coursesFetchMyStatsSuccess(json));
+        }
+      }
+      return json;
+    })
+    .catch((error) => {
+      dispatch(coursesFetchMyStatsFailed(error));
+    });
+
 export const coursesFetchMyPossible = () => async (dispatch) =>
   fetch('/api/courses/enroleable', {
     method: 'GET',
@@ -70,6 +103,7 @@ export const coursesFetchMyPossible = () => async (dispatch) =>
           dispatch(coursesFetchSuccess(json));
         }
       }
+      return json;
     })
     .catch((error) => {
       dispatch(coursesFetchFailed(error));

@@ -65,6 +65,44 @@ router.get('/my', async (req, res) => {
   });
 });
 
+router.get('/my/stats', async (req, res) => {
+  if (req.user === undefined) {
+    res.status(401).json([]);
+    return;
+  }
+
+  models.Course.findAll({
+    include: [
+      {
+        model: models.CourseUser,
+        as: 'users',
+        include: [
+          {
+            model: models.User,
+            as: 'user',
+            attributes: ['id', 'firstName', 'lastName', 'username'],
+          },
+          {
+            model: models.Role,
+            as: 'role',
+            include: [
+              {
+                model: models.RoleLanguage,
+              },
+            ],
+          },
+        ],
+        where: {
+          userId: req.user.id,
+        },
+      },
+    ],
+  }).then(async (result) => {
+    const coursesRaw = await result;
+    res.status(200).json({ amount: result.length });
+  });
+});
+
 router.get('/enroleable', async (req, res) => {
   if (req.user === undefined) {
     res.json([]);

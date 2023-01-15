@@ -238,6 +238,8 @@ const isThreadCreatorOrAdmin = (models) => async (req, res, next) => {
       });
     }
 
+    console.error('Test');
+
     if (await isAdmin(req.user.id) === true || entityItem.userId === req.user.id) {
       return next();
     }

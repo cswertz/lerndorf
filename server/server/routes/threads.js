@@ -34,6 +34,30 @@ router.get('/', (req, res) => {
     .then((results) => res.json(results));
 });
 
+router.get('/stats', (req, res) => {
+  models.Thread.findAll({
+    where: {
+      courseId: null,
+    },
+    include: [
+      {
+        model: models.User,
+        as: 'lastPostUser',
+        include: [
+          {
+            model: models.User,
+            as: 'lastPostUser',
+          },
+        ],
+      },
+    ],
+    order: [
+      ['updatedAt', 'DESC'],
+    ],
+  })
+    .then((results) => res.json({ amount: results.length }));
+});
+
 router.get('/:id', isCreatorOrInCourse(models), async (req, res) => {
   const thread = await models.Thread.findByPk(req.params.id, {
     attributes: [
