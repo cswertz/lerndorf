@@ -19,19 +19,15 @@ router.get('/', (req, res) => {
       {
         model: models.User,
         as: 'lastPostUser',
-        include: [
-          {
-            model: models.User,
-            as: 'lastPostUser',
-          },
-        ],
       },
     ],
     order: [
       ['updatedAt', 'DESC'],
     ],
   })
-    .then((results) => res.json(results));
+    .then((results) => {
+      res.status(200).send(results);
+    });
 });
 
 router.get('/stats', (req, res) => {
@@ -39,18 +35,6 @@ router.get('/stats', (req, res) => {
     where: {
       courseId: null,
     },
-    include: [
-      {
-        model: models.User,
-        as: 'lastPostUser',
-        include: [
-          {
-            model: models.User,
-            as: 'lastPostUser',
-          },
-        ],
-      },
-    ],
     order: [
       ['updatedAt', 'DESC'],
     ],

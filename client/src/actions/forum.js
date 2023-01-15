@@ -33,6 +33,17 @@ export const forumThreadFetchAddAnswerFailed = (error, errors) => ({
   errors,
 });
 
+export const forumThreadStatsSuccess = (item) => ({
+  type: types.THREAD_ITEM_CREATE_SUCCESS,
+  item,
+});
+
+export const forumThreadStatsFailed = (error, errors) => ({
+  type: types.THREAD_ITEM_CREATE_FAILED,
+  error,
+  errors,
+});
+
 export const forumThreadCreateSuccess = (item) => ({
   type: types.THREAD_ITEM_CREATE_SUCCESS,
   item,
@@ -85,6 +96,28 @@ export const forumPublicThreadsFetch = () => async (dispatch) =>
     })
     .catch((error) => {
       dispatch(forumItemsFetchFailed(error));
+    });
+
+export const forumPublicThreadsStatsFetch = () => async (dispatch) =>
+  fetch('/api/threads/stats', {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json) {
+        if (!json.error) {
+          dispatch(forumThreadStatsSuccess(json));
+        }
+      }
+      return json;
+    })
+    .catch((error) => {
+      dispatch(forumThreadStatsFailed(error));
     });
 
 export const forumThreadFetch = (id) => async (dispatch) =>

@@ -56,12 +56,16 @@ const Dashboard = (props) => {
   const user = useSelector((state) => state.user);
 
   const [myCourses, setMyCourses] = useState(0);
+  const [threads, setThreads] = useState(0);
 
   const { actions } = props;
 
   useEffect(() => {
     actions.coursesFetchMyStats().then((result) => {
       setMyCourses(result.amount);
+    });
+    actions.forumPublicThreadsStatsFetch().then((result) => {
+      setThreads(result.amount);
     });
   });
 
@@ -110,7 +114,7 @@ const Dashboard = (props) => {
 
         <Card
           icon={<ChatBubbleOutlineIcon />}
-          count={4}
+          count={threads}
           title="Threads"
           component={Link}
           to="/threads"

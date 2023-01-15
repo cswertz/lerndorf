@@ -255,6 +255,7 @@ Router.propTypes = {
     removeCapability: PropTypes.func.isRequired,
     addCapability: PropTypes.func.isRequired,
     forumPublicThreadsFetch: PropTypes.func.isRequired,
+    forumPublicThreadsStatsFetch: PropTypes.func.isRequired,
     forumThreadFetch: PropTypes.func.isRequired,
     forumThreadFetchAddAnswer: PropTypes.func.isRequired,
     forumThreadUpdate: PropTypes.func.isRequired,
