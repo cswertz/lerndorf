@@ -80,7 +80,9 @@ class MyCourses extends Component {
                   <EditIcon />
                 </IconButton>
               )}
-            {hasCapability(user.capabilities, ['delete_course']) && user.user.id === row.trainerId && (
+            {(hasCapability(user.roles, ['admin']) ||
+              (hasCapability(user.capabilities, ['delete_course']) &&
+                user.user.id === row.trainerId)) && (
               <DeleteCourse
                 user={user.user}
                 course={row}

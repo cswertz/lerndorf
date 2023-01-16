@@ -20,7 +20,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { PlayArrow, Assignment, Add } from '@material-ui/icons/index';
 import { Grid } from '@material-ui/core/index';
-import CreateCourseForm from '../../components/courses/Create';
+import Edit from '@components/courses/Edit';
 
 const styles = () => ({
   languageList: {
@@ -28,7 +28,7 @@ const styles = () => ({
   },
 });
 
-class CreateCourse extends Component {
+class EditCourse extends Component {
   componentDidMount() {
     const { actions, match } = this.props;
     this.fetchData();
@@ -39,26 +39,27 @@ class CreateCourse extends Component {
   }
 
   fetchData() {
-    const { actions, history } = this.props;
+    const { actions, history, match } = this.props;
+    actions.courseFetchSingle(match.params.id).catch((err) => {
+      history.push('/courses/my');
+    });
   }
 
   render() {
-    const { user, courses, actions, history } = this.props;
+    const { user, courses, course, actions, history, match } = this.props;
 
     return (
       <>
-        <Typography variant="h1">Create a course</Typography>
-        <CreateCourseForm
+        <Typography variant="h1">Edit course (ID: {match.params.id})</Typography>
+        <Edit
           actions={actions}
-          user={user}
+          initialValues={course.item}
           handleSubmit={(e) => {
             e.preventDefault();
             if (e.target.title.value?.length === 0) {
               return;
             }
-            actions.courseCreate(e.target.title.value).then((result) => {
-              history.push(`/courses/${result.id}/edit`);
-            });
+            console.error(e.target.title.value);
           }}
         />
       </>
@@ -66,17 +67,17 @@ class CreateCourse extends Component {
   }
 }
 
-CreateCourse.propTypes = {
+EditCourse.propTypes = {
   actions: PropTypes.shape({
-    coursesFetchMy: PropTypes.func.isRequired,
-    coursesFetchMyPossible: PropTypes.func.isRequired,
+    courseFetchSingle: PropTypes.func.isRequired,
   }).isRequired,
+  course: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-const CreateCourseWithRouter = withRouter(CreateCourse);
+const EditCourseWithRouter = withRouter(EditCourse);
 
-export default CreateCourseWithRouter;
+export default EditCourseWithRouter;

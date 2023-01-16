@@ -21,7 +21,7 @@ const attachPlayButtonState = (data, user) => {
     playButtonState.msg = '';
   }
 
-  if (checkRole(['tutor', 'trainer'], user.roles) || course.trainerId === user.id) {
+  if (checkRole(['tutor', 'trainer', 'admin'], user.roles) || course.trainerId === user.id) {
     playButtonState.state = 'active';
     playButtonState.msg = '';
   }
@@ -97,7 +97,7 @@ const attachTrainerInformation = (data, currentUser) => {
   course.trainerId = trainerId;
   course.trainerName = trainerName;
 
-  course.currentUserIsTrainerOrTutor = trainerId === currentUser.id || tutorIds.indexOf(currentUser.id) > -1;
+  course.currentUserIsTrainerOrTutor = trainerId === currentUser.id || tutorIds.indexOf(currentUser.id) > -1 || currentUser.roles.indexOf('admin') > -1;
   return course;
 };
 

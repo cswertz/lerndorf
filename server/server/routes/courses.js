@@ -27,6 +27,51 @@ router.get('/', (req, res) => {
     .then((results) => res.json(results));
 });
 
+router.post('/', [
+  hasCapability('create_course'),
+  check('title', 'title is required')
+    .isLength({ min: 1 })
+    .notEmpty(),
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+  }
+
+  try {
+    const course = await models.Course.create({
+      title: req.body.title,
+      shortTitle: '',
+      description: '',
+      enrolmentStart: moment().format('YYYY-MM-DD'),
+      enrolmentEnd: moment().format('YYYY-MM-DD'),
+      courseStart: moment().format('YYYY-MM-DD'),
+      courseEnd: moment().format('YYYY-MM-DD'),
+      mainLanguage: 1,
+      access: false,
+      copyAllowed: false,
+      enrolmentByTutor: false,
+      enrolmentConfirmation: false,
+    });
+
+    models.CourseUser.create({
+      courseId: course.id,
+      userId: req.user.id,
+      roleId: 1,
+      enrolment: moment().toDate(),
+      enrolmentConfirmation: false,
+      sequenceId: null,
+    });
+    return res.status(200).send(course);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).send({ msg: 'Unknown issue occurs' });
+  }
+});
+
 router.get('/my', async (req, res) => {
   if (req.user === undefined) {
     res.status(401).json([]);
@@ -170,19 +215,6 @@ router.get('/enroleable', async (req, res) => {
   });
 });
 
-router.get('/:id', (req, res) => {
-  models.Course.findByPk(req.params.id)
-    .then((results) => {
-      if (results === null) {
-        res.status(404).json({
-          message: 'entry not found',
-        });
-        return;
-      }
-      res.json(results);
-    });
-});
-
 router.get('/:id/enrole', async (req, res) => {
   try {
     const course = await models.Course.findByPk(req.params.id, {
@@ -236,6 +268,33 @@ router.get('/:id/enrole', async (req, res) => {
   } catch (err) {
     return res.status(500).send({ err });
   }
+});
+
+router.get('/:id', async (req, res) => {
+  if (!req.user) {
+    return res.status(401).send({ error: 'Not logged in.' });
+  }
+
+  try {
+    const course = await models.Course.findByPk(req.params.id, {
+      include: [
+        {
+          model: models.CourseUser,
+          as: 'users',
+        },
+      ],
+    });
+
+    if (course === null) {
+      return res.status(404).send({ error: 'There is no course with this id.' });
+    }
+
+    return res.status(200).send(course);
+  } catch (err) {
+    console.error(err);
+  }
+
+  return res.status(400).send({ error: 'Error while fetching the data.' });
 });
 
 router.get('/:id/content', async (req, res) => {
@@ -352,11 +411,11 @@ router.delete('/:id', hasCapability('delete_course'), async (req, res) => {
     return res.status(403).send({ message: 'you cannot delete this entry unless you are the trainer or an admin.' });
   }
 
-  /* await models.Course.destroy({
+  await models.Course.destroy({
     where: {
       id: req.params.id,
     },
-  }); */
+  });
   return res.status(200).send({ message: 'course has been deleted.' });
 });
 

@@ -37,6 +37,7 @@ const Router = ({
   forum,
   thread,
   courses,
+  course,
 }) => {
   return (
     <Switch>
@@ -136,7 +137,7 @@ const Router = ({
             </PrivateRoute>
 
             <PrivateRoute path="/courses">
-              <RouterCourses user={user} actions={actions} courses={courses} />
+              <RouterCourses user={user} actions={actions} courses={courses} course={course} />
             </PrivateRoute>
 
             <Route path="/errors/403" exact>
@@ -232,6 +233,11 @@ Router.propTypes = {
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
+  course: PropTypes.shape({
+    item: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   thread: PropTypes.shape({
     item: PropTypes.shape({}).isRequired,
     id: PropTypes.shape({}).isRequired,
@@ -253,6 +259,8 @@ Router.propTypes = {
     coursesFetchMyStats: PropTypes.func.isRequired,
     courseEnroleTo: PropTypes.func.isRequired,
     courseDelete: PropTypes.func.isRequired,
+    courseCreate: PropTypes.func.isRequired,
+    courseFetchSingle: PropTypes.func.isRequired,
     languagesDelete: PropTypes.func.isRequired,
     languagesFetch: PropTypes.func.isRequired,
     languagesEdit: PropTypes.func.isRequired,
@@ -326,6 +334,7 @@ const mapStateToProps = (state) => ({
   forum: state.forum,
   thread: state.thread,
   courses: state.courses,
+  course: state.course,
 });
 
 const mapDispatchToProps = (dispatch) => ({

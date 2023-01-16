@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import MyCourses from '../courses/MyCourses';
 import EnroleCourses from '../courses/EnroleCourses';
 import CreateCourse from '../courses/CreateCourse';
+import EditCourse from '../courses/EditCourse';
 
-const CoursesRouter = ({ courses, actions, user }) => (
+const CoursesRouter = ({ courses, course, actions, user }) => (
   <>
     <Route
       exact
@@ -21,6 +22,11 @@ const CoursesRouter = ({ courses, actions, user }) => (
       exact
       path="/courses/create"
       render={() => <CreateCourse user={user} actions={actions} />}
+    />
+    <Route
+      exact
+      path="/courses/:id/edit"
+      render={() => <EditCourse user={user} actions={actions} course={course} />}
     />
   </>
 );

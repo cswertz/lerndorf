@@ -220,54 +220,7 @@ describe('Courses', () => {
         console.error(rr);
       });
     });
-  });
-  describe('GET /api/courses/:id', () => {
-    it('it should return a 200 and the course if it exists.', (done) => {
-      models.Course.findAll({
-
-      }).then((courses) => {
-        // Run the test
-        const session = chai.request.agent(server);
-        session
-          .post('/api/users/login')
-          .send(admin)
-          .end((err, res) => {
-            res.should.have.status(200);
-            session
-              .get(`/api/courses/${courses[0].id}`)
-              .end((err, res) => {
-                res.should.have.status(200);
-                expect(res.body.id).to.equal(courses[0].id);
-                done();
-              });
-          });
-      }).catch((rr) => {
-        console.error(rr);
-      });
-    });
-    it('it should return a 404 and the course if it does not exists.', (done) => {
-      models.Course.findAll({
-
-      }).then((courses) => {
-        // Run the test
-        const session = chai.request.agent(server);
-        session
-          .post('/api/users/login')
-          .send(admin)
-          .end((err, res) => {
-            res.should.have.status(200);
-            session
-              .get('/api/courses/1000')
-              .end((err, res) => {
-                res.should.have.status(404);
-                done();
-              });
-          });
-      }).catch((rr) => {
-        console.error(rr);
-      });
-    });
-  });
+  });  
   describe('GET /api/courses/:id/enrole', () => {
     it('it should return a 200 if the rolement is possible.', (done) => {
       models.Course.findAll({
@@ -665,6 +618,139 @@ describe('Courses', () => {
       } catch (err) {
         console.error(err);
       }
+    });
+  });
+  describe('POST /api/courses', () => {
+    it('it should return a 401 if the user is not logged.', (done) => {
+      models.Course.findAll({
+
+      }).then((courses) => {
+        // Run the test
+        const session = chai.request.agent(server);
+        session
+          .post('/api/courses')
+          .send({
+            title: 'asdf',
+          })
+          .end((err, res) => {
+            res.should.have.status(401);
+            done();
+          });
+      }).catch((rr) => {
+        console.error(rr);
+      });
+    });
+    it('it should return a 422 it the user is logged but the response is missing the title.', (done) => {
+      models.Course.findAll({
+
+      }).then((courses) => {
+        // Run the test
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .post('/api/courses')
+              .send({})
+              .end((err, res) => {
+                res.should.have.status(422);
+                done();
+              });
+          });
+      }).catch((rr) => {
+        console.error(rr);
+      });
+    });
+    it('it should return a 200 it the user is logged, an admin and send a title.', (done) => {
+      models.Course.findAll({
+
+      }).then((courses) => {
+        // Run the test
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .post('/api/courses')
+              .send({
+                title: 'Test my passion',
+              })
+              .end((err, res) => {
+                res.should.have.status(200);
+                expect(res.body.id).not.to.be.equals(undefined);
+                done();
+              });
+          });
+      }).catch((rr) => {
+        console.error(rr);
+      });
+    });
+  });
+  describe('GET /api/courses/:id', () => {
+    it('it should return a 200 and the course if it exists.', (done) => {
+      models.Course.findAll({
+
+      }).then((courses) => {
+        // Run the test
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .get(`/api/courses/${courses[0].id}`)
+              .end((err, res) => {
+                res.should.have.status(200);
+                expect(res.body.id).to.equal(courses[0].id);
+                done();
+              });
+          });
+      }).catch((rr) => {
+        console.error(rr);
+      });
+    });
+    it('it should return a 404 and the course if it does not exists.', (done) => {
+      models.Course.findAll({
+
+      }).then((courses) => {
+        // Run the test
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .get('/api/courses/1000')
+              .end((err, res) => {
+                res.should.have.status(404);
+                done();
+              });
+          });
+      }).catch((rr) => {
+        console.error(rr);
+      });
+    });
+    it('it should return a 401 if the user is not logged.', (done) => {
+      models.Course.findAll({
+
+      }).then((courses) => {
+        // Run the test
+        const session = chai.request.agent(server);
+        session
+          .get(`/api/courses/${courses[0].id}`)
+          .end((err, res) => {
+            res.should.have.status(401);
+            done();
+          });
+      }).catch((rr) => {
+        console.error(rr);
+      });
     });
   });
 });

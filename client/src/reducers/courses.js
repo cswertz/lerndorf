@@ -1,9 +1,20 @@
-import { COURSES_ITEMS_FETCH_FAILED, COURSES_ITEMS_FETCH_SUCCESS } from '@actions/constants';
+import {
+  COURSES_ITEMS_FETCH_FAILED,
+  COURSES_ITEMS_FETCH_SUCCESS,
+  COURSES_ITEM_FETCH_SUCCESS,
+  COURSES_ITEM_FETCH_FAILED,
+} from '@actions/constants';
 
 const initialState = {
   fetching: false,
   fetched: false,
   items: [],
+};
+
+const initialStateSingle = {
+  fetching: false,
+  fetched: false,
+  item: null,
 };
 
 const courses = (state = initialState, action) => {
@@ -21,4 +32,20 @@ const courses = (state = initialState, action) => {
   }
 };
 
-export default courses;
+const course = (state = initialStateSingle, action) => {
+  console.error(action);
+  switch (action.type) {
+    case COURSES_ITEM_FETCH_FAILED: {
+      return { ...state, fetched: true, fetching: false, item: null };
+    }
+
+    case COURSES_ITEM_FETCH_SUCCESS: {
+      return { ...state, fetched: true, fetching: false, item: action.item };
+    }
+
+    default:
+      return state;
+  }
+};
+
+export { courses, course };
