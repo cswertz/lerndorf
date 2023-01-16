@@ -20,6 +20,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { PlayArrow, Assignment, Add } from '@material-ui/icons/index';
 import { Grid } from '@material-ui/core/index';
+import CreateCourseForm from '../../components/courses/Create';
 
 const styles = () => ({
   languageList: {
@@ -47,6 +48,7 @@ class CreateCourse extends Component {
     return (
       <>
         <Typography variant="h1">Create a course</Typography>
+        <CreateCourseForm actions={actions} user={user} />
       </>
     );
   }

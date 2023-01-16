@@ -224,7 +224,7 @@ router.get('/:id/enrole', async (req, res) => {
 
     // Create a course user entry to the course.
     const courseUser = await models.CourseUser.create({
-      enrolmentConfirmation: false,
+      enrolmentConfirmation: course.enrolmentConfirmation !== true,
       courseId: course.id,
       userId: req.user.id,
       roleId,

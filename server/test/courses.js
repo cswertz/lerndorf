@@ -293,6 +293,42 @@ describe('Courses', () => {
         console.error(rr);
       });
     });
+    it('it should automatic confirm a user if enrolementConfirmation is false.', (done) => {
+      models.Course.create({
+        title: 'Demo1',
+        shortTitle: 'Demo1a',
+        description: 'Demo1Description',
+        enrolmentStart: moment().format('YYYY-MM-DD'),
+        enrolmentEnd: moment().add(1, 'days').format('YYYY-MM-DD'),
+        courseStart: moment().format('YYYY-MM-DD'),
+        courseEnd: moment().add(1, 'days').format('YYYY-MM-DD'),
+        mainLanguage: 1,
+        access: false,
+        copyAllowed: true,
+        enrolmentByTutor: false,
+        enrolmentConfirmation: false,
+      }).then((course) => {
+        // Remove all course registrations for the user before the test happen
+        models.CourseUser.destroy({ where: { userId: 1 } });
+        // Run the test
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .get(`/api/courses/${course.id}/enrole`)
+              .end((err, res) => {
+                res.should.have.status(200);
+                expect(res.body.enrolmentConfirmation).to.be.equals(true);
+                done();
+              });
+          });
+      }).catch((rr) => {
+        console.error(rr);
+      });
+    });
     it('it should return a 400 and the course a enrolement already happen.', (done) => {
       models.Course.findAll({
 
@@ -307,8 +343,13 @@ describe('Courses', () => {
             session
               .get(`/api/courses/${courses[0].id}/enrole`)
               .end((err, res) => {
-                res.should.have.status(400);
-                done();
+                res.should.have.status(200);
+                session
+                  .get(`/api/courses/${courses[0].id}/enrole`)
+                  .end((err, res) => {
+                    res.should.have.status(400);
+                    done();
+                  });
               });
           });
       }).catch((rr) => {
@@ -461,12 +502,12 @@ describe('Courses', () => {
           .end((err, res) => {
             res.should.have.status(200);
             session
-              .delete(`/api/courses/${courses[1].id}`)
+              .delete(`/api/courses/${courses[courses.length - 1].id}`)
               .end((err, res) => {
                 res.should.have.status(200);
-                expect(courses.length).to.be.equals(2);
+                expect(courses.length).to.be.equals(courses.length);
                 models.Course.findAll().then((refreshedCourseList) => {
-                  expect(refreshedCourseList.length).to.be.equals(1);
+                  expect(refreshedCourseList.length).to.be.equals(courses.length - 1);
                 });
                 done();
               });

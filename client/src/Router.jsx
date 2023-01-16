@@ -20,7 +20,6 @@ import Login from '@containers/users/Login';
 import Register from '@containers/users/Register';
 import Activate from '@containers/users/Activate';
 import Content from '@components/Content';
-import CreateCourse from '@components/courses/Create';
 import ErrorPage from '@containers/errors/ErrorPage';
 
 const Router = ({
@@ -72,15 +71,6 @@ const Router = ({
             <PrivateRoute path="/dashboard" exact>
               <Dashboard actions={actions} />
             </PrivateRoute>
-
-            <Route path="/course/create" exact>
-              <CreateCourse />
-            </Route>
-
-            <Route path="/course/:id" exact>
-              {/* <Course /> */}
-              <div>Course WIP</div>
-            </Route>
 
             <Route path="/content/:id" exact>
               <Content />

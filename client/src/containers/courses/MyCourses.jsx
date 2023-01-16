@@ -18,7 +18,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { PlayArrow, Assignment, Add } from '@material-ui/icons/index';
+import { PlayArrow, Assignment, Add, HourglassEmptySharp } from '@material-ui/icons/index';
 import { Grid } from '@material-ui/core/index';
 import DeleteCourse from '@components/courses/DeleteCourse';
 
@@ -58,18 +58,28 @@ class MyCourses extends Component {
       courseItems = courses.items.map((row) => (
         <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
           <TableCell component="th" scope="row">
-            {row.shortTitle && row.shortTitle.length > 0 ? row.shortTitle : row.title}
+            <Link to={`/courses/${row.id}`}>
+              {row.shortTitle && row.shortTitle.length > 0 ? row.shortTitle : row.title}
+            </Link>
           </TableCell>
           <TableCell align="left">{row?.currentUserRole}</TableCell>
           <TableCell align="right">
-            <IconButton aria-label="Start" component={Link}>
-              <PlayArrow />
-            </IconButton>
-            {hasCapability(user.capabilities, ['edit_course']) && (
-              <IconButton aria-label="Edit" component={Link} to={`/courses/${row.id}/edit`}>
-                <EditIcon />
+            {row?.playButtonState?.state === 'active' && (
+              <IconButton aria-label="Start" component={Link}>
+                <PlayArrow />
               </IconButton>
             )}
+            {row?.playButtonState?.state === 'inactive' && (
+              <IconButton aria-label="Start" title={row?.playButtonState?.msg}>
+                <HourglassEmptySharp />
+              </IconButton>
+            )}
+            {hasCapability(user.capabilities, ['edit_course']) &&
+              row.currentUserIsTrainerOrTutor === true && (
+                <IconButton aria-label="Edit" component={Link} to={`/courses/${row.id}/edit`}>
+                  <EditIcon />
+                </IconButton>
+              )}
             {hasCapability(user.capabilities, ['delete_course']) && user.user.id === row.trainerId && (
               <DeleteCourse
                 user={user.user}

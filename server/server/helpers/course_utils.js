@@ -1,3 +1,4 @@
+import moment from 'moment';
 import models from '../config/sequelize';
 import { checkRole, hasRole, isAdmin } from './auth';
 
@@ -15,14 +16,27 @@ const attachPlayButtonState = (data, user) => {
     }
   });
 
-  if (course.enrolmentConfirmation === false || (course.enrolmentConfirmation !== false)) {
+  if ((course.enrolmentConfirmation === false || (course.enrolmentConfirmation === true && CourseUserEntries.length > 0 && CourseUserEntries[0].enrolmentConfirmation === true)) && (course.courseEnd === null || moment().isBefore(moment(course.courseEnd))) && (course.courseStart === null || moment().isAfter(moment(course.courseStart))) && course.access === true) {
     playButtonState.state = 'active';
     playButtonState.msg = '';
   }
 
-  if (checkRole(['tutor', 'admin'], user.roles)) {
+  if (checkRole(['tutor', 'trainer'], user.roles) || course.trainerId === user.id) {
     playButtonState.state = 'active';
     playButtonState.msg = '';
+  }
+
+  // Handle the inactive state + add the message
+  if (playButtonState.state === 'inactive') {
+    if (course.access === false) {
+      playButtonState.msg = 'The course is currently not available.';
+    } else if (moment().isBefore(moment(course.courseStart))) {
+      playButtonState.msg = 'The course has not yet started.';
+    } else if (moment().isAfter(moment(course.courseEnd))) {
+      playButtonState.msg = 'The course was finished.';
+    } else if (course.enrolmentConfirmation === true && CourseUserEntries.length > 0 && CourseUserEntries[0].enrolmentConfirmation === false) {
+      playButtonState.msg = 'Your enrolment will be confirmed as soon as possible.';
+    }
   }
 
   return Object.assign(course, { playButtonState });
@@ -44,12 +58,18 @@ const attachUserRoleText = (data, user) => {
   return course;
 };
 
-const attachTrainerInformation = (data) => {
+const attachTrainerInformation = (data, currentUser) => {
   const CourseUserEntries = data.users.filter((courseUserEntryItem) => {
     if (courseUserEntryItem.role.slug === 'trainer') {
       return courseUserEntryItem;
     }
   });
+  const CourseUserEntriesTutor = data.users.filter((courseUserEntryItem) => {
+    if (courseUserEntryItem.role.slug === 'tutor') {
+      return courseUserEntryItem;
+    }
+  });
+
   const course = data;
   let trainerName = 'n/a';
   let trainerId = null;
@@ -62,14 +82,30 @@ const attachTrainerInformation = (data) => {
   }
   course.trainerId = trainerId;
   course.trainerName = trainerName;
+
+  const tutorNames = [];
+  const tutorIds = [];
+  for (let i = 0; i < CourseUserEntriesTutor.length; i += 1) {
+    let tutorName = `${CourseUserEntriesTutor[i].user.firstName || ''} ${CourseUserEntriesTutor[i].user.lastName || ''}`;
+    if (tutorName === ' ') {
+      tutorName = CourseUserEntriesTutor[i].user.username;
+    }
+    tutorNames.push(tutorName);
+    tutorIds.push(CourseUserEntriesTutor[i].user.id);
+  }
+
+  course.trainerId = trainerId;
+  course.trainerName = trainerName;
+
+  course.currentUserIsTrainerOrTutor = trainerId === currentUser.id || tutorIds.indexOf(currentUser.id) > -1;
   return course;
 };
 
 const attachCommonCourseMetaData = (data, user) => data.map((raw) => {
   let entry = raw.dataValues;
   entry = attachUserRoleText(entry, user);
+  entry = attachTrainerInformation(entry, user);
   entry = attachPlayButtonState(entry, user);
-  entry = attachTrainerInformation(entry);
   return entry;
 });
 
