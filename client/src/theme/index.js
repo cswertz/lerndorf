@@ -10,7 +10,7 @@ export const colors = {
   },
   secondary: {
     // light: '#D8E2F7',
-    main: '#ffffff',
+    main: '#7A95CA',
     // dark: '#293244',
   },
   tertiary: {

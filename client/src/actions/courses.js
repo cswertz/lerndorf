@@ -33,13 +33,24 @@ export const coursesFetchSingleFailed = (error, errors) => ({
   errors,
 });
 
-export const coursesCreateSuccess = (items) => ({
+export const coursesCreateSuccess = (item) => ({
   type: types.COURSES_CREATE_SUCCESS,
-  items,
+  item,
 });
 
 export const coursesCreateFailed = (error, errors) => ({
   type: types.COURSES_CREATE_FAILED,
+  error,
+  errors,
+});
+
+export const coursesUpdateSuccess = (item) => ({
+  type: types.COURSES_UPDATE_SUCCESS,
+  item,
+});
+
+export const coursesUpdateFailed = (error, errors) => ({
+  type: types.COURSES_UPDATE_FAILED,
   error,
   errors,
 });
@@ -198,6 +209,30 @@ export const courseCreate = (title, history) => async (dispatch) =>
     })
     .catch((error) => {
       dispatch(coursesCreateFailed(error));
+      return error;
+    });
+
+export const courseUpdate = (id, body, history) => async (dispatch) =>
+  fetch(`/api/courses/${id}`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(body),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json) {
+        if (!json.error) {
+          dispatch(coursesUpdateSuccess(json));
+        }
+      }
+      return json;
+    })
+    .catch((error) => {
+      dispatch(coursesUpdateFailed(error));
       return error;
     });
 

@@ -22,6 +22,8 @@ import { PlayArrow, Assignment, Add } from '@material-ui/icons/index';
 import { Grid } from '@material-ui/core/index';
 import Edit from '@components/courses/Edit';
 
+const moment = require('moment');
+
 const styles = () => ({
   languageList: {
     flex: 1,
@@ -35,7 +37,8 @@ class EditCourse extends Component {
   }
 
   componentDidUpdate() {
-    const { actions, match } = this.props;
+    const { actions, match, history, course } = this.props;
+    console.error(course.fetching, course.fetched, course.item.id, match.params.id);
   }
 
   fetchData() {
@@ -46,30 +49,75 @@ class EditCourse extends Component {
   }
 
   render() {
-    const { user, courses, course, actions, history, match } = this.props;
+    const { user, courses, course, actions, history, match, state } = this.props;
 
-    return (
-      <>
-        <Typography variant="h1">Edit course (ID: {match.params.id})</Typography>
-        <Edit
-          actions={actions}
-          initialValues={course.item}
-          handleSubmit={(e) => {
-            e.preventDefault();
-            if (e.target.title.value?.length === 0) {
-              return;
-            }
-            console.error(e.target.title.value);
-          }}
-        />
-      </>
-    );
+    let content = null;
+
+    if (course.fetched && course.item.id === parseInt(match.params.id, 10)) {
+      content = (
+        <>
+          <Typography variant="h1">Edit course (ID: {match.params.id})</Typography>
+          <Edit
+            actions={actions}
+            initialValues={course.item}
+            handleSubmit={(e) => {
+              e.preventDefault();
+              if (e.target.title.value?.length === 0) {
+                return;
+              }
+
+              const updateData = {
+                title: e.target.title.value,
+                shortTitle: e.target.shortTitle.value,
+                description: e.target.description.value,
+                enrolmentConfirmation: e.target.enrolmentConfirmation.checked,
+              };
+
+              console.error(e.target.enrolmentConfirmation.checked);
+
+              // Handle the dates
+              if (e.target.enrolmentStart.value) {
+                try {
+                  updateData.enrolmentStart = moment
+                    .utc(e.target.enrolmentStart.value)
+                    .startOf('day');
+                } catch (err) {
+                  console.error('Invalid date format');
+                }
+              }
+              if (e.target.enrolmentEnd.value) {
+                try {
+                  updateData.enrolmentEnd = moment.utc(e.target.enrolmentEnd.value).startOf('day');
+                } catch (err) {
+                  console.error('Invalid date format');
+                }
+              }
+
+              if (
+                updateData.enrolmentStart !== null &&
+                updateData.enrolmentEnd !== null &&
+                updateData.enrolmentStart.isAfter(updateData.enrolmentEnd)
+              ) {
+                updateData.enrolmentEnd = updateData.enrolmentStart.clone().startOf('day');
+              }
+
+              actions.courseUpdate(match.params.id, updateData).then((updateResult) => {
+                console.error(updateResult);
+              });
+            }}
+          />
+        </>
+      );
+    }
+
+    return <>{content}</>;
   }
 }
 
 EditCourse.propTypes = {
   actions: PropTypes.shape({
     courseFetchSingle: PropTypes.func.isRequired,
+    courseUpdate: PropTypes.func.isRequired,
   }).isRequired,
   course: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,

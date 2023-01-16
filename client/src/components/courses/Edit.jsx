@@ -1,20 +1,20 @@
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Switch from '@material-ui/core/Switch';
-import { DataGrid } from '@material-ui/data-grid';
 import { useCallback, useState } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
-import renderTextField from '@utils/forms';
+import { renderTextField, renderTextareaField } from '@utils/forms';
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  FormGroup,
+  FormControlLabel,
 } from '../../../node_modules/@material-ui/core/index';
 
 const styles = {
@@ -27,6 +27,19 @@ const styles = {
   divider: {
     marginTop: '30px',
     marginBottom: '30px',
+  },
+  formControl: {
+    width: 'calc(100% - 10px)',
+  },
+  formTextareaControl: {
+    width: 'calc(100% - 10px)',
+    margin: '20px 0',
+  },
+  formControlSwitches: {
+    margin: '10px 10px',
+  },
+  textField: {
+    width: '100%',
   },
 };
 
@@ -63,26 +76,90 @@ const Edit = ({ handleSubmit, submitting, pristine, title, initialValues }) => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <FormControl required className={classes.formControl}>
-              <Field
-                required
-                name="title"
-                label="Title"
-                helperText="Insert the title for the course."
-                component={renderTextField}
-                className={classes.textField}
-              />
-            </FormControl>
+            <Grid container spacing={1}>
+              <Grid xs={12} sm={6}>
+                <FormControl required className={classes.formControl}>
+                  <Field
+                    required
+                    name="title"
+                    label="Title"
+                    helperText="Insert the title for the course."
+                    component={renderTextField}
+                    className={classes.textField}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid xs={12} sm={6}>
+                <FormControl required className={classes.formControl}>
+                  <Field
+                    name="shortTitle"
+                    label="Short title"
+                    helperText="Insert the short title for the course."
+                    component={renderTextField}
+                    className={classes.textField}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid xs={12} sm={12}>
+                <FormControl className={classes.formTextareaControl}>
+                  <Field
+                    name="description"
+                    label="Description"
+                    helperText="Please describe the course"
+                    component={renderTextareaField}
+                    className={classes.textField}
+                  />
+                </FormControl>
+              </Grid>
+            </Grid>
           </AccordionDetails>
         </Accordion>
         <Accordion expanded={openPanel === 'enrolement'} onChange={handleChange('enrolement')}>
           <AccordionSummary aria-controls="enrolement-content" id="enrolement">
             <Typography>
-              <strong>Enrolement</strong>
+              <strong>Enrolment</strong>
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <span>TODO:</span>
+            <Grid container spacing={1}>
+              <Grid xs={12} sm={6}>
+                <FormControl className={classes.formControl}>
+                  <Field
+                    required
+                    name="enrolmentStart"
+                    label="Start of enrolement"
+                    helperText="Please insert a date in the following format: YYYY-MM-DD"
+                    component={renderTextField}
+                    className={classes.textField}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid xs={12} sm={6}>
+                <FormControl required className={classes.formControl}>
+                  <Field
+                    name="enrolmentEnd"
+                    label="End of enrolement"
+                    helperText="Please insert a date in the following format: YYYY-MM-DD"
+                    component={renderTextField}
+                    className={classes.textField}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid xs={12} sm={12}>
+                <FormGroup className={classes.formControlSwitches}>
+                  <FormControlLabel
+                    name="enrolmentConfirmation"
+                    control={
+                      <Switch
+                        color="secondary"
+                        defaultChecked={initialValues.enrolmentConfirmation === true}
+                      />
+                    }
+                    label="Confirmation for Enrolement"
+                  />
+                </FormGroup>
+              </Grid>
+            </Grid>
           </AccordionDetails>
         </Accordion>
         <Accordion expanded={openPanel === 'participants'} onChange={handleChange('participants')}>

@@ -33,13 +33,18 @@ const courses = (state = initialState, action) => {
 };
 
 const course = (state = initialStateSingle, action) => {
-  console.error(action);
   switch (action.type) {
     case COURSES_ITEM_FETCH_FAILED: {
       return { ...state, fetched: true, fetching: false, item: null };
     }
 
     case COURSES_ITEM_FETCH_SUCCESS: {
+      const courseItem = action.item;
+      courseItem.enrolmentStart = courseItem.enrolmentStart
+        .toString()
+        .substr(0, 'YYYY-MM-DD'.length);
+      courseItem.enrolmentEnd = courseItem.enrolmentEnd.toString().substr(0, 'YYYY-MM-DD'.length);
+
       return { ...state, fetched: true, fetching: false, item: action.item };
     }
 

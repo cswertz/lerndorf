@@ -753,4 +753,76 @@ describe('Courses', () => {
       });
     });
   });
+  describe('PATCH /api/courses/:id', () => {
+    it('it should return a 401 if the user is not logged.', (done) => {
+      models.Course.findAll({
+
+      }).then((courses) => {
+        // Run the test
+        const session = chai.request.agent(server);
+        session
+          .patch(`/api/courses/${courses[0].id}`)
+          .send({
+            title: 'asdf',
+          })
+          .end((err, res) => {
+            res.should.have.status(401);
+            done();
+          });
+      }).catch((rr) => {
+        console.error(rr);
+      });
+    });
+    it('it should return a 404 and the course if it does not exists.', (done) => {
+      models.Course.findAll({
+
+      }).then((courses) => {
+        // Run the test
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .patch('/api/courses/1000')
+              .send({ title: 'test1' })
+              .end((err, res) => {
+                res.should.have.status(404);
+                done();
+              });
+          });
+      }).catch((rr) => {
+        console.error(rr);
+      });
+    });
+    it('it should return a 200 and the course if the user has permission to update the entry.', (done) => {
+      models.Course.findAll({
+
+      }).then((courses) => {
+        // Run the test
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .patch(`/api/courses/${courses[0].id}`)
+              .send({ title: 'test1' })
+              .end((err, res) => {
+                res.should.have.status(200);
+                expect(res.body.title).to.be.equals('test1');
+
+                // Reset the data
+                models.Course.update({ title: 'Demo1' }, { where: { id: courses[0].id } });
+
+                done();
+              });
+          });
+      }).catch((rr) => {
+        console.error(rr);
+      });
+    });
+  });
 });

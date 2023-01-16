@@ -10,7 +10,7 @@ import { DataGrid } from '@material-ui/data-grid';
 import { useCallback } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
-import renderTextField from '@utils/forms';
+import { renderTextField } from '@utils/forms';
 import {
   Accordion,
   AccordionDetails,

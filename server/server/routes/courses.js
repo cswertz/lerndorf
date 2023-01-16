@@ -370,6 +370,71 @@ router.get('/:id/content', async (req, res) => {
   res.json(units);
 });
 
+router.patch('/:id', hasCapability('edit_course'), async (req, res) => {
+  const isCurrentUserAdmin = await isAdmin(req.user.id);
+  const trainerRoleId = await getTrainerRoleId();
+  const course = await models.Course.findByPk(req.params.id, {
+    include: [
+      {
+        model: models.CourseUser,
+        as: 'users',
+      },
+    ],
+  });
+  if (course === null) {
+    return res.status(404).send({ message: 'entry not found' });
+  }
+
+  const courseUser = course.users.filter((user) => {
+    if ((user.userId === req.user.id && user.roleId === trainerRoleId)) {
+      return user;
+    }
+  });
+
+  if (isCurrentUserAdmin === false && courseUser.length === 0) {
+    return res.status(403).send({ message: 'you cannot update this entry unless you are the trainer or an admin.' });
+  }
+
+  const updateData = { title: req.body.title };
+
+  if (req.body.shortTitle) {
+    updateData.shortTitle = req.body.shortTitle;
+  }
+
+  if (req.body.description) {
+    updateData.description = req.body.description;
+  }
+
+  if (req.body.enrolmentStart) {
+    updateData.enrolmentStart = moment.utc(req.body.enrolmentStart).toDate();
+  }
+
+  if (req.body.enrolmentEnd) {
+    updateData.enrolmentEnd = moment.utc(req.body.enrolmentEnd).toDate();
+  }
+
+  if (req.body.enrolmentConfirmation) {
+    updateData.enrolmentConfirmation = req.body.enrolmentConfirmation;
+  }
+
+  const updatedData = await models.Course.update(updateData, {
+    where: {
+      id: req.params.id,
+    },
+  });
+
+  const courseRefetched = await models.Course.findByPk(req.params.id, {
+    include: [
+      {
+        model: models.CourseUser,
+        as: 'users',
+      },
+    ],
+  });
+
+  return res.status(200).send(courseRefetched);
+});
+
 router.delete('/:id', hasCapability('delete_course'), async (req, res) => {
   const isCurrentUserAdmin = await isAdmin(req.user.id);
   const trainerRoleId = await getTrainerRoleId();
