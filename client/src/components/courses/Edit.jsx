@@ -8,7 +8,7 @@ import Switch from '@material-ui/core/Switch';
 import { useCallback, useState } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
-import { renderTextField, renderTextareaField } from '@utils/forms';
+import { renderTextField, renderTextareaField, renderLanguageField } from '@utils/forms';
 import {
   Accordion,
   AccordionDetails,
@@ -38,6 +38,10 @@ const styles = {
   formControlSwitches: {
     margin: '10px 10px',
   },
+  formControlCourseDates: {
+    width: 'calc(100% - 10px)',
+    margin: '20px 0 0',
+  },
   textField: {
     width: '100%',
   },
@@ -57,7 +61,7 @@ const validate = (values) => {
   return errors;
 };
 
-const Edit = ({ handleSubmit, submitting, pristine, title, initialValues }) => {
+const Edit = ({ handleSubmit, submitting, pristine, title, initialValues, languages }) => {
   const classes = useStyles();
 
   const [openPanel, setOpenPanel] = useState('title');
@@ -65,6 +69,8 @@ const Edit = ({ handleSubmit, submitting, pristine, title, initialValues }) => {
   const handleChange = (panel) => (event, newExpanded) => {
     setOpenPanel(newExpanded ? panel : false);
   };
+
+  console.error(languages);
 
   return (
     <div className={classes.wrapper}>
@@ -158,6 +164,76 @@ const Edit = ({ handleSubmit, submitting, pristine, title, initialValues }) => {
                     label="Confirmation for Enrolement"
                   />
                 </FormGroup>
+                <FormGroup className={classes.formControlSwitches}>
+                  <FormControlLabel
+                    name="enrolmentByTutor"
+                    control={
+                      <Switch
+                        color="secondary"
+                        defaultChecked={initialValues.enrolmentByTutor === true}
+                      />
+                    }
+                    label="Confirmation by Tutor"
+                  />
+                </FormGroup>
+                <FormGroup className={classes.formControlSwitches}>
+                  <FormControlLabel
+                    name="visible"
+                    control={
+                      <Switch color="secondary" defaultChecked={initialValues.visible === true} />
+                    }
+                    label="Visible / Published"
+                  />
+                </FormGroup>
+                <FormGroup className={classes.formControlSwitches}>
+                  <FormControlLabel
+                    name="copyAllowed"
+                    control={
+                      <Switch
+                        color="secondary"
+                        defaultChecked={initialValues.copyAllowed === true}
+                      />
+                    }
+                    label="Allow to copy the course"
+                  />
+                </FormGroup>
+              </Grid>
+              <Grid xs={12} sm={6}>
+                <FormControl className={classes.formControlCourseDates}>
+                  <Field
+                    required
+                    name="courseStart"
+                    label="Start of course"
+                    helperText="Please insert a date in the following format: YYYY-MM-DD"
+                    component={renderTextField}
+                    className={classes.textField}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid xs={12} sm={6}>
+                <FormControl required className={classes.formControlCourseDates}>
+                  <Field
+                    name="courseEnd"
+                    label="End of course"
+                    helperText="Please insert a date in the following format: YYYY-MM-DD"
+                    component={renderTextField}
+                    className={classes.textField}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid xs={12}>
+                <FormControl required className={classes.formTextareaControl}>
+                  <Field
+                    name="mainLanguage"
+                    label="Main language"
+                    helperText="Please insert a date in the following format: YYYY-MM-DD"
+                    component={renderLanguageField}
+                    options={languages.map((language) => {
+                      return { value: language.id, label: language.name };
+                    })}
+                    className={classes.textField}
+                  />
+                </FormControl>
               </Grid>
             </Grid>
           </AccordionDetails>

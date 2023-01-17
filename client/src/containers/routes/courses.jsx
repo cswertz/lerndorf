@@ -6,7 +6,7 @@ import EnroleCourses from '../courses/EnroleCourses';
 import CreateCourse from '../courses/CreateCourse';
 import EditCourse from '../courses/EditCourse';
 
-const CoursesRouter = ({ courses, course, actions, user }) => (
+const CoursesRouter = ({ courses, course, languages, actions, user }) => (
   <>
     <Route
       exact
@@ -26,7 +26,9 @@ const CoursesRouter = ({ courses, course, actions, user }) => (
     <Route
       exact
       path="/courses/:id/edit"
-      render={() => <EditCourse user={user} actions={actions} course={course} />}
+      render={() => (
+        <EditCourse user={user} actions={actions} course={course} languages={languages} />
+      )}
     />
   </>
 );

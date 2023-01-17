@@ -41,6 +41,13 @@ export default {
     enrolmentByTutor: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
+      defaultValue: true,
+    },
+
+    visible: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
 
     access: {

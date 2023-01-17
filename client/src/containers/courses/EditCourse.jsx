@@ -38,27 +38,28 @@ class EditCourse extends Component {
 
   componentDidUpdate() {
     const { actions, match, history, course } = this.props;
-    console.error(course.fetching, course.fetched, course.item.id, match.params.id);
   }
 
   fetchData() {
     const { actions, history, match } = this.props;
+    actions.languagesFetch();
     actions.courseFetchSingle(match.params.id).catch((err) => {
       history.push('/courses/my');
     });
   }
 
   render() {
-    const { user, courses, course, actions, history, match, state } = this.props;
+    const { user, courses, course, languages, actions, history, match, state } = this.props;
 
     let content = null;
 
-    if (course.fetched && course.item.id === parseInt(match.params.id, 10)) {
+    if (course.fetched && course.item?.id === parseInt(match.params.id, 10)) {
       content = (
         <>
           <Typography variant="h1">Edit course (ID: {match.params.id})</Typography>
           <Edit
             actions={actions}
+            languages={languages?.languages ?? []}
             initialValues={course.item}
             handleSubmit={(e) => {
               e.preventDefault();
@@ -71,9 +72,11 @@ class EditCourse extends Component {
                 shortTitle: e.target.shortTitle.value,
                 description: e.target.description.value,
                 enrolmentConfirmation: e.target.enrolmentConfirmation.checked,
+                enrolmentByTutor: e.target.enrolmentByTutor.checked,
+                visible: e.target.visible.checked,
+                copyAllowed: e.target.copyAllowed.checked,
+                mainLanguage: e.target.mainLanguage.value,
               };
-
-              console.error(e.target.enrolmentConfirmation.checked);
 
               // Handle the dates
               if (e.target.enrolmentStart.value) {
@@ -92,6 +95,20 @@ class EditCourse extends Component {
                   console.error('Invalid date format');
                 }
               }
+              if (e.target.enrolmentEnd.value) {
+                try {
+                  updateData.courseStart = moment.utc(e.target.courseStart.value).startOf('day');
+                } catch (err) {
+                  console.error('Invalid date format');
+                }
+              }
+              if (e.target.courseEnd.value) {
+                try {
+                  updateData.courseEnd = moment.utc(e.target.courseEnd.value).startOf('day');
+                } catch (err) {
+                  console.error('Invalid date format');
+                }
+              }
 
               if (
                 updateData.enrolmentStart !== null &&
@@ -100,6 +117,16 @@ class EditCourse extends Component {
               ) {
                 updateData.enrolmentEnd = updateData.enrolmentStart.clone().startOf('day');
               }
+
+              if (
+                updateData.courseStart !== null &&
+                updateData.courseEnd !== null &&
+                updateData.courseStart.isAfter(updateData.courseEnd)
+              ) {
+                updateData.courseEnd = updateData.courseStart.clone().startOf('day');
+              }
+
+              console.error(updateData);
 
               actions.courseUpdate(match.params.id, updateData).then((updateResult) => {
                 console.error(updateResult);

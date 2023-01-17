@@ -206,6 +206,7 @@ router.get('/enroleable', async (req, res) => {
         },
         {
           mainLanguage: languageIds,
+          visible: true,
         },
       ],
     },
@@ -396,26 +397,26 @@ router.patch('/:id', hasCapability('edit_course'), async (req, res) => {
   }
 
   const updateData = { title: req.body.title };
+  const keys = Object.keys(req.body);
 
-  if (req.body.shortTitle) {
-    updateData.shortTitle = req.body.shortTitle;
+  for (let i = 0; i < keys.length; i += 1) {
+    const attr = keys[i];
+    if (req.body[attr] !== undefined) {
+      switch (attr) {
+        case 'courseStart':
+        case 'courseEnd':
+        case 'enrolmentStart':
+        case 'enrolmentEnd':
+          updateData[attr] = moment.utc(req.body[attr]).toDate();
+          break;
+        default:
+          updateData[attr] = req.body[attr];
+          break;
+      }
+    }
   }
 
-  if (req.body.description) {
-    updateData.description = req.body.description;
-  }
-
-  if (req.body.enrolmentStart) {
-    updateData.enrolmentStart = moment.utc(req.body.enrolmentStart).toDate();
-  }
-
-  if (req.body.enrolmentEnd) {
-    updateData.enrolmentEnd = moment.utc(req.body.enrolmentEnd).toDate();
-  }
-
-  if (req.body.enrolmentConfirmation) {
-    updateData.enrolmentConfirmation = req.body.enrolmentConfirmation;
-  }
+  console.error(updateData);
 
   const updatedData = await models.Course.update(updateData, {
     where: {

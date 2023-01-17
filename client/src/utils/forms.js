@@ -1,4 +1,4 @@
-import { TextField, TextareaAutosize } from '@material-ui/core/index';
+import { TextField, TextareaAutosize, Select, MenuItem, InputLabel } from '@material-ui/core/index';
 
 const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
@@ -57,4 +57,39 @@ const renderTextareaField = ({ input, label, meta: { touched, error }, ...custom
   );
 };
 
-export { renderTextField, renderTextareaField };
+const renderLanguageField = ({ input, label, meta: { touched, error }, ...custom }) => {
+  const { errorText } = custom;
+  const customOptions = custom;
+  delete customOptions.errorText;
+  let helperText = label;
+  if (errorText) {
+    helperText = errorText;
+  }
+  if (touched && error) {
+    helperText = error;
+  }
+  let hasError = touched && error;
+  if (errorText) {
+    hasError = true;
+  }
+
+  return (
+    <>
+      <InputLabel>{label}</InputLabel>
+      <Select
+        helperText={helperText ?? ''}
+        error={hasError && true}
+        label={label}
+        {...input}
+        {...customOptions}
+      >
+        {custom?.options.length > 0 &&
+          custom?.options.map((option) => {
+            return <MenuItem value={option.value}>{option.label}</MenuItem>;
+          })}
+      </Select>
+    </>
+  );
+};
+
+export { renderTextField, renderTextareaField, renderLanguageField };

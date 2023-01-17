@@ -137,7 +137,13 @@ const Router = ({
             </PrivateRoute>
 
             <PrivateRoute path="/courses">
-              <RouterCourses user={user} actions={actions} courses={courses} course={course} />
+              <RouterCourses
+                user={user}
+                actions={actions}
+                courses={courses}
+                course={course}
+                languages={languages}
+              />
             </PrivateRoute>
 
             <Route path="/errors/403" exact>
