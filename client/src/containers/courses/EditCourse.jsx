@@ -76,6 +76,7 @@ class EditCourse extends Component {
                 visible: e.target.visible.checked,
                 copyAllowed: e.target.copyAllowed.checked,
                 mainLanguage: e.target.mainLanguage.value,
+                activateForum: e.target.activateForum.checked,
               };
 
               // Handle the dates

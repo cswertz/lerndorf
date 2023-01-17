@@ -50,6 +50,12 @@ export default {
       defaultValue: false,
     },
 
+    activateForum: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+    },
+
     access: {
       type: DataTypes.BOOLEAN,
       allowNull: false,

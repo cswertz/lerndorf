@@ -16,6 +16,7 @@ import {
   FormGroup,
   FormControlLabel,
 } from '../../../node_modules/@material-ui/core/index';
+import CourseUsers from './CourseUsers';
 
 const styles = {
   wrapper: {
@@ -51,17 +52,18 @@ const useStyles = makeStyles((theme) => styles);
 
 const validate = (values) => {
   const errors = {};
-  /* const requiredFields = ['name'];
+
+  const requiredFields = ['title'];
   requiredFields.forEach((field) => {
     if (!values[field]) {
       errors[field] = 'Required';
     }
-  }); */
+  });
 
   return errors;
 };
 
-const Edit = ({ handleSubmit, submitting, pristine, title, initialValues, languages }) => {
+const Edit = ({ handleSubmit, submitting, pristine, title, initialValues, languages, actions }) => {
   const classes = useStyles();
 
   const [openPanel, setOpenPanel] = useState('title');
@@ -69,8 +71,6 @@ const Edit = ({ handleSubmit, submitting, pristine, title, initialValues, langua
   const handleChange = (panel) => (event, newExpanded) => {
     setOpenPanel(newExpanded ? panel : false);
   };
-
-  console.error(languages);
 
   return (
     <div className={classes.wrapper}>
@@ -197,6 +197,18 @@ const Edit = ({ handleSubmit, submitting, pristine, title, initialValues, langua
                     label="Allow to copy the course"
                   />
                 </FormGroup>
+                <FormGroup className={classes.formControlSwitches}>
+                  <FormControlLabel
+                    name="activateForum"
+                    control={
+                      <Switch
+                        color="secondary"
+                        defaultChecked={initialValues.activateForum === true}
+                      />
+                    }
+                    label="Allow the useage of the forum"
+                  />
+                </FormGroup>
               </Grid>
               <Grid xs={12} sm={6}>
                 <FormControl className={classes.formControlCourseDates}>
@@ -245,7 +257,7 @@ const Edit = ({ handleSubmit, submitting, pristine, title, initialValues, langua
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <span>TODO:</span>
+            <CourseUsers course={initialValues} actions={actions} />
           </AccordionDetails>
         </Accordion>
         <Accordion expanded={openPanel === 'content'} onChange={handleChange('content')}>

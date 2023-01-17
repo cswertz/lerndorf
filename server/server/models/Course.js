@@ -54,6 +54,13 @@ class Course extends Model {
         defaultValue: true,
       },
 
+      activateForum: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        notEmpty: true,
+        defaultValue: true,
+      },
+
       access: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

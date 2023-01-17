@@ -282,6 +282,17 @@ router.get('/:id', async (req, res) => {
         {
           model: models.CourseUser,
           as: 'users',
+          include: [
+            {
+              model: models.User,
+              as: 'user',
+              attributes: ['id', 'firstName', 'lastName', 'email', 'username', 'picture'],
+            },
+            {
+              model: models.Role,
+              as: 'role',
+            },
+          ],
         },
       ],
     });
