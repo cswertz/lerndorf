@@ -542,6 +542,9 @@ router.patch('/:id/users/:userId', async (req, res) => {
       if ((user.userId === req.user.id && user.roleId === trainerRoleId)) {
         return user;
       }
+      if (course.enrolmentByTutor === true && course.enrolmentConfirmation === true) {
+        return user;
+      }
     });
 
     if (isCurrentUserAdmin === false && currentCourseUser.length === 0) {
@@ -564,10 +567,11 @@ router.patch('/:id/users/:userId', async (req, res) => {
 
     const updateRequest = await models.CourseUser.update({
       enrolmentConfirmation: req.body.confirm === true,
-    }, { where: { id: req.params.userId } });
+    }, { where: { id: searchedUser[0].id } });
 
     return res.status(200).send({ message: req.body.confirm === true ? 'you have confirmed the user' : 'you have disabled the confirmation for the user' });
   } catch (err) {
+    console.error(err);
     return res.status(400).send({ message: 'Error occured while try to set the confirmation status.' });
   }
 });
@@ -642,6 +646,99 @@ router.delete('/:id/users/:userId', async (req, res) => {
     return res.status(200).send({ message: 'You have removed the user' });
   } catch (err) {
     return res.status(400).send({ message: 'Error occured while try to remove the user.' });
+  }
+});
+
+router.post('/:id/users', [
+  check('userId', 'User id is required')
+    .notEmpty(),
+  check('roleId', 'Role id is required')
+    .notEmpty(),
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+  }
+  if (!req.user) {
+    return res.status(401).send({ error: 'Not logged in.' });
+  }
+
+  try {
+    // Load the course information
+    const isCurrentUserAdmin = await isAdmin(req.user.id);
+    const trainerRoleId = await getTrainerRoleId();
+    const course = await models.Course.findByPk(req.params.id, {
+      include: [
+        {
+          model: models.CourseUser,
+          as: 'users',
+          include: [
+            {
+              model: models.User,
+              as: 'user',
+              attributes: ['id', 'firstName', 'lastName', 'username'],
+            },
+            {
+              model: models.Role,
+              as: 'role',
+              include: [
+                {
+                  model: models.RoleLanguage,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    if (course === null) {
+      return res.status(404).send({ message: 'Entry not found' });
+    }
+
+    const currentCourseUser = course.users.filter((user) => {
+      if ((user.userId === req.user.id && user.roleId === trainerRoleId)) {
+        return user;
+      }
+    });
+
+    if (isCurrentUserAdmin === false && currentCourseUser.length === 0) {
+      return res.status(403).send({ message: 'You remove an user this unless you are the trainer or an admin.' });
+    }
+
+    const searchedUser = course.users.filter((user) => {
+      if (user.id === parseInt(req.body.userId, 10)) {
+        return user;
+      }
+    });
+
+    if (searchedUser.length > 0) {
+      return res.status(400).send({ message: 'You cannot add duplicate entries.' });
+    }
+
+    const userToBeAdded = await models.User.findByPk(req.body.userId);
+
+    if (userToBeAdded === null) {
+      return res.status(400).send({ message: 'You cannot add an invalid user.' });
+    }
+
+    const sequeneceId = await getLastCourseSequendId(course.id);
+
+    // Create a course user entry to the course.
+    const courseUser = await models.CourseUser.create({
+      enrolmentConfirmation: course.enrolmentConfirmation !== true,
+      courseId: course.id,
+      userId: req.body.userId,
+      roleId: req.body.roleId,
+      enrolment: moment().toDate(),
+      sequeneceId,
+    });
+
+    return res.status(200).send({ message: 'You have added the user' });
+  } catch (err) {
+    return res.status(400).send({ message: 'Error occured while try to adding the user.' });
   }
 });
 

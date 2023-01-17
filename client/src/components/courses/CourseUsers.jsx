@@ -69,6 +69,7 @@ const CourseUsers = (props) => {
           lastName: userEntry.user.lastName,
           email: userEntry.user.email,
           role: userEntry.role.name,
+          roleSlug: userEntry.role.slug,
           enrolmentConfirmation: userEntry.enrolmentConfirmation,
           picture: userEntry.user.picture,
         };
@@ -78,7 +79,7 @@ const CourseUsers = (props) => {
 
   const toggleConfirmation = (row) => {
     actions
-      .courseUpdateUserConfirmation(row.courseId, row.userId, !row.enrolmentConfirmation)
+      .courseUpdateUserConfirmation(row.courseId, row.id, !row.enrolmentConfirmation)
       .then((result) => {
         setTimeout(() => {
           actions.courseFetchSingle(row.courseId);
@@ -192,11 +193,13 @@ const CourseUsers = (props) => {
                       </TableCell>
                     )}
                     <TableCell align="right">
-                      {adminUsers.indexOf(user.user?.id) > -1 && adminUsers.length > 1 && (
+                      {((adminUsers.indexOf(user.user?.id) > -1 && adminUsers.length > 1) ||
+                        row?.roleSlug !== 'trainer') && (
                         <DeleteCourseUser
                           courseUser={row}
                           course={course}
                           actions={actions}
+                          user={user.user}
                           fetch={() => {
                             actions.courseFetchSingle(course.id);
                           }}

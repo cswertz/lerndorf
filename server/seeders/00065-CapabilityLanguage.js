@@ -7,7 +7,7 @@ const capabilityLanguages = [
     vocable: 'list users',
   },
   {
-    slug: 'List_user',
+    slug: 'list_user',
     language: 'de',
     vocable: 'BenutzerInnenkonten suchen',
   },

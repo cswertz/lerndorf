@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import DeleteIcon from '@material-ui/icons/Delete';
+import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -13,7 +13,7 @@ import {
   HourglassEmptySharp,
   CheckBox,
 } from '@material-ui/icons/index';
-import { Field } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { renderSelect, renderTextField } from '@utils/forms';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -24,21 +24,34 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TableHeadCell from '@components/tables/TableHeadCell';
 import { getComparator, stableSort } from '@utils/table';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
   Avatar,
   FormControl,
   FormControlLabel,
   IconButton,
+  MenuItem,
+  Select,
 } from '../../../node_modules/@material-ui/core/index';
 
-export default function AddUserToCourse(props) {
-  const { actions, course, courseUser, onConfirm, okBtnText, history, fetch, roles } = props;
+function AddUserToCourse(props) {
+  const {
+    actions,
+    course,
+    courseUser,
+    onConfirm,
+    okBtnText,
+    history,
+    fetch,
+    roles,
+    handleSubmit,
+  } = props;
 
   const [open, setOpen] = React.useState(false);
   const [users, setUsers] = React.useState([]);
   const [usersFiltered, setUsersFiltered] = React.useState([]);
   const [rolesFiltered, setRolesFiltered] = React.useState([]);
-  const [userRole, setUserRole] = React.useState(null);
+  const [userRole, setUserRole] = React.useState(9);
   const [headline, setHeadline] = React.useState(null);
   const [message, setMessage] = React.useState(null);
   const [hasError, setHasError] = React.useState(null);
@@ -51,19 +64,30 @@ export default function AddUserToCourse(props) {
 
   const [selected, setSelected] = React.useState([]);
 
-  const openUserDialog = () => {
-    const rolesFilteredList = roles.items.filter(
-      (role) => ['tutor', 'learner', 'trainer'].indexOf(role.slug) > -1,
-    );
+  useEffect(() => {
+    const rolesFilteredList = roles.items
+      .filter((role) => ['tutor', 'learner', 'trainer'].indexOf(role.slug) > -1)
+      .map((item) => {
+        return {
+          value: item.id,
+          label: item.name,
+          id: `role-${item.id}`,
+        };
+      });
 
     setRolesFiltered(rolesFilteredList);
+  }, [roles]);
 
-    rolesFilteredList.forEach((role) => {
+  useEffect(() => {
+    rolesFiltered.forEach((role) => {
       if (role.slug === 'learner') {
-        setUserRole({ value: role.id, label: role.name, id: role.id });
+        setUserRole(role.id);
       }
     });
+  }, [rolesFiltered]);
 
+  const openUserDialog = () => {
+    setSelected([]);
     actions.usersFetch().then((userEntries) => {
       userEntries = userEntries.map((userEntry) => {
         userEntry.name = userEntry.username;
@@ -91,6 +115,12 @@ export default function AddUserToCourse(props) {
   const handleClose = (confirmResult) => {
     if (mode === 'confirm' && confirmResult === true) {
       // Trigger the delete, cause it is confirmed.
+      if (handleSubmit && selected.length > 0) {
+        handleSubmit(selected[0], userRole);
+      }
+      if (selected.length > 0) {
+        setOpen(false);
+      }
     } else if (mode === 'confirm' && confirmResult === false) {
       setOpen(false);
     } else {
@@ -102,10 +132,6 @@ export default function AddUserToCourse(props) {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const onUserRoleChange = (event) => {
-    console.error('Test');
   };
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
@@ -253,21 +279,21 @@ export default function AddUserToCourse(props) {
                 </TableBody>
               </Table>
             </TableContainer>
-            {selected.length > 0 && (
-              <FormControl required style={{ width: '100%', margin: '20px 0' }}>
-                {JSON.stringify(userRole)}
-                <Field
-                  name="role"
-                  label="User role"
-                  component={renderSelect}
-                  disabled={selected.length === 0}
-                  value={userRole?.value}
-                  options={(rolesFiltered ?? []).map((item) => {
-                    return { value: item.id, label: item.name, id: item.id };
+            <FormControl required style={{ width: '100%', margin: '20px 0' }}>
+              <Select
+                name="role"
+                label="User role"
+                value={userRole}
+                onChange={(e) => {
+                  setUserRole(e.target.value);
+                }}
+              >
+                {rolesFiltered.length > 0 &&
+                  rolesFiltered.map((role) => {
+                    return <MenuItem value={role.value}>{role.label}</MenuItem>;
                   })}
-                />
-              </FormControl>
-            )}
+              </Select>
+            </FormControl>
           </form>
         </DialogContent>
         <DialogActions>
@@ -294,3 +320,15 @@ export default function AddUserToCourse(props) {
     </>
   );
 }
+
+AddUserToCourse.propTypes = {
+  initialValues: PropTypes.shape({}).isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  classes: PropTypes.shape({}).isRequired,
+};
+
+const AddUserToCourseForms = reduxForm({
+  form: 'AddUser',
+})(AddUserToCourse);
+
+export default withStyles({})(AddUserToCourseForms);

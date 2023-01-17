@@ -1111,4 +1111,165 @@ describe('Courses', () => {
       });
     });
   });
+  describe('POST /api/courses/:id/users', () => {
+    it('it should return a 401 if the user is not logged.', (done) => {
+      models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
+        addCourseDefault(admin, user).then((result) => {
+          const session = chai.request.agent(server);
+          session
+            .post(`/api/courses/${result.course.id}/users`)
+            .send({
+              userId: newUser.id,
+              roleId: 9,
+            })
+            .end((err, res) => {
+              res.should.have.status(401);
+              done();
+            });
+        });
+      });
+    });
+    it('it should return a 422 if the user id is missing.', (done) => {
+      models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
+        addCourseDefault(admin, user).then((result) => {
+          const session = chai.request.agent(server);
+          session
+            .post(`/api/courses/${result.course.id}/users`)
+            .send({
+              roleId: 9,
+            })
+            .end((err, res) => {
+              res.should.have.status(422);
+              done();
+            });
+        });
+      });
+    });
+    it('it should return a 422 if the role id is missing.', (done) => {
+      models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
+        addCourseDefault(admin, user).then((result) => {
+          const session = chai.request.agent(server);
+          session
+            .post(`/api/courses/${result.course.id}/users`)
+            .send({
+              userId: newUser.id,
+            })
+            .end((err, res) => {
+              res.should.have.status(422);
+              done();
+            });
+        });
+      });
+    });
+    it('it should return a 404 if the course does not exists.', (done) => {
+      models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
+        addCourseDefault(admin, user).then((result) => {
+          const session = chai.request.agent(server);
+          session
+            .post('/api/users/login')
+            .send(admin)
+            .end((err, res) => {
+              session
+                .post('/api/courses/9999/users')
+                .send({
+                  userId: newUser.id,
+                  roleId: 9,
+                })
+                .end((err, res) => {
+                  res.should.have.status(404);
+                  done();
+                });
+            });
+        });
+      });
+    });
+    it('it should return a 403 if the course does not exists.', (done) => {
+      models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
+        addCourseDefault(admin, user).then((result) => {
+          const session = chai.request.agent(server);
+          session
+            .post('/api/users/login')
+            .send(user)
+            .end((err, res) => {
+              session
+                .post(`/api/courses/${result.course.id}/users`)
+                .send({
+                  userId: newUser.id,
+                  roleId: 9,
+                })
+                .end((err, res) => {
+                  res.should.have.status(403);
+                  done();
+                });
+            });
+        });
+      });
+    });
+    it('it should return a 400 if the users does not exists.', (done) => {
+      models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
+        addCourseDefault(admin, user).then((result) => {
+          const session = chai.request.agent(server);
+          session
+            .post('/api/users/login')
+            .send(admin)
+            .end((err, res) => {
+              session
+                .post(`/api/courses/${result.course.id}/users`)
+                .send({
+                  userId: 99999,
+                  roleId: 9,
+                })
+                .end((err, res) => {
+                  res.should.have.status(400);
+                  done();
+                });
+            });
+        });
+      });
+    });
+    it('it should return a 200 if the user is admin and pass correct data.', (done) => {
+      models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
+        addCourseDefault(admin, user).then((result) => {
+          const session = chai.request.agent(server);
+          session
+            .post('/api/users/login')
+            .send(admin)
+            .end((err, res) => {
+              session
+                .post(`/api/courses/${result.course.id}/users`)
+                .send({
+                  userId: newUser.id,
+                  roleId: 8,
+                })
+                .end((err, res) => {
+                  res.should.have.status(200);
+                  done();
+                });
+            });
+        });
+      });
+    });
+    it('it should return a 400 if the user is was already added.', (done) => {
+      models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
+        addCourseDefault(admin, user).then((result) => {
+          const session = chai.request.agent(server);
+          session
+            .post('/api/users/login')
+            .send(admin)
+            .end((err, res) => {
+              session
+                .post(`/api/courses/${result.course.id}/users`)
+                .send({
+                  userId: result.users[1].id,
+                  roleId: 8,
+                })
+                .end((err, res) => {
+                  res.should.have.status(400);
+                  done();
+                });
+            });
+        });
+      });
+    });
+  });
 });

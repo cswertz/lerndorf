@@ -90,8 +90,6 @@ const Edit = ({
     setOpenPanel(newExpanded ? panel : false);
   };
 
-  console.error(roles);
-
   return (
     <div className={classes.wrapper}>
       <form className={classes.form} onSubmit={handleSubmit}>
@@ -290,7 +288,17 @@ const Edit = ({
               </Grid>
               <Grid container spacing={0} className={classes.marginTop}>
                 <Grid xs={12} className={classes.full} align="right">
-                  <AddUserToCourse course={initialValues} actions={actions} roles={roles} />
+                  <AddUserToCourse
+                    course={initialValues}
+                    actions={actions}
+                    roles={roles}
+                    handleSubmit={(userId, userRole) => {
+                      actions.courseUserAdd(initialValues.id, userId, userRole).then((result) => {
+                        actions.courseFetchSingle(initialValues.id);
+                      });
+                      console.error(userId, userRole);
+                    }}
+                  />
                 </Grid>
               </Grid>
             </div>

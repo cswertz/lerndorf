@@ -305,6 +305,30 @@ export const courseUpdateUserConfirmation = (id, userId, confirm, history) => as
       return error;
     });
 
+export const courseUserAdd = (id, userId, roleId, history) => async (dispatch) =>
+  fetch(`/api/courses/${id}/users`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({ userId, roleId }),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json) {
+        if (!json.error) {
+          dispatch(coursesUserRemoveSuccess(json));
+        }
+      }
+      return json;
+    })
+    .catch((error) => {
+      dispatch(coursesUserRemoveFailed(error));
+      return error;
+    });
+
 export const courseUserRemove = (id, userId, confirm, history) => async (dispatch) =>
   fetch(`/api/courses/${id}/users/${userId}`, {
     method: 'DELETE',

@@ -9,7 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { IconButton } from '../../../node_modules/@material-ui/core/index';
 
 export default function DeleteCourseUser(props) {
-  const { actions, course, courseUser, onConfirm, okBtnText, history, fetch } = props;
+  const { actions, course, courseUser, onConfirm, okBtnText, history, fetch, user } = props;
 
   const [open, setOpen] = React.useState(false);
   const [headline, setHeadline] = React.useState(null);
@@ -22,9 +22,16 @@ export default function DeleteCourseUser(props) {
   const handleDeleteRequest = () => {
     setMode('confirm');
     setOpen(true);
-    setMessage(
-      'Warning. This operation cannot be undone. Do you really want to remove the user from?',
-    );
+
+    if (user.id === courseUser.userId) {
+      setMessage(
+        'Warning: You are signing yourself out of the course. Are you sure you want to do this?',
+      );
+    } else {
+      setMessage(
+        'Warning. This operation cannot be undone. Do you really want to remove the user from?',
+      );
+    }
   };
 
   const handleDeleteResponse = (text) => {
