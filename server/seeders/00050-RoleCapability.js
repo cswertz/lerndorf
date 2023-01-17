@@ -4,6 +4,7 @@ const roleCapabilities = [
   {
     role: 'admin',
     capabilities: [
+      'list_user',
       'edit_user',
       'delete_user',
       'add_admin_role_to_user',

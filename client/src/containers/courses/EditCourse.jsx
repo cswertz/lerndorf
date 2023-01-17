@@ -43,22 +43,27 @@ class EditCourse extends Component {
   fetchData() {
     const { actions, history, match } = this.props;
     actions.languagesFetch();
+    actions.rolesFetch();
     actions.courseFetchSingle(match.params.id).catch((err) => {
       history.push('/courses/my');
     });
   }
 
   render() {
-    const { user, courses, course, languages, actions, history, match, state } = this.props;
+    const { user, courses, course, languages, actions, history, match, state, roles } = this.props;
 
     let content = null;
+
+    console.error(roles);
 
     if (course.fetched && course.item?.id === parseInt(match.params.id, 10)) {
       content = (
         <>
           <Typography variant="h1">Edit course (ID: {match.params.id})</Typography>
           <Edit
+            user={user}
             actions={actions}
+            roles={roles}
             languages={languages?.languages ?? []}
             initialValues={course.item}
             handleSubmit={(e) => {
@@ -126,8 +131,6 @@ class EditCourse extends Component {
               ) {
                 updateData.courseEnd = updateData.courseStart.clone().startOf('day');
               }
-
-              console.error(updateData);
 
               actions.courseUpdate(match.params.id, updateData).then((updateResult) => {
                 actions.courseFetchSingle(match.params.id);

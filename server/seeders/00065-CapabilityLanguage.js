@@ -2,6 +2,16 @@ import models from '../server/config/sequelize';
 
 const capabilityLanguages = [
   {
+    slug: 'list_user',
+    language: 'en',
+    vocable: 'list users',
+  },
+  {
+    slug: 'List_user',
+    language: 'de',
+    vocable: 'BenutzerInnenkonten suchen',
+  },
+  {
     slug: 'edit_user',
     language: 'en',
     vocable: 'edit accounts',

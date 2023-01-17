@@ -1,6 +1,12 @@
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.bulkInsert('Capabilities', [
     {
+      slug: 'list_user',
+      name: 'List User',
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    {
       slug: 'edit_user',
       name: 'Edit User',
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),

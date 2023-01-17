@@ -356,7 +356,7 @@ const UserEdit = ({
         className={classes.textField}
       />
     </div>
-    <Grid container className={classes.container}>
+    <Grid container className={classes.container} spacing={2}>
       <Grid item xs={12} sm={9}>
         <div className={classes.flex}>
           <Field

@@ -91,6 +91,7 @@ const AdminMenu = () => {
       </List> */}
 
       {hasCapability(user.capabilities, [
+        'list_user',
         'edit_user',
         'edit_language',
         'edit_taxonomy',

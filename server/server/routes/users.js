@@ -67,9 +67,9 @@ router.get('/activate/:hash', (req, res) => {
 });
 
 /* User management */
-router.get('/', hasCapability('edit_user'), (req, res) => {
+router.get('/', hasCapability('list_user'), (req, res) => {
   models.User.findAll({
-    attributes: ['id', 'username'],
+    attributes: ['id', 'username', 'picture', 'firstName', 'lastName', 'studyId', 'city', 'country'],
   })
     .then((results) => res.json(results));
 });

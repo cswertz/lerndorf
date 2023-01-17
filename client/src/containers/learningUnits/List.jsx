@@ -49,7 +49,7 @@ class LearningUnits extends Component {
         />
 
         {hasCapability(user.capabilities, ['add_learning_unit']) && (
-          <Grid container justify="flex-end" alignItems="center">
+          <Grid container justify="flex-end" alignItems="center" spacing={2}>
             <Button
               color="primary"
               variant="contained"

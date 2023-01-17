@@ -57,7 +57,7 @@ const renderTextareaField = ({ input, label, meta: { touched, error }, ...custom
   );
 };
 
-const renderLanguageField = ({ input, label, meta: { touched, error }, ...custom }) => {
+const renderSelect = ({ input, value, label, meta: { touched, error }, ...custom }) => {
   const { errorText } = custom;
   const customOptions = custom;
   delete customOptions.errorText;
@@ -76,20 +76,18 @@ const renderLanguageField = ({ input, label, meta: { touched, error }, ...custom
   return (
     <>
       <InputLabel>{label}</InputLabel>
-      <Select
-        helperText={helperText ?? ''}
-        error={hasError && true}
-        label={label}
-        {...input}
-        {...customOptions}
-      >
+      <Select value={value} error={hasError && true} label={label} {...input} {...customOptions}>
         {custom?.options.length > 0 &&
-          custom?.options.map((option) => {
-            return <MenuItem value={option.value}>{option.label}</MenuItem>;
+          custom?.options.map((option, index) => {
+            return (
+              <MenuItem key={`lang-${option.id}`} value={option.value}>
+                {option.label}
+              </MenuItem>
+            );
           })}
       </Select>
     </>
   );
 };
 
-export { renderTextField, renderTextareaField, renderLanguageField };
+export { renderTextField, renderTextareaField, renderSelect };

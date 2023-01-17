@@ -51,7 +51,6 @@ class MyCourses extends Component {
 
   render() {
     const { user, courses, actions } = this.props;
-    console.error(user);
 
     let courseItems = [];
     if (courses.items?.length > 0) {

@@ -211,7 +211,7 @@ const Language = ({ handlePreferred, handleSubmit, handleDelete, languages, clas
     <div>
       <div>{getLanguageList()}</div>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <Grid container className={classes.container}>
+        <Grid container className={classes.container} spacing={2}>
           <Grid item xs={12} sm={9}>
             <FormControl required className={classes.formControl}>
               <Field

@@ -8,7 +8,7 @@ import Switch from '@material-ui/core/Switch';
 import { useCallback, useState } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
-import { renderTextField, renderTextareaField, renderLanguageField } from '@utils/forms';
+import { renderTextField, renderTextareaField, renderSelect } from '@utils/forms';
 import {
   Accordion,
   AccordionDetails,
@@ -17,12 +17,17 @@ import {
   FormControlLabel,
 } from '../../../node_modules/@material-ui/core/index';
 import CourseUsers from './CourseUsers';
+import AddUserToCourse from './AddUserToCourse';
+import { lang } from '../../../node_modules/moment/moment';
 
 const styles = {
   wrapper: {
     marginTop: '30px',
   },
   form: {
+    width: '100%',
+  },
+  full: {
     width: '100%',
   },
   divider: {
@@ -46,6 +51,9 @@ const styles = {
   textField: {
     width: '100%',
   },
+  marginTop: {
+    marginTop: '20px',
+  },
 };
 
 const useStyles = makeStyles((theme) => styles);
@@ -63,7 +71,17 @@ const validate = (values) => {
   return errors;
 };
 
-const Edit = ({ handleSubmit, submitting, pristine, title, initialValues, languages, actions }) => {
+const Edit = ({
+  handleSubmit,
+  submitting,
+  pristine,
+  title,
+  initialValues,
+  languages,
+  actions,
+  user,
+  roles,
+}) => {
   const classes = useStyles();
 
   const [openPanel, setOpenPanel] = useState('title');
@@ -71,6 +89,8 @@ const Edit = ({ handleSubmit, submitting, pristine, title, initialValues, langua
   const handleChange = (panel) => (event, newExpanded) => {
     setOpenPanel(newExpanded ? panel : false);
   };
+
+  console.error(roles);
 
   return (
     <div className={classes.wrapper}>
@@ -238,10 +258,9 @@ const Edit = ({ handleSubmit, submitting, pristine, title, initialValues, langua
                   <Field
                     name="mainLanguage"
                     label="Main language"
-                    helperText="Please insert a date in the following format: YYYY-MM-DD"
-                    component={renderLanguageField}
+                    component={renderSelect}
                     options={languages.map((language) => {
-                      return { value: language.id, label: language.name };
+                      return { value: language.id, label: language.name, id: language.id };
                     })}
                     className={classes.textField}
                   />
@@ -257,11 +276,24 @@ const Edit = ({ handleSubmit, submitting, pristine, title, initialValues, langua
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <CourseUsers
-              course={initialValues}
-              actions={actions}
-              showConfirmation={initialValues.enrolmentConfirmation}
-            />
+            <div className={classes.full}>
+              <Grid container spacing={0}>
+                <Grid xs={12} className={classes.full}>
+                  <CourseUsers
+                    course={initialValues}
+                    actions={actions}
+                    showConfirmation={initialValues.enrolmentConfirmation}
+                    user={user}
+                    className={classes.full}
+                  />
+                </Grid>
+              </Grid>
+              <Grid container spacing={0} className={classes.marginTop}>
+                <Grid xs={12} className={classes.full} align="right">
+                  <AddUserToCourse course={initialValues} actions={actions} roles={roles} />
+                </Grid>
+              </Grid>
+            </div>
           </AccordionDetails>
         </Accordion>
         <Accordion expanded={openPanel === 'content'} onChange={handleChange('content')}>
@@ -297,7 +329,6 @@ Edit.propTypes = {
   initialValues: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
-  errors: PropTypes.shape({}).isRequired,
   submitting: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
 };

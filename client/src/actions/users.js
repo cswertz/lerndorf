@@ -49,6 +49,7 @@ export const usersFetch = () => (dispatch) =>
           dispatch(usersFetchSuccess(json));
         }
       }
+      return json;
     })
     .catch((error) => {
       console.log('Error while fetching users:', error);

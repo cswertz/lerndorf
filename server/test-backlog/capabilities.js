@@ -8,18 +8,6 @@ chai.use(chaiHttp);
 // const agent = chai.request.agent(server);
 
 describe('Capability', () => {
-  /*
-  const capability = {
-    slug: 'edit_users_test',
-    name: 'Edit Users Test',
-  };
-  const capability1 = {
-    slug: 'delete_users_test',
-    name: 'Delete Users Test',
-  };
-  const capabilities = [];
-  */
-
   after((done) => {
     server.close();
 

@@ -21,33 +21,9 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Switch from '@material-ui/core/Switch';
-import user from '@reducers/user';
+import { getComparator, stableSort } from '@utils/table';
+import TableHeadCell from '@components/tables/TableHeadCell';
 import DeleteCourseUser from './DeleteCourseUser';
-
-function TableHeadCell(props) {
-  const { label, name, order, orderBy, onRequestSort } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
-
-  return (
-    <TableCell sortDirection={orderBy === name ? order : false} on>
-      <TableSortLabel
-        active={orderBy === name}
-        direction={orderBy === name ? order : 'asc'}
-        onClick={createSortHandler(name)}
-      >
-        <strong>{label}</strong>
-      </TableSortLabel>
-    </TableCell>
-  );
-}
-
-TableHeadCell.propTypes = {
-  onRequestSort: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-};
 
 const CourseUsers = (props) => {
   const {
@@ -59,6 +35,7 @@ const CourseUsers = (props) => {
     classes,
     showConfirmation,
     match,
+    user,
   } = props;
 
   const [open, setOpen] = React.useState(false);
@@ -72,23 +49,32 @@ const CourseUsers = (props) => {
 
   const [rows, setRows] = React.useState([]);
 
-  const users = course.users.map((userEntry) => {
-    return {
-      id: userEntry.id,
-      courseId: userEntry.courseId,
-      userId: userEntry.userId,
-      firstName: userEntry.user.firstName,
-      lastName: userEntry.user.lastName,
-      email: userEntry.user.email,
-      role: userEntry.role.name,
-      enrolmentConfirmation: userEntry.enrolmentConfirmation,
-      picture: userEntry.user.picture,
-    };
-  });
+  const adminUsers = course.users
+    .map((userEntry) => {
+      if (userEntry.role.slug === 'admin' || userEntry.role.slug === 'trainer') {
+        return userEntry.userId;
+      }
+      return null;
+    })
+    .filter((id) => id !== null);
 
   useEffect(() => {
-    setRows(users);
-  }, [course]);
+    setRows(
+      course.users.map((userEntry) => {
+        return {
+          id: userEntry.id,
+          courseId: userEntry.courseId,
+          userId: userEntry.userId,
+          firstName: userEntry.user.firstName,
+          lastName: userEntry.user.lastName,
+          email: userEntry.user.email,
+          role: userEntry.role.name,
+          enrolmentConfirmation: userEntry.enrolmentConfirmation,
+          picture: userEntry.user.picture,
+        };
+      }),
+    );
+  }, [course, course.users]);
 
   const toggleConfirmation = (row) => {
     actions
@@ -103,39 +89,6 @@ const CourseUsers = (props) => {
           actions.courseFetchSingle(row.courseId);
         }, 100);
       });
-  };
-
-  const descendingComparator = (a, b, orderByAttr) => {
-    if (b[orderByAttr] < a[orderByAttr]) {
-      return -1;
-    }
-    if (b[orderByAttr] > a[orderByAttr]) {
-      return 1;
-    }
-    return 0;
-  };
-
-  const stableSort = (array, comparator) => {
-    const stabilizedThis = array
-      .map((item) => {
-        console.error(item);
-        return item;
-      })
-      .map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-      const orderValue = comparator(a[0], b[0]);
-      if (orderValue !== 0) {
-        return orderValue;
-      }
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-  };
-
-  const getComparator = (orderDirection, orderByAttr) => {
-    return orderDirection === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderByAttr)
-      : (a, b) => -descendingComparator(a, b, orderByAttr);
   };
 
   const handleRequestSort = (event, property) => {
@@ -239,14 +192,16 @@ const CourseUsers = (props) => {
                       </TableCell>
                     )}
                     <TableCell align="right">
-                      <DeleteCourseUser
-                        courseUser={row}
-                        course={course}
-                        actions={actions}
-                        fetch={() => {
-                          actions.courseFetchSingle(course.id);
-                        }}
-                      />
+                      {adminUsers.indexOf(user.user?.id) > -1 && adminUsers.length > 1 && (
+                        <DeleteCourseUser
+                          courseUser={row}
+                          course={course}
+                          actions={actions}
+                          fetch={() => {
+                            actions.courseFetchSingle(course.id);
+                          }}
+                        />
+                      )}
                     </TableCell>
                   </TableRow>
                 );
@@ -254,9 +209,9 @@ const CourseUsers = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6} spacing={2} />
-        <Grid item xs={12} md={6} spacing={2} align="right" />
+      <Grid xs={12} container spacing={2}>
+        <Grid xs={12} md={6} spacing={2} />
+        <Grid xs={12} md={6} spacing={2} align="right" />
       </Grid>
     </div>
   );

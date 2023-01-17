@@ -143,6 +143,7 @@ const Router = ({
                 courses={courses}
                 course={course}
                 languages={languages}
+                roles={roles}
               />
             </PrivateRoute>
 
