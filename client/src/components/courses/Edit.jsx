@@ -5,7 +5,7 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Switch from '@material-ui/core/Switch';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
 import { renderTextField, renderTextareaField, renderSelect } from '@utils/forms';
@@ -19,6 +19,7 @@ import {
 import CourseUsers from './CourseUsers';
 import AddUserToCourse from './AddUserToCourse';
 import { lang } from '../../../node_modules/moment/moment';
+import CourseContent from './CourseContent';
 
 const styles = {
   wrapper: {
@@ -81,18 +82,37 @@ const Edit = ({
   actions,
   user,
   roles,
+  course,
 }) => {
   const classes = useStyles();
 
   const [openPanel, setOpenPanel] = useState('title');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (panel) => (event, newExpanded) => {
     setOpenPanel(newExpanded ? panel : false);
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (course.fetched === true) {
+        setIsLoading(false);
+      }
+    }, 150);
+  }, [course]);
+
   return (
     <div className={classes.wrapper}>
-      <form className={classes.form} onSubmit={handleSubmit}>
+      <form
+        className={classes.form}
+        onSubmit={(e) => {
+          e.preventDefault();
+          setIsLoading(true);
+          setTimeout(() => {
+            handleSubmit(e);
+          }, 50);
+        }}
+      >
         <Accordion expanded={openPanel === 'title'} onChange={handleChange('title')}>
           <AccordionSummary aria-controls="title-content" id="title">
             <Typography>
@@ -296,7 +316,6 @@ const Edit = ({
                       actions.courseUserAdd(initialValues.id, userId, userRole).then((result) => {
                         actions.courseFetchSingle(initialValues.id);
                       });
-                      console.error(userId, userRole);
                     }}
                   />
                 </Grid>
@@ -311,7 +330,18 @@ const Edit = ({
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <span>TODO:</span>
+            <div className={classes.full}>
+              <Grid container spacing={0}>
+                <Grid xs={12} className={classes.full}>
+                  <CourseContent
+                    course={initialValues}
+                    actions={actions}
+                    user={user}
+                    className={classes.full}
+                  />
+                </Grid>
+              </Grid>
+            </div>
           </AccordionDetails>
         </Accordion>
         <Accordion expanded={openPanel === 'sequences'} onChange={handleChange('sequences')}>
@@ -325,8 +355,13 @@ const Edit = ({
           </AccordionDetails>
         </Accordion>
         <Divider className={classes.divider} />
-        <Button color="primary" type="submit" variant="contained" disabled={submitting}>
-          Save
+        <Button
+          color="primary"
+          type="submit"
+          variant="contained"
+          disabled={submitting || isLoading}
+        >
+          {isLoading ? 'Saving...' : 'Save'}
         </Button>
       </form>
     </div>

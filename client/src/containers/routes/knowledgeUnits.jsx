@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import KnowledgeUnitsEdit from '../knowledgeUnits/Edit';
 import KnowledgeUnitsShow from '../knowledgeUnits/Show';
+import KnowledgeUnitsList from '../knowledgeUnits/List';
 import KnowledgeUnitsAdd from '../knowledgeUnits/Add';
 // import KnowledgeUnits from '../knowledgeUnits/List';
 
@@ -31,6 +32,23 @@ const KnowledgeUnitsRouter = ({ knowledgeUnits, learningUnits, actions, user }) 
           learningUnits={learningUnits}
           handleSubmit={actions.knowledgeUnitsAdd}
           errors={knowledgeUnits.errors}
+          user={user}
+        />
+      )}
+    />
+
+    <Route
+      exact
+      path="/knowledge-units/list/:id"
+      render={() => (
+        <KnowledgeUnitsList
+          handleDelete={actions.knowledgeUnitsDelete}
+          markReviewed={actions.knowledgeUnitsMarkReviewed}
+          markLectored={actions.knowledgeUnitsMarkLectored}
+          itemFetch={actions.knowledgeUnitsFetch}
+          handleSubmit={actions.knowledgeUnitsEdit}
+          errors={knowledgeUnits.errors}
+          items={knowledgeUnits}
           user={user}
         />
       )}

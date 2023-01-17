@@ -25,7 +25,7 @@ import { getComparator, stableSort } from '@utils/table';
 import TableHeadCell from '@components/tables/TableHeadCell';
 import DeleteCourseUser from './DeleteCourseUser';
 
-const CourseUsers = (props) => {
+const CourseContent = (props) => {
   const {
     actions,
     course,
@@ -60,37 +60,13 @@ const CourseUsers = (props) => {
 
   useEffect(() => {
     setRows(
-      course.users.map((userEntry) => {
+      (course?.content ?? []).map((contentEntry) => {
         return {
-          id: userEntry.id,
-          courseId: userEntry.courseId,
-          userId: userEntry.userId,
-          firstName: userEntry.user.firstName,
-          lastName: userEntry.user.lastName,
-          email: userEntry.user.email,
-          role: userEntry.role.name,
-          roleSlug: userEntry.role.slug,
-          enrolmentConfirmation: userEntry.enrolmentConfirmation,
-          picture: userEntry.user.picture,
+          id: contentEntry.id,
         };
       }),
     );
   }, [course, course.users]);
-
-  const toggleConfirmation = (row) => {
-    actions
-      .courseUpdateUserConfirmation(row.courseId, row.id, !row.enrolmentConfirmation)
-      .then((result) => {
-        setTimeout(() => {
-          actions.courseFetchSingle(row.courseId);
-        }, 100);
-      })
-      .catch((err) => {
-        setTimeout(() => {
-          actions.courseFetchSingle(row.courseId);
-        }, 100);
-      });
-  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -112,49 +88,33 @@ const CourseUsers = (props) => {
             <TableRow>
               <TableCell />
               <TableHeadCell
-                label="First name"
-                name="firstName"
+                label="Learning Unit"
+                name="learningUnit"
                 order={order}
                 orderBy={orderBy}
                 onRequestSort={handleRequestSort}
               />
               <TableHeadCell
-                label="Last name"
-                name="lastName"
+                label="Knowledge Unit"
+                name="knowledgeUnit"
                 order={order}
                 orderBy={orderBy}
                 onRequestSort={handleRequestSort}
               />
               <TableHeadCell
-                label="E-Mail"
-                name="email"
+                label="Media Type"
+                name="mediaType"
                 order={order}
                 orderBy={orderBy}
                 onRequestSort={handleRequestSort}
               />
               <TableHeadCell
-                label="Role"
-                name="role"
+                label="Version"
+                name="version"
                 order={order}
                 orderBy={orderBy}
                 onRequestSort={handleRequestSort}
               />
-              <TableHeadCell
-                label="Last access"
-                name="last_access"
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-              />
-              {showConfirmation && (
-                <TableHeadCell
-                  label="Accepted"
-                  name="enrolmentConfirmation"
-                  order={order}
-                  orderBy={orderBy}
-                  onRequestSort={handleRequestSort}
-                />
-              )}
               <TableCell align="right" />
             </TableRow>
           </TableHead>
@@ -163,41 +123,12 @@ const CourseUsers = (props) => {
               stableSort(rows, getComparator(order, orderBy)).map((row) => {
                 return (
                   <TableRow key={`row-${row.id}`}>
-                    <TableCell>
-                      {row.picture ? (
-                        <Avatar src={`/uploads/${row.picture}`} alt={row.username} />
-                      ) : (
-                        <Avatar alt={row.username} />
-                      )}
-                    </TableCell>
-                    <TableCell>{row.firstName ?? 'n/a'}</TableCell>
-                    <TableCell>{row.lastName ?? 'n/a'}</TableCell>
-                    <TableCell>{row.email ?? 'n/a'}</TableCell>
-                    <TableCell>{row.role ?? 'n/a'}</TableCell>
-                    <TableCell>{row.last_access ?? 'n/a'}</TableCell>
-                    {showConfirmation && (
-                      <TableCell>
-                        <Switch
-                          defaultChecked={row.enrolmentConfirmation}
-                          onChange={() => {
-                            toggleConfirmation(row);
-                          }}
-                        />
-                      </TableCell>
-                    )}
+                    <TableCell>{row.learningUnit ?? 'n/a'}</TableCell>
+                    <TableCell>{row.knowledgeUnit ?? 'n/a'}</TableCell>
+                    <TableCell>{row.mediaType ?? 'n/a'}</TableCell>
+                    <TableCell>{row.version ?? 'n/a'}</TableCell>
                     <TableCell align="right">
-                      {((adminUsers.indexOf(user.user?.id) > -1 && adminUsers.length > 1) ||
-                        row?.roleSlug !== 'trainer') && (
-                        <DeleteCourseUser
-                          courseUser={row}
-                          course={course}
-                          actions={actions}
-                          user={user.user}
-                          fetch={() => {
-                            actions.courseFetchSingle(course.id);
-                          }}
-                        />
-                      )}
+                      <span>test</span>
                     </TableCell>
                   </TableRow>
                 );
@@ -205,10 +136,6 @@ const CourseUsers = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Grid xs={12} container spacing={2}>
-        <Grid xs={12} md={6} spacing={2} />
-        <Grid xs={12} md={6} spacing={2} align="right" />
-      </Grid>
     </div>
   );
 };
@@ -221,4 +148,4 @@ const styles = {
 
 const useStyles = makeStyles((theme) => styles);
 
-export default withStyles(styles)(CourseUsers);
+export default withStyles(styles)(CourseContent);

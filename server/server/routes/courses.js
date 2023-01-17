@@ -296,6 +296,20 @@ router.get('/:id', async (req, res) => {
             },
           ],
         },
+        {
+          model: models.CourseContent,
+          as: 'content',
+          include: [
+            {
+              model: models.KnowledgeUnit,
+              as: 'knowledgeUnit',
+            },
+          ],
+        },
+        {
+          model: models.CourseSequence,
+          as: 'sequences',
+        },
       ],
     });
 
@@ -498,6 +512,19 @@ router.delete('/:id', hasCapability('delete_course'), async (req, res) => {
       id: req.params.id,
     },
   });
+
+  await models.CourseUserLog.destroy({
+    where: {
+      courseId: req.params.id,
+    },
+  });
+
+  await models.CourseContent.destroy({
+    where: {
+      courseId: req.params.id,
+    },
+  });
+
   return res.status(200).send({ message: 'course has been deleted.' });
 });
 
@@ -640,6 +667,12 @@ router.delete('/:id/users/:userId', async (req, res) => {
     await models.CourseUser.destroy({
       where: {
         id: req.params.userId,
+      },
+    });
+
+    await models.CourseUserLog.destroy({
+      where: {
+        userId: req.params.userId,
       },
     });
 

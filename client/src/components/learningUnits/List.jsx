@@ -9,6 +9,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import List from '@material-ui/core/List';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Add, FormatListBulleted } from '../../../node_modules/@material-ui/icons/index';
+import { ListItemIcon } from '../../../node_modules/@material-ui/core/index';
 
 const styles = () => ({
   languageList: {
@@ -33,6 +35,24 @@ const LearningUnitsList = ({ learningUnitsDelete, learningUnits, classes, user }
           <ListItemSecondaryAction>
             {user.user.id === item.User.id && (
               <IconButton
+                aria-label="Add knowledge units"
+                component={Link}
+                to={`knowledge-units/add/${item.id}`}
+              >
+                <Add />
+              </IconButton>
+            )}
+            {user.user.id === item.User.id && (
+              <IconButton
+                aria-label="List knowledge units"
+                component={Link}
+                to={`knowledge-units/list/${item.id}`}
+              >
+                <FormatListBulleted />
+              </IconButton>
+            )}
+            {user.user.id === item.User.id && (
+              <IconButton
                 aria-label="Edit"
                 component={Link}
                 to={`/learning-units/edit/${language.id}/${item.id}`}
@@ -51,8 +71,7 @@ const LearningUnitsList = ({ learningUnitsDelete, learningUnits, classes, user }
 
       return (
         <ListItem key={item.id} dense divider disableGutters>
-          <ListItemText primary={`#${item.id}`} />
-          <List className={classes.languageList}>{languages}</List>
+          <ListItemText className={classes.languageList}>{languages}</ListItemText>
         </ListItem>
       );
     });

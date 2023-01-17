@@ -36,6 +36,7 @@ class CourseContent extends Model {
 
   static associate(sequelize) {
     CourseContent.belongsTo(sequelize.Course, { as: 'course', foreignKey: 'courseId' });
+    CourseContent.hasOne(sequelize.KnowledgeUnit, { as: 'knowledgeUnit', foreignKey: 'id' });
   }
 }
 

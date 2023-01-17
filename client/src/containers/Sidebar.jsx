@@ -65,7 +65,7 @@ const Sidebar = () => {
   const [topics, setTopics] = useState([]);
 
   useEffect(() => {
-    if (location.pathname.includes(['knowledge-units'])) {
+    if (location.pathname.includes(['knowledge-units/show'])) {
       navKnowledgeBase().then((result) => {
         setTopics(result);
       });

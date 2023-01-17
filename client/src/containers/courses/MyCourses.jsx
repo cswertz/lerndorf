@@ -64,7 +64,12 @@ class MyCourses extends Component {
           <TableCell align="left">{row?.currentUserRole}</TableCell>
           <TableCell align="right">
             {row?.playButtonState?.state === 'active' && (
-              <IconButton aria-label="Start" component={Link}>
+              <IconButton
+                aria-label="Start"
+                onClick={() => {
+                  alert('TBD: Unknown behavior');
+                }}
+              >
                 <PlayArrow />
               </IconButton>
             )}

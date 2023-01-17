@@ -54,6 +54,7 @@ class LearningUnits extends Component {
               color="primary"
               variant="contained"
               onClick={() => history.push('/learning-units/add')}
+              style={{ marginTop: '15px' }}
             >
               Add new Learning Unit
             </Button>

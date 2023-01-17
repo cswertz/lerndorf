@@ -54,8 +54,6 @@ class EditCourse extends Component {
 
     let content = null;
 
-    console.error(roles);
-
     if (course.fetched && course.item?.id === parseInt(match.params.id, 10)) {
       content = (
         <>
@@ -65,6 +63,7 @@ class EditCourse extends Component {
             actions={actions}
             roles={roles}
             languages={languages?.languages ?? []}
+            course={course}
             initialValues={course.item}
             handleSubmit={(e) => {
               e.preventDefault();

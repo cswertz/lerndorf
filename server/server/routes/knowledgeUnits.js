@@ -151,21 +151,8 @@ router.get('/', (req, res) => {
     where: {
       visiblePublic: true,
     },
-    attributes: [
-      'id',
-      'createdAt',
-    ],
-    include: [
-      {
-        model: models.User,
-        attributes: [
-          'id',
-          'username',
-        ],
-      },
-    ],
-  })
-    .then((results) => res.json(results));
+    ...knowledgeUnitDetailData,
+  }).then((results) => res.json(results));
 });
 
 router.post('/', [

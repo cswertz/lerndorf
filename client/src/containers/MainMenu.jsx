@@ -57,8 +57,8 @@ const MainMenu = () => {
         </StyledBadge>
       </ListItem> */}
 
-      <ListItem button divider component={Link} to="/content/1">
-        <ListItemText primary="Meine Inhalte" />
+      <ListItem button divider component={Link} to="/learning-units">
+        <ListItemText primary="Learning Units" />
         <ArrowRightIcon />
       </ListItem>
 
