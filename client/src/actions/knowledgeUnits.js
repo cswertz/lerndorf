@@ -197,6 +197,7 @@ export const knowledgeUnitsMarkReviewed = (id) => (dispatch) =>
           dispatch(knowledgeUnitsEditSuccess());
         }
       }
+      return json;
     })
     .catch((error) => {
       console.log('Error while editing knowledge unit:', error);
@@ -220,6 +221,7 @@ export const knowledgeUnitsMarkLectored = (id) => (dispatch) =>
           dispatch(knowledgeUnitsEditSuccess());
         }
       }
+      return json;
     })
     .catch((error) => {
       console.log('Error while editing knowledge unit:', error);

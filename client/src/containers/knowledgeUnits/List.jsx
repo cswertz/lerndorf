@@ -26,7 +26,7 @@ class KnowledgeUnitsList extends Component {
   }
 
   render() {
-    const { markReviewed, markLectored, items, match, user } = this.props;
+    const { markReviewed, markLectored, items, match, user, itemFetch } = this.props;
     const itemsToRender = items.items.filter(
       (item) => item.LearningUnitId === parseInt(match.params.id, 10),
     );
@@ -39,8 +39,12 @@ class KnowledgeUnitsList extends Component {
           return (
             <Show
               handleDelete={this.handleDelete}
-              markReviewed={item.markReviewed}
-              markLectored={item.markLectored}
+              markReviewed={(row) => {
+                markReviewed(row).then(() => itemFetch());
+              }}
+              markLectored={(row) => {
+                markLectored(row).then(() => itemFetch());
+              }}
               item={item}
               user={user}
             />
