@@ -22,6 +22,7 @@ import Avatar from '@material-ui/core/Avatar';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Switch from '@material-ui/core/Switch';
 import user from '@reducers/user';
+import DeleteCourseUser from './DeleteCourseUser';
 
 function TableHeadCell(props) {
   const { label, name, order, orderBy, onRequestSort } = props;
@@ -49,7 +50,16 @@ TableHeadCell.propTypes = {
 };
 
 const CourseUsers = (props) => {
-  const { actions, course, onConfirm, okBtnText, history, classes } = props;
+  const {
+    actions,
+    course,
+    onConfirm,
+    okBtnText,
+    history,
+    classes,
+    showConfirmation,
+    match,
+  } = props;
 
   const [open, setOpen] = React.useState(false);
   const [headline, setHeadline] = React.useState(null);
@@ -65,6 +75,7 @@ const CourseUsers = (props) => {
   const users = course.users.map((userEntry) => {
     return {
       id: userEntry.id,
+      courseId: userEntry.courseId,
       userId: userEntry.userId,
       firstName: userEntry.user.firstName,
       lastName: userEntry.user.lastName,
@@ -80,7 +91,18 @@ const CourseUsers = (props) => {
   }, [course]);
 
   const toggleConfirmation = (row) => {
-    console.error('TEST', row);
+    actions
+      .courseUpdateUserConfirmation(row.courseId, row.userId, !row.enrolmentConfirmation)
+      .then((result) => {
+        setTimeout(() => {
+          actions.courseFetchSingle(row.courseId);
+        }, 100);
+      })
+      .catch((err) => {
+        setTimeout(() => {
+          actions.courseFetchSingle(row.courseId);
+        }, 100);
+      });
   };
 
   const descendingComparator = (a, b, orderByAttr) => {
@@ -177,13 +199,15 @@ const CourseUsers = (props) => {
                 orderBy={orderBy}
                 onRequestSort={handleRequestSort}
               />
-              <TableHeadCell
-                label="Accepted"
-                name="enrolmentConfirmation"
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-              />
+              {showConfirmation && (
+                <TableHeadCell
+                  label="Accepted"
+                  name="enrolmentConfirmation"
+                  order={order}
+                  orderBy={orderBy}
+                  onRequestSort={handleRequestSort}
+                />
+              )}
               <TableCell align="right" />
             </TableRow>
           </TableHead>
@@ -204,15 +228,26 @@ const CourseUsers = (props) => {
                     <TableCell>{row.email ?? 'n/a'}</TableCell>
                     <TableCell>{row.role ?? 'n/a'}</TableCell>
                     <TableCell>{row.last_access ?? 'n/a'}</TableCell>
-                    <TableCell>
-                      <Switch
-                        defaultChecked={row.enrolmentConfirmation}
-                        onChange={() => {
-                          toggleConfirmation(row);
+                    {showConfirmation && (
+                      <TableCell>
+                        <Switch
+                          defaultChecked={row.enrolmentConfirmation}
+                          onChange={() => {
+                            toggleConfirmation(row);
+                          }}
+                        />
+                      </TableCell>
+                    )}
+                    <TableCell align="right">
+                      <DeleteCourseUser
+                        courseUser={row}
+                        course={course}
+                        actions={actions}
+                        fetch={() => {
+                          actions.courseFetchSingle(course.id);
                         }}
                       />
                     </TableCell>
-                    <TableCell align="right">asdf</TableCell>
                   </TableRow>
                 );
               })}

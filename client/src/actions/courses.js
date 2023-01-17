@@ -77,6 +77,28 @@ export const coursesEnroleFailed = (error, errors) => ({
   errors,
 });
 
+export const coursesFetchUserUpdateConfirmationSuccess = (item) => ({
+  type: types.COURSES_USER_CONFIRMATION_SUCCESS,
+  item,
+});
+
+export const coursesFetchUserUpdateConfirmationFailed = (error, errors) => ({
+  type: types.COURSES_USER_CONFIRMATION_FAILED,
+  error,
+  errors,
+});
+
+export const coursesUserRemoveSuccess = (item) => ({
+  type: types.COURSES_USER_REMOVE_SUCCESS,
+  item,
+});
+
+export const coursesUserRemoveFailed = (error, errors) => ({
+  type: types.COURSES_USER_REMOVE_FAILED,
+  error,
+  errors,
+});
+
 export const coursesFetchMy = () => async (dispatch) =>
   fetch('/api/courses/my', {
     method: 'GET',
@@ -256,5 +278,52 @@ export const courseFetchSingle = (id, history) => async (dispatch) =>
     })
     .catch((error) => {
       dispatch(coursesFetchSingleFailed(error));
+      return error;
+    });
+
+export const courseUpdateUserConfirmation = (id, userId, confirm, history) => async (dispatch) =>
+  fetch(`/api/courses/${id}/users/${userId}`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({ confirm: confirm === true }),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json) {
+        if (!json.error) {
+          dispatch(coursesFetchUserUpdateConfirmationSuccess(json));
+        }
+      }
+      return json;
+    })
+    .catch((error) => {
+      dispatch(coursesFetchUserUpdateConfirmationFailed(error));
+      return error;
+    });
+
+export const courseUserRemove = (id, userId, confirm, history) => async (dispatch) =>
+  fetch(`/api/courses/${id}/users/${userId}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json) {
+        if (!json.error) {
+          dispatch(coursesUserRemoveSuccess(json));
+        }
+      }
+      return json;
+    })
+    .catch((error) => {
+      dispatch(coursesUserRemoveFailed(error));
       return error;
     });

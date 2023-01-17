@@ -27,6 +27,15 @@ module.exports = {
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       environment: 'test',
     },
+    {
+      username: 'trainer',
+      password: '$2a$08$jKZV3y4GPOA/R97TTgBAyeE9U15ssrrYQJEYCQwSIPgQMRLaknNMu',
+      email: 'trainer@example.com',
+      active: true,
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      environment: 'test',
+    },
   ].filter((userEntry) => {
     if (process.env.NODE_ENV === 'test') {
       return userEntry;

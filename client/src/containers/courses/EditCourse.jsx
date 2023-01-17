@@ -130,7 +130,7 @@ class EditCourse extends Component {
               console.error(updateData);
 
               actions.courseUpdate(match.params.id, updateData).then((updateResult) => {
-                console.error(updateResult);
+                actions.courseFetchSingle(match.params.id);
               });
             }}
           />

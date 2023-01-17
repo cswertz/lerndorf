@@ -143,6 +143,9 @@ const isSelfOrHasCapability = (...allowed) => (req, res, next) => {
 const isAdmin = async (id) => {
   const user = await models.User.findByPk(id);
   const roles = await user.getRoles();
+  if (roles === undefined || roles === null) {
+    return false;
+  }
   const adminRoles = roles.filter((role) => role.dataValues.slug === 'admin');
   return adminRoles.length > 0;
 };

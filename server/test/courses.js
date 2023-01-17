@@ -22,10 +22,72 @@ describe('Courses', () => {
     password: 'password',
     email: 'username2@host.com',
   };
+  const userTrainer = {
+    username: 'trainer',
+    password: 'password',
+    email: 'trainer@host.com',
+  };
   const admin = {
     username: 'admin',
     password: 'admin',
   };
+
+  const addCourse = () => models.Course.create({
+    title: 'Demo1',
+    shortTitle: 'Demo1a',
+    description: 'Demo1Description',
+    enrolmentStart: moment().format('YYYY-MM-DD'),
+    enrolmentEnd: moment().add(1, 'days').format('YYYY-MM-DD'),
+    courseStart: moment().format('YYYY-MM-DD'),
+    courseEnd: moment().add(1, 'days').format('YYYY-MM-DD'),
+    mainLanguage: 1,
+    access: false,
+    copyAllowed: true,
+    enrolmentByTutor: false,
+    enrolmentConfirmation: false,
+  });
+
+  const createCourseUser = (course, userData, role, handleUser) => new Promise((resolve, reject) => {
+    models.Role.findOne({ where: { slug: role } }).then((role) => {
+      models.User.findOne({ where: { username: userData.username } })
+        .then((userEntry) => {
+          if (handleUser) {
+            handleUser(userEntry);
+          } else {
+            userEntry.addRole(role.id);
+          }
+          models.CourseUser.create({
+            courseId: course.id,
+            userId: userEntry.id,
+            roleId: role.id,
+            enrolment: moment().toDate(),
+            enrolmentConfirmation: false,
+            sequenceId: null,
+          }).then((userResult) => {
+            resolve(userResult);
+          }).catch((error) => {
+            console.error(error);
+            resolve(null);
+          });
+        });
+    });
+  });
+
+  const addCourseDefault = (admin, user, roleFn) => new Promise((resolve) => {
+    addCourse().then((course) => {
+      if (course === undefined) {
+        resolve(null);
+        return;
+      }
+      Promise.all([
+        createCourseUser(course, admin, 'tutor', roleFn),
+        createCourseUser(course, user, 'learner', roleFn),
+        createCourseUser(course, userTrainer, 'trainer', roleFn),
+      ]).then((users) => {
+        resolve({ course, users });
+      });
+    });
+  });
 
   before((done) => {
     done();
@@ -220,7 +282,7 @@ describe('Courses', () => {
         console.error(rr);
       });
     });
-  });  
+  });
   describe('GET /api/courses/:id/enrole', () => {
     it('it should return a 200 if the rolement is possible.', (done) => {
       models.Course.findAll({
@@ -809,7 +871,9 @@ describe('Courses', () => {
             res.should.have.status(200);
             session
               .patch(`/api/courses/${courses[0].id}`)
-              .send({ title: 'test1' })
+              .send({
+                title: 'test1',
+              })
               .end((err, res) => {
                 res.should.have.status(200);
                 expect(res.body.title).to.be.equals('test1');
@@ -822,6 +886,228 @@ describe('Courses', () => {
           });
       }).catch((rr) => {
         console.error(rr);
+      });
+    });
+  });
+  describe('PATCH /api/courses/:id/users/:userId', () => {
+    it('it should return a 401 if the user is not logged.', (done) => {
+      addCourseDefault(admin, user).then((result) => {
+        const session = chai.request.agent(server);
+        session
+          .patch(`/api/courses/${result.course.id}/users/${result.users[1].id}`)
+          .end((err, res) => {
+            res.should.have.status(401);
+            done();
+          });
+      });
+    });
+    it('it should return a 404 if the course does not exists.', (done) => {
+      addCourseDefault(admin, user).then((result) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            session
+              .patch(`/api/courses/9999/users/${result.users[1].id}`)
+              .end((err, res) => {
+                res.should.have.status(404);
+                done();
+              });
+          });
+      });
+    });
+    it('it should return a 400 if the user does not exists.', (done) => {
+      addCourseDefault(admin, user).then((result) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            session
+              .patch(`/api/courses/${result.course.id}/users/999`)
+              .end((err, res) => {
+                res.should.have.status(400);
+                done();
+              });
+          });
+      });
+    });
+    it('it should return a 403 if the user is not permitted.', (done) => {
+      addCourseDefault(admin, user).then((result) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(userWithNoRole)
+          .end((err, res) => {
+            session
+              .patch(`/api/courses/${result.course.id}/users/${result.users[1].id}`)
+              .end((err, res) => {
+                res.should.have.status(403);
+                done();
+              });
+          });
+      });
+    });
+    it('it should return a 200 if the user is an admin.', (done) => {
+      addCourseDefault(admin, user).then((result) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            session
+              .patch(`/api/courses/${result.course.id}/users/${result.users[1].id}`)
+              .send({ confirm: true })
+              .end((err, res) => {
+                res.should.have.status(200);
+                done();
+              });
+          });
+      });
+    });
+    it('it should return a 403 if the own user tries to confirm him-/herself.', (done) => {
+      addCourseDefault(admin, user).then((result) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(user)
+          .end((err, res) => {
+            session
+              .patch(`/api/courses/${result.course.id}/users/${result.users[1].id}`)
+              .send({ confirm: true })
+              .end((err, res) => {
+                res.should.have.status(403);
+                done();
+              });
+          });
+      });
+    });
+    it('it should return a 400 if an invalid param is passed.', (done) => {
+      addCourseDefault(admin, user).then((result) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            session
+              .patch(`/api/courses/${result.course.id}/users/${result.users[1].id}`)
+              .send({ confirm: 'MONKEY' })
+              .end((err, res) => {
+                res.should.have.status(400);
+                done();
+              });
+          });
+      });
+    });
+    it('it should return a 200 if the user is an trainer.', (done) => {
+      addCourseDefault(admin, user).then((result) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(userTrainer)
+          .end((err, res) => {
+            session
+              .patch(`/api/courses/${result.course.id}/users/${result.users[1].id}`)
+              .send({ confirm: true })
+              .end((err, res) => {
+                res.should.have.status(200);
+                done();
+              });
+          });
+      });
+    });
+  });
+  describe('DELETE /api/courses/:id/users/:userId', () => {
+    it('it should return a 401 if the user is not logged.', (done) => {
+      addCourseDefault(admin, user).then((result) => {
+        const session = chai.request.agent(server);
+        session
+          .delete(`/api/courses/${result.course.id}/users/${result.users[1].id}`)
+          .end((err, res) => {
+            res.should.have.status(401);
+            done();
+          });
+      });
+    });
+    it('it should return a 404 if the course does not exists.', (done) => {
+      addCourseDefault(admin, user).then((result) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            session
+              .delete(`/api/courses/9999/users/${result.users[1].id}`)
+              .end((err, res) => {
+                res.should.have.status(404);
+                done();
+              });
+          });
+      });
+    });
+    it('it should return a 400 if the user does not exists.', (done) => {
+      addCourseDefault(admin, user).then((result) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            session
+              .delete(`/api/courses/${result.course.id}/users/999`)
+              .end((err, res) => {
+                res.should.have.status(400);
+                done();
+              });
+          });
+      });
+    });
+    it('it should return a 403 if the user is not permitted.', (done) => {
+      addCourseDefault(admin, user).then((result) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(userWithNoRole)
+          .end((err, res) => {
+            session
+              .delete(`/api/courses/${result.course.id}/users/${result.users[1].id}`)
+              .end((err, res) => {
+                res.should.have.status(403);
+                done();
+              });
+          });
+      });
+    });
+    it('it should return a 200 if the user is an admin.', (done) => {
+      addCourseDefault(admin, user).then((result) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            session
+              .delete(`/api/courses/${result.course.id}/users/${result.users[1].id}`)
+              .end((err, res) => {
+                res.should.have.status(200);
+                done();
+              });
+          });
+      });
+    });
+    it('it should return a 200 if the user is an trainer.', (done) => {
+      addCourseDefault(admin, user).then((result) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(userTrainer)
+          .end((err, res) => {
+            session
+              .delete(`/api/courses/${result.course.id}/users/${result.users[1].id}`)
+              .end((err, res) => {
+                res.should.have.status(200);
+                done();
+              });
+          });
       });
     });
   });

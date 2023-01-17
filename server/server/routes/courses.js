@@ -42,6 +42,8 @@ router.post('/', [
   }
 
   try {
+    const role = await models.Role.findOne({ where: { slug: 'trainer' } });
+
     const course = await models.Course.create({
       title: req.body.title,
       shortTitle: '',
@@ -60,7 +62,7 @@ router.post('/', [
     models.CourseUser.create({
       courseId: course.id,
       userId: req.user.id,
-      roleId: 1,
+      roleId: role.id,
       enrolment: moment().toDate(),
       enrolmentConfirmation: false,
       sequenceId: null,
@@ -383,68 +385,71 @@ router.get('/:id/content', async (req, res) => {
 });
 
 router.patch('/:id', hasCapability('edit_course'), async (req, res) => {
-  const isCurrentUserAdmin = await isAdmin(req.user.id);
-  const trainerRoleId = await getTrainerRoleId();
-  const course = await models.Course.findByPk(req.params.id, {
-    include: [
-      {
-        model: models.CourseUser,
-        as: 'users',
-      },
-    ],
-  });
-  if (course === null) {
-    return res.status(404).send({ message: 'entry not found' });
-  }
-
-  const courseUser = course.users.filter((user) => {
-    if ((user.userId === req.user.id && user.roleId === trainerRoleId)) {
-      return user;
+  try {
+    const isCurrentUserAdmin = await isAdmin(req.user.id);
+    const trainerRoleId = await getTrainerRoleId();
+    const course = await models.Course.findByPk(req.params.id, {
+      include: [
+        {
+          model: models.CourseUser,
+          as: 'users',
+        },
+      ],
+    });
+    if (course === null) {
+      return res.status(404).send({ message: 'entry not found' });
     }
-  });
 
-  if (isCurrentUserAdmin === false && courseUser.length === 0) {
-    return res.status(403).send({ message: 'you cannot update this entry unless you are the trainer or an admin.' });
-  }
+    const courseUser = course.users.filter((user) => {
+      if ((user.userId === req.user.id && user.roleId === trainerRoleId)) {
+        return user;
+      }
+    });
 
-  const updateData = { title: req.body.title };
-  const keys = Object.keys(req.body);
+    if (isCurrentUserAdmin === false && courseUser.length === 0) {
+      return res.status(403).send({ message: 'you cannot update this entry unless you are the trainer or an admin.' });
+    }
 
-  for (let i = 0; i < keys.length; i += 1) {
-    const attr = keys[i];
-    if (req.body[attr] !== undefined) {
-      switch (attr) {
-        case 'courseStart':
-        case 'courseEnd':
-        case 'enrolmentStart':
-        case 'enrolmentEnd':
-          updateData[attr] = moment.utc(req.body[attr]).toDate();
-          break;
-        default:
-          updateData[attr] = req.body[attr];
-          break;
+    const updateData = { title: req.body.title };
+    const keys = Object.keys(req.body);
+
+    for (let i = 0; i < keys.length; i += 1) {
+      const attr = keys[i];
+      if (req.body[attr] !== undefined) {
+        switch (attr) {
+          case 'courseStart':
+          case 'courseEnd':
+          case 'enrolmentStart':
+          case 'enrolmentEnd':
+            updateData[attr] = moment.utc(req.body[attr]).toDate();
+            break;
+          default:
+            updateData[attr] = req.body[attr];
+            break;
+        }
       }
     }
-  }
 
-  console.error(updateData);
-
-  const updatedData = await models.Course.update(updateData, {
-    where: {
-      id: req.params.id,
-    },
-  });
-
-  const courseRefetched = await models.Course.findByPk(req.params.id, {
-    include: [
-      {
-        model: models.CourseUser,
-        as: 'users',
+    const updatedData = await models.Course.update(updateData, {
+      where: {
+        id: req.params.id,
       },
-    ],
-  });
+    });
 
-  return res.status(200).send(courseRefetched);
+    const courseRefetched = await models.Course.findByPk(req.params.id, {
+      include: [
+        {
+          model: models.CourseUser,
+          as: 'users',
+        },
+      ],
+    });
+
+    return res.status(200).send(courseRefetched);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).send({ message: 'Error occured while try to update the course.' });
+  }
 });
 
 router.delete('/:id', hasCapability('delete_course'), async (req, res) => {
@@ -494,6 +499,150 @@ router.delete('/:id', hasCapability('delete_course'), async (req, res) => {
     },
   });
   return res.status(200).send({ message: 'course has been deleted.' });
+});
+
+router.patch('/:id/users/:userId', async (req, res) => {
+  if (!req.user) {
+    return res.status(401).send({ error: 'Not logged in.' });
+  }
+
+  try {
+    // Load the course information
+    const isCurrentUserAdmin = await isAdmin(req.user.id);
+    const trainerRoleId = await getTrainerRoleId();
+    const course = await models.Course.findByPk(req.params.id, {
+      include: [
+        {
+          model: models.CourseUser,
+          as: 'users',
+          include: [
+            {
+              model: models.User,
+              as: 'user',
+              attributes: ['id', 'firstName', 'lastName', 'username'],
+            },
+            {
+              model: models.Role,
+              as: 'role',
+              include: [
+                {
+                  model: models.RoleLanguage,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    if (course === null) {
+      return res.status(404).send({ message: 'entry not found' });
+    }
+
+    const currentCourseUser = course.users.filter((user) => {
+      if ((user.userId === req.user.id && user.roleId === trainerRoleId)) {
+        return user;
+      }
+    });
+
+    if (isCurrentUserAdmin === false && currentCourseUser.length === 0) {
+      return res.status(403).send({ message: 'you cannot confirm this unless you are the trainer or an admin.' });
+    }
+
+    const searchedUser = course.users.filter((user) => {
+      if (user.id === parseInt(req.params.userId, 10)) {
+        return user;
+      }
+    });
+
+    if (searchedUser.length === 0) {
+      return res.status(400).send({ message: 'you cannot confirm a course user which does not exists.' });
+    }
+
+    if (req.body.confirm !== undefined && typeof req.body.confirm !== 'boolean') {
+      throw Error('Confirm must be a boolean');
+    }
+
+    const updateRequest = await models.CourseUser.update({
+      enrolmentConfirmation: req.body.confirm === true,
+    }, { where: { id: req.params.userId } });
+
+    return res.status(200).send({ message: req.body.confirm === true ? 'you have confirmed the user' : 'you have disabled the confirmation for the user' });
+  } catch (err) {
+    return res.status(400).send({ message: 'Error occured while try to set the confirmation status.' });
+  }
+});
+
+router.delete('/:id/users/:userId', async (req, res) => {
+  if (!req.user) {
+    return res.status(401).send({ error: 'Not logged in.' });
+  }
+
+  try {
+    // Load the course information
+    const isCurrentUserAdmin = await isAdmin(req.user.id);
+    const trainerRoleId = await getTrainerRoleId();
+    const course = await models.Course.findByPk(req.params.id, {
+      include: [
+        {
+          model: models.CourseUser,
+          as: 'users',
+          include: [
+            {
+              model: models.User,
+              as: 'user',
+              attributes: ['id', 'firstName', 'lastName', 'username'],
+            },
+            {
+              model: models.Role,
+              as: 'role',
+              include: [
+                {
+                  model: models.RoleLanguage,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    if (course === null) {
+      return res.status(404).send({ message: 'Entry not found' });
+    }
+
+    const currentCourseUser = course.users.filter((user) => {
+      if ((user.userId === req.user.id && user.roleId === trainerRoleId)) {
+        return user;
+      }
+    });
+
+    if (isCurrentUserAdmin === false && currentCourseUser.length === 0) {
+      return res.status(403).send({ message: 'You remove an user this unless you are the trainer or an admin.' });
+    }
+
+    const searchedUser = course.users.filter((user) => {
+      if (user.id === parseInt(req.params.userId, 10)) {
+        return user;
+      }
+    });
+
+    if (searchedUser.length === 0) {
+      return res.status(400).send({ message: 'You cannot remove course user which does not exists.' });
+    }
+
+    if (req.body.confirm !== undefined && typeof req.body.confirm !== 'boolean') {
+      throw Error('Confirm must be a boolean');
+    }
+
+    await models.CourseUser.destroy({
+      where: {
+        id: req.params.userId,
+      },
+    });
+
+    return res.status(200).send({ message: 'You have removed the user' });
+  } catch (err) {
+    return res.status(400).send({ message: 'Error occured while try to remove the user.' });
+  }
 });
 
 export default router;

@@ -257,7 +257,11 @@ const Edit = ({ handleSubmit, submitting, pristine, title, initialValues, langua
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <CourseUsers course={initialValues} actions={actions} />
+            <CourseUsers
+              course={initialValues}
+              actions={actions}
+              showConfirmation={initialValues.enrolmentConfirmation}
+            />
           </AccordionDetails>
         </Accordion>
         <Accordion expanded={openPanel === 'content'} onChange={handleChange('content')}>
