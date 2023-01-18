@@ -97,6 +97,7 @@ const CourseContent = (props) => {
 
           const returnObject = {
             id: contentEntry.id,
+            courseId: contentEntry.courseId,
             learningUnit: translationLU,
             knowledgeUnit: knowledgeTypeText,
             mediaType: mediaTypeText,
@@ -182,7 +183,11 @@ const CourseContent = (props) => {
                       {row.version?.id !== null && (
                         <IconButton
                           onClick={() => {
-                            console.error('UPDATE NOW');
+                            actions
+                              .courseFetchContentUpdate(row.courseId, row.id)
+                              .then((result) => {
+                                console.error(result);
+                              });
                           }}
                         >
                           <CachedOutlined />

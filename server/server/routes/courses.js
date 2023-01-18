@@ -492,41 +492,114 @@ router.get('/:id/content', async (req, res) => {
 });
 
 router.get('/:id/content/:contentId/update', async (req, res) => {
-  const courses = await models.Course.findAll({
-    where: {
-      id: req.params.id,
-    },
-    include: [
-      {
-        model: models.CourseUser,
-        as: 'users',
+  try {
+    if (req.user === undefined || req.user === null) {
+      return res.status(401).send({ error: 'You are not logged in.' });
+    }
+    const isCurrentUserAdmin = await isAdmin(req.user.id);
+    const trainerRoleId = await getTrainerRoleId();
+    const courses = await models.Course.findAll({
+      where: {
+        id: req.params.id,
       },
-      {
-        model: models.CourseContent,
-        as: 'content',
-      },
-      {
-        model: models.CourseSequence,
-        as: 'sequences',
-        include: [
-          {
-            model: models.CourseSequenceKnowledgeUnit,
-            as: 'units',
-          },
-        ],
-      },
-    ],
-  });
-
-  if (courses[0] === undefined || courses[0] === null) {
-    res.status(404).json({
-      message: 'entry not found',
+      include: [
+        {
+          model: models.CourseUser,
+          as: 'users',
+        },
+        {
+          model: models.CourseContent,
+          as: 'content',
+        },
+        {
+          model: models.CourseSequence,
+          as: 'sequences',
+          include: [
+            {
+              model: models.CourseSequenceKnowledgeUnit,
+              as: 'units',
+            },
+          ],
+        },
+      ],
     });
-    return;
-  }
 
-  // load the
-  res.json([]);
+    if (courses[0] === undefined || courses[0] === null) {
+      res.status(404).json({
+        message: 'entry not found',
+      });
+      return;
+    }
+
+    const courseContent = await models.CourseContent.findByPk(req.params.contentId, {
+      include: [
+        {
+          model: models.KnowledgeUnit,
+          as: 'knowledgeUnit',
+          include: [
+            {
+              as: 'versions',
+              model: models.KnowledgeUnit,
+            },
+          ],
+        },
+      ],
+    });
+
+    if (courseContent === null || courseContent === undefined) {
+      res.status(404).json({
+        message: 'content not found',
+      });
+      return;
+    }
+
+    const currentCourseUser = courses[0].users.filter((user) => {
+      if ((user.userId === req.user.id && user.roleId === trainerRoleId)) {
+        return user;
+      }
+    });
+
+    if (isCurrentUserAdmin === false && currentCourseUser.length === 0) {
+      return res.status(403).send({ message: 'Unless you are an admin or trainer you cannot update this knowledge unit.' });
+    }
+
+    if (courseContent.knowledgeUnit.versions.length === 0) {
+      return res.status(400).send({ message: 'There is no update available.' });
+    }
+
+    const updateTo = courseContent.knowledgeUnit.versions[courseContent.knowledgeUnit.versions.length - 1];
+
+    await models.CourseContent.update({
+      knowledgeUnitId: updateTo.id,
+    }, {
+      where: {
+        id: req.params.contentId,
+      },
+    });
+
+    await models.CourseSequenceKnowledgeUnit.update({
+      knowledgeUnitId: updateTo.id,
+    }, {
+      where: {
+        knowledgeUnitId: req.params.contentId,
+      },
+      include: [
+        {
+          model: models.CourseSequence,
+          as: 'sequence',
+          where: {
+            courseId: req.params.id,
+          },
+        },
+      ],
+    });
+
+    // load the
+    res.json({ message: `You have updated the course content to id: ${updateTo.id}` });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: 'Error while running the udpate mechanism.' });
+  }
 });
 
 router.patch('/:id', hasCapability('edit_course'), async (req, res) => {

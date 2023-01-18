@@ -7,6 +7,13 @@ module.exports = {
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },
+    {
+      id: 2,
+      courseId: 1,
+      knowledgeUnitId: 2,
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
   ], {}),
 
   down: (queryInterface) => queryInterface.bulkDelete('CourseContent', {}),
