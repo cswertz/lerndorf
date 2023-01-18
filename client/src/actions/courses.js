@@ -77,6 +77,28 @@ export const coursesRemoveContentFailed = (error, errors) => ({
   errors,
 });
 
+export const coursesAddSequenceSuccess = (item) => ({
+  type: types.COURSES_SEQUENCE_ADD_SUCCESS,
+  item,
+});
+
+export const coursesAddSequenceFailed = (error, errors) => ({
+  type: types.COURSES_SEQUENCE_ADD_FAILED,
+  error,
+  errors,
+});
+
+export const coursesRemoveSequenceSuccess = (item) => ({
+  type: types.COURSES_SEQUENCE_REMOVE_SUCCESS,
+  item,
+});
+
+export const coursesRemoveSequenceFailed = (error, errors) => ({
+  type: types.COURSES_SEQUENCE_REMOVE_FAILED,
+  error,
+  errors,
+});
+
 export const coursesCreateSuccess = (item) => ({
   type: types.COURSES_CREATE_SUCCESS,
   item,
@@ -415,6 +437,53 @@ export const courseContentRemove = (id, contentId, history) => async (dispatch) 
     })
     .catch((error) => {
       dispatch(coursesRemoveContentFailed(error));
+      return error;
+    });
+
+export const courseSequenceAdd = (id, name, list, history) => async (dispatch) =>
+  fetch(`/api/courses/${id}/sequences`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({ name, list }),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json) {
+        if (!json.error) {
+          dispatch(coursesAddSequenceSuccess(json));
+        }
+      }
+      return json;
+    })
+    .catch((error) => {
+      dispatch(coursesAddSequenceFailed(error));
+      return error;
+    });
+
+export const courseSequenceRemove = (id, sequenceId, history) => async (dispatch) =>
+  fetch(`/api/courses/${id}/sequences/${sequenceId}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json) {
+        if (!json.error) {
+          dispatch(coursesRemoveSequenceSuccess(json));
+        }
+      }
+      return json;
+    })
+    .catch((error) => {
+      dispatch(coursesRemoveSequenceFailed(error));
       return error;
     });
 

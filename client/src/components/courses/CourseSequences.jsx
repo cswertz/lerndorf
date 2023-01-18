@@ -26,6 +26,7 @@ import TableHeadCell from '@components/tables/TableHeadCell';
 import { term } from '@utils/taxonomy';
 import { IconButton } from '../../../node_modules/@material-ui/core/index';
 import { CachedOutlined } from '../../../node_modules/@material-ui/icons/index';
+import AddSequenceToCourse from './AddSequenceToCourse';
 
 const CourseSequences = (props) => {
   const {
@@ -63,7 +64,17 @@ const CourseSequences = (props) => {
   useEffect(() => {
     setRows(
       (course?.sequences ?? []).map((sequenceEntry) => {
-        return sequenceEntry;
+        return {
+          id: sequenceEntry.id,
+          name: sequenceEntry.microModel,
+          list: sequenceEntry.units
+            .sort((a, b) => {
+              if (a.orderId < b.orderId) return -1;
+              if (a.orderId > b.orderId) return 1;
+              return 0;
+            })
+            .map((item) => item.knowledgeUnitId),
+        };
       }),
     );
   }, [course, course.users, course.content, user]);
@@ -102,7 +113,18 @@ const CourseSequences = (props) => {
                 return (
                   <TableRow key={`row-${row.id}`}>
                     <TableCell>{row.name ?? 'n/a'}</TableCell>
-                    <TableCell align="right">adsf</TableCell>
+                    <TableCell align="right">
+                      {JSON.stringify(row)}
+                      <AddSequenceToCourse
+                        key={`sequence-edit-${row.id}`}
+                        user={user}
+                        course={course}
+                        actions={actions}
+                        handleSubmit={(sequenceDetail) => {
+                          console.error(sequenceDetail);
+                        }}
+                      />
+                    </TableCell>
                   </TableRow>
                 );
               })}

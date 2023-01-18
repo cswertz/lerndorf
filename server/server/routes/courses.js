@@ -402,6 +402,12 @@ router.get('/:id', async (req, res) => {
         {
           model: models.CourseSequence,
           as: 'sequences',
+          include: [
+            {
+              model: models.CourseSequenceKnowledgeUnit,
+              as: 'units',
+            },
+          ],
         },
       ],
     });
@@ -1223,6 +1229,7 @@ router.post('/:id/sequences', [
 
     return res.status(200).send({ message: 'You have added the user' });
   } catch (err) {
+    console.error(err);
     return res.status(400).send({ message: 'Error occured while try to adding the user.' });
   }
 });

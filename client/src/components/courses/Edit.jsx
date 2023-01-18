@@ -372,20 +372,39 @@ const Edit = ({
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <CourseSequences user={user.user} course={initialValues} actions={actions} />
-            <Grid container spacing={0} className={classes.marginTop}>
-              <Grid xs={12} className={classes.full} align="right">
-                <AddSequenceToCourse
-                  user={user}
-                  course={initialValues}
-                  actions={actions}
-                  handleSubmit={(sequenceDetail) => {
-                    console.error(sequenceDetail);
-                    actions.courseFetchSingle(initialValues.id);
-                  }}
-                />
+            <div className={classes.full}>
+              <Grid container spacing={0}>
+                <Grid xs={12} className={classes.full}>
+                  <CourseSequences
+                    user={user.user}
+                    course={initialValues}
+                    actions={actions}
+                    className={classes.full}
+                  />
+                </Grid>
               </Grid>
-            </Grid>
+              <Grid container spacing={0} className={classes.marginTop}>
+                <Grid xs={12} className={classes.full} align="right">
+                  <AddSequenceToCourse
+                    user={user}
+                    course={initialValues}
+                    actions={actions}
+                    handleSubmit={(sequenceDetail) => {
+                      console.error(sequenceDetail);
+                      actions
+                        .courseSequenceAdd(
+                          initialValues.id,
+                          sequenceDetail.name,
+                          sequenceDetail.list,
+                        )
+                        .then((result) => {
+                          actions.courseFetchSingle(initialValues.id);
+                        });
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            </div>
           </AccordionDetails>
         </Accordion>
         <Divider className={classes.divider} />

@@ -149,7 +149,6 @@ function AddContentToCourse(props) {
   }, [okBtnText]);
 
   useEffect(() => {
-    console.error(selectedFilter, data);
     let filteredEntries = data
       .map((entry) => {
         if (
@@ -174,9 +173,6 @@ function AddContentToCourse(props) {
     } else {
       filteredEntries = filteredEntries.filter((entry) => entry.visibleCourses === true);
     }
-
-    console.error(filteredEntries);
-
     setRowsFiltered(filteredEntries);
   }, [searchTerm, selectedFilter]);
 

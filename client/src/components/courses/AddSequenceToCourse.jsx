@@ -13,6 +13,7 @@ import {
   NavigateNext,
   ArrowDownward,
   ArrowUpward,
+  EditIcon,
 } from '@material-ui/icons/index';
 import { Field, reduxForm } from 'redux-form';
 import { renderSelect, renderTextField } from '@utils/forms';
@@ -48,7 +49,9 @@ function AddSequenceToCourse(props) {
     fetch,
     handleSubmit,
     user,
-    initialValues,
+    itemId,
+    itemName,
+    itemList,
   } = props;
 
   const [open, setOpen] = React.useState(false);
@@ -69,18 +72,26 @@ function AddSequenceToCourse(props) {
   const [courseContent, setCourseContent] = React.useState([]);
 
   const openDialog = () => {
-    if (initialValues === undefined || initialValues === null) {
-      setFormState({});
-      setLeftList([]);
-      setLeftSelection([]);
-      setRightSelection([]);
-    }
+    setFormState({});
+    setLeftList([]);
+    setLeftSelection([]);
+    setRightSelection([]);
     setOpen(true);
   };
 
   const handleClose = (confirmResult) => {
+    if (confirmResult === false) {
+      setOpen(false);
+      return;
+    }
+
     formState.list = leftList;
     setFormState(formState);
+
+    if (formState.name === null || formState.name === undefined || formState.list === undefined) {
+      return;
+    }
+
     if (handleSubmit) {
       handleSubmit(formState);
     }
@@ -225,7 +236,7 @@ function AddSequenceToCourse(props) {
   return (
     <>
       <IconButton aria-label="Add content" onClick={openDialog}>
-        <Add />
+        {itemId ? <EditIcon /> : <Add />}
       </IconButton>
       <Dialog
         fullScreen
@@ -250,6 +261,7 @@ function AddSequenceToCourse(props) {
                     label="Name of micromodel"
                     helperText="Define the name for the micromodel"
                     component={renderTextField}
+                    initialValues={itemName ?? null}
                     onChange={(e) => {
                       setFormState(Object.assign(formState, { name: e.target.value }));
                       console.error(formState);
@@ -275,12 +287,12 @@ function AddSequenceToCourse(props) {
                   <TableBody>
                     {leftList.map((id, index) => {
                       const isItemSelected = isSelected(leftSelection, index);
-                      const item = courseContent.filter((content) => content.id === id)[0];
+                      const itemEntry = courseContent.filter((content) => content.id === id)[0];
                       return (
                         <TableRow
                           // eslint-disable-next-line
                           key={`left-row-${index}`}
-                          scope={item}
+                          scope={itemEntry}
                           selected={isItemSelected}
                           role="checkbox"
                           style={{ cursor: 'pointer', height: '30px' }}
@@ -288,7 +300,7 @@ function AddSequenceToCourse(props) {
                           <TableCell
                             onClick={(event) => handleClick(event, 'left', leftSelection, index)}
                           >
-                            {item.learningUnit}/{item.knowledgeUnit}/{item.mediaType}
+                            {itemEntry.learningUnit}/{itemEntry.knowledgeUnit}/{itemEntry.mediaType}
                           </TableCell>
                           <TableCell align="right">
                             <IconButton
