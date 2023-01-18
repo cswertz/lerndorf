@@ -18,6 +18,7 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 
   return (
     <TextField
+      style={{ width: '100%' }}
       helperText={helperText}
       error={hasError && true}
       label={label}

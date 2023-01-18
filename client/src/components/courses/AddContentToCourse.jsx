@@ -24,6 +24,7 @@ import {
   Avatar,
   FormControl,
   FormControlLabel,
+  Grid,
   IconButton,
   MenuItem,
   Select,
@@ -51,6 +52,8 @@ function AddContentToCourse(props) {
   const [mode, setMode] = React.useState('confirm');
   const [okBtn, setOkBtn] = React.useState('Add content to course');
   const [cancelBtn, setCancelBtn] = React.useState('Cancel');
+  const [searchTerm, setSearchTerm] = React.useState(null);
+  const [selectedFilter, setSelectedFilter] = React.useState('all');
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
@@ -81,6 +84,9 @@ function AddContentToCourse(props) {
           knowledgeUnit: knowledgeTypeText,
           mediaType: mediaTypeText,
           learningUnit: learningUnitText,
+          creator: entry.UserId,
+          reviewed: entry.review,
+          visibleCourses: entry.visibleCourses,
         };
       });
 
@@ -142,6 +148,38 @@ function AddContentToCourse(props) {
     }
   }, [okBtnText]);
 
+  useEffect(() => {
+    console.error(selectedFilter, data);
+    let filteredEntries = data
+      .map((entry) => {
+        if (
+          searchTerm === null ||
+          searchTerm === '' ||
+          entry.learningUnit?.toLowerCase().indexOf(searchTerm?.toLowerCase()) > -1 ||
+          entry.knowledgeUnit?.toLowerCase().indexOf(searchTerm?.toLowerCase()) > -1 ||
+          entry.mediaType?.toLowerCase().indexOf(searchTerm?.toLowerCase()) > -1
+        ) {
+          return entry;
+        }
+        return null;
+      })
+      .filter((item) => item !== null);
+
+    if (selectedFilter === 'my') {
+      filteredEntries = filteredEntries.filter((entry) => entry.creator === user.user.id);
+    } else if (selectedFilter === 'reviewed') {
+      filteredEntries = filteredEntries.filter(
+        (entry) => entry.visibleCourses === true && entry.reviewed === true,
+      );
+    } else {
+      filteredEntries = filteredEntries.filter((entry) => entry.visibleCourses === true);
+    }
+
+    console.error(filteredEntries);
+
+    setRowsFiltered(filteredEntries);
+  }, [searchTerm, selectedFilter]);
+
   return (
     <>
       <IconButton aria-label="Add content" onClick={openDialog}>
@@ -157,33 +195,40 @@ function AddContentToCourse(props) {
         <DialogTitle id="alert-dialog-title">{headline}</DialogTitle>
         <DialogContent>
           <form>
-            <FormControl>
-              <Field
-                required
-                name="search"
-                label="Search for a content"
-                helperText="Enter a search term for the content"
-                component={renderTextField}
-                onChange={(e) => {
-                  const filteredEntries = data
-                    .map((entry) => {
-                      if (
-                        entry.learningUnit?.indexOf(e.target.value) > -1 ||
-                        entry.knowledgeUnit?.indexOf(e.target.value) > -1 ||
-                        entry.mediaType?.indexOf(e.target.value) > -1
-                      ) {
-                        return entry;
-                      }
-                      return null;
-                    })
-                    .filter((item) => item !== null);
-
-                  setRowsFiltered(filteredEntries);
-                }}
-              />
-            </FormControl>
+            <Grid container spacing={2}>
+              <Grid xs={12} sm={4}>
+                <FormControl style={{ width: 'calc(100% - 30px)', margin: '0 15px' }}>
+                  <Field
+                    required
+                    name="search"
+                    label="Search for a content"
+                    helperText="Enter a search term for the content"
+                    component={renderTextField}
+                    onChange={(e) => {
+                      setSearchTerm(e.target.value);
+                    }}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid xs={12} sm={4}>
+                <FormControl required style={{ width: '200px', margin: '16px 0' }}>
+                  <Select
+                    name="role"
+                    label="User role"
+                    value={selectedFilter}
+                    onChange={(e) => {
+                      setSelectedFilter(e.target.value);
+                    }}
+                  >
+                    <MenuItem value="my">My content</MenuItem>
+                    <MenuItem value="reviewed">Reviewed content</MenuItem>
+                    <MenuItem value="all">All content</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
             <TableContainer
-              style={{ height: '80vh', width: '100%', border: '1px solid #ddd', marginTop: '10px' }}
+              style={{ height: '80vh', width: '100%', border: '1px solid #ddd', marginTop: '20px' }}
             >
               <Table
                 aria-label="Userlist"
