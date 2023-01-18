@@ -21,6 +21,8 @@ import Text from '../models/Text';
 import Course from '../models/Course';
 import CourseUser from '../models/CourseUser';
 import CourseUserLog from '../models/CourseUserLog';
+import CourseList from '../models/CourseList';
+import CourseListItem from '../models/CourseListItem';
 import CourseSequence from '../models/CourseSequence';
 import CourseContent from '../models/CourseContent';
 import CourseSequenceKnowledgeUnit from '../models/CourseSequenceKnowledgeUnit';
@@ -46,6 +48,8 @@ const models = [
   Role,
   File,
   Text,
+  CourseList,
+  CourseListItem,
   Course,
   CourseUser,
   CourseUserLog,

@@ -84,6 +84,7 @@ const roleCapabilities = [
       'delete_course',
       'leave_course',
       'create_threads',
+      'delete_self',
     ],
   },
   {
@@ -98,6 +99,7 @@ const roleCapabilities = [
       'delete_course',
       'leave_course',
       'create_threads',
+      'delete_self',
     ],
   },
   {
@@ -114,6 +116,7 @@ const roleCapabilities = [
       'edit_course',
       'delete_course',
       'leave_course',
+      'delete_self',
     ],
   },
   {
@@ -124,6 +127,7 @@ const roleCapabilities = [
       'edit_course',
       'delete_course',
       'leave_course',
+      'delete_self',
     ],
   },
 ];
