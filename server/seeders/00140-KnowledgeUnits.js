@@ -7,8 +7,6 @@ module.exports = {
       mediaType: 3,
       visiblePublic: true,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
-      rootId: 1,
-      nextId: 3,
     },
     {
       Id: 2,
@@ -24,7 +22,6 @@ module.exports = {
       mediaType: 3,
       visiblePublic: true,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
-      rootId: 1,
     },
   ], {}),
   down: (queryInterface) => queryInterface.bulkDelete('KnowledgeUnits', {
