@@ -25,6 +25,8 @@ import { getComparator, stableSort } from '@utils/table';
 import TableHeadCell from '@components/tables/TableHeadCell';
 import DeleteCourseUser from './DeleteCourseUser';
 
+const moment = require('moment');
+
 const CourseUsers = (props) => {
   const {
     actions,
@@ -61,6 +63,7 @@ const CourseUsers = (props) => {
   useEffect(() => {
     setRows(
       course.users.map((userEntry) => {
+        console.error(userEntry.user);
         return {
           id: userEntry.id,
           courseId: userEntry.courseId,
@@ -72,6 +75,9 @@ const CourseUsers = (props) => {
           roleSlug: userEntry.role.slug,
           enrolmentConfirmation: userEntry.enrolmentConfirmation,
           picture: userEntry.user.picture,
+          last_access: userEntry.user.lastLogin
+            ? moment(userEntry.user.lastLogin).format('YYYY-MM-DD')
+            : 'n/a',
         };
       }),
     );

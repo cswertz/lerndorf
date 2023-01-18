@@ -268,6 +268,8 @@ Router.propTypes = {
     courseDelete: PropTypes.func.isRequired,
     courseCreate: PropTypes.func.isRequired,
     courseUpdate: PropTypes.func.isRequired,
+    courseContentAdd: PropTypes.func.isRequired,
+    courseContentRemove: PropTypes.func.isRequired,
     courseFetchSingle: PropTypes.func.isRequired,
     courseUpdateUserConfirmation: PropTypes.func.isRequired,
     courseUserRemove: PropTypes.func.isRequired,

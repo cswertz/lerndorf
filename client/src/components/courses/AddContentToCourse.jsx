@@ -19,6 +19,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TableHeadCell from '@components/tables/TableHeadCell';
 import { getComparator, stableSort } from '@utils/table';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { term } from '@utils/taxonomy';
 import {
   Avatar,
   FormControl,
@@ -28,7 +29,7 @@ import {
   Select,
 } from '../../../node_modules/@material-ui/core/index';
 
-function AddUserToCourse(props) {
+function AddContentToCourse(props) {
   const {
     actions,
     course,
@@ -37,20 +38,18 @@ function AddUserToCourse(props) {
     okBtnText,
     history,
     fetch,
-    roles,
     handleSubmit,
+    user,
   } = props;
 
   const [open, setOpen] = React.useState(false);
-  const [users, setUsers] = React.useState([]);
-  const [usersFiltered, setUsersFiltered] = React.useState([]);
-  const [rolesFiltered, setRolesFiltered] = React.useState([]);
-  const [userRole, setUserRole] = React.useState(9);
+  const [data, setData] = React.useState([]);
+  const [rowsFiltered, setRowsFiltered] = React.useState([]);
   const [headline, setHeadline] = React.useState(null);
   const [message, setMessage] = React.useState(null);
   const [hasError, setHasError] = React.useState(null);
   const [mode, setMode] = React.useState('confirm');
-  const [okBtn, setOkBtn] = React.useState('Add user');
+  const [okBtn, setOkBtn] = React.useState('Add content to course');
   const [cancelBtn, setCancelBtn] = React.useState('Cancel');
 
   const [order, setOrder] = React.useState('asc');
@@ -58,41 +57,35 @@ function AddUserToCourse(props) {
 
   const [selected, setSelected] = React.useState([]);
 
-  useEffect(() => {
-    const rolesFilteredList = roles.items
-      .filter((role) => ['tutor', 'learner', 'trainer'].indexOf(role.slug) > -1)
-      .map((item) => {
+  const openDialog = () => {
+    const preferredLanguage = user.user?.preferredLanguage;
+
+    setSelected([]);
+    actions.knowledgeUnitsFetch().then((contentEntries) => {
+      contentEntries = contentEntries.map((entry) => {
+        const knowledgeTypeText = entry.kt ? term(entry.kt, preferredLanguage) : null;
+        const mediaTypeText = entry.mt ? term(entry.mt, preferredLanguage) : null;
+        let learningUnitText = null;
+
+        entry.LearningUnit.Translations.forEach((translation) => {
+          if (
+            learningUnitText === null &&
+            (preferredLanguage === null || translation.LanguageId === preferredLanguage)
+          ) {
+            learningUnitText = translation.title;
+          }
+        });
+
         return {
-          value: item.id,
-          label: item.name,
-          id: `role-${item.id}`,
+          id: entry.id,
+          knowledgeUnit: knowledgeTypeText,
+          mediaType: mediaTypeText,
+          learningUnit: learningUnitText,
         };
       });
 
-    setRolesFiltered(rolesFilteredList);
-  }, [roles]);
-
-  useEffect(() => {
-    rolesFiltered.forEach((role) => {
-      if (role.slug === 'learner') {
-        setUserRole(role.id);
-      }
-    });
-  }, [rolesFiltered]);
-
-  const openUserDialog = () => {
-    setSelected([]);
-    actions.usersFetch().then((userEntries) => {
-      userEntries = userEntries.map((userEntry) => {
-        userEntry.name = userEntry.username;
-        if (userEntry.firstName !== null || userEntry.lastName !== null) {
-          userEntry.name = `${userEntry.firstName ?? ''} ${userEntry.lastName ?? ''}`;
-        }
-        return userEntry;
-      });
-
-      setUsers(userEntries);
-      setUsersFiltered(userEntries);
+      setData(contentEntries);
+      setRowsFiltered(contentEntries);
     });
     setOpen(true);
   };
@@ -110,7 +103,7 @@ function AddUserToCourse(props) {
     if (mode === 'confirm' && confirmResult === true) {
       // Trigger the delete, cause it is confirmed.
       if (handleSubmit && selected.length > 0) {
-        handleSubmit(selected[0], userRole);
+        handleSubmit(selected);
       }
       if (selected.length > 0) {
         setOpen(false);
@@ -131,20 +124,16 @@ function AddUserToCourse(props) {
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const handleClick = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
+    const itemsSelected = [...selected];
+    const selectedIndex = itemsSelected.indexOf(id);
 
     if (selectedIndex === -1) {
-      newSelected = [id];
+      itemsSelected.push(id);
+    } else {
+      itemsSelected.splice(selectedIndex, 1);
     }
 
-    setSelected(newSelected);
-
-    usersFiltered.forEach((role) => {
-      if (role.slug === 'learner') {
-        userRole({ value: role.id, label: role.name, id: role.id });
-      }
-    });
+    setSelected(itemsSelected);
   };
 
   useEffect(() => {
@@ -155,7 +144,7 @@ function AddUserToCourse(props) {
 
   return (
     <>
-      <IconButton aria-label="Add user" onClick={openUserDialog}>
+      <IconButton aria-label="Add content" onClick={openDialog}>
         <Add />
       </IconButton>
       <Dialog
@@ -172,29 +161,29 @@ function AddUserToCourse(props) {
               <Field
                 required
                 name="search"
-                label="Search for a user"
-                helperText="Enter a search term for the user"
+                label="Search for a content"
+                helperText="Enter a search term for the content"
                 component={renderTextField}
                 onChange={(e) => {
-                  const filteredEntries = users
-                    .map((userEntry) => {
+                  const filteredEntries = data
+                    .map((entry) => {
                       if (
-                        userEntry.name?.indexOf(e.target.value) > -1 ||
-                        userEntry.city?.indexOf(e.target.value) > -1 ||
-                        userEntry.country?.indexOf(e.target.value) > -1
+                        entry.learningUnit?.indexOf(e.target.value) > -1 ||
+                        entry.knowledgeUnit?.indexOf(e.target.value) > -1 ||
+                        entry.mediaType?.indexOf(e.target.value) > -1
                       ) {
-                        return userEntry;
+                        return entry;
                       }
                       return null;
                     })
                     .filter((item) => item !== null);
 
-                  setUsersFiltered(filteredEntries);
+                  setRowsFiltered(filteredEntries);
                 }}
               />
             </FormControl>
             <TableContainer
-              style={{ maxHeight: 400, width: '100%', border: '1px solid #ddd', marginTop: '10px' }}
+              style={{ height: '80vh', width: '100%', border: '1px solid #ddd', marginTop: '10px' }}
             >
               <Table
                 aria-label="Userlist"
@@ -204,38 +193,23 @@ function AddUserToCourse(props) {
                 <TableHead>
                   <TableRow>
                     <TableCell />
-                    <TableCell />
                     <TableHeadCell
-                      label="Name"
-                      name="name"
+                      label="Learning Unit"
+                      name="learningUnit"
                       order={order}
                       orderBy={orderBy}
                       onRequestSort={handleRequestSort}
                     />
                     <TableHeadCell
-                      label="E-Mail"
-                      name="email"
+                      label="Knowledge Unit"
+                      name="knowledgeUnit"
                       order={order}
                       orderBy={orderBy}
                       onRequestSort={handleRequestSort}
                     />
                     <TableHeadCell
-                      label="Student Id"
-                      name="studyId"
-                      order={order}
-                      orderBy={orderBy}
-                      onRequestSort={handleRequestSort}
-                    />
-                    <TableHeadCell
-                      label="City"
-                      name="city"
-                      order={order}
-                      orderBy={orderBy}
-                      onRequestSort={handleRequestSort}
-                    />
-                    <TableHeadCell
-                      label="Country"
-                      name="country"
+                      label="Media Type"
+                      name="mediaType"
                       order={order}
                       orderBy={orderBy}
                       onRequestSort={handleRequestSort}
@@ -243,8 +217,8 @@ function AddUserToCourse(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {usersFiltered.length > 0 &&
-                    stableSort(usersFiltered, getComparator(order, orderBy)).map((row) => {
+                  {rowsFiltered.length > 0 &&
+                    stableSort(rowsFiltered, getComparator(order, orderBy)).map((row) => {
                       const isItemSelected = isSelected(row.id);
 
                       return (
@@ -259,39 +233,15 @@ function AddUserToCourse(props) {
                           <TableCell>
                             {!isItemSelected ? <CheckBoxOutlineBlankOutlined /> : <CheckBox />}
                           </TableCell>
-                          <TableCell>
-                            {row.picture ? (
-                              <Avatar src={`/uploads/${row.picture}`} alt={row.username} />
-                            ) : (
-                              <Avatar alt={row.username} />
-                            )}
-                          </TableCell>
-                          <TableCell>{row.name}</TableCell>
-                          <TableCell>{row.email ?? 'n/a'}</TableCell>
-                          <TableCell>{row.studyId ?? 'n/a'}</TableCell>
-                          <TableCell>{row.city ?? 'n/a'}</TableCell>
-                          <TableCell>{row.country ?? 'n/a'}</TableCell>
+                          <TableCell>{row.learningUnit}</TableCell>
+                          <TableCell>{row.knowledgeUnit ?? 'n/a'}</TableCell>
+                          <TableCell>{row.mediaType ?? 'n/a'}</TableCell>
                         </TableRow>
                       );
                     })}
                 </TableBody>
               </Table>
             </TableContainer>
-            <FormControl required style={{ width: '100%', margin: '20px 0' }}>
-              <Select
-                name="role"
-                label="User role"
-                value={userRole}
-                onChange={(e) => {
-                  setUserRole(e.target.value);
-                }}
-              >
-                {rolesFiltered.length > 0 &&
-                  rolesFiltered.map((role) => {
-                    return <MenuItem value={role.value}>{role.label}</MenuItem>;
-                  })}
-              </Select>
-            </FormControl>
           </form>
         </DialogContent>
         <DialogActions>
@@ -319,14 +269,14 @@ function AddUserToCourse(props) {
   );
 }
 
-AddUserToCourse.propTypes = {
+AddContentToCourse.propTypes = {
   initialValues: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
 };
 
-const AddUserToCourseForms = reduxForm({
-  form: 'AddUser',
-})(AddUserToCourse);
+const AddContentToCourseForms = reduxForm({
+  form: 'AddContent',
+})(AddContentToCourse);
 
-export default withStyles({})(AddUserToCourseForms);
+export default withStyles({})(AddContentToCourseForms);

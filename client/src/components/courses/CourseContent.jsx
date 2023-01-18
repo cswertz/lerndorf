@@ -27,6 +27,7 @@ import { term } from '@utils/taxonomy';
 import DeleteCourseUser from './DeleteCourseUser';
 import { IconButton } from '../../../node_modules/@material-ui/core/index';
 import { CachedOutlined } from '../../../node_modules/@material-ui/icons/index';
+import DeleteCourseContent from './DeleteCourseContent';
 
 const CourseContent = (props) => {
   const {
@@ -88,8 +89,12 @@ const CourseContent = (props) => {
         }
 
         if (contentEntry.knowledgeUnit) {
-          const knowledgeTypeText = term(contentEntry.knowledgeUnit.kt, preferredLanguage);
-          const mediaTypeText = term(contentEntry.knowledgeUnit.mt, preferredLanguage);
+          const knowledgeTypeText = contentEntry.knowledgeUnit.kt
+            ? term(contentEntry.knowledgeUnit.kt, preferredLanguage)
+            : null;
+          const mediaTypeText = contentEntry.knowledgeUnit.mt
+            ? term(contentEntry.knowledgeUnit.mt, preferredLanguage)
+            : null;
 
           const versions = contentEntry.knowledgeUnit.versions.filter(
             (versionEntry) => versionEntry.nextId === null,
@@ -186,7 +191,7 @@ const CourseContent = (props) => {
                             actions
                               .courseFetchContentUpdate(row.courseId, row.id)
                               .then((result) => {
-                                console.error(result);
+                                actions.courseFetchSingle(course.id);
                               });
                           }}
                         >
@@ -195,7 +200,18 @@ const CourseContent = (props) => {
                       )}
                     </TableCell>
                     <TableCell align="right">
-                      <span>test</span>
+                      {((adminUsers.indexOf(user.user?.id) > -1 && adminUsers.length > 1) ||
+                        row?.roleSlug !== 'trainer') && (
+                        <DeleteCourseContent
+                          content={row}
+                          course={course}
+                          actions={actions}
+                          user={user.user}
+                          fetch={() => {
+                            actions.courseFetchSingle(course.id);
+                          }}
+                        />
+                      )}
                     </TableCell>
                   </TableRow>
                 );

@@ -221,7 +221,7 @@ describe('Courses', () => {
               .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.be.a('object');
-                expect(res.body.amount).to.equal(1);
+                expect(res.body.amount).to.equal(courses.length);
                 done();
               });
           });
@@ -279,7 +279,7 @@ describe('Courses', () => {
               .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.be.a('array');
-                expect(res.body.length).to.equal(courses.length);
+                expect(res.body.length).to.equal(1);
                 expect(res.body[0].id).not.to.equal(undefined);
                 done();
               });
@@ -1278,13 +1278,13 @@ describe('Courses', () => {
       });
     });
   });
-  describe('GET /api/courses/:id/content/:contentId/update', () => {
+  describe('DELETE /api/courses/:id/content/:contentId', () => {
     it('it should return a 401 if the user is not logged in.', (done) => {
       models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
         addCourseDefault(admin, user).then((result) => {
           const session = chai.request.agent(server);
           session
-            .get('/api/courses/1/content/1/update')
+            .delete('/api/courses/1/content/1')
             .end((err, res) => {
               res.should.have.status(401);
               done();
@@ -1301,7 +1301,7 @@ describe('Courses', () => {
             .send(admin)
             .end((err, res) => {
               session
-                .get('/api/courses/999/content/1/update')
+                .delete('/api/courses/999/content/1')
                 .end((err, res) => {
                   res.should.have.status(404);
                   done();
@@ -1319,7 +1319,7 @@ describe('Courses', () => {
             .send(admin)
             .end((err, res) => {
               session
-                .get('/api/courses/1/content/999/update')
+                .delete('/api/courses/1/content/999')
                 .end((err, res) => {
                   res.should.have.status(404);
                   done();
@@ -1328,8 +1328,7 @@ describe('Courses', () => {
         });
       });
     });
-
-    it('it should return a 403 if the user does not have the permission to do the update.', (done) => {
+    it('it should return a 403 if the user does not have the permission to delete.', (done) => {
       models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
         addCourseDefault(admin, user).then((result) => {
           const session = chai.request.agent(server);
@@ -1338,7 +1337,7 @@ describe('Courses', () => {
             .send(user)
             .end((err, res) => {
               session
-                .get('/api/courses/1/content/1/update')
+                .delete('/api/courses/1/content/1')
                 .end((err, res) => {
                   res.should.have.status(403);
                   done();
@@ -1347,8 +1346,7 @@ describe('Courses', () => {
         });
       });
     });
-
-    it('it should return a 403 if the user does not have the permission to do the update, cause he/she has no connection to the course at all.', (done) => {
+    it('it should return a 403 if the user does not have the permission to do the deletion, cause he/she has no connection to the course at all.', (done) => {
       models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
         addCourseDefault(admin, user).then((result) => {
           const session = chai.request.agent(server);
@@ -1357,7 +1355,7 @@ describe('Courses', () => {
             .send(userWithNoRole)
             .end((err, res) => {
               session
-                .get('/api/courses/1/content/1/update')
+                .delete('/api/courses/1/content/1')
                 .end((err, res) => {
                   res.should.have.status(403);
                   done();
@@ -1367,7 +1365,7 @@ describe('Courses', () => {
       });
     });
 
-    it('it should return a 400 if there is no update available', (done) => {
+    it('it should return a 200 if the deletion was successful', (done) => {
       models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
         addCourseDefault(admin, user).then((result) => {
           const session = chai.request.agent(server);
@@ -1376,16 +1374,70 @@ describe('Courses', () => {
             .send(admin)
             .end((err, res) => {
               session
-                .get('/api/courses/1/content/2/update')
+                .delete('/api/courses/1/content/1')
                 .end((err, res) => {
-                  res.should.have.status(400);
+                  res.should.have.status(200);
                   done();
                 });
             });
         });
       });
     });
-    it('it should return a 200 if there is an update available', (done) => {
+  });
+
+  it('it should return a 400 if there is no update available', (done) => {
+    models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
+      addCourseDefault(admin, user).then((result) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            session
+              .get('/api/courses/1/content/2/update')
+              .end((err, res) => {
+                res.should.have.status(400);
+                done();
+              });
+          });
+      });
+    });
+  });
+  it('it should return a 200 if there is an update available', (done) => {
+    models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
+      addCourseDefault(admin, user).then((result) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            session
+              .get('/api/courses/1/content/1/update')
+              .end((err, res) => {
+                res.should.have.status(200);
+
+                done();
+              });
+          });
+      });
+    });
+  });
+  describe('POST /api/courses/:id/content', () => {
+    it('it should return a 401 if the user is not logged in.', (done) => {
+      models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
+        addCourseDefault(admin, user).then((result) => {
+          const session = chai.request.agent(server);
+          session
+            .post(`/api/courses/${result.course.id}/content`)
+            .send({ contentId: 1 })
+            .end((err, res) => {
+              res.should.have.status(401);
+              done();
+            });
+        });
+      });
+    });
+    it('it should return a 404 if the course does not exists.', (done) => {
       models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
         addCourseDefault(admin, user).then((result) => {
           const session = chai.request.agent(server);
@@ -1394,10 +1446,86 @@ describe('Courses', () => {
             .send(admin)
             .end((err, res) => {
               session
-                .get('/api/courses/1/content/1/update')
+                .post('/api/courses/999/content')
+                .send({ contentId: 1 })
+                .end((err, res) => {
+                  res.should.have.status(404);
+                  done();
+                });
+            });
+        });
+      });
+    });
+    it('it should return a 500 if the knowledge unit does not exists.', (done) => {
+      models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
+        addCourseDefault(admin, user).then((result) => {
+          const session = chai.request.agent(server);
+          session
+            .post('/api/users/login')
+            .send(admin)
+            .end((err, res) => {
+              session
+                .post(`/api/courses/${result.course.id}/content`)
+                .send({ contentId: 9999 })
+                .end((err, res) => {
+                  res.should.have.status(500);
+                  done();
+                });
+            });
+        });
+      });
+    });
+    it('it should return a 403 if the user does not have enough permissions.', (done) => {
+      models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
+        addCourseDefault(admin, user).then((result) => {
+          const session = chai.request.agent(server);
+          session
+            .post('/api/users/login')
+            .send(user)
+            .end((err, res) => {
+              session
+                .post(`/api/courses/${result.course.id}/content`)
+                .send({ contentId: 2 })
+                .end((err, res) => {
+                  res.should.have.status(403);
+                  done();
+                });
+            });
+        });
+      });
+    });
+    it('it should return a 403 if the user is not part of the course.', (done) => {
+      models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
+        addCourseDefault(admin, user).then((result) => {
+          const session = chai.request.agent(server);
+          session
+            .post('/api/users/login')
+            .send(userWithNoRole)
+            .end((err, res) => {
+              session
+                .post(`/api/courses/${result.course.id}/content`)
+                .send({ contentId: 2 })
+                .end((err, res) => {
+                  res.should.have.status(403);
+                  done();
+                });
+            });
+        });
+      });
+    });
+    it('it should return a 200 if the user has enough permissions.', (done) => {
+      models.User.findOne({ where: { username: userWithNoRole.username } }).then((newUser) => {
+        addCourseDefault(admin, user).then((result) => {
+          const session = chai.request.agent(server);
+          session
+            .post('/api/users/login')
+            .send(admin)
+            .end((err, res) => {
+              session
+                .post(`/api/courses/${result.course.id}/content`)
+                .send({ contentId: 2 })
                 .end((err, res) => {
                   res.should.have.status(200);
-
                   done();
                 });
             });

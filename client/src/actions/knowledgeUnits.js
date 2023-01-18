@@ -51,6 +51,7 @@ export const knowledgeUnitsFetch = () => (dispatch) =>
           dispatch(knowledgeUnitsFetchSuccess(json));
         }
       }
+      return json;
     })
     .catch((error) => {
       console.log('Error while fetching knowledge units:', error);
@@ -143,7 +144,6 @@ export const knowledgeUnitsEdit = (id, data, history) => (dispatch) =>
   })
     .then((response) => response.json())
     .then((json) => {
-      console.error(json);
       if (json) {
         dispatch(knowledgeUnitsEditSuccess());
         history.push(`/knowledge-units/show/${json.id}`);

@@ -1,6 +1,11 @@
 const term = (taxonomy, languageId) => {
   let vocable = taxonomy.type;
-  const translation = taxonomy.TaxonomyLanguages.filter((item) => item.LanguageId === languageId);
+  if (languageId === null) {
+    languageId = 1;
+  }
+  const translation = taxonomy.TaxonomyLanguages.filter(
+    (item) => item.LanguageId === parseInt(languageId, 10),
+  );
   if (translation.length > 0) {
     vocable = translation[0].vocable;
   }
@@ -16,6 +21,7 @@ const getOptions = (taxonomy, languageId) => {
     const translations = taxonomyTerm.TaxonomyLanguages.filter(
       (item) => item.LanguageId === languageId,
     );
+
     if (translations.length > 0) {
       translated = translations[0].vocable;
     }

@@ -20,6 +20,7 @@ import CourseUsers from './CourseUsers';
 import AddUserToCourse from './AddUserToCourse';
 import { lang } from '../../../node_modules/moment/moment';
 import CourseContent from './CourseContent';
+import AddContentToCourse from './AddContentToCourse';
 
 const styles = {
   wrapper: {
@@ -338,6 +339,24 @@ const Edit = ({
                     actions={actions}
                     user={user}
                     className={classes.full}
+                  />
+                </Grid>
+              </Grid>
+              <Grid container spacing={0} className={classes.marginTop}>
+                <Grid xs={12} className={classes.full} align="right">
+                  <AddContentToCourse
+                    user={user}
+                    course={initialValues}
+                    actions={actions}
+                    handleSubmit={(contentIds) => {
+                      Promise.all(
+                        contentIds.map((contentId) =>
+                          actions.courseContentAdd(initialValues.id, contentId),
+                        ),
+                      ).then((result) => {
+                        actions.courseFetchSingle(initialValues.id);
+                      });
+                    }}
                   />
                 </Grid>
               </Grid>
