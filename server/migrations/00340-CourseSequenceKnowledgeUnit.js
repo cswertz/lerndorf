@@ -29,27 +29,11 @@ export default {
       onDelete: 'cascade',
     },
 
-    rootId: {
+    orderId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       notEmpty: true,
-      references: {
-        model: 'CourseSequenceKnowledgeUnit',
-        key: 'id',
-      },
-      onDelete: 'cascade',
     },
-
-    prevId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      notEmpty: true,
-      references: {
-        model: 'CourseSequenceKnowledgeUnit',
-        key: 'id',
-      },
-      onDelete: 'cascade',
-    },    
 
     createdAt: {
       type: DataTypes.DATE,
@@ -61,5 +45,5 @@ export default {
       allowNull: false,
     },
   }),
-  down: queryInterface => queryInterface.dropTable('UserRole'),
+  down: (queryInterface) => queryInterface.dropTable('CourseSequenceKnowledgeUnit'),
 };

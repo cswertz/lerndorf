@@ -21,6 +21,8 @@ import AddUserToCourse from './AddUserToCourse';
 import { lang } from '../../../node_modules/moment/moment';
 import CourseContent from './CourseContent';
 import AddContentToCourse from './AddContentToCourse';
+import CourseSequences from './CourseSequences';
+import AddSequenceToCourse from './AddSequenceToCourse';
 
 const styles = {
   wrapper: {
@@ -370,7 +372,20 @@ const Edit = ({
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <span>TODO:</span>
+            <CourseSequences user={user.user} course={initialValues} actions={actions} />
+            <Grid container spacing={0} className={classes.marginTop}>
+              <Grid xs={12} className={classes.full} align="right">
+                <AddSequenceToCourse
+                  user={user}
+                  course={initialValues}
+                  actions={actions}
+                  handleSubmit={(sequenceDetail) => {
+                    console.error(sequenceDetail);
+                    actions.courseFetchSingle(initialValues.id);
+                  }}
+                />
+              </Grid>
+            </Grid>
           </AccordionDetails>
         </Accordion>
         <Divider className={classes.divider} />

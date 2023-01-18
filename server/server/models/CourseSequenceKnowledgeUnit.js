@@ -28,13 +28,9 @@ class CourseSequenceKnowledgeUnit extends Model {
         },
       },
 
-      rootId: {
+      orderId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-          model: 'CourseSequenceKnowledgeUnit',
-          key: 'id',
-        },
       },
 
     }, {
@@ -44,7 +40,7 @@ class CourseSequenceKnowledgeUnit extends Model {
   }
 
   static associate(sequelize) {
-    CourseSequenceKnowledgeUnit.belongsTo(sequelize.CourseSequenceKnowledgeUnit, { as: 'knowledgeUnit', foreignKey: 'rootId' });
+    CourseSequenceKnowledgeUnit.belongsTo(sequelize.CourseSequenceKnowledgeUnit, { as: 'knowledgeUnit', foreignKey: 'knowledgeUnitId' });
   }
 }
 

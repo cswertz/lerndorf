@@ -1144,4 +1144,87 @@ router.post('/:id/users', [
   }
 });
 
+router.post('/:id/sequences', [
+  check('name', 'Name for micromodel is required')
+    .notEmpty(),
+  check('list', 'List of knowledge units id is required')
+    .notEmpty(),
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).send({
+      error: 'There have been validation errors.',
+      errors: errors.array(),
+    });
+  }
+  if (!req.user) {
+    return res.status(401).send({ error: 'Not logged in.' });
+  }
+
+  try {
+    // Load the course information
+    const isCurrentUserAdmin = await isAdmin(req.user.id);
+    const trainerRoleId = await getTrainerRoleId();
+    const course = await models.Course.findByPk(req.params.id, {
+      include: [
+        {
+          model: models.CourseUser,
+          as: 'users',
+          include: [
+            {
+              model: models.User,
+              as: 'user',
+              attributes: ['id', 'firstName', 'lastName', 'username'],
+            },
+            {
+              model: models.Role,
+              as: 'role',
+              include: [
+                {
+                  model: models.RoleLanguage,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    if (course === null) {
+      return res.status(404).send({ message: 'Entry not found' });
+    }
+
+    const currentCourseUser = course.users.filter((user) => {
+      if ((user.userId === req.user.id && user.roleId === trainerRoleId)) {
+        return user;
+      }
+    });
+
+    if (isCurrentUserAdmin === false && currentCourseUser.length === 0) {
+      return res.status(403).send({ message: 'You cannot add a sequence unless you are the trainer or an admin.' });
+    }
+
+    // Create new list in the correct order
+    const courseSequence = await models.CourseSequence.create({
+      courseId: req.params.id,
+      microModel: req.body.name,
+      createdAt: moment().toDate(),
+      updatedAt: moment().toDate(),
+    });
+
+    for (let i = 0; i < req.body.list.length; i += 1) {
+      await models.CourseSequenceKnowledgeUnit.create({
+        courseSequenceId: courseSequence.id,
+        knowledgeUnitId: req.body.list[i],
+        orderId: i,
+        createdAt: moment().toDate(),
+        updatedAt: moment().toDate(),
+      });
+    }
+
+    return res.status(200).send({ message: 'You have added the user' });
+  } catch (err) {
+    return res.status(400).send({ message: 'Error occured while try to adding the user.' });
+  }
+});
+
 export default router;
