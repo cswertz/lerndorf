@@ -46,7 +46,6 @@ const KnowledgeUnitsRouter = ({ knowledgeUnits, learningUnits, actions, user }) 
           markReviewed={actions.knowledgeUnitsMarkReviewed}
           markLectored={actions.knowledgeUnitsMarkLectored}
           itemFetch={actions.knowledgeUnitsFetch}
-          handleSubmit={actions.knowledgeUnitsEdit}
           errors={knowledgeUnits.errors}
           items={knowledgeUnits}
           user={user}

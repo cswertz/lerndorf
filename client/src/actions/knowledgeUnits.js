@@ -143,14 +143,12 @@ export const knowledgeUnitsEdit = (id, data, history) => (dispatch) =>
   })
     .then((response) => response.json())
     .then((json) => {
+      console.error(json);
       if (json) {
-        if (json.error) {
-          // dispatch(knowledgeUnitsEditFailed(json.error, json.errors));
-        } else {
-          dispatch(knowledgeUnitsEditSuccess());
-          history.push(`/knowledge-units/show/${id}`);
-        }
+        dispatch(knowledgeUnitsEditSuccess());
+        history.push(`/knowledge-units/show/${json.id}`);
       }
+      return json;
     })
     .catch((error) => {
       console.log('Error while editing knowledge unit:', error);

@@ -32,6 +32,7 @@ const knowledgeUnitDetailData = {
     'suitableDeaf',
     'suitableBlind',
     'LearningUnitId',
+    'nextId',
   ],
   include: [
     {
@@ -148,7 +149,7 @@ const knowledgeUnitDetailData = {
 
 router.get('/', (req, res) => {
   const query = knowledgeUnitDetailData;
-  query.where = { visiblePublic: true };
+  query.where = { visiblePublic: true, nextId: null };
   models.KnowledgeUnit.findAll(query).then((results) => res.json(results));
 });
 
@@ -181,9 +182,26 @@ router.post('/', [
 
 router.patch('/:id', hasCapability('edit_any_knowledge_unit'), async (req, res) => {
   try {
-    const ku = await models.KnowledgeUnit.findOne({ where: { id: req.params.id } });
-
-    console.error(ku);
+    const ku = await models.KnowledgeUnit.findOne({
+      where: { id: req.params.id },
+      include: [
+        {
+          as: 'Texts',
+          where: {
+            nextId: null,
+          },
+          required: false,
+          model: models.Text,
+          attributes: ['id', 'content', 'nextId', 'prevId', 'rootId', 'LanguageId'],
+          include: [
+            {
+              model: models.Language,
+              attributes: ['id', 'code', 'name'],
+            },
+          ],
+        },
+      ],
+    });
 
     if (ku === null || ku === undefined) {
       // Copy the data + create a new version
@@ -191,18 +209,32 @@ router.patch('/:id', hasCapability('edit_any_knowledge_unit'), async (req, res) 
     }
 
     const { body } = req;
+    body.rootId = ku.id;
     body.UserId = req.user.id;
     body.LearningUnitId = ku.LearningUnitId;
     const newKnowledgeUnit = await models.KnowledgeUnit.create(body);
 
     // Update the old version
     const updateOld = await models.KnowledgeUnit.update({
+      rootId: ku.id,
       nextId: newKnowledgeUnit.id,
     }, {
       where: {
         id: req.params.id,
       },
     });
+
+    // Duplicate the related text entries
+    for (let i = 0; i < ku.Texts.length; i += 1) {
+      const textEntry = await models.Text.create({
+        nextId: null,
+        rootId: null,
+        prevId: null,
+        KnowledgeUnitId: newKnowledgeUnit.id,
+        LanguageId: ku.Texts[i].LanguageId,
+        content: ku.Texts[i].content,
+      });
+    }
 
     return res.status(200).send(newKnowledgeUnit);
   } catch (err) {
