@@ -233,6 +233,8 @@ class KnowledgeUnit extends Model {
 
     KnowledgeUnit.belongsTo(sequelize.LearningUnit);
     KnowledgeUnit.belongsTo(sequelize.User, { as: 'author', foreignKey: 'UserId' });
+
+    KnowledgeUnit.hasMany(KnowledgeUnit, { as: 'versions', foreignKey: 'rootId' });
   }
 }
 

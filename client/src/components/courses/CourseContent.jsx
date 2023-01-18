@@ -25,6 +25,8 @@ import { getComparator, stableSort } from '@utils/table';
 import TableHeadCell from '@components/tables/TableHeadCell';
 import { term } from '@utils/taxonomy';
 import DeleteCourseUser from './DeleteCourseUser';
+import { IconButton } from '../../../node_modules/@material-ui/core/index';
+import { CachedOutlined } from '../../../node_modules/@material-ui/icons/index';
 
 const CourseContent = (props) => {
   const {
@@ -60,43 +62,60 @@ const CourseContent = (props) => {
     .filter((id) => id !== null);
 
   useEffect(() => {
-    console.error('ID', course?.id, course?.content, user);
     setRows(
       (course?.content ?? []).map((contentEntry) => {
-        const luTranslations = contentEntry.knowledgeUnit.LearningUnit.Translations;
+        const luTranslations = contentEntry.knowledgeUnit?.LearningUnit?.Translations;
         const preferredLanguage = user.user?.preferredLanguage;
 
         let translationLU = null;
 
-        luTranslations.forEach((translation) => {
-          if (
-            preferredLanguage !== null &&
-            translationLU === null &&
-            translation.LanguageId === preferredLanguage
-          ) {
-            translationLU = translation.title;
-          } else if (
-            preferredLanguage === null &&
-            translationLU === null &&
-            translation.LanguageId === course.mainLanguage
-          ) {
-            translationLU = translation.title;
-          }
-        });
+        if (luTranslations) {
+          luTranslations.forEach((translation) => {
+            if (
+              preferredLanguage !== null &&
+              translationLU === null &&
+              translation.LanguageId === preferredLanguage
+            ) {
+              translationLU = translation.title;
+            } else if (
+              preferredLanguage === null &&
+              translationLU === null &&
+              translation.LanguageId === course.mainLanguage
+            ) {
+              translationLU = translation.title;
+            }
+          });
+        }
 
-        const knowledgeTypeText = term(contentEntry.knowledgeUnit.kt, preferredLanguage);
-        const mediaTypeText = term(contentEntry.knowledgeUnit.mt, preferredLanguage);
+        if (contentEntry.knowledgeUnit) {
+          const knowledgeTypeText = term(contentEntry.knowledgeUnit.kt, preferredLanguage);
+          const mediaTypeText = term(contentEntry.knowledgeUnit.mt, preferredLanguage);
 
-        const returnObject = {
-          id: contentEntry.id,
-          learningUnit: translationLU,
-          knowledgeUnit: knowledgeTypeText,
-          mediaType: mediaTypeText,
-        };
+          const versions = contentEntry.knowledgeUnit.versions.filter(
+            (versionEntry) => versionEntry.nextId === null,
+          );
 
-        console.error(returnObject);
+          const returnObject = {
+            id: contentEntry.id,
+            learningUnit: translationLU,
+            knowledgeUnit: knowledgeTypeText,
+            mediaType: mediaTypeText,
+            version:
+              versions.length === 0
+                ? {
+                    id: null,
+                    text: 'Latest',
+                  }
+                : {
+                    id: versions[0].id,
+                    text: 'Update available',
+                  },
+          };
 
-        return returnObject;
+          return returnObject;
+        }
+
+        return null;
       }),
     );
   }, [course, course.users, course.content, user]);
@@ -158,7 +177,18 @@ const CourseContent = (props) => {
                     <TableCell>{row.learningUnit ?? 'n/a'}</TableCell>
                     <TableCell>{row.knowledgeUnit ?? 'n/a'}</TableCell>
                     <TableCell>{row.mediaType ?? 'n/a'}</TableCell>
-                    <TableCell>{row.version ?? 'n/a'}</TableCell>
+                    <TableCell>
+                      {row.version?.text ?? 'n/a'}
+                      {row.version?.id !== null && (
+                        <IconButton
+                          onClick={() => {
+                            console.error('UPDATE NOW');
+                          }}
+                        >
+                          <CachedOutlined />
+                        </IconButton>
+                      )}
+                    </TableCell>
                     <TableCell align="right">
                       <span>test</span>
                     </TableCell>

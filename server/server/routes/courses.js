@@ -304,6 +304,10 @@ router.get('/:id', async (req, res) => {
               as: 'knowledgeUnit',
               include: [
                 {
+                  as: 'versions',
+                  model: models.KnowledgeUnit,
+                },
+                {
                   as: 'msr',
                   model: models.Taxonomy,
                   attributes: ['id', 'type'],
@@ -485,6 +489,44 @@ router.get('/:id/content', async (req, res) => {
 
   // load the
   res.json(units);
+});
+
+router.get('/:id/content/:contentId/update', async (req, res) => {
+  const courses = await models.Course.findAll({
+    where: {
+      id: req.params.id,
+    },
+    include: [
+      {
+        model: models.CourseUser,
+        as: 'users',
+      },
+      {
+        model: models.CourseContent,
+        as: 'content',
+      },
+      {
+        model: models.CourseSequence,
+        as: 'sequences',
+        include: [
+          {
+            model: models.CourseSequenceKnowledgeUnit,
+            as: 'units',
+          },
+        ],
+      },
+    ],
+  });
+
+  if (courses[0] === undefined || courses[0] === null) {
+    res.status(404).json({
+      message: 'entry not found',
+    });
+    return;
+  }
+
+  // load the
+  res.json([]);
 });
 
 router.patch('/:id', hasCapability('edit_course'), async (req, res) => {

@@ -1,13 +1,14 @@
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.bulkInsert('KnowledgeUnits', [
     {
-      //LearningUnitId 1 is hard codes in the client as homepage
       Id: 1,
       LearningUnitId: 1,
       UserId: 1,
       mediaType: 3,
       visiblePublic: true,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      rootId: 1,
+      nextId: 3,
     },
     {
       Id: 2,
@@ -15,6 +16,15 @@ module.exports = {
       UserId: 1,
       visiblePublic: false,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    {
+      Id: 3,
+      LearningUnitId: 1,
+      UserId: 1,
+      mediaType: 3,
+      visiblePublic: true,
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      rootId: 1,
     },
   ], {}),
   down: (queryInterface) => queryInterface.bulkDelete('KnowledgeUnits', {
