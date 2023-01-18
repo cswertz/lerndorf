@@ -44,6 +44,17 @@ export const coursesFetchContentFailed = (error, errors) => ({
   errors,
 });
 
+export const coursesUpdateContentSuccess = (item) => ({
+  type: types.COURSES_CONTENT_UPDATE_SUCCESS,
+  item,
+});
+
+export const coursesUpdateContentFailed = (error, errors) => ({
+  type: types.COURSES_CONTENT_UPDATE_FAILED,
+  error,
+  errors,
+});
+
 export const coursesCreateSuccess = (item) => ({
   type: types.COURSES_CREATE_SUCCESS,
   item,
@@ -312,6 +323,29 @@ export const courseFetchContent = (id, history) => async (dispatch) =>
     })
     .catch((error) => {
       dispatch(coursesFetchContentFailed(error));
+      return error;
+    });
+
+export const courseFetchContentUpdate = (id, contentId, history) => async (dispatch) =>
+  fetch(`/api/courses/${id}/content/${contentId}/update`, {
+    method: 'Get',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json) {
+        if (!json.error) {
+          dispatch(coursesUpdateContentSuccess(json));
+        }
+      }
+      return json;
+    })
+    .catch((error) => {
+      dispatch(coursesUpdateContentFailed(error));
       return error;
     });
 
