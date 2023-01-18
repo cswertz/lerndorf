@@ -13,8 +13,8 @@ import {
   NavigateNext,
   ArrowDownward,
   ArrowUpward,
-  EditIcon,
 } from '@material-ui/icons/index';
+import EditIcon from '@material-ui/icons/Edit';
 import { Field, reduxForm } from 'redux-form';
 import { renderSelect, renderTextField } from '@utils/forms';
 import Table from '@material-ui/core/Table';
@@ -42,7 +42,6 @@ function AddSequenceToCourse(props) {
   const {
     actions,
     course,
-    courseUser,
     onConfirm,
     okBtnText,
     history,
@@ -105,10 +104,18 @@ function AddSequenceToCourse(props) {
   }, [okBtnText]);
 
   useEffect(() => {
+    if (itemList) {
+      setLeftList(itemList);
+    }
+
+    if (itemName) {
+      setFormState({ name: itemName });
+    }
+
     setCourseContent(
       (course?.content ?? []).map((contentEntry) => {
         const luTranslations = contentEntry.knowledgeUnit?.LearningUnit?.Translations;
-        const preferredLanguage = user.user?.preferredLanguage;
+        const preferredLanguage = user?.preferredLanguage;
 
         let translationLU = null;
 
@@ -166,7 +173,7 @@ function AddSequenceToCourse(props) {
         return null;
       }),
     );
-  }, [course, course.users, course.content, user]);
+  }, [open, itemList, itemName, user?.preferredLanguage, course?.content, course?.mainLanguage]);
 
   const isSelected = (selection, id) => selection.indexOf(id) !== -1;
 
@@ -236,7 +243,7 @@ function AddSequenceToCourse(props) {
   return (
     <>
       <IconButton aria-label="Add content" onClick={openDialog}>
-        {itemId ? <EditIcon /> : <Add />}
+        {itemList && itemId ? <EditIcon /> : <Add />}
       </IconButton>
       <Dialog
         fullScreen
@@ -261,10 +268,9 @@ function AddSequenceToCourse(props) {
                     label="Name of micromodel"
                     helperText="Define the name for the micromodel"
                     component={renderTextField}
-                    initialValues={itemName ?? null}
+                    initialValue={itemName}
                     onChange={(e) => {
                       setFormState(Object.assign(formState, { name: e.target.value }));
-                      console.error(formState);
                     }}
                   />
                 </FormControl>

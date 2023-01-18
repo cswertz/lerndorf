@@ -27,6 +27,7 @@ import { term } from '@utils/taxonomy';
 import { IconButton } from '../../../node_modules/@material-ui/core/index';
 import { CachedOutlined } from '../../../node_modules/@material-ui/icons/index';
 import AddSequenceToCourse from './AddSequenceToCourse';
+import DeleteCourseSequence from './DeleteCourseSequence';
 
 const CourseSequences = (props) => {
   const {
@@ -114,16 +115,44 @@ const CourseSequences = (props) => {
                   <TableRow key={`row-${row.id}`}>
                     <TableCell>{row.name ?? 'n/a'}</TableCell>
                     <TableCell align="right">
-                      {JSON.stringify(row)}
-                      <AddSequenceToCourse
-                        key={`sequence-edit-${row.id}`}
-                        user={user}
-                        course={course}
-                        actions={actions}
-                        handleSubmit={(sequenceDetail) => {
-                          console.error(sequenceDetail);
-                        }}
-                      />
+                      {((adminUsers.indexOf(user.user?.id) > -1 && adminUsers.length > 1) ||
+                        row?.roleSlug !== 'trainer') && (
+                        <AddSequenceToCourse
+                          key={`sequence-edit-${row.id}`}
+                          user={user}
+                          course={course}
+                          actions={actions}
+                          okBtnText="Update"
+                          itemId={row.id}
+                          itemName={row.name}
+                          itemList={row.list}
+                          initialValues={row}
+                          handleSubmit={(sequenceDetail) => {
+                            actions
+                              .courseSequenceUpdate(
+                                course.id,
+                                row.id,
+                                sequenceDetail.name,
+                                sequenceDetail.list,
+                              )
+                              .then((result) => {
+                                actions.courseFetchSingle(course.id);
+                              });
+                          }}
+                        />
+                      )}
+                      {((adminUsers.indexOf(user.user?.id) > -1 && adminUsers.length > 1) ||
+                        row?.roleSlug !== 'trainer') && (
+                        <DeleteCourseSequence
+                          sequence={row}
+                          course={course}
+                          actions={actions}
+                          user={user.user}
+                          fetch={() => {
+                            actions.courseFetchSingle(course.id);
+                          }}
+                        />
+                      )}
                     </TableCell>
                   </TableRow>
                 );

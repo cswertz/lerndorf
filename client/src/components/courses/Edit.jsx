@@ -386,11 +386,10 @@ const Edit = ({
               <Grid container spacing={0} className={classes.marginTop}>
                 <Grid xs={12} className={classes.full} align="right">
                   <AddSequenceToCourse
-                    user={user}
+                    user={user.user}
                     course={initialValues}
                     actions={actions}
                     handleSubmit={(sequenceDetail) => {
-                      console.error(sequenceDetail);
                       actions
                         .courseSequenceAdd(
                           initialValues.id,

@@ -101,6 +101,7 @@ const Sidebar = () => {
       {isDasboardPage && <MainMenu />}
 
       <div className={classes.bottom}>
+        {topics}
         {/* {!isDasboardPage && user.loggedIn && <Filter className={classes.filter} />} */}
       </div>
     </Drawer>

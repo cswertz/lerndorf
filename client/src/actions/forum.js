@@ -98,6 +98,27 @@ export const forumPublicThreadsFetch = () => async (dispatch) =>
       dispatch(forumItemsFetchFailed(error));
     });
 
+export const forumPublicThreadsFetchForCourse = (courseId) => async (dispatch) =>
+  fetch(`/api/courses/${courseId}/forum`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json) {
+        if (!json.error) {
+          dispatch(forumItemsFetchSuccess(json));
+        }
+      }
+    })
+    .catch((error) => {
+      dispatch(forumItemsFetchFailed(error));
+    });
+
 export const forumPublicThreadsStatsFetch = () => async (dispatch) =>
   fetch('/api/threads/stats', {
     method: 'GET',

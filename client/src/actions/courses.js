@@ -440,6 +440,30 @@ export const courseContentRemove = (id, contentId, history) => async (dispatch) 
       return error;
     });
 
+export const courseSequenceUpdate = (id, sequenceId, name, list, history) => async (dispatch) =>
+  fetch(`/api/courses/${id}/sequences/${sequenceId}`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({ name, list }),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json) {
+        if (!json.error) {
+          dispatch(coursesAddSequenceSuccess(json));
+        }
+      }
+      return json;
+    })
+    .catch((error) => {
+      dispatch(coursesAddSequenceFailed(error));
+      return error;
+    });
+
 export const courseSequenceAdd = (id, name, list, history) => async (dispatch) =>
   fetch(`/api/courses/${id}/sequences`, {
     method: 'POST',

@@ -249,7 +249,7 @@ function AddUserToCourse(props) {
 
                       return (
                         <TableRow
-                          key={`row-${row.id}`}
+                          key={`row-user-${row.id}`}
                           scope={row}
                           selected={isItemSelected}
                           onClick={(event) => handleClick(event, row.id)}

@@ -5,8 +5,10 @@ import MyCourses from '../courses/MyCourses';
 import EnroleCourses from '../courses/EnroleCourses';
 import CreateCourse from '../courses/CreateCourse';
 import EditCourse from '../courses/EditCourse';
+import ShowCourse from '../courses/ShowCourse';
+import ShowCourseForum from '../courses/ShowCourseForum';
 
-const CoursesRouter = ({ courses, course, languages, actions, user, roles }) => (
+const CoursesRouter = ({ courses, course, languages, actions, user, roles, forum }) => (
   <>
     <Route
       exact
@@ -33,6 +35,33 @@ const CoursesRouter = ({ courses, course, languages, actions, user, roles }) => 
           course={course}
           languages={languages}
           roles={roles}
+        />
+      )}
+    />
+    <Route
+      exact
+      path="/courses/:id"
+      render={() => (
+        <ShowCourse
+          user={user}
+          actions={actions}
+          course={course}
+          languages={languages}
+          roles={roles}
+        />
+      )}
+    />
+    <Route
+      exact
+      path="/courses/:id/forum"
+      render={() => (
+        <ShowCourseForum
+          user={user}
+          actions={actions}
+          course={course}
+          languages={languages}
+          roles={roles}
+          items={forum ?? []}
         />
       )}
     />

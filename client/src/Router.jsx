@@ -144,6 +144,7 @@ const Router = ({
                 course={course}
                 languages={languages}
                 roles={roles}
+                forum={forum}
               />
             </PrivateRoute>
 
@@ -271,6 +272,7 @@ Router.propTypes = {
     courseContentAdd: PropTypes.func.isRequired,
     courseContentRemove: PropTypes.func.isRequired,
     courseSequenceAdd: PropTypes.func.isRequired,
+    courseSequenceUpdate: PropTypes.func.isRequired,
     courseSequenceRemove: PropTypes.func.isRequired,
     courseFetchSingle: PropTypes.func.isRequired,
     courseUpdateUserConfirmation: PropTypes.func.isRequired,
