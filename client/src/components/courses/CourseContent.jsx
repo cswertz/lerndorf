@@ -23,6 +23,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Switch from '@material-ui/core/Switch';
 import { getComparator, stableSort } from '@utils/table';
 import TableHeadCell from '@components/tables/TableHeadCell';
+import { term } from '@utils/taxonomy';
 import DeleteCourseUser from './DeleteCourseUser';
 
 const CourseContent = (props) => {
@@ -59,14 +60,46 @@ const CourseContent = (props) => {
     .filter((id) => id !== null);
 
   useEffect(() => {
+    console.error('ID', course?.id, course?.content, user);
     setRows(
       (course?.content ?? []).map((contentEntry) => {
-        return {
+        const luTranslations = contentEntry.knowledgeUnit.LearningUnit.Translations;
+        const preferredLanguage = user.user?.preferredLanguage;
+
+        let translationLU = null;
+
+        luTranslations.forEach((translation) => {
+          if (
+            preferredLanguage !== null &&
+            translationLU === null &&
+            translation.LanguageId === preferredLanguage
+          ) {
+            translationLU = translation.title;
+          } else if (
+            preferredLanguage === null &&
+            translationLU === null &&
+            translation.LanguageId === course.mainLanguage
+          ) {
+            translationLU = translation.title;
+          }
+        });
+
+        const knowledgeTypeText = term(contentEntry.knowledgeUnit.kt, preferredLanguage);
+        const mediaTypeText = term(contentEntry.knowledgeUnit.mt, preferredLanguage);
+
+        const returnObject = {
           id: contentEntry.id,
+          learningUnit: translationLU,
+          knowledgeUnit: knowledgeTypeText,
+          mediaType: mediaTypeText,
         };
+
+        console.error(returnObject);
+
+        return returnObject;
       }),
     );
-  }, [course, course.users]);
+  }, [course, course.users, course.content, user]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -86,7 +119,6 @@ const CourseContent = (props) => {
         <Table aria-label="Course users">
           <TableHead>
             <TableRow>
-              <TableCell />
               <TableHeadCell
                 label="Learning Unit"
                 name="learningUnit"

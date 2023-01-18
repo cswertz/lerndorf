@@ -69,7 +69,6 @@ router.post('/', [
     });
     return res.status(200).send(course);
   } catch (err) {
-    console.error(err);
     return res.status(400).send({ msg: 'Unknown issue occurs' });
   }
 });
@@ -303,6 +302,96 @@ router.get('/:id', async (req, res) => {
             {
               model: models.KnowledgeUnit,
               as: 'knowledgeUnit',
+              include: [
+                {
+                  as: 'msr',
+                  model: models.Taxonomy,
+                  attributes: ['id', 'type'],
+                  include: [
+                    {
+                      model: models.TaxonomyLanguage,
+                      attributes: ['LanguageId', 'vocable'],
+                    },
+                  ],
+                },
+                {
+                  as: 'kt',
+                  model: models.Taxonomy,
+                  attributes: ['id', 'type'],
+                  include: [
+                    {
+                      model: models.TaxonomyLanguage,
+                      attributes: ['LanguageId', 'vocable'],
+                    },
+                  ],
+                },
+                {
+                  as: 'cl',
+                  model: models.Taxonomy,
+                  attributes: ['id', 'type'],
+                  include: [
+                    {
+                      model: models.TaxonomyLanguage,
+                      attributes: ['LanguageId', 'vocable'],
+                    },
+                  ],
+                },
+                {
+                  as: 'ot',
+                  model: models.Taxonomy,
+                  attributes: ['id', 'type'],
+                  include: [
+                    {
+                      model: models.TaxonomyLanguage,
+                      attributes: ['LanguageId', 'vocable'],
+                    },
+                  ],
+                },
+                {
+                  as: 'mt',
+                  model: models.Taxonomy,
+                  attributes: ['id', 'type'],
+                  include: [
+                    {
+                      model: models.TaxonomyLanguage,
+                      attributes: ['LanguageId', 'vocable'],
+                    },
+                  ],
+                },
+                {
+                  as: 'el',
+                  model: models.Taxonomy,
+                  attributes: ['id', 'type'],
+                  include: [
+                    {
+                      model: models.TaxonomyLanguage,
+                      attributes: ['LanguageId', 'vocable'],
+                    },
+                  ],
+                },
+                {
+                  as: 'l',
+                  model: models.Taxonomy,
+                  attributes: ['id', 'type'],
+                  include: [
+                    {
+                      model: models.TaxonomyLanguage,
+                      attributes: ['LanguageId', 'vocable'],
+                    },
+                  ],
+                },
+                {
+                  as: 'LearningUnit',
+                  model: models.LearningUnit,
+                  include: [
+                    {
+                      as: 'Translations',
+                      model: models.LearningUnitLanguage,
+                      attributes: ['LanguageId', 'title'],
+                    },
+                  ],
+                },
+              ],
             },
           ],
         },
@@ -598,7 +687,6 @@ router.patch('/:id/users/:userId', async (req, res) => {
 
     return res.status(200).send({ message: req.body.confirm === true ? 'you have confirmed the user' : 'you have disabled the confirmation for the user' });
   } catch (err) {
-    console.error(err);
     return res.status(400).send({ message: 'Error occured while try to set the confirmation status.' });
   }
 });

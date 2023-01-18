@@ -147,12 +147,9 @@ const knowledgeUnitDetailData = {
 };
 
 router.get('/', (req, res) => {
-  models.KnowledgeUnit.findAll({
-    where: {
-      visiblePublic: true,
-    },
-    ...knowledgeUnitDetailData,
-  }).then((results) => res.json(results));
+  const query = knowledgeUnitDetailData;
+  query.where = { visiblePublic: true };
+  models.KnowledgeUnit.findAll(query).then((results) => res.json(results));
 });
 
 router.post('/', [
@@ -183,13 +180,35 @@ router.post('/', [
 });
 
 router.patch('/:id', hasCapability('edit_any_knowledge_unit'), async (req, res) => {
-  const result = await models.KnowledgeUnit.update(req.body, {
-    where: {
-      id: req.params.id,
-    },
-  });
+  try {
+    const ku = await models.KnowledgeUnit.findOne({ where: { id: req.params.id } });
 
-  return res.json(result);
+    console.error(ku);
+
+    if (ku === null || ku === undefined) {
+      // Copy the data + create a new version
+      return res.status(404).send({ error: 'Cannot find the knowledge unit' });
+    }
+
+    const { body } = req;
+    body.UserId = req.user.id;
+    body.LearningUnitId = ku.LearningUnitId;
+    const newKnowledgeUnit = await models.KnowledgeUnit.create(body);
+
+    // Update the old version
+    const updateOld = await models.KnowledgeUnit.update({
+      nextId: newKnowledgeUnit.id,
+    }, {
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    return res.status(200).send(newKnowledgeUnit);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).send({ error: 'Error while updating the knowledge unit' });
+  }
 });
 
 router.get('/taxonomies', async (req, res) => {
