@@ -67,6 +67,7 @@ class CourseList extends Component {
               <IconButton
                 aria-label="Start"
                 onClick={() => {
+                  // eslint-disable-next-line
                   alert('TBD: Unknown behavior');
                 }}
               >

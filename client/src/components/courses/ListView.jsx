@@ -63,6 +63,7 @@ const ListView = ({ actions, rows, user, headline, fetchData, hideAdd, columns }
             <IconButton
               aria-label="Start"
               onClick={() => {
+                // eslint-disable-next-line
                 alert('TBD: Unknown behavior');
               }}
             >

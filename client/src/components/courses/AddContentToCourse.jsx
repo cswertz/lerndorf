@@ -174,6 +174,7 @@ function AddContentToCourse(props) {
       filteredEntries = filteredEntries.filter((entry) => entry.visibleCourses === true);
     }
     setRowsFiltered(filteredEntries);
+    // eslint-disable-next-line
   }, [searchTerm, selectedFilter]);
 
   return (
