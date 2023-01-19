@@ -52,8 +52,6 @@ class ShowCourseForum extends Component {
   render() {
     const { user, items, history, actions, course } = this.props;
 
-    console.error(items);
-
     return (
       <>
         <Typography variant="subtitle">{course ? course.item?.title : 'n/A'} </Typography>

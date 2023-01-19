@@ -31,8 +31,6 @@ class KnowledgeUnitsList extends Component {
       (item) => item.LearningUnitId === parseInt(match.params.id, 10),
     );
 
-    console.error(itemsToRender, items.items);
-
     return (
       <>
         {itemsToRender.map((item) => {

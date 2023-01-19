@@ -78,8 +78,6 @@ class EditCourse extends Component {
       );
     }
 
-    console.error(course);
-
     return <>{content}</>;
   }
 }

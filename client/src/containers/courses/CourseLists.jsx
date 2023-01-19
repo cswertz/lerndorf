@@ -21,6 +21,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { PlayArrow, Assignment, Add, HourglassEmptySharp } from '@material-ui/icons/index';
 import { Grid } from '@material-ui/core/index';
 import DeleteCourse from '@components/courses/DeleteCourse';
+import AddCourseToCourselist from '@components/courses/AddCourseToCourselist';
 
 const styles = () => ({
   languageList: {
@@ -40,6 +41,7 @@ class CourseList extends Component {
 
   fetchData() {
     const { actions, history } = this.props;
+    actions.coursesFetchAll();
     actions.courseListsFetch().catch((err) => {
       if (err.cause === 403) {
         history.push('/errors/403');
@@ -50,18 +52,19 @@ class CourseList extends Component {
   }
 
   render() {
-    const { user, courses, actions } = this.props;
+    const { user, courselists, courses, actions } = this.props;
+
+    console.error(courses);
 
     let courseItems = [];
-    if (courses.items?.length > 0) {
-      courseItems = courses.items.map((row) => (
+    if (courselists.items?.length > 0) {
+      courseItems = courselists.items.map((row) => (
         <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
           <TableCell component="th" scope="row">
-            <Link to={`/courses/${row.id}`}>
+            <Link to={`/courses/lists/${row.id}`}>
               {row.shortTitle && row.shortTitle.length > 0 ? row.shortTitle : row.title}
             </Link>
           </TableCell>
-          <TableCell align="left">{row?.currentUserRole}</TableCell>
           <TableCell align="right">
             {row?.playButtonState?.state === 'active' && (
               <IconButton
@@ -95,7 +98,7 @@ class CourseList extends Component {
 
     return (
       <>
-        <Typography variant="h1">Courselists</Typography>
+        <Typography variant="h1">All course lists</Typography>
         <TableContainer>
           <Table aria-label="My courses">
             <TableHead>
@@ -112,9 +115,16 @@ class CourseList extends Component {
         <Grid container spacing={2}>
           <Grid item xs={12} md={6} spacing={2} align="right">
             {hasCapability(user.capabilities, ['manage_course_lists']) && (
-              <IconButton aria-label="Create" component={Link} to="/courses/create">
-                <Add />
-              </IconButton>
+              <AddCourseToCourselist
+                user={user.user}
+                actions={actions}
+                courses={courses}
+                initialValues={{ title: '' }}
+                itemName=""
+                handleSubmit={(details) => {
+                  console.error(details);
+                }}
+              />
             )}
           </Grid>
         </Grid>

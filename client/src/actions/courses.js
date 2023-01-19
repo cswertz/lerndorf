@@ -165,6 +165,27 @@ export const coursesUserRemoveFailed = (error, errors) => ({
   errors,
 });
 
+export const coursesFetchAll = () => async (dispatch) =>
+  fetch('/api/courses', {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json) {
+        if (!json.error) {
+          dispatch(coursesFetchSuccess(json));
+        }
+      }
+    })
+    .catch((error) => {
+      dispatch(coursesFetchFailed(error));
+    });
+
 export const coursesFetchMy = () => async (dispatch) =>
   fetch('/api/courses/my', {
     method: 'GET',

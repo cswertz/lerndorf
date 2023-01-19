@@ -20,6 +20,7 @@ const CoursesRouter = ({
   forum,
   threads,
   courselist,
+  courselists,
 }) => (
   <>
     <Route
@@ -30,7 +31,9 @@ const CoursesRouter = ({
     <Route
       exact
       path="/courses/lists"
-      render={() => <CourseLists user={user} actions={actions} courses={courses} />}
+      render={() => (
+        <CourseLists user={user} actions={actions} courses={courses} courselists={courselists} />
+      )}
     />
     <Route
       exact

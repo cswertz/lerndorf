@@ -22,9 +22,9 @@ export const courseListFetchFailed = (error, errors) => ({
   errors,
 });
 
-export const courseListRemoveSuccess = (items) => ({
+export const courseListRemoveSuccess = (item) => ({
   type: types.COURSE_LIST_REMOVE_SUCCESS,
-  items,
+  item,
 });
 
 export const courseListRemoveFailed = (error, errors) => ({
@@ -60,6 +60,7 @@ export const courseListsFetch = (history) => async (dispatch) =>
           dispatch(courseListsFetchSuccess(json));
         }
       }
+      console.error('RESULT', json);
       return json;
     })
     .catch((error) => {
