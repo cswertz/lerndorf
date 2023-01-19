@@ -72,9 +72,13 @@ const user = (state = initialState, action) => {
       let capabilities = action.roles.Roles.map((role) =>
         role.Capabilities.map((capability) => capability.slug),
       );
-      capabilities = [].concat(...capabilities);
 
-      return { ...state, fetchingRoles: false, fetchedRoles: true, capabilities };
+      let roles = action.roles.Roles.map((role) => role.slug);
+
+      capabilities = [].concat(...capabilities);
+      roles = [].concat(...roles);
+
+      return { ...state, fetchingRoles: false, fetchedRoles: true, capabilities, roles };
     }
 
     case USER_REGISTER_SUCCESS: {

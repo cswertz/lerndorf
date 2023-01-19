@@ -32,6 +32,7 @@ const knowledgeUnitDetailData = {
     'suitableDeaf',
     'suitableBlind',
     'LearningUnitId',
+    'nextId',
   ],
   include: [
     {
@@ -147,25 +148,9 @@ const knowledgeUnitDetailData = {
 };
 
 router.get('/', (req, res) => {
-  models.KnowledgeUnit.findAll({
-    where: {
-      visiblePublic: true,
-    },
-    attributes: [
-      'id',
-      'createdAt',
-    ],
-    include: [
-      {
-        model: models.User,
-        attributes: [
-          'id',
-          'username',
-        ],
-      },
-    ],
-  })
-    .then((results) => res.json(results));
+  const query = knowledgeUnitDetailData;
+  query.where = { visiblePublic: true, nextId: null };
+  models.KnowledgeUnit.findAll(query).then((results) => res.json(results));
 });
 
 router.post('/', [
@@ -196,13 +181,66 @@ router.post('/', [
 });
 
 router.patch('/:id', hasCapability('edit_any_knowledge_unit'), async (req, res) => {
-  const result = await models.KnowledgeUnit.update(req.body, {
-    where: {
-      id: req.params.id,
-    },
-  });
+  try {
+    const ku = await models.KnowledgeUnit.findOne({
+      where: { id: req.params.id },
+      include: [
+        {
+          as: 'Texts',
+          where: {
+            nextId: null,
+          },
+          required: false,
+          model: models.Text,
+          attributes: ['id', 'content', 'nextId', 'prevId', 'rootId', 'LanguageId'],
+          include: [
+            {
+              model: models.Language,
+              attributes: ['id', 'code', 'name'],
+            },
+          ],
+        },
+      ],
+    });
 
-  return res.json(result);
+    if (ku === null || ku === undefined) {
+      // Copy the data + create a new version
+      return res.status(404).send({ error: 'Cannot find the knowledge unit' });
+    }
+
+    const { body } = req;
+    body.rootId = ku.id;
+    body.UserId = req.user.id;
+    body.LearningUnitId = ku.LearningUnitId;
+    const newKnowledgeUnit = await models.KnowledgeUnit.create(body);
+
+    // Update the old version
+    const updateOld = await models.KnowledgeUnit.update({
+      rootId: ku.id,
+      nextId: newKnowledgeUnit.id,
+    }, {
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    // Duplicate the related text entries
+    for (let i = 0; i < ku.Texts.length; i += 1) {
+      const textEntry = await models.Text.create({
+        nextId: null,
+        rootId: null,
+        prevId: null,
+        KnowledgeUnitId: newKnowledgeUnit.id,
+        LanguageId: ku.Texts[i].LanguageId,
+        content: ku.Texts[i].content,
+      });
+    }
+
+    return res.status(200).send(newKnowledgeUnit);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).send({ error: 'Error while updating the knowledge unit' });
+  }
 });
 
 router.get('/taxonomies', async (req, res) => {

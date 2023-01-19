@@ -51,12 +51,26 @@ class Course extends Model {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         notEmpty: true,
+        defaultValue: true,
+      },
+
+      activateForum: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        notEmpty: true,
+        defaultValue: true,
       },
 
       access: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         notEmpty: true,
+      },
+
+      visible: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
 
       copyAllowed: {

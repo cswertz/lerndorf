@@ -25,7 +25,21 @@ router.get('/', (req, res) => {
       ['updatedAt', 'DESC'],
     ],
   })
-    .then((results) => res.json(results));
+    .then((results) => {
+      res.status(200).send(results);
+    });
+});
+
+router.get('/stats', (req, res) => {
+  models.Thread.findAll({
+    where: {
+      courseId: null,
+    },
+    order: [
+      ['updatedAt', 'DESC'],
+    ],
+  })
+    .then((results) => res.json({ amount: results.length }));
 });
 
 router.get('/:id', isCreatorOrInCourse(models), async (req, res) => {

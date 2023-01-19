@@ -39,8 +39,6 @@ class KnowledgeUnitsEdit extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    console.log('Update');
-
     const { history, handleSubmit, match } = this.props;
 
     const { id } = match.params;

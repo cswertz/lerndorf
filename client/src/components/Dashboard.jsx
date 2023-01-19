@@ -11,6 +11,7 @@ import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 
 import Card from '@components/UI/Card';
+import { useEffect, useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {},
@@ -50,9 +51,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = () => {
+const Dashboard = (props) => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
+
+  const [myCourses, setMyCourses] = useState(0);
+  const [threads, setThreads] = useState(0);
+
+  const { actions } = props;
+
+  useEffect(() => {
+    actions.coursesFetchMyStats().then((result) => {
+      setMyCourses(result.amount);
+    });
+    actions.forumPublicThreadsStatsFetch().then((result) => {
+      setThreads(result.amount);
+    });
+  });
 
   return (
     <div className={classes.wrapper}>
@@ -75,10 +90,10 @@ const Dashboard = () => {
       <div className={classes.cards}>
         <Card
           icon={<SchoolOutlinedIcon />}
-          count={2}
+          count={myCourses}
           title="Meine Kurse"
           component={Link}
-          to="/learning-units"
+          to="/courses/my"
         />
 
         <Card
@@ -99,7 +114,7 @@ const Dashboard = () => {
 
         <Card
           icon={<ChatBubbleOutlineIcon />}
-          count={4}
+          count={threads}
           title="Threads"
           component={Link}
           to="/threads"

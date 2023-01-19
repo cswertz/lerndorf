@@ -4,6 +4,7 @@ const roleCapabilities = [
   {
     role: 'admin',
     capabilities: [
+      'list_user',
       'edit_user',
       'delete_user',
       'add_admin_role_to_user',
@@ -44,6 +45,11 @@ const roleCapabilities = [
       'edit_threads',
       'edit_own_threads',
       'view_threads',
+      'create_course',
+      'enrole_course',
+      'edit_course',
+      'delete_course',
+      'leave_course',
       'create_threads',
     ],
   },
@@ -63,6 +69,8 @@ const roleCapabilities = [
       'edit_own_threads',
       'view_threads',
       'create_threads',
+      'enrole_course',
+      'leave_course',
     ],
   },
   {
@@ -70,6 +78,13 @@ const roleCapabilities = [
     capabilities: [
       'set_knowledge_unit_lectored',
       'delete_editor_role_from_user',
+      'create_course',
+      'enrole_course',
+      'edit_course',
+      'delete_course',
+      'leave_course',
+      'create_threads',
+      'delete_self',
     ],
   },
   {
@@ -78,12 +93,41 @@ const roleCapabilities = [
       'delete_lector_role_from_user',
       'set_knowledge_unit_lectored',
       'set_knowledge_unit_reviewed',
+      'create_course',
+      'enrole_course',
+      'edit_course',
+      'delete_course',
+      'leave_course',
+      'create_threads',
+      'delete_self',
     ],
   },
   {
     role: 'researcher',
     capabilities: [
       'view_user_logs',
+    ],
+  },
+  {
+    role: 'trainer',
+    capabilities: [
+      'create_course',
+      'enrole_course',
+      'edit_course',
+      'delete_course',
+      'leave_course',
+      'delete_self',
+    ],
+  },
+  {
+    role: 'tutor',
+    capabilities: [
+      'create_course',
+      'enrole_course',
+      'edit_course',
+      'delete_course',
+      'leave_course',
+      'delete_self',
     ],
   },
 ];

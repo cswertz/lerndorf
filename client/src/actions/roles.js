@@ -50,6 +50,7 @@ export const rolesFetch = () => (dispatch) =>
           dispatch(rolesFetchSuccess(json));
         }
       }
+      return json;
     })
     .catch((error) => {
       console.log('Error while fetching roles:', error);

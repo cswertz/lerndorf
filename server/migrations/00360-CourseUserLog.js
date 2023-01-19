@@ -19,6 +19,17 @@ export default {
       onDelete: 'cascade',
     },
 
+    courseSequenceId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      notEmpty: true,
+      references: {
+        model: 'CourseSequence',
+        key: 'id',
+      },
+      onDelete: 'cascade',
+    },
+
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -53,11 +64,11 @@ export default {
       allowNull: false,
     },
   }, {
-      uniqueKeys: {
-        CourseUserLog: {
-          fields: ['courseId', 'userId', 'KnowledgeUnitId']
-        }
-    }
+    uniqueKeys: {
+      CourseUserLog: {
+        fields: ['courseId', 'userId', 'KnowledgeUnitId']
+      },
+    },
   }),
-  down: queryInterface => queryInterface.dropTable('UserRole'),
+  down: (queryInterface) => queryInterface.dropTable('UserRole'),
 };

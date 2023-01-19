@@ -13,6 +13,7 @@ import user from './user';
 import logs from './logs';
 import forum from './forum';
 import thread from './thread';
+import { course, courses } from './courses';
 
 const lerndorfApp = combineReducers({
   form: formReducer,
@@ -28,6 +29,8 @@ const lerndorfApp = combineReducers({
   logs,
   forum,
   thread,
+  courses,
+  course,
 });
 
 export default lerndorfApp;

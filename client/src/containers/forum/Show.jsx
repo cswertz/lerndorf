@@ -41,7 +41,6 @@ class ForumThread extends Component {
 
   handleAddPost(e, data) {
     const { history, actions, match } = this.props;
-    console.warn('TEST');
     e.preventDefault();
     actions
       .forumThreadFetchAddAnswer(match?.params?.id, data, history)

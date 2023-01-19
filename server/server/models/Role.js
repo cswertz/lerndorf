@@ -30,6 +30,7 @@ class Role extends Model {
     Role.belongsToMany(sequelize.Capability, { through: 'RoleCapability' });
     Role.belongsToMany(sequelize.LogUser, { through: 'LogUserRole' });
     Role.belongsToMany(sequelize.Language, { through: 'RoleLanguage' });
+    Role.hasOne(sequelize.RoleLanguage, { foreignKey: 'RoleId' });
   }
 }
 

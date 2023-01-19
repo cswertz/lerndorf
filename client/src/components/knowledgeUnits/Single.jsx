@@ -43,13 +43,13 @@ const KnowledgeUnitsShowPaper = ({
   unit,
 }) => {
   let texts = '';
-  if (unit.Texts) {
+  if (unit?.Texts) {
     texts = unit.Texts.map((text) => <Single key={text.id} text={text} link />);
   }
   const languageId = user.user.preferredLanguage || 1;
 
   return (
-    <Paper key={unit.id} className={classes.paper}>
+    <Paper key={unit?.id} className={classes.paper}>
       <div className={classes.root}>
         <Grid item xs={12}>
           <Typography variant="h1">

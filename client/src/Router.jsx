@@ -13,13 +13,13 @@ import RoutesUsers from '@containers/routes/users';
 import RoutesTexts from '@containers/routes/texts';
 import RoutesLogs from '@containers/routes/logs';
 import RouterForums from '@containers/routes/forum';
+import RouterCourses from '@containers/routes/courses';
 import Wrapper from '@components/UI/Wrapper';
 import Dashboard from '@components/Dashboard';
 import Login from '@containers/users/Login';
 import Register from '@containers/users/Register';
 import Activate from '@containers/users/Activate';
 import Content from '@components/Content';
-import CreateCourse from '@components/courses/Create';
 import ErrorPage from '@containers/errors/ErrorPage';
 
 const Router = ({
@@ -36,6 +36,8 @@ const Router = ({
   logs,
   forum,
   thread,
+  courses,
+  course,
 }) => {
   return (
     <Switch>
@@ -63,23 +65,13 @@ const Router = ({
       <Route path="/">
         <Wrapper>
           <Switch>
-            <Route path="/" exact>
-              {/* show specific content page (welcome) */}
-              <Content id={1} />
-            </Route>
-
-            <PrivateRoute path="/dashboard" exact>
-              <Dashboard />
+            <PrivateRoute path="/" exact>
+              <Dashboard actions={actions} />
             </PrivateRoute>
 
-            <Route path="/course/create" exact>
-              <CreateCourse />
-            </Route>
-
-            <Route path="/course/:id" exact>
-              {/* <Course /> */}
-              <div>Course WIP</div>
-            </Route>
+            <PrivateRoute path="/dashboard" exact>
+              <Dashboard actions={actions} />
+            </PrivateRoute>
 
             <Route path="/content/:id" exact>
               <Content />
@@ -142,6 +134,18 @@ const Router = ({
 
             <PrivateRoute path="/threads">
               <RouterForums user={user} actions={actions} forum={forum} thread={thread} />
+            </PrivateRoute>
+
+            <PrivateRoute path="/courses">
+              <RouterCourses
+                user={user}
+                actions={actions}
+                courses={courses}
+                course={course}
+                languages={languages}
+                roles={roles}
+                forum={forum}
+              />
             </PrivateRoute>
 
             <Route path="/errors/403" exact>
@@ -232,6 +236,16 @@ Router.propTypes = {
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
+  courses: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
+  course: PropTypes.shape({
+    item: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   thread: PropTypes.shape({
     item: PropTypes.shape({}).isRequired,
     id: PropTypes.shape({}).isRequired,
@@ -245,9 +259,27 @@ Router.propTypes = {
     removeCapability: PropTypes.func.isRequired,
     addCapability: PropTypes.func.isRequired,
     forumPublicThreadsFetch: PropTypes.func.isRequired,
+    forumPublicThreadsStatsFetch: PropTypes.func.isRequired,
     forumThreadFetch: PropTypes.func.isRequired,
     forumThreadFetchAddAnswer: PropTypes.func.isRequired,
     forumThreadUpdate: PropTypes.func.isRequired,
+    coursesFetchMy: PropTypes.func.isRequired,
+    coursesFetchMyStats: PropTypes.func.isRequired,
+    courseEnroleTo: PropTypes.func.isRequired,
+    courseDelete: PropTypes.func.isRequired,
+    courseCreate: PropTypes.func.isRequired,
+    courseUpdate: PropTypes.func.isRequired,
+    courseContentAdd: PropTypes.func.isRequired,
+    courseContentRemove: PropTypes.func.isRequired,
+    courseSequenceAdd: PropTypes.func.isRequired,
+    courseSequenceUpdate: PropTypes.func.isRequired,
+    courseSequenceRemove: PropTypes.func.isRequired,
+    courseFetchSingle: PropTypes.func.isRequired,
+    courseUpdateUserConfirmation: PropTypes.func.isRequired,
+    courseUserRemove: PropTypes.func.isRequired,
+    courseUserAdd: PropTypes.func.isRequired,
+    courseFetchContent: PropTypes.func.isRequired,
+    courseFetchContentUpdate: PropTypes.func.isRequired,
     languagesDelete: PropTypes.func.isRequired,
     languagesFetch: PropTypes.func.isRequired,
     languagesEdit: PropTypes.func.isRequired,
@@ -320,6 +352,8 @@ const mapStateToProps = (state) => ({
   logs: state.logs,
   forum: state.forum,
   thread: state.thread,
+  courses: state.courses,
+  course: state.course,
 });
 
 const mapDispatchToProps = (dispatch) => ({

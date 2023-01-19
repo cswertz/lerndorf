@@ -21,7 +21,7 @@ const styles = () => ({
   },
 });
 
-const ForumList = ({ classes, user, posts, history, onDeleteConfirm }) => {
+const ForumList = ({ classes, user, posts, history, onDeleteConfirm, course }) => {
   let threads = null;
   if (posts.length > 0) {
     threads = posts.map((item) => (
@@ -74,9 +74,18 @@ const ForumList = ({ classes, user, posts, history, onDeleteConfirm }) => {
   return (
     <div>
       <Typography variant="h1" className={classes.subtitle}>
-        Forum
-        {hasCapability(user.capabilities, ['create_threads']) && (
+        Forum {course}
+        {hasCapability(user.capabilities, ['create_threads']) && course?.id === null && (
           <IconButton aria-label="Create" component={Link} to="/threads/create">
+            <AddComment />
+          </IconButton>
+        )}
+        {hasCapability(user.capabilities, ['create_threads']) && course?.id && (
+          <IconButton
+            aria-label="Create"
+            component={Link}
+            to={`/courses/${course.id}/forum/create`}
+          >
             <AddComment />
           </IconButton>
         )}

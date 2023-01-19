@@ -2,6 +2,16 @@ import models from '../server/config/sequelize';
 
 const capabilityLanguages = [
   {
+    slug: 'list_user',
+    language: 'en',
+    vocable: 'list users',
+  },
+  {
+    slug: 'list_user',
+    language: 'de',
+    vocable: 'BenutzerInnenkonten suchen',
+  },
+  {
     slug: 'edit_user',
     language: 'en',
     vocable: 'edit accounts',
@@ -325,6 +335,16 @@ const capabilityLanguages = [
     slug: 'delete_threads',
     language: 'en',
     vocable: 'delete any thread',
+  },
+  {
+    slug: 'enrole_course',
+    language: 'en',
+    vocable: 'enrole a course',
+  },
+  {
+    slug: 'create_course',
+    language: 'en',
+    vocable: 'create a course',
   },
 ];
 

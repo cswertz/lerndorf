@@ -43,9 +43,16 @@ class CourseUser extends Model {
         notEmpty: true,
       },
 
+      enrolmentConfirmation: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        notEmpty: true,
+        default: false,
+      },
+
       sequenceId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'CourseSequence',
           key: 'id',
@@ -61,6 +68,7 @@ class CourseUser extends Model {
   static associate(sequelize) {
     CourseUser.belongsTo(sequelize.Course, { as: 'course', foreignKey: 'courseId' });
     CourseUser.belongsTo(sequelize.User, { as: 'user', foreignKey: 'userId' });
+    CourseUser.belongsTo(sequelize.Role, { as: 'role', foreignKey: 'roleId' });
   }
 }
 

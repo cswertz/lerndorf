@@ -5,6 +5,8 @@ import models from '../server/config/sequelize';
 import server from '../server';
 import { up } from '../seeders/00020-Users';
 
+const moment = require('moment');
+
 chai.should();
 chai.use(chaiHttp);
 const agent = chai.request.agent(server);
@@ -53,6 +55,34 @@ describe('Threads', () => {
                 res.should.have.status(200);
                 res.body.should.be.a('array');
                 expect(res.body.length).to.equal(threads.length);
+                done();
+              });
+          });
+      }).catch((rr) => {
+        console.error(rr);
+      });
+    });
+  });
+
+  describe('GET /api/threads/stats', () => {
+    it('it should return a counter for the threads', (done) => {
+      models.Thread.findAll({
+        where: {
+          courseId: null,
+        },
+      }).then((threads) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .get('/api/threads/stats')
+              .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                expect(res.body.amount).to.equal(1);
                 done();
               });
           });

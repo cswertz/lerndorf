@@ -28,7 +28,11 @@ module.exports = {
     }, ['id'])
       .then((result) => {
         const user = result;
-        console.error(result);
+
+        if (user === null) {
+          return;
+        }
+
         return queryInterface.rawSelect('Roles', {
           where: {
             slug: 'user',

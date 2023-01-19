@@ -1,6 +1,12 @@
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.bulkInsert('Capabilities', [
     {
+      slug: 'list_user',
+      name: 'List User',
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    {
       slug: 'edit_user',
       name: 'Edit User',
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
@@ -243,6 +249,36 @@ module.exports = {
     {
       slug: 'delete_threads',
       name: 'Delete threads',
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    {
+      slug: 'enrole_course',
+      name: 'Join a course',
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    {
+      slug: 'leave_course',
+      name: 'Leave a course',
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    {
+      slug: 'create_course',
+      name: 'Create a course',
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    {
+      slug: 'edit_course',
+      name: 'Edit a course',
+      createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    {
+      slug: 'delete_course',
+      name: 'Delete a course',
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
     },

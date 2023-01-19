@@ -54,6 +54,17 @@ class LogUser extends Model {
         onDelete: 'cascade',
       },
 
+      CourseSequenceId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        notEmpty: false,
+        references: {
+          model: 'Courses',
+          key: 'id',
+        },
+        onDelete: 'cascade',
+      },
+
       mode: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -81,6 +92,7 @@ class LogUser extends Model {
     // LogUser.belongsTo(sequelize.Course, { foreignKey: 'CourseId' });
     LogUser.belongsTo(sequelize.LearningUnit, { foreignKey: 'LearningUnitId' });
     LogUser.belongsTo(sequelize.KnowledgeUnit, { foreignKey: 'KnowledgeUnitId' });
+    LogUser.belongsTo(sequelize.CourseSequence, { foreignKey: 'CourseSequenceId' });
 
     LogUser.belongsToMany(sequelize.Role, { through: 'LogUserLearningUnit' });
     LogUser.belongsToMany(sequelize.Role, { through: 'LogUserRole' });

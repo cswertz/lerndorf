@@ -1,5 +1,5 @@
 import chaiHttp from 'chai-http';
-import chai from 'chai';
+import chai, { expect } from 'chai';
 
 import models from '../server/config/sequelize';
 import server from '../server';
@@ -360,6 +360,63 @@ describe('KnowledgeUnit', () => {
               done();
             });
         });
+    });
+  });
+
+  describe('PATCH /api/knowledgeUnits/:id', () => {
+    it('should duplicate the knowledge unit (new version)', (done) => {
+      models.KnowledgeUnit.findAll().then((kus) => {
+        agent
+          .post('/api/users/login')
+          .send(admin)
+          .end(() => {
+            agent
+              .patch(`/api/knowledgeUnits/${kus[kus.length - 1].id}`)
+              .send({
+                LearningUnitId: learningUnits[0].id,
+              })
+              .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                res.body.id.should.not.be.eql(kus[kus.length - 1].id);
+                res.body.rootId.should.be.eql(kus[kus.length - 1].id);
+                
+                done();
+              });
+          });
+      });
+    });
+    it('should duplicate the knowledge unit related texts also', (done) => {
+      models.KnowledgeUnit.findAll().then((kus) => {
+        models.Text.create({
+           rootId: null,
+           prevId: null,
+           content: '<p>test</p>',
+           KnowledgeUnitId: kus[kus.length - 1].id,
+           LanguageId: 1,
+        }).then((kuTextToBeCopied) => {
+          agent
+            .post('/api/users/login')
+            .send(admin)
+            .end(() => {
+              agent
+                .patch(`/api/knowledgeUnits/${kus[kus.length - 1].id}`)
+                .send({
+                  LearningUnitId: learningUnits[0].id,
+                })
+                .end((err, res) => {
+                  res.should.have.status(200);
+                  res.body.should.be.a('object');
+
+                  models.Text.findAll({ where: { KnowledgeUnitId: res.body.id }}).then((newTexts) => {
+                    expect(newTexts.length).to.equal(1);
+                    done();
+                  });
+                  
+                });
+            });
+        });
+      });
     });
   });
 });

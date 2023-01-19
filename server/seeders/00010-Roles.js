@@ -25,6 +25,18 @@ const roles = [
     slug: 'researcher',
     name: 'Researcher',
   },
+  {
+    slug: 'trainer',
+    name: 'Trainer',
+  },
+  {
+    slug: 'tutor',
+    name: 'Tutor',
+  },
+  {
+    slug: 'learner',
+    name: 'Learner',
+  },
 ];
 
 export default {

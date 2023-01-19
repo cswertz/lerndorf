@@ -51,6 +51,7 @@ export const knowledgeUnitsFetch = () => (dispatch) =>
           dispatch(knowledgeUnitsFetchSuccess(json));
         }
       }
+      return json;
     })
     .catch((error) => {
       console.log('Error while fetching knowledge units:', error);
@@ -144,13 +145,10 @@ export const knowledgeUnitsEdit = (id, data, history) => (dispatch) =>
     .then((response) => response.json())
     .then((json) => {
       if (json) {
-        if (json.error) {
-          // dispatch(knowledgeUnitsEditFailed(json.error, json.errors));
-        } else {
-          dispatch(knowledgeUnitsEditSuccess());
-          history.push(`/knowledge-units/show/${id}`);
-        }
+        dispatch(knowledgeUnitsEditSuccess());
+        history.push(`/knowledge-units/show/${json.id}`);
       }
+      return json;
     })
     .catch((error) => {
       console.log('Error while editing knowledge unit:', error);
@@ -197,6 +195,7 @@ export const knowledgeUnitsMarkReviewed = (id) => (dispatch) =>
           dispatch(knowledgeUnitsEditSuccess());
         }
       }
+      return json;
     })
     .catch((error) => {
       console.log('Error while editing knowledge unit:', error);
@@ -220,6 +219,7 @@ export const knowledgeUnitsMarkLectored = (id) => (dispatch) =>
           dispatch(knowledgeUnitsEditSuccess());
         }
       }
+      return json;
     })
     .catch((error) => {
       console.log('Error while editing knowledge unit:', error);

@@ -15,6 +15,7 @@ module.exports = {
       mainLanguage: 1,
       createdAt: Sequelize.literal('CURRENT_TIMESTAMP'),
       updatedAt: Sequelize.literal('CURRENT_TIMESTAMP'),
+      visible: true,
     },
   ], {}),
 

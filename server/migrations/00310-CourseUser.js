@@ -41,8 +41,14 @@ export default {
     },
 
     enrolment: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIME,
       allowNull: false,
+    },
+
+    enrolmentConfirmation: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
 
     createdAt: {
@@ -55,11 +61,11 @@ export default {
       allowNull: false,
     },
   }, {
-      uniqueKeys: {
-        CourseUser_unique: {
-          fields: ['courseId', 'userId', 'roleId']
-        }
-    }
+    uniqueKeys: {
+      CourseUser_unique: {
+        fields: ['courseId', 'userId', 'roleId'],
+      },
+    },
   }),
-  down: queryInterface => queryInterface.dropTable('CourseUser'),
+  down: (queryInterface) => queryInterface.dropTable('CourseUser'),
 };

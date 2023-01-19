@@ -48,6 +48,16 @@ export default {
       onDelete: 'cascade',
     },
 
+    CourseSequenceId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'CourseSequence',
+        key: 'id',
+      },
+      onDelete: 'cascade',
+    },
+
     mode: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -67,9 +67,9 @@ router.get('/activate/:hash', (req, res) => {
 });
 
 /* User management */
-router.get('/', hasCapability('edit_user'), (req, res) => {
+router.get('/', hasCapability('list_user'), (req, res) => {
   models.User.findAll({
-    attributes: ['id', 'username'],
+    attributes: ['id', 'username', 'picture', 'firstName', 'lastName', 'studyId', 'city', 'country'],
   })
     .then((results) => res.json(results));
 });
@@ -234,7 +234,6 @@ router.delete('/:id', isSelfOrHasCapability('delete_user'), async (req, res) => 
   const { id } = req.params;
 
   const lastAdmin = await isLastAdmin(id);
-  console.error('LASTADMIN:', lastAdmin);
 
   // Last admin can not be deleted
   if (!lastAdmin) {

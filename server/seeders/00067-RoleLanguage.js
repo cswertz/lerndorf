@@ -61,6 +61,36 @@ const roleLanguages = [
     language: 'de',
     vocable: 'ForscherIn',
   },
+  {
+    slug: 'tutor',
+    language: 'en',
+    vocable: 'Tutor',
+  },
+  {
+    slug: 'tutor',
+    language: 'de',
+    vocable: 'Tutor',
+  },
+  {
+    slug: 'trainer',
+    language: 'en',
+    vocable: 'Trainer',
+  },
+  {
+    slug: 'trainer',
+    language: 'de',
+    vocable: 'TrainerIn',
+  },
+  {
+    slug: 'learner',
+    language: 'en',
+    vocable: 'Learner',
+  },
+  {
+    slug: 'learner',
+    language: 'de',
+    vocable: 'Lerner/Lernende',
+  },
 ];
 
 module.exports = {
@@ -75,15 +105,20 @@ module.exports = {
         },
         attributes: ['id'],
       });
-      const languageId = resultLanguage.id;
+      const languageId = resultLanguage !== null ? resultLanguage.id : null;
 
       const resultRole = await models.Role.findOne({
         where: {
-          slug: slug,
+          slug,
         },
-        attributes: ['id']
+        attributes: ['id'],
       });
-      const roleId = resultRole.id;
+      const roleId = resultRole != null ? resultRole.id : null;
+
+      if (roleId === null || languageId === null) {
+        console.error('Invalid role or language id', roleLanguages[i]);
+        return;
+      }
 
       translations.push({
         RoleId: roleId,

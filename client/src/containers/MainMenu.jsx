@@ -36,29 +36,18 @@ const MainMenu = () => {
 
   return (
     <List className={classes.root} component="nav" aria-labelledby="nested-list">
-      <ListItem button divider component={Link} to="/knowledge-units">
-        <ListItemText primary="Knowledge base" />
-        <ArrowRightIcon />
-      </ListItem>
+      {/* <ListItem button divider component={Link} to="/knowledge-units">
+            <ListItemText primary="Knowledge base" />
+            <ArrowRightIcon />
+      </ListItem> */}
 
-      <ListItem button divider component={Link} to="/learning-units">
+      <ListItem button divider component={Link} to="/courses/my">
         <ListItemText primary="My Courses" />
         <ArrowRightIcon />
       </ListItem>
 
-      {/* <ListItem button divider component={Link} to="/learning-units">
-        <ListItemText primary="Meine Aufgaben" />
-        <ArrowRightIcon />
-      </ListItem> */}
-
-      {/* <ListItem button divider component={Link} to="/messages">
-        <StyledBadge badgeContent={4}>
-          <ListItemText primary="Meine Nachrichten" />
-        </StyledBadge>
-      </ListItem> */}
-
-      <ListItem button divider component={Link} to="/content/1">
-        <ListItemText primary="Meine Inhalte" />
+      <ListItem button divider component={Link} to="/learning-units">
+        <ListItemText primary="Learning Units" />
         <ArrowRightIcon />
       </ListItem>
 
