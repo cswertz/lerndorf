@@ -38,6 +38,8 @@ const Router = ({
   thread,
   courses,
   course,
+  courselists,
+  courselist,
 }) => {
   return (
     <Switch>
@@ -142,6 +144,8 @@ const Router = ({
                 actions={actions}
                 courses={courses}
                 course={course}
+                courselists={courselists}
+                courselist={courselist}
                 languages={languages}
                 roles={roles}
                 forum={forum}
@@ -242,6 +246,16 @@ Router.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   course: PropTypes.shape({
+    item: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
+  courselists: PropTypes.shape({
+    items: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
+  courselist: PropTypes.shape({
     item: PropTypes.shape({}).isRequired,
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,

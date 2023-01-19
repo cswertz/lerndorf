@@ -60,7 +60,7 @@ const Show = ({ title, languages, actions, user, roles, course }) => {
 
   return (
     <div className={classes.wrapper}>
-      {course.item.activateForum && <Link to={`/courses/${course.item.id}/forum`}>Forum</Link>}
+      {course?.item.activateForum && <Link to={`/courses/${course.item.id}/forum`}>Forum</Link>}
     </div>
   );
 };

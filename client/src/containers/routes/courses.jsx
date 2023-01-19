@@ -8,8 +8,19 @@ import EditCourse from '../courses/EditCourse';
 import ShowCourse from '../courses/ShowCourse';
 import ShowCourseForum from '../courses/ShowCourseForum';
 import CourseLists from '../courses/CourseLists';
+import CourseList from '../courses/CourseList';
 
-const CoursesRouter = ({ courses, course, languages, actions, user, roles, forum, threads }) => (
+const CoursesRouter = ({
+  courses,
+  course,
+  languages,
+  actions,
+  user,
+  roles,
+  forum,
+  threads,
+  courselist,
+}) => (
   <>
     <Route
       exact
@@ -20,6 +31,11 @@ const CoursesRouter = ({ courses, course, languages, actions, user, roles, forum
       exact
       path="/courses/lists"
       render={() => <CourseLists user={user} actions={actions} courses={courses} />}
+    />
+    <Route
+      exact
+      path="/courses/lists/:id"
+      render={() => <CourseList user={user} actions={actions} courselist={courselist} />}
     />
     <Route
       exact

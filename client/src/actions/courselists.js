@@ -11,13 +11,13 @@ export const courseListsFetchFailed = (error, errors) => ({
   errors,
 });
 
-export const courseListFetchSuccess = (items) => ({
-  type: types.COURSE_ITEM_FETCH_SUCCESS,
-  items,
+export const courseListFetchSuccess = (item) => ({
+  type: types.COURSE_LIST_FETCH_SUCCESS,
+  item,
 });
 
 export const courseListFetchFailed = (error, errors) => ({
-  type: types.COURSE_ITEM_FETCH_FAILED,
+  type: types.COURSE_LIST_FETCH_FAILED,
   error,
   errors,
 });
@@ -78,6 +78,7 @@ export const courseListFetch = (id, history) => async (dispatch) =>
   })
     .then((response) => response.json())
     .then((json) => {
+      console.error(json);
       if (json) {
         if (!json.error) {
           dispatch(courseListFetchSuccess(json));

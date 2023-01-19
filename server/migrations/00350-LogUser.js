@@ -77,5 +77,5 @@ export default {
       allowNull: false,
     },
   }),
-  down: queryInterface => queryInterface.dropTable('LogUser'),
+  down: (queryInterface) => queryInterface.dropTable('LogUser'),
 };

@@ -8,14 +8,7 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 import { userLogout } from '@actions';
 import AdminMenu from '@components/UI/AdminMenu';
-// import Badge from '@components/UI/Badge';
-
-// const StyledBadge = withStyles(() => ({
-//   badge: {
-//     right: -13,
-//     top: 15,
-//   },
-// }))(Badge);
+import { useEffect, useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,22 +22,48 @@ const MainMenu = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const [courseLists, setCourseLists] = useState([]);
+
   const handleLogout = () => {
     dispatch(userLogout(history));
     history.push('/');
   };
 
+  useEffect(() => {
+    if (courseLists.length > 0) {
+      return;
+    }
+    fetch(`/api/courselists`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        setCourseLists(result);
+      });
+  }, [courseLists]);
+
   return (
     <List className={classes.root} component="nav" aria-labelledby="nested-list">
-      {/* <ListItem button divider component={Link} to="/knowledge-units">
-            <ListItemText primary="Knowledge base" />
-            <ArrowRightIcon />
-      </ListItem> */}
-
       <ListItem button divider component={Link} to="/courses/my">
         <ListItemText primary="My Courses" />
         <ArrowRightIcon />
       </ListItem>
+
+      {courseLists !== undefined &&
+        courseLists.length &&
+        courseLists.map((courseList) => {
+          return (
+            <ListItem button divider component={Link} to={`/courses/lists/${courseList.id}`}>
+              <ListItemText primary={courseList.title} />
+              <ArrowRightIcon />
+            </ListItem>
+          );
+        })}
 
       <ListItem button divider component={Link} to="/learning-units">
         <ListItemText primary="Learning Units" />

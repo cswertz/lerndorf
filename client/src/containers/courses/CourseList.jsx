@@ -2,6 +2,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Component, useState } from 'react';
 import PropTypes from 'prop-types';
 import { hasCapability } from '@utils/user';
+import Show from '@components/forum/Show';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,11 +18,10 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { PlayArrow, Assignment, Add } from '@material-ui/icons/index';
+import { PlayArrow, Assignment, Add, HourglassEmptySharp } from '@material-ui/icons/index';
 import { Grid } from '@material-ui/core/index';
-import Show from '@components/courses/Show';
-
-const moment = require('moment');
+import DeleteCourse from '@components/courses/DeleteCourse';
+import ListView from '@components/courses/ListView';
 
 const styles = () => ({
   languageList: {
@@ -29,73 +29,59 @@ const styles = () => ({
   },
 });
 
-class EditCourse extends Component {
+class CourseList extends Component {
   componentDidMount() {
     const { actions, match } = this.props;
     this.fetchData();
   }
 
   componentDidUpdate() {
-    const { actions, match, history, course } = this.props;
-    if (
-      isNaN(match.params.id) === false &&
-      (course?.item === null ||
-        (course?.item.id !== parseInt(match.params.id, 10) && course.fetched === false))
-    ) {
-      this.fetchData();
-    }
+    const { actions, match } = this.props;
   }
 
   fetchData() {
     const { actions, history, match } = this.props;
-    actions.languagesFetch();
-    actions.rolesFetch();
-    if (isNaN(parseInt(match.params.id, 10))) {
-      return;
-    }
-    actions.courseFetchSingle(match.params.id).catch((err) => {
-      history.push('/courses/my');
+    actions.courseListFetch(match.params.id).catch((err) => {
+      if (err.cause === 403) {
+        history.push('/errors/403');
+      } else if (err.cause === 401) {
+        history.push('/errors/401');
+      }
     });
   }
 
   render() {
-    const { user, courses, course, languages, actions, history, match, state, roles } = this.props;
-
-    let content = null;
-
-    if (course.fetched && course.item?.id === parseInt(match.params.id, 10)) {
-      content = (
-        <>
-          <Typography variant="h1">{course.item.title}</Typography>
-          <Show
+    const { user, courselist, actions } = this.props;
+    console.error(courselist);
+    return (
+      <>
+        {courselist && courselist?.item && (
+          <ListView
+            headline={courselist?.item.title}
+            hideAdd
             user={user}
+            columns={['title']}
+            rows={courselist?.item?.courses}
             actions={actions}
-            roles={roles}
-            languages={languages?.languages ?? []}
-            course={course}
+            fetchData={this.fetchData}
           />
-        </>
-      );
-    }
-
-    console.error(course);
-
-    return <>{content}</>;
+        )}
+      </>
+    );
   }
 }
 
-EditCourse.propTypes = {
+CourseList.propTypes = {
   actions: PropTypes.shape({
-    courseFetchSingle: PropTypes.func.isRequired,
-    courseUpdate: PropTypes.func.isRequired,
+    coursesFetchMy: PropTypes.func.isRequired,
+    coursesFetchMyPossible: PropTypes.func.isRequired,
   }).isRequired,
-  course: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-const EditCourseWithRouter = withRouter(EditCourse);
+const CourseListWithRouter = withRouter(CourseList);
 
-export default EditCourseWithRouter;
+export default CourseListWithRouter;

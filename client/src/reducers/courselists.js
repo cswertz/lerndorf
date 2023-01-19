@@ -1,8 +1,8 @@
 import {
-  COURSES_ITEMS_FETCH_FAILED,
-  COURSES_ITEMS_FETCH_SUCCESS,
-  COURSES_ITEM_FETCH_SUCCESS,
-  COURSES_ITEM_FETCH_FAILED,
+  COURSE_LIST_FETCH_SUCCESS,
+  COURSE_LIST_FETCH_FAILED,
+  COURSE_LISTS_FETCH_SUCCESS,
+  COURSE_LISTS_FETCH_FAILED,
 } from '@actions/constants';
 
 const initialState = {
@@ -17,13 +17,13 @@ const initialStateSingle = {
   item: null,
 };
 
-const courses = (state = initialState, action) => {
+const courselists = (state = initialState, action) => {
   switch (action.type) {
-    case COURSES_ITEMS_FETCH_FAILED: {
+    case COURSE_LISTS_FETCH_FAILED: {
       return { ...state, fetched: true, fetching: false, items: [] };
     }
 
-    case COURSES_ITEMS_FETCH_SUCCESS: {
+    case COURSE_LISTS_FETCH_SUCCESS: {
       return { ...state, fetched: true, fetching: false, items: action.items };
     }
 
@@ -32,19 +32,14 @@ const courses = (state = initialState, action) => {
   }
 };
 
-const course = (state = initialStateSingle, action) => {
+const courselist = (state = initialStateSingle, action) => {
   switch (action.type) {
-    case COURSES_ITEM_FETCH_FAILED: {
+    case COURSE_LIST_FETCH_FAILED: {
       return { ...state, fetched: true, fetching: false, item: null };
     }
 
-    case COURSES_ITEM_FETCH_SUCCESS: {
+    case COURSE_LIST_FETCH_SUCCESS: {
       const courseItem = action.item;
-      courseItem.enrolmentStart = courseItem.enrolmentStart
-        .toString()
-        .substr(0, 'YYYY-MM-DD'.length);
-      courseItem.enrolmentEnd = courseItem.enrolmentEnd.toString().substr(0, 'YYYY-MM-DD'.length);
-
       return { ...state, fetched: true, fetching: false, item: action.item };
     }
 
@@ -53,4 +48,4 @@ const course = (state = initialStateSingle, action) => {
   }
 };
 
-export { courses, course };
+export { courselists, courselist };

@@ -12,6 +12,7 @@ import TopicsMenu from '@components/UI/TopicsMenu';
 // import Filter from '@components/UI/Filter';
 
 import { navKnowledgeBase, navCourses, navContent } from '@actions/navigations';
+import isDashboardNavCheck from '@utils/navigations';
 
 const drawerWidth = 280;
 
@@ -48,20 +49,7 @@ const Sidebar = () => {
   const location = useLocation();
   // const user = useSelector((state) => state.user);
 
-  const paths = [
-    '',
-    'dashboard',
-    'tasks',
-    'messages',
-    'languages',
-    'taxonomies',
-    'users',
-    'logs',
-    'threads',
-    'errors',
-  ];
-  const isDasboardPage = paths.some((pathName) => location.pathname.includes(pathName));
-
+  const isDasboardPage = isDashboardNavCheck(location);
   const [topics, setTopics] = useState([]);
 
   useEffect(() => {

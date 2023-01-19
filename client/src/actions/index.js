@@ -10,3 +10,4 @@ export * from './user';
 export * from './logs';
 export * from './forum';
 export * from './courses';
+export * from './courselists';

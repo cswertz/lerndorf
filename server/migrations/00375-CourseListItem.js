@@ -1,5 +1,5 @@
 export default {
-  up: (queryInterface, DataTypes) => queryInterface.createTable('CourseLists', {
+  up: (queryInterface, DataTypes) => queryInterface.createTable('CourseListItem', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -29,6 +29,13 @@ export default {
       onDelete: 'cascade',
     },
 
+    orderId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      notEmpty: true,
+      defaultValue: 9999,
+    },
+
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -39,5 +46,5 @@ export default {
       allowNull: false,
     },
   }),
-  down: (queryInterface) => queryInterface.dropTable('CourseListItems'),
+  down: (queryInterface) => queryInterface.dropTable('CourseListItem'),
 };

@@ -13,6 +13,7 @@ import Drawer from '@material-ui/core/Drawer';
 
 import MainMenu from '@containers/MainMenu';
 import TopicsMenu from '@components/UI/TopicsMenu';
+import isDashboardNavCheck from '@utils/navigations';
 
 const useStyles = makeStyles(
   (theme) => ({
@@ -54,8 +55,7 @@ function MenuBar() {
   // const user = useSelector((state) => state.user);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const paths = ['dashboard', 'tasks', 'messages', 'languages', 'taxonomies', 'users', 'logs'];
-  const isDasboardPage = paths.some((pathName) => location.pathname.includes(pathName));
+  const isDasboardPage = isDashboardNavCheck(location);
 
   const toggleDrawer = () => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -123,8 +123,6 @@ function MenuBar() {
               role="menu"
               tabIndex={0}
             >
-              {/* <Toolbar /> */}
-
               {!isDasboardPage && <TopicsMenu />}
               {isDasboardPage && <MainMenu />}
             </div>

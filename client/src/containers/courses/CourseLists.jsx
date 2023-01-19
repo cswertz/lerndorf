@@ -28,7 +28,7 @@ const styles = () => ({
   },
 });
 
-class MyCourses extends Component {
+class CourseList extends Component {
   componentDidMount() {
     const { actions, match } = this.props;
     this.fetchData();
@@ -122,7 +122,7 @@ class MyCourses extends Component {
   }
 }
 
-MyCourses.propTypes = {
+CourseList.propTypes = {
   actions: PropTypes.shape({
     coursesFetchMy: PropTypes.func.isRequired,
     coursesFetchMyPossible: PropTypes.func.isRequired,
@@ -133,6 +133,6 @@ MyCourses.propTypes = {
   }).isRequired,
 };
 
-const MyCoursesWithRouter = withRouter(MyCourses);
+const CourseListWithRouter = withRouter(CourseList);
 
-export default MyCoursesWithRouter;
+export default CourseListWithRouter;
