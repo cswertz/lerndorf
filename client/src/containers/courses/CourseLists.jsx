@@ -113,7 +113,7 @@ class CourseList extends Component {
           </Table>
         </TableContainer>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6} spacing={2} align="right">
+          <Grid item xs={12} spacing={2} align="right">
             {hasCapability(user.capabilities, ['manage_course_lists']) && (
               <AddCourseToCourselist
                 user={user.user}
@@ -122,7 +122,9 @@ class CourseList extends Component {
                 initialValues={{ title: '' }}
                 itemName=""
                 handleSubmit={(details) => {
-                  console.error(details);
+                  actions.courseListAdd(details).then(() => {
+                    this.fetchData();
+                  });
                 }}
               />
             )}

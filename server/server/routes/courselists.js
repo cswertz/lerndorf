@@ -2,8 +2,10 @@ import { check, validationResult } from 'express-validator';
 import express from 'express';
 import models from '../config/sequelize';
 import { attachCommonCourseMetaData } from '../helpers/course_utils';
+import { hasCapability } from '../helpers/auth';
 
 const router = express.Router();
+const moment = require('moment');
 
 router.get('/', (req, res) => {
   models.CourseList.findAll({})
@@ -176,7 +178,63 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.post('/', [hasCapability('manage_course_lists')], async (req, res) => {
+  try {
+    const courselist = await models.CourseList.create({
+      title: req.body.title,
+      createdAt: moment().toDate(),
+      updatedAt: moment().toDate(),
+    });
+
+    for (let i = 0; i < req.body.list.length; i += 1) {
+      await models.CourseListItem.create({
+        courseListId: courselist.id,
+        courseId: req.body.list[i],
+        orderId: i,
+        createdAt: moment().toDate(),
+        updatedAt: moment().toDate(),
+      });
+    }
+
+    return res.status(200).send({ message: 'List has been created.' });
+  } catch (err) {
+    return res.status(400).send({ error: 'Something went wrong. Please try again.' });
+  }
+});
+
+router.patch('/:id', [hasCapability('manage_course_lists')], async (req, res) => {
+  try {
+    const courselist = await models.CourseList.update({
+      title: req.body.title,
+    }, {
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    await models.CourseList.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    for (let i = 0; i < req.body.list.length; i += 1) {
+      await models.CourseListItem.create({
+        courseListId: courselist.id,
+        courseId: req.body.list[i],
+        orderId: i,
+        createdAt: moment().toDate(),
+        updatedAt: moment().toDate(),
+      });
+    }
+
+    return res.status(200).send({ message: 'List has been created.' });
+  } catch (err) {
+    return res.status(400).send({ error: 'Something went wrong. Please try again.' });
+  }
+});
+
+router.delete('/:id', [hasCapability('manage_course_list')], async (req, res) => {
   try {
     // First delete the list items
     await models.CourseListItem.destroy({

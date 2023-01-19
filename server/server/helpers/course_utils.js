@@ -106,14 +106,14 @@ const attachTrainerInformation = (data, currentUser) => {
 
   if (currentUser !== null && currentUser !== undefined) {
     course.currentUserIsTrainerOrTutor = currentUser !== null && (trainerId === currentUser.id || tutorIds.indexOf(currentUser.id) > -1 || currentUser.roles.indexOf('admin') > -1);
-  }
-  else {
+  } else {
     course.currentUserIsTrainerOrTutor = false;
   }
   return course;
 };
 
-const attachCommonCourseMetaData = (data, user) => data.map((raw) => {
+const attachCommonCourseMetaData = (data, user) => data.filter((raw) => raw !== null).map((raw) => {
+  console.error(raw);
   let entry = raw.dataValues;
   entry = attachUserRoleText(entry, user);
   entry = attachTrainerInformation(entry, user);
