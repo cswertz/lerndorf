@@ -147,6 +147,17 @@ const AdminMenu = () => {
                   <ListItemText primary="Logs" />
                 </ListItem>
               )}
+              {hasCapability(user.capabilities, ['manage_course_lists']) && (
+                <ListItem
+                  button
+                  divider
+                  className={classes.nested}
+                  component={Link}
+                  to="/courses/lists"
+                >
+                  <ListItemText primary="Manage Courselists" />
+                </ListItem>
+              )}
             </List>
           </Collapse>
         </>

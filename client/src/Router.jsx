@@ -280,6 +280,7 @@ Router.propTypes = {
     courseUserAdd: PropTypes.func.isRequired,
     courseFetchContent: PropTypes.func.isRequired,
     courseFetchContentUpdate: PropTypes.func.isRequired,
+    courseListsFetch: PropTypes.func.isRequired,
     languagesDelete: PropTypes.func.isRequired,
     languagesFetch: PropTypes.func.isRequired,
     languagesEdit: PropTypes.func.isRequired,
@@ -354,6 +355,8 @@ const mapStateToProps = (state) => ({
   thread: state.thread,
   courses: state.courses,
   course: state.course,
+  courselists: state.courselists,
+  courselist: state.courselist,
 });
 
 const mapDispatchToProps = (dispatch) => ({
