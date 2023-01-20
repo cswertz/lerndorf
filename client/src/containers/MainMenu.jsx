@@ -55,7 +55,7 @@ const MainMenu = () => {
       </ListItem>
 
       {courseLists !== undefined &&
-        courseLists.length &&
+        courseLists.length > 0 &&
         courseLists.map((courseList) => {
           return (
             <ListItem button divider component={Link} to={`/courses/lists/${courseList.id}`}>

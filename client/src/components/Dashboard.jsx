@@ -62,10 +62,10 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     actions.coursesFetchMyStats().then((result) => {
-      setMyCourses(result.amount);
+      setMyCourses(result?.amount || 0);
     });
     actions.forumPublicThreadsStatsFetch().then((result) => {
-      setThreads(result.amount);
+      setThreads(result?.amount || 0);
     });
   });
 

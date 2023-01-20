@@ -176,7 +176,7 @@ describe('Courses', () => {
           .end((err, res) => {
             res.should.have.status(200);
             session
-              .delete('/api/courselists/999')
+              .delete('/api/courselists/999999')
               .end((err, res) => {
                 res.should.have.status(404);
                 done();
@@ -185,7 +185,11 @@ describe('Courses', () => {
       });
     });
     it('it should delete the courselist', (done) => {
-      models.CourseList.findAll({}).then((lists) => {
+      models.CourseList.create({
+        title: 'Test',
+        createdAt: moment().toDate(),
+        updatedAt: moment().toDate(),
+      }).then((list) => {
         const session = chai.request.agent(server);
         session
           .post('/api/users/login')
@@ -193,7 +197,7 @@ describe('Courses', () => {
           .end((err, res) => {
             res.should.have.status(200);
             session
-              .delete('/api/courselists/1')
+              .delete(`/api/courselists/${list.id}`)
               .end((err, res) => {
                 res.should.have.status(200);
                 done();

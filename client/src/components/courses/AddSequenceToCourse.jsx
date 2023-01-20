@@ -297,7 +297,7 @@ function AddSequenceToCourse(props) {
                       return (
                         <TableRow
                           // eslint-disable-next-line
-                          key={`left-row-${index}`}
+                          key={`left-row-${itemEntry.id}`}
                           scope={itemEntry}
                           selected={isItemSelected}
                           role="checkbox"
@@ -306,7 +306,8 @@ function AddSequenceToCourse(props) {
                           <TableCell
                             onClick={(event) => handleClick(event, 'left', leftSelection, index)}
                           >
-                            {itemEntry.learningUnit}/{itemEntry.knowledgeUnit}/{itemEntry.mediaType}
+                            {itemEntry?.learningUnit}/{itemEntry?.knowledgeUnit}/
+                            {itemEntry?.mediaType}
                           </TableCell>
                           <TableCell align="right">
                             <IconButton

@@ -49,11 +49,12 @@ const Sidebar = () => {
   const location = useLocation();
   // const user = useSelector((state) => state.user);
 
-  const isDasboardPage = isDashboardNavCheck(location);
   const [topics, setTopics] = useState([]);
+  const [isDasboardPage, setIsDashboardPage] = useState(false);
 
   useEffect(() => {
-    if (location.pathname.includes(['knowledge-units/show'])) {
+    setIsDashboardPage(isDashboardNavCheck(location));
+    if (location.pathname.includes(['knowledge-units/'])) {
       navKnowledgeBase().then((result) => {
         setTopics(result);
       });
@@ -84,13 +85,11 @@ const Sidebar = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-
       {!isDasboardPage && <TopicsMenu nav={topics} />}
       {isDasboardPage && <MainMenu />}
 
       <div className={classes.bottom}>
-        {topics}
-        {/* {!isDasboardPage && user.loggedIn && <Filter className={classes.filter} />} */}
+        <></>
       </div>
     </Drawer>
   );

@@ -102,7 +102,7 @@ const Router = ({
               />
             </PrivateRoute>
 
-            <Route path="/learning-units">
+            <PrivateRoute path="/learning-units">
               <RoutesLearningUnits
                 learningUnits={learningUnits}
                 capabilities={capabilities}
@@ -110,9 +110,9 @@ const Router = ({
                 actions={actions}
                 user={user}
               />
-            </Route>
+            </PrivateRoute>
 
-            <Route path="/knowledge-units">
+            <PrivateRoute path="/knowledge-units">
               <RoutesKnowledgeUnits
                 learningUnits={learningUnits}
                 knowledgeUnits={knowledgeUnits}
@@ -121,7 +121,7 @@ const Router = ({
                 actions={actions}
                 user={user}
               />
-            </Route>
+            </PrivateRoute>
 
             <Route path="/texts">
               <RoutesTexts

@@ -18,8 +18,6 @@ const { Op } = models.Sequelize;
 const router = express.Router();
 
 const transformQuery = (learningUnits, currentRequestIsFromAdmin, baseUrl, allowEmpty) => {
-  console.error('TREST');
-
   const responseData = learningUnits.map((learningUnit) => {
     const secondLevelData = [];
 
@@ -290,32 +288,34 @@ router.get('/courses', async (req, res) => {
     ],
   });
 
-  console.error(knowledgeUnits);
-
   res.json(myCourses.map((Course) => {
     const knowledgeIds = Course.sequences.map((sequence) => sequence.units.map((item) => item.knowledgeUnitId)).flat();
 
     const knowledgeTypesForLearningUnit = knowledgeUnits.filter((knowledgeUnit) => {
-      if (KnowledgeUnit.kt != null) {
-        return KnowledgeUnit;
+      if (knowledgeUnit.kt != null) {
+        return knowledgeUnit;
       }
-    }).map((knowledgeUnit) => ({
-      id: knowledgeUnit.kt ? knowledgeUnit.kt.id : null,
-      type: knowledgeUnit.kt ? knowledgeUnit.kt.type : null,
-      title: knowledgeUnit.kt ? knowledgeUnit.kt.TaxonomyLanguages[0].vocable : null,
-      items: knowledgeUnits.filter((KnowledgeUnitForThridLevel) => {
-        if (KnowledgeUnitForThridLevel.mt != null && KnowledgeUnitForThridLevel.kt != null && KnowledgeUnitForThridLevel.kt.type === KnowledgeUnit.kt.type) {
-          return KnowledgeUnitForThridLevel;
-        }
-      }).map((KnowledgeUnitForThridLevel) =>
-      // transfrom the items for the thrid level
-        ({
-          id: KnowledgeUnitForThridLevel ? KnowledgeUnitForThridLevel.id : null,
-          type: KnowledgeUnitForThridLevel ? KnowledgeUnitForThridLevel.type : null,
-          title: KnowledgeUnitForThridLevel && KnowledgeUnitForThridLevel.mt ? KnowledgeUnitForThridLevel.mt.TaxonomyLanguages[0].vocable : null,
-          href: `${baseUrl}${KnowledgeUnitForThridLevel.id}`,
-        })),
-    }));
+    }).map((knowledgeUnit) => {
+      console.error('KT', knowledgeUnit.kt);
+
+      return {
+        id: knowledgeUnit.kt.id,
+        kt: knowledgeUnit.kt.type,
+        title: knowledgeUnit.kt ? knowledgeUnit.kt.TaxonomyLanguages[0].vocable : null,
+        items: knowledgeUnits.filter((KnowledgeUnitForThridLevel) => {
+          if (KnowledgeUnitForThridLevel.mt != null && KnowledgeUnitForThridLevel.kt != null && KnowledgeUnitForThridLevel.kt.type === knowledgeUnit.kt.type) {
+            return KnowledgeUnitForThridLevel;
+          }
+        }).map((KnowledgeUnitForThridLevel) =>
+        // transfrom the items for the thrid level
+          ({
+            id: KnowledgeUnitForThridLevel ? KnowledgeUnitForThridLevel.id : null,
+            type: KnowledgeUnitForThridLevel ? KnowledgeUnitForThridLevel.type : null,
+            title: KnowledgeUnitForThridLevel && KnowledgeUnitForThridLevel.mt ? KnowledgeUnitForThridLevel.mt.TaxonomyLanguages[0].vocable : null,
+            href: `${baseUrl}${KnowledgeUnitForThridLevel.id}`,
+          })),
+      };
+    });
 
     return {
       id: Course.id,

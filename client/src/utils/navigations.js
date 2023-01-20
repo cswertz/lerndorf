@@ -1,5 +1,4 @@
 const paths = [
-  '',
   'dashboard',
   'tasks',
   'messages',
@@ -12,7 +11,13 @@ const paths = [
 ];
 
 const isDashboardNavCheck = (location) => {
-  return paths.some((pathName) => location.pathname.includes(pathName));
+  if (location.pathname === '/') {
+    return true;
+  }
+  return paths.some((pathName) => {
+    const isDashboardRoute = location.pathname.includes(pathName);
+    return isDashboardRoute;
+  });
 };
 
 export default isDashboardNavCheck;

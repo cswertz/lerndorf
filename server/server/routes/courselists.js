@@ -249,11 +249,9 @@ router.patch('/:id', [hasCapability('manage_course_lists')], async (req, res) =>
   }
 });
 
-router.delete('/:id', [hasCapability('manage_course_list')], async (req, res) => {
+router.delete('/:id', [hasCapability('manage_course_lists')], async (req, res) => {
   try {
     const courselist = await models.CourseList.findOne({ where: { id: req.params.id } });
-
-    console.error(courselist);
 
     if (courselist === null || courselist === undefined) {
       return res.status(404).send({ message: 'Cannot find the courselist' });
