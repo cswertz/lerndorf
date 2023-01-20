@@ -8,7 +8,152 @@ const router = express.Router();
 const moment = require('moment');
 
 router.get('/', (req, res) => {
-  models.CourseList.findAll({})
+  models.CourseList.findAll({
+    include: [
+      {
+        model: models.CourseListItem,
+        as: 'items',
+        include: [
+          {
+            model: models.Course,
+            as: 'course',
+            include: [
+              {
+                model: models.CourseUser,
+                as: 'users',
+                include: [
+                  {
+                    model: models.User,
+                    as: 'user',
+                    attributes: ['id', 'firstName', 'lastName', 'email', 'username', 'picture', 'lastLogin'],
+                  },
+                  {
+                    model: models.Role,
+                    as: 'role',
+                  },
+                ],
+              },
+              {
+                model: models.CourseContent,
+                as: 'content',
+                include: [
+                  {
+                    model: models.KnowledgeUnit,
+                    as: 'knowledgeUnit',
+                    include: [
+                      {
+                        as: 'versions',
+                        model: models.KnowledgeUnit,
+                      },
+                      {
+                        as: 'msr',
+                        model: models.Taxonomy,
+                        attributes: ['id', 'type'],
+                        include: [
+                          {
+                            model: models.TaxonomyLanguage,
+                            attributes: ['LanguageId', 'vocable'],
+                          },
+                        ],
+                      },
+                      {
+                        as: 'kt',
+                        model: models.Taxonomy,
+                        attributes: ['id', 'type'],
+                        include: [
+                          {
+                            model: models.TaxonomyLanguage,
+                            attributes: ['LanguageId', 'vocable'],
+                          },
+                        ],
+                      },
+                      {
+                        as: 'cl',
+                        model: models.Taxonomy,
+                        attributes: ['id', 'type'],
+                        include: [
+                          {
+                            model: models.TaxonomyLanguage,
+                            attributes: ['LanguageId', 'vocable'],
+                          },
+                        ],
+                      },
+                      {
+                        as: 'ot',
+                        model: models.Taxonomy,
+                        attributes: ['id', 'type'],
+                        include: [
+                          {
+                            model: models.TaxonomyLanguage,
+                            attributes: ['LanguageId', 'vocable'],
+                          },
+                        ],
+                      },
+                      {
+                        as: 'mt',
+                        model: models.Taxonomy,
+                        attributes: ['id', 'type'],
+                        include: [
+                          {
+                            model: models.TaxonomyLanguage,
+                            attributes: ['LanguageId', 'vocable'],
+                          },
+                        ],
+                      },
+                      {
+                        as: 'el',
+                        model: models.Taxonomy,
+                        attributes: ['id', 'type'],
+                        include: [
+                          {
+                            model: models.TaxonomyLanguage,
+                            attributes: ['LanguageId', 'vocable'],
+                          },
+                        ],
+                      },
+                      {
+                        as: 'l',
+                        model: models.Taxonomy,
+                        attributes: ['id', 'type'],
+                        include: [
+                          {
+                            model: models.TaxonomyLanguage,
+                            attributes: ['LanguageId', 'vocable'],
+                          },
+                        ],
+                      },
+                      {
+                        as: 'LearningUnit',
+                        model: models.LearningUnit,
+                        include: [
+                          {
+                            as: 'Translations',
+                            model: models.LearningUnitLanguage,
+                            attributes: ['LanguageId', 'title'],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                model: models.CourseSequence,
+                as: 'sequences',
+                include: [
+                  {
+                    model: models.CourseSequenceKnowledgeUnit,
+                    as: 'units',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+
+  })
     .then((results) => res.json(results));
 });
 
