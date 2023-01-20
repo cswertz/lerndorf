@@ -54,12 +54,13 @@ class CourseList extends Component {
   render() {
     const { user, courselists, courses, actions } = this.props;
 
-    console.error(courses);
-
     let courseItems = [];
     if (courselists.items?.length > 0) {
       courseItems = courselists.items.map((row) => (
-        <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+        <TableRow
+          key={`list-row-${row.id}`}
+          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+        >
           <TableCell component="th" scope="row">
             <Link to={`/courses/lists/${row.id}`}>
               {row.shortTitle && row.shortTitle.length > 0 ? row.shortTitle : row.title}
@@ -90,7 +91,27 @@ class CourseList extends Component {
               )}
             {(hasCapability(user.roles, ['admin']) ||
               (hasCapability(user.capabilities, ['manage_course_lists']) &&
-                user.user.id === row.trainerId)) && <span>button here</span>}
+                user.user.id === row.trainerId)) && (
+              <AddCourseToCourselist
+                user={user.user}
+                actions={actions}
+                courses={courses}
+                initialValues={row}
+                itemId={row.id}
+                itemName={row.title}
+                itemList={row.items.map((ele) => ele.courseId)}
+                handleSubmit={(details) => {
+                  actions
+                    .courseListUpdate(row.id, {
+                      title: details.title,
+                      list: details.list,
+                    })
+                    .them((result) => {
+                      this.fetchData();
+                    });
+                }}
+              />
+            )}
           </TableCell>
         </TableRow>
       ));

@@ -58,4 +58,148 @@ describe('Courses', () => {
       });
     });
   });
+  describe('PATH /api/courselists/:id', () => {
+    it('it should return update the courselist', (done) => {
+      models.CourseList.findAll({}).then((lists) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .patch('/api/courselists/1')
+              .send({ title: 'test2', list: [1] })
+              .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                expect(res.body.id).not.to.equal(undefined);
+                expect(res.body.title).to.equal('test2');
+                done();
+              });
+          });
+      });
+    });
+    it('it should allow to update the order of the list', (done) => {
+      models.CourseList.findAll({}).then((lists) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .patch('/api/courselists/1')
+              .send({ title: 'test2', list: [1, 1] })
+              .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                expect(res.body.id).not.to.equal(undefined);
+                expect(res.body.items.length).to.equal(2);
+                done();
+              });
+          });
+      });
+    });
+    it('it should return a 403', (done) => {
+      models.CourseList.findAll({}).then((lists) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(user)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .patch('/api/courselists/1')
+              .send({ title: 'test2', list: [1] })
+              .end((err, res) => {
+                res.should.have.status(403);
+                done();
+              });
+          });
+      });
+    });
+    it('it should return a 404', (done) => {
+      models.CourseList.findAll({}).then((lists) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .patch('/api/courselists/999')
+              .send({ title: 'test2', list: [2] })
+              .end((err, res) => {
+                res.should.have.status(404);
+                done();
+              });
+          });
+      });
+    });
+  });
+  describe('DELETE /api/courselists/:id', () => {
+    it('it should return 401', (done) => {
+      models.CourseList.findAll({}).then((lists) => {
+        const session = chai.request.agent(server);
+        session
+          .delete('/api/courselists/1')
+          .end((err, res) => {
+            res.should.have.status(401);
+            done();
+          });
+      });
+    });
+    it('it should return a 403', (done) => {
+      models.CourseList.findAll({}).then((lists) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(user)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .delete('/api/courselists/2')
+              .end((err, res) => {
+                res.should.have.status(403);
+                done();
+              });
+          });
+      });
+    });
+    it('it should return a 404', (done) => {
+      models.CourseList.findAll({}).then((lists) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .delete('/api/courselists/999')
+              .end((err, res) => {
+                res.should.have.status(404);
+                done();
+              });
+          });
+      });
+    });
+    it('it should delete the courselist', (done) => {
+      models.CourseList.findAll({}).then((lists) => {
+        const session = chai.request.agent(server);
+        session
+          .post('/api/users/login')
+          .send(admin)
+          .end((err, res) => {
+            res.should.have.status(200);
+            session
+              .delete('/api/courselists/1')
+              .end((err, res) => {
+                res.should.have.status(200);
+                done();
+              });
+          });
+      });
+    });
+  });
 });

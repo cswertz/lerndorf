@@ -36,6 +36,7 @@ import {
   IconButton,
   MenuItem,
   Select,
+  TextField,
 } from '../../../node_modules/@material-ui/core/index';
 
 function AddCourseToCourselist(props) {
@@ -68,11 +69,10 @@ function AddCourseToCourselist(props) {
   const [leftList, setLeftList] = React.useState([]);
   const [leftSelection, setLeftSelection] = React.useState([]);
   const [rightSelection, setRightSelection] = React.useState([]);
-  const [courseList, setCourseList] = React.useState([]);
 
   const openDialog = () => {
-    setFormState({});
-    setLeftList([]);
+    setFormState(itemName ? { title: itemName } : {});
+    // setLeftList([]);
     setLeftSelection([]);
     setRightSelection([]);
     setOpen(true);
@@ -111,7 +111,7 @@ function AddCourseToCourselist(props) {
     if (itemName) {
       setFormState({ title: itemName });
     }
-  }, [open, itemList, itemName, user?.preferredLanguage, courses]);
+  }, [open, courses, itemList, itemName, itemId]);
 
   const isSelected = (selection, id) => selection.indexOf(id) !== -1;
 
@@ -181,7 +181,7 @@ function AddCourseToCourselist(props) {
   return (
     <>
       <IconButton aria-label="Add a course to the list" onClick={openDialog}>
-        {itemList && itemId ? <EditIcon /> : <Add />}
+        {itemId ? <EditIcon /> : <Add />}
       </IconButton>
       <Dialog
         fullScreen
@@ -199,14 +199,16 @@ function AddCourseToCourselist(props) {
           >
             <Grid container spacing={2}>
               <Grid xs={12} sm={12}>
-                <FormControl style={{ width: 'calc(100% - 30px)', margin: '0 15px' }}>
-                  <Field
-                    required
+                <FormControl
+                  style={{ width: 'calc(100% - 30px)', margin: '0 15px' }}
+                  value={itemName}
+                >
+                  <TextField
+                    id="title"
                     name="title"
                     label="Name of courselist"
                     helperText="Define the name for the course list"
-                    component={renderTextField}
-                    initialValue={itemName}
+                    defaultValue={formState.title}
                     onChange={(e) => {
                       setFormState(Object.assign(formState, { title: e.target.value }));
                     }}
@@ -232,6 +234,7 @@ function AddCourseToCourselist(props) {
                     {leftList.map((id, index) => {
                       const isItemSelected = isSelected(leftSelection, index);
                       const itemEntry = courses.items.filter((course) => course.id === id)[0];
+
                       return (
                         <TableRow
                           // eslint-disable-next-line
@@ -244,7 +247,7 @@ function AddCourseToCourselist(props) {
                           <TableCell
                             onClick={(event) => handleClick(event, 'left', leftSelection, index)}
                           >
-                            {itemEntry.title}
+                            {itemEntry?.title}
                           </TableCell>
                           <TableCell align="right">
                             <IconButton
@@ -349,6 +352,7 @@ AddCourseToCourselist.propTypes = {
 
 const AddCourseToCourselistForms = reduxForm({
   form: 'AddCourseToCourselist',
+  enableReinitialize: true,
 })(AddCourseToCourselist);
 
 export default withStyles({})(AddCourseToCourselistForms);

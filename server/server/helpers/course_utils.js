@@ -113,7 +113,6 @@ const attachTrainerInformation = (data, currentUser) => {
 };
 
 const attachCommonCourseMetaData = (data, user) => data.filter((raw) => raw !== null).map((raw) => {
-  console.error(raw);
   let entry = raw.dataValues;
   entry = attachUserRoleText(entry, user);
   entry = attachTrainerInformation(entry, user);

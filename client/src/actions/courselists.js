@@ -79,7 +79,6 @@ export const courseListFetch = (id, history) => async (dispatch) =>
   })
     .then((response) => response.json())
     .then((json) => {
-      console.error(json);
       if (json) {
         if (!json.error) {
           dispatch(courseListFetchSuccess(json));
@@ -117,7 +116,7 @@ export const courseListRemove = (id, history) => async (dispatch) =>
 
 export const courseListUpdate = (id, body, history) => async (dispatch) =>
   fetch(`/api/courselists/${id}`, {
-    method: 'DELETE',
+    method: 'PATCH',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',

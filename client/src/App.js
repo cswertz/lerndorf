@@ -21,8 +21,6 @@ const persistedReducer = persistReducer(persistConfig, lerndorfApp);
 const store = createStore(persistedReducer, undefined, compose(applyMiddleware(thunkMiddlware)));
 const persistor = persistStore(store);
 
-console.error(store.actions);
-
 const App = () => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>

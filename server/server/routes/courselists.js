@@ -7,150 +7,152 @@ import { hasCapability } from '../helpers/auth';
 const router = express.Router();
 const moment = require('moment');
 
+const queryForCourselist = {
+  model: models.CourseListItem,
+  as: 'items',
+  include: [
+    {
+      model: models.Course,
+      as: 'course',
+      include: [
+        {
+          model: models.CourseUser,
+          as: 'users',
+          include: [
+            {
+              model: models.User,
+              as: 'user',
+              attributes: ['id', 'firstName', 'lastName', 'email', 'username', 'picture', 'lastLogin'],
+            },
+            {
+              model: models.Role,
+              as: 'role',
+            },
+          ],
+        },
+        {
+          model: models.CourseContent,
+          as: 'content',
+          include: [
+            {
+              model: models.KnowledgeUnit,
+              as: 'knowledgeUnit',
+              include: [
+                {
+                  as: 'versions',
+                  model: models.KnowledgeUnit,
+                },
+                {
+                  as: 'msr',
+                  model: models.Taxonomy,
+                  attributes: ['id', 'type'],
+                  include: [
+                    {
+                      model: models.TaxonomyLanguage,
+                      attributes: ['LanguageId', 'vocable'],
+                    },
+                  ],
+                },
+                {
+                  as: 'kt',
+                  model: models.Taxonomy,
+                  attributes: ['id', 'type'],
+                  include: [
+                    {
+                      model: models.TaxonomyLanguage,
+                      attributes: ['LanguageId', 'vocable'],
+                    },
+                  ],
+                },
+                {
+                  as: 'cl',
+                  model: models.Taxonomy,
+                  attributes: ['id', 'type'],
+                  include: [
+                    {
+                      model: models.TaxonomyLanguage,
+                      attributes: ['LanguageId', 'vocable'],
+                    },
+                  ],
+                },
+                {
+                  as: 'ot',
+                  model: models.Taxonomy,
+                  attributes: ['id', 'type'],
+                  include: [
+                    {
+                      model: models.TaxonomyLanguage,
+                      attributes: ['LanguageId', 'vocable'],
+                    },
+                  ],
+                },
+                {
+                  as: 'mt',
+                  model: models.Taxonomy,
+                  attributes: ['id', 'type'],
+                  include: [
+                    {
+                      model: models.TaxonomyLanguage,
+                      attributes: ['LanguageId', 'vocable'],
+                    },
+                  ],
+                },
+                {
+                  as: 'el',
+                  model: models.Taxonomy,
+                  attributes: ['id', 'type'],
+                  include: [
+                    {
+                      model: models.TaxonomyLanguage,
+                      attributes: ['LanguageId', 'vocable'],
+                    },
+                  ],
+                },
+                {
+                  as: 'l',
+                  model: models.Taxonomy,
+                  attributes: ['id', 'type'],
+                  include: [
+                    {
+                      model: models.TaxonomyLanguage,
+                      attributes: ['LanguageId', 'vocable'],
+                    },
+                  ],
+                },
+                {
+                  as: 'LearningUnit',
+                  model: models.LearningUnit,
+                  include: [
+                    {
+                      as: 'Translations',
+                      model: models.LearningUnitLanguage,
+                      attributes: ['LanguageId', 'title'],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          model: models.CourseSequence,
+          as: 'sequences',
+          include: [
+            {
+              model: models.CourseSequenceKnowledgeUnit,
+              as: 'units',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
 router.get('/', (req, res) => {
   models.CourseList.findAll({
     include: [
-      {
-        model: models.CourseListItem,
-        as: 'items',
-        include: [
-          {
-            model: models.Course,
-            as: 'course',
-            include: [
-              {
-                model: models.CourseUser,
-                as: 'users',
-                include: [
-                  {
-                    model: models.User,
-                    as: 'user',
-                    attributes: ['id', 'firstName', 'lastName', 'email', 'username', 'picture', 'lastLogin'],
-                  },
-                  {
-                    model: models.Role,
-                    as: 'role',
-                  },
-                ],
-              },
-              {
-                model: models.CourseContent,
-                as: 'content',
-                include: [
-                  {
-                    model: models.KnowledgeUnit,
-                    as: 'knowledgeUnit',
-                    include: [
-                      {
-                        as: 'versions',
-                        model: models.KnowledgeUnit,
-                      },
-                      {
-                        as: 'msr',
-                        model: models.Taxonomy,
-                        attributes: ['id', 'type'],
-                        include: [
-                          {
-                            model: models.TaxonomyLanguage,
-                            attributes: ['LanguageId', 'vocable'],
-                          },
-                        ],
-                      },
-                      {
-                        as: 'kt',
-                        model: models.Taxonomy,
-                        attributes: ['id', 'type'],
-                        include: [
-                          {
-                            model: models.TaxonomyLanguage,
-                            attributes: ['LanguageId', 'vocable'],
-                          },
-                        ],
-                      },
-                      {
-                        as: 'cl',
-                        model: models.Taxonomy,
-                        attributes: ['id', 'type'],
-                        include: [
-                          {
-                            model: models.TaxonomyLanguage,
-                            attributes: ['LanguageId', 'vocable'],
-                          },
-                        ],
-                      },
-                      {
-                        as: 'ot',
-                        model: models.Taxonomy,
-                        attributes: ['id', 'type'],
-                        include: [
-                          {
-                            model: models.TaxonomyLanguage,
-                            attributes: ['LanguageId', 'vocable'],
-                          },
-                        ],
-                      },
-                      {
-                        as: 'mt',
-                        model: models.Taxonomy,
-                        attributes: ['id', 'type'],
-                        include: [
-                          {
-                            model: models.TaxonomyLanguage,
-                            attributes: ['LanguageId', 'vocable'],
-                          },
-                        ],
-                      },
-                      {
-                        as: 'el',
-                        model: models.Taxonomy,
-                        attributes: ['id', 'type'],
-                        include: [
-                          {
-                            model: models.TaxonomyLanguage,
-                            attributes: ['LanguageId', 'vocable'],
-                          },
-                        ],
-                      },
-                      {
-                        as: 'l',
-                        model: models.Taxonomy,
-                        attributes: ['id', 'type'],
-                        include: [
-                          {
-                            model: models.TaxonomyLanguage,
-                            attributes: ['LanguageId', 'vocable'],
-                          },
-                        ],
-                      },
-                      {
-                        as: 'LearningUnit',
-                        model: models.LearningUnit,
-                        include: [
-                          {
-                            as: 'Translations',
-                            model: models.LearningUnitLanguage,
-                            attributes: ['LanguageId', 'title'],
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                model: models.CourseSequence,
-                as: 'sequences',
-                include: [
-                  {
-                    model: models.CourseSequenceKnowledgeUnit,
-                    as: 'units',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
+      queryForCourselist,
     ],
 
   })
@@ -164,152 +166,11 @@ router.get('/:id', async (req, res) => {
         id: req.params.id,
       },
       include: [
-        {
-          model: models.CourseListItem,
-          as: 'items',
-          include: [
-            {
-              model: models.Course,
-              as: 'course',
-              include: [
-                {
-                  model: models.CourseUser,
-                  as: 'users',
-                  include: [
-                    {
-                      model: models.User,
-                      as: 'user',
-                      attributes: ['id', 'firstName', 'lastName', 'email', 'username', 'picture', 'lastLogin'],
-                    },
-                    {
-                      model: models.Role,
-                      as: 'role',
-                    },
-                  ],
-                },
-                {
-                  model: models.CourseContent,
-                  as: 'content',
-                  include: [
-                    {
-                      model: models.KnowledgeUnit,
-                      as: 'knowledgeUnit',
-                      include: [
-                        {
-                          as: 'versions',
-                          model: models.KnowledgeUnit,
-                        },
-                        {
-                          as: 'msr',
-                          model: models.Taxonomy,
-                          attributes: ['id', 'type'],
-                          include: [
-                            {
-                              model: models.TaxonomyLanguage,
-                              attributes: ['LanguageId', 'vocable'],
-                            },
-                          ],
-                        },
-                        {
-                          as: 'kt',
-                          model: models.Taxonomy,
-                          attributes: ['id', 'type'],
-                          include: [
-                            {
-                              model: models.TaxonomyLanguage,
-                              attributes: ['LanguageId', 'vocable'],
-                            },
-                          ],
-                        },
-                        {
-                          as: 'cl',
-                          model: models.Taxonomy,
-                          attributes: ['id', 'type'],
-                          include: [
-                            {
-                              model: models.TaxonomyLanguage,
-                              attributes: ['LanguageId', 'vocable'],
-                            },
-                          ],
-                        },
-                        {
-                          as: 'ot',
-                          model: models.Taxonomy,
-                          attributes: ['id', 'type'],
-                          include: [
-                            {
-                              model: models.TaxonomyLanguage,
-                              attributes: ['LanguageId', 'vocable'],
-                            },
-                          ],
-                        },
-                        {
-                          as: 'mt',
-                          model: models.Taxonomy,
-                          attributes: ['id', 'type'],
-                          include: [
-                            {
-                              model: models.TaxonomyLanguage,
-                              attributes: ['LanguageId', 'vocable'],
-                            },
-                          ],
-                        },
-                        {
-                          as: 'el',
-                          model: models.Taxonomy,
-                          attributes: ['id', 'type'],
-                          include: [
-                            {
-                              model: models.TaxonomyLanguage,
-                              attributes: ['LanguageId', 'vocable'],
-                            },
-                          ],
-                        },
-                        {
-                          as: 'l',
-                          model: models.Taxonomy,
-                          attributes: ['id', 'type'],
-                          include: [
-                            {
-                              model: models.TaxonomyLanguage,
-                              attributes: ['LanguageId', 'vocable'],
-                            },
-                          ],
-                        },
-                        {
-                          as: 'LearningUnit',
-                          model: models.LearningUnit,
-                          include: [
-                            {
-                              as: 'Translations',
-                              model: models.LearningUnitLanguage,
-                              attributes: ['LanguageId', 'title'],
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-                {
-                  model: models.CourseSequence,
-                  as: 'sequences',
-                  include: [
-                    {
-                      model: models.CourseSequenceKnowledgeUnit,
-                      as: 'units',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
+        queryForCourselist,
       ],
     });
 
     const list = courseList.items.sort((a, b) => {
-      console.error(a, b);
       if (a.orderId < b.orderId) return -1;
       if (a.orderId > b.orderId) return 1;
       return 0;
@@ -349,7 +210,13 @@ router.post('/', [hasCapability('manage_course_lists')], async (req, res) => {
 
 router.patch('/:id', [hasCapability('manage_course_lists')], async (req, res) => {
   try {
-    const courselist = await models.CourseList.update({
+    const courselist = await models.CourseList.findOne({ where: { id: req.params.id }, include: [queryForCourselist] });
+
+    if (courselist === null || courselist === undefined) {
+      return res.status(404).send({ message: 'Cannot find the courselist' });
+    }
+
+    await models.CourseList.update({
       title: req.body.title,
     }, {
       where: {
@@ -357,9 +224,9 @@ router.patch('/:id', [hasCapability('manage_course_lists')], async (req, res) =>
       },
     });
 
-    await models.CourseList.destroy({
+    await models.CourseListItem.destroy({
       where: {
-        id: req.params.id,
+        courseListId: req.params.id,
       },
     });
 
@@ -373,27 +240,39 @@ router.patch('/:id', [hasCapability('manage_course_lists')], async (req, res) =>
       });
     }
 
-    return res.status(200).send({ message: 'List has been created.' });
+    const courselistRefreshed = await models.CourseList.findOne({ where: { id: req.params.id }, include: [queryForCourselist] });
+
+    return res.status(200).send(courselistRefreshed);
   } catch (err) {
+    console.error(err);
     return res.status(400).send({ error: 'Something went wrong. Please try again.' });
   }
 });
 
 router.delete('/:id', [hasCapability('manage_course_list')], async (req, res) => {
   try {
+    const courselist = await models.CourseList.findOne({ where: { id: req.params.id } });
+
+    console.error(courselist);
+
+    if (courselist === null || courselist === undefined) {
+      return res.status(404).send({ message: 'Cannot find the courselist' });
+    }
+
     // First delete the list items
     await models.CourseListItem.destroy({
       where: {
         courseListId: req.params.id,
       },
     });
-    await models.CourseList.destroy({
+    await models.CourseListItem.destroy({
       where: {
-        id: req.params.id,
+        courseListId: req.params.id,
       },
     });
     return res.status(200).send({ message: 'List has been deleted.' });
   } catch (err) {
+    console.error(err);
     return res.status(400).send({ error: 'Something went wrong. Please try again.' });
   }
 });
