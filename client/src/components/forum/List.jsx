@@ -75,11 +75,12 @@ const ForumList = ({ classes, user, posts, history, onDeleteConfirm, course }) =
     <div>
       <Typography variant="h1" className={classes.subtitle}>
         Forum {course}
-        {hasCapability(user.capabilities, ['create_threads']) && course?.id === null && (
-          <IconButton aria-label="Create" component={Link} to="/threads/create">
-            <AddComment />
-          </IconButton>
-        )}
+        {hasCapability(user.capabilities, ['create_threads']) &&
+          (course === null || course === undefined) && (
+            <IconButton aria-label="Create" component={Link} to="/threads/create">
+              <AddComment />
+            </IconButton>
+          )}
         {hasCapability(user.capabilities, ['create_threads']) && course?.id && (
           <IconButton
             aria-label="Create"
