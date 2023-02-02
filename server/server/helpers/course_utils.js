@@ -10,8 +10,12 @@ const attachPlayButtonState = (data, user) => {
     msg: null,
   };
 
+  if (user === null || user === undefined) {
+    return Object.assign(course, { playButtonState });
+  }
+
   const CourseUserEntries = course.users.filter((courseUserEntryItem) => {
-    if (courseUserEntryItem.userId === user.id) {
+    if (user && courseUserEntryItem.userId === user.id) {
       return courseUserEntryItem;
     }
   });
@@ -45,7 +49,7 @@ const attachPlayButtonState = (data, user) => {
 const attachUserRoleText = (data, user) => {
   const course = data;
   const CourseUserEntries = course.users.filter((courseUserEntryItem) => {
-    if (courseUserEntryItem.userId === user.id) {
+    if (user !== undefined && user !== null && courseUserEntryItem.userId === user.id) {
       return courseUserEntryItem;
     }
   });
@@ -73,12 +77,15 @@ const attachTrainerInformation = (data, currentUser) => {
   const course = data;
   let trainerName = 'n/a';
   let trainerId = null;
-  if (CourseUserEntries.length > 0) {
-    trainerName = `${CourseUserEntries[0].user.firstName || ''} ${CourseUserEntries[0].user.lastName || ''}`;
-    if (trainerName === ' ') {
-      trainerName = CourseUserEntries[0].user.username;
+
+  if (currentUser !== null && currentUser !== undefined) {
+    if (CourseUserEntries.length > 0) {
+      trainerName = `${CourseUserEntries[0].user.firstName || ''} ${CourseUserEntries[0].user.lastName || ''}`;
+      if (trainerName === ' ') {
+        trainerName = CourseUserEntries[0].user.username;
+      }
+      trainerId = CourseUserEntries[0].user.id;
     }
-    trainerId = CourseUserEntries[0].user.id;
   }
   course.trainerId = trainerId;
   course.trainerName = trainerName;
@@ -97,11 +104,15 @@ const attachTrainerInformation = (data, currentUser) => {
   course.trainerId = trainerId;
   course.trainerName = trainerName;
 
-  course.currentUserIsTrainerOrTutor = trainerId === currentUser.id || tutorIds.indexOf(currentUser.id) > -1 || currentUser.roles.indexOf('admin') > -1;
+  if (currentUser !== null && currentUser !== undefined) {
+    course.currentUserIsTrainerOrTutor = currentUser !== null && (trainerId === currentUser.id || tutorIds.indexOf(currentUser.id) > -1 || currentUser.roles.indexOf('admin') > -1);
+  } else {
+    course.currentUserIsTrainerOrTutor = false;
+  }
   return course;
 };
 
-const attachCommonCourseMetaData = (data, user) => data.map((raw) => {
+const attachCommonCourseMetaData = (data, user) => data.filter((raw) => raw !== null).map((raw) => {
   let entry = raw.dataValues;
   entry = attachUserRoleText(entry, user);
   entry = attachTrainerInformation(entry, user);

@@ -222,8 +222,6 @@ const isCreatorOrInCourse = (models) => async (req, res, next) => {
       });
     }
 
-    console.error(req.params.id, req.user, entityItem);
-
     return next();
   }
 

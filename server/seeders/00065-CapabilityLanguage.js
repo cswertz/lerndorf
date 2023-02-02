@@ -346,6 +346,16 @@ const capabilityLanguages = [
     language: 'en',
     vocable: 'create a course',
   },
+  {
+    slug: 'manage_course_lists',
+    language: 'en',
+    vocable: 'Manage course lists',
+  },
+  {
+    slug: 'manage_course_lists',
+    language: 'de',
+    vocable: 'Verwaltung der Kurslisten',
+  },
 ];
 
 module.exports = {
@@ -366,7 +376,7 @@ module.exports = {
         where: {
           slug,
         },
-        attributes: ['id']
+        attributes: ['id'],
       });
       const capabilityId = resultCapability.id;
 

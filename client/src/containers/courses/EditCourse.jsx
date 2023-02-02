@@ -64,7 +64,7 @@ class EditCourse extends Component {
             roles={roles}
             languages={languages?.languages ?? []}
             course={course}
-            initialValues={course.item}
+            initialValues={course?.item}
             handleSubmit={(e) => {
               e.preventDefault();
               if (e.target.title.value?.length === 0) {

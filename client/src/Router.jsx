@@ -38,6 +38,8 @@ const Router = ({
   thread,
   courses,
   course,
+  courselists,
+  courselist,
 }) => {
   return (
     <Switch>
@@ -100,7 +102,7 @@ const Router = ({
               />
             </PrivateRoute>
 
-            <Route path="/learning-units">
+            <PrivateRoute path="/learning-units">
               <RoutesLearningUnits
                 learningUnits={learningUnits}
                 capabilities={capabilities}
@@ -108,9 +110,9 @@ const Router = ({
                 actions={actions}
                 user={user}
               />
-            </Route>
+            </PrivateRoute>
 
-            <Route path="/knowledge-units">
+            <PrivateRoute path="/knowledge-units">
               <RoutesKnowledgeUnits
                 learningUnits={learningUnits}
                 knowledgeUnits={knowledgeUnits}
@@ -119,7 +121,7 @@ const Router = ({
                 actions={actions}
                 user={user}
               />
-            </Route>
+            </PrivateRoute>
 
             <Route path="/texts">
               <RoutesTexts
@@ -142,6 +144,8 @@ const Router = ({
                 actions={actions}
                 courses={courses}
                 course={course}
+                courselists={courselists}
+                courselist={courselist}
                 languages={languages}
                 roles={roles}
                 forum={forum}
@@ -246,6 +250,16 @@ Router.propTypes = {
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
+  courselists: PropTypes.shape({
+    items: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
+  courselist: PropTypes.shape({
+    item: PropTypes.shape({}).isRequired,
+    fetching: PropTypes.bool.isRequired,
+    fetched: PropTypes.bool.isRequired,
+  }).isRequired,
   thread: PropTypes.shape({
     item: PropTypes.shape({}).isRequired,
     id: PropTypes.shape({}).isRequired,
@@ -263,6 +277,7 @@ Router.propTypes = {
     forumThreadFetch: PropTypes.func.isRequired,
     forumThreadFetchAddAnswer: PropTypes.func.isRequired,
     forumThreadUpdate: PropTypes.func.isRequired,
+    coursesFetchAll: PropTypes.func.isRequired,
     coursesFetchMy: PropTypes.func.isRequired,
     coursesFetchMyStats: PropTypes.func.isRequired,
     courseEnroleTo: PropTypes.func.isRequired,
@@ -280,6 +295,7 @@ Router.propTypes = {
     courseUserAdd: PropTypes.func.isRequired,
     courseFetchContent: PropTypes.func.isRequired,
     courseFetchContentUpdate: PropTypes.func.isRequired,
+    courseListsFetch: PropTypes.func.isRequired,
     languagesDelete: PropTypes.func.isRequired,
     languagesFetch: PropTypes.func.isRequired,
     languagesEdit: PropTypes.func.isRequired,
@@ -354,6 +370,8 @@ const mapStateToProps = (state) => ({
   thread: state.thread,
   courses: state.courses,
   course: state.course,
+  courselists: state.courselists,
+  courselist: state.courselist,
 });
 
 const mapDispatchToProps = (dispatch) => ({

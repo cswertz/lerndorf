@@ -63,7 +63,6 @@ const CourseUsers = (props) => {
   useEffect(() => {
     setRows(
       course.users.map((userEntry) => {
-        console.error(userEntry.user);
         return {
           id: userEntry.id,
           courseId: userEntry.courseId,

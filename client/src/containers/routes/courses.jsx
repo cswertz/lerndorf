@@ -7,13 +7,38 @@ import CreateCourse from '../courses/CreateCourse';
 import EditCourse from '../courses/EditCourse';
 import ShowCourse from '../courses/ShowCourse';
 import ShowCourseForum from '../courses/ShowCourseForum';
+import CourseLists from '../courses/CourseLists';
+import CourseList from '../courses/CourseList';
 
-const CoursesRouter = ({ courses, course, languages, actions, user, roles, forum }) => (
+const CoursesRouter = ({
+  courses,
+  course,
+  languages,
+  actions,
+  user,
+  roles,
+  forum,
+  threads,
+  courselist,
+  courselists,
+}) => (
   <>
     <Route
       exact
       path="/courses/my"
       render={() => <MyCourses user={user} actions={actions} courses={courses} />}
+    />
+    <Route
+      exact
+      path="/courses/lists"
+      render={() => (
+        <CourseLists user={user} actions={actions} courses={courses} courselists={courselists} />
+      )}
+    />
+    <Route
+      exact
+      path="/courses/lists/:id"
+      render={() => <CourseList user={user} actions={actions} courselist={courselist} />}
     />
     <Route
       exact

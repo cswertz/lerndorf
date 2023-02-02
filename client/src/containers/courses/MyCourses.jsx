@@ -21,6 +21,8 @@ import TableRow from '@material-ui/core/TableRow';
 import { PlayArrow, Assignment, Add, HourglassEmptySharp } from '@material-ui/icons/index';
 import { Grid } from '@material-ui/core/index';
 import DeleteCourse from '@components/courses/DeleteCourse';
+import ListView from '@components/courses/ListView';
+import { course } from '@reducers/courses';
 
 const styles = () => ({
   languageList: {
@@ -50,92 +52,17 @@ class MyCourses extends Component {
   }
 
   render() {
-    const { user, courses, actions } = this.props;
-
-    let courseItems = [];
-    if (courses.items?.length > 0) {
-      courseItems = courses.items.map((row) => (
-        <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-          <TableCell component="th" scope="row">
-            <Link to={`/courses/${row.id}`}>
-              {row.shortTitle && row.shortTitle.length > 0 ? row.shortTitle : row.title}
-            </Link>
-          </TableCell>
-          <TableCell align="left">{row?.currentUserRole}</TableCell>
-          <TableCell align="right">
-            {row?.playButtonState?.state === 'active' && (
-              <IconButton
-                aria-label="Start"
-                onClick={() => {
-                  alert('TBD: Unknown behavior');
-                }}
-              >
-                <PlayArrow />
-              </IconButton>
-            )}
-            {row?.playButtonState?.state === 'inactive' && (
-              <IconButton aria-label="Start" title={row?.playButtonState?.msg}>
-                <HourglassEmptySharp />
-              </IconButton>
-            )}
-            {hasCapability(user.capabilities, ['edit_course']) &&
-              row.currentUserIsTrainerOrTutor === true && (
-                <IconButton aria-label="Edit" component={Link} to={`/courses/${row.id}/edit`}>
-                  <EditIcon />
-                </IconButton>
-              )}
-            {(hasCapability(user.roles, ['admin']) ||
-              (hasCapability(user.capabilities, ['delete_course']) &&
-                user.user.id === row.trainerId)) && (
-              <DeleteCourse
-                user={user.user}
-                course={row}
-                actions={actions}
-                fetch={() => {
-                  this.fetchData();
-                }}
-              />
-            )}
-          </TableCell>
-        </TableRow>
-      ));
-    }
-
+    const { actions, history, courses, user } = this.props;
     return (
       <>
-        <Typography variant="h1">My Courses</Typography>
-        <TableContainer>
-          <Table aria-label="My courses">
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <strong>Title</strong>
-                </TableCell>
-                <TableCell align="left">
-                  <strong>Role</strong>
-                </TableCell>
-                <TableCell align="right" />
-              </TableRow>
-            </TableHead>
-            <TableBody>{courseItems}</TableBody>
-          </Table>
-        </TableContainer>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6} spacing={2}>
-            {hasCapability(user.capabilities, ['enrole_course']) && (
-              <IconButton aria-label="Enrole" component={Link} to="/courses/enrole">
-                <Assignment />
-              </IconButton>
-            )}
-          </Grid>
-          <Grid item xs={12} md={6} spacing={2} align="right">
-            {hasCapability(user.capabilities, ['create_course']) && (
-              <IconButton aria-label="Create" component={Link} to="/courses/create">
-                <Add />
-              </IconButton>
-            )}
-          </Grid>
-        </Grid>
+        <ListView
+          headline="My Courses"
+          hideAdd={false}
+          user={user}
+          rows={courses.items}
+          actions={actions}
+          fetchData={this.fetchData}
+        />
       </>
     );
   }

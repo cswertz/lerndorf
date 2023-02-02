@@ -36,12 +36,13 @@ import {
   IconButton,
   MenuItem,
   Select,
+  TextField,
 } from '../../../node_modules/@material-ui/core/index';
 
-function AddSequenceToCourse(props) {
+function AddCourseToCourselist(props) {
   const {
     actions,
-    course,
+    courses,
     onConfirm,
     okBtnText,
     history,
@@ -60,7 +61,7 @@ function AddSequenceToCourse(props) {
   const [message, setMessage] = React.useState(null);
   const [hasError, setHasError] = React.useState(null);
   const [mode, setMode] = React.useState('confirm');
-  const [okBtn, setOkBtn] = React.useState('Add sequence to course');
+  const [okBtn, setOkBtn] = React.useState('Save courselist');
   const [cancelBtn, setCancelBtn] = React.useState('Cancel');
 
   const [formState, setFormState] = React.useState({});
@@ -68,11 +69,10 @@ function AddSequenceToCourse(props) {
   const [leftList, setLeftList] = React.useState([]);
   const [leftSelection, setLeftSelection] = React.useState([]);
   const [rightSelection, setRightSelection] = React.useState([]);
-  const [courseContent, setCourseContent] = React.useState([]);
 
   const openDialog = () => {
-    setFormState({});
-    setLeftList([]);
+    setFormState(itemName ? { title: itemName } : {});
+    // setLeftList([]);
     setLeftSelection([]);
     setRightSelection([]);
     setOpen(true);
@@ -87,7 +87,7 @@ function AddSequenceToCourse(props) {
     formState.list = leftList;
     setFormState(formState);
 
-    if (formState.name === null || formState.name === undefined || formState.list === undefined) {
+    if (formState.title === null || formState.title === undefined || formState.list === undefined) {
       return;
     }
 
@@ -109,71 +109,9 @@ function AddSequenceToCourse(props) {
     }
 
     if (itemName) {
-      setFormState({ name: itemName });
+      setFormState({ title: itemName });
     }
-
-    setCourseContent(
-      (course?.content ?? []).map((contentEntry) => {
-        const luTranslations = contentEntry.knowledgeUnit?.LearningUnit?.Translations;
-        const preferredLanguage = user?.preferredLanguage;
-
-        let translationLU = null;
-
-        if (luTranslations) {
-          luTranslations.forEach((translation) => {
-            if (
-              preferredLanguage !== null &&
-              translationLU === null &&
-              translation.LanguageId === preferredLanguage
-            ) {
-              translationLU = translation.title;
-            } else if (
-              preferredLanguage === null &&
-              translationLU === null &&
-              translation.LanguageId === course.mainLanguage
-            ) {
-              translationLU = translation.title;
-            }
-          });
-        }
-
-        if (contentEntry.knowledgeUnit) {
-          const knowledgeTypeText = contentEntry.knowledgeUnit.kt
-            ? term(contentEntry.knowledgeUnit.kt, preferredLanguage)
-            : null;
-          const mediaTypeText = contentEntry.knowledgeUnit.mt
-            ? term(contentEntry.knowledgeUnit.mt, preferredLanguage)
-            : null;
-
-          const versions = contentEntry.knowledgeUnit.versions.filter(
-            (versionEntry) => versionEntry.nextId === null,
-          );
-
-          const returnObject = {
-            id: contentEntry.id,
-            courseId: contentEntry.courseId,
-            learningUnit: translationLU,
-            knowledgeUnit: knowledgeTypeText,
-            mediaType: mediaTypeText,
-            version:
-              versions.length === 0
-                ? {
-                    id: null,
-                    text: 'Latest',
-                  }
-                : {
-                    id: versions[0].id,
-                    text: 'Update available',
-                  },
-          };
-
-          return returnObject;
-        }
-
-        return null;
-      }),
-    );
-  }, [open, itemList, itemName, user?.preferredLanguage, course?.content, course?.mainLanguage]);
+  }, [open, courses, itemList, itemName, itemId]);
 
   const isSelected = (selection, id) => selection.indexOf(id) !== -1;
 
@@ -242,8 +180,8 @@ function AddSequenceToCourse(props) {
 
   return (
     <>
-      <IconButton aria-label="Add content" onClick={openDialog}>
-        {itemList && itemId ? <EditIcon /> : <Add />}
+      <IconButton aria-label="Add a course to the list" onClick={openDialog}>
+        {itemId ? <EditIcon /> : <Add />}
       </IconButton>
       <Dialog
         fullScreen
@@ -261,16 +199,18 @@ function AddSequenceToCourse(props) {
           >
             <Grid container spacing={2}>
               <Grid xs={12} sm={12}>
-                <FormControl style={{ width: 'calc(100% - 30px)', margin: '0 15px' }}>
-                  <Field
-                    required
-                    name="name"
-                    label="Name of micromodel"
-                    helperText="Define the name for the micromodel"
-                    component={renderTextField}
-                    initialValue={itemName}
+                <FormControl
+                  style={{ width: 'calc(100% - 30px)', margin: '0 15px' }}
+                  value={itemName}
+                >
+                  <TextField
+                    id="title"
+                    name="title"
+                    label="Name of courselist"
+                    helperText="Define the name for the course list"
+                    defaultValue={formState.title}
                     onChange={(e) => {
-                      setFormState(Object.assign(formState, { name: e.target.value }));
+                      setFormState(Object.assign(formState, { title: e.target.value }));
                     }}
                   />
                 </FormControl>
@@ -293,11 +233,12 @@ function AddSequenceToCourse(props) {
                   <TableBody>
                     {leftList.map((id, index) => {
                       const isItemSelected = isSelected(leftSelection, index);
-                      const itemEntry = courseContent.filter((content) => content.id === id)[0];
+                      const itemEntry = courses.items.filter((course) => course.id === id)[0];
+
                       return (
                         <TableRow
                           // eslint-disable-next-line
-                          key={`left-row-${itemEntry.id}`}
+                          key={`left-row-${index}`}
                           scope={itemEntry}
                           selected={isItemSelected}
                           role="checkbox"
@@ -306,8 +247,7 @@ function AddSequenceToCourse(props) {
                           <TableCell
                             onClick={(event) => handleClick(event, 'left', leftSelection, index)}
                           >
-                            {itemEntry?.learningUnit}/{itemEntry?.knowledgeUnit}/
-                            {itemEntry?.mediaType}
+                            {itemEntry?.title}
                           </TableCell>
                           <TableCell align="right">
                             <IconButton
@@ -356,22 +296,20 @@ function AddSequenceToCourse(props) {
               >
                 <Table>
                   <TableBody>
-                    {courseContent.map((content) => {
-                      const isItemSelected = isSelected(rightSelection, content.id);
+                    {courses.items.map((course) => {
+                      const isItemSelected = isSelected(rightSelection, course.id);
                       return (
                         <TableRow
-                          key={`right-row-${content.id}`}
-                          scope={content}
+                          key={`right-row-${course.id}`}
+                          scope={course}
                           selected={isItemSelected}
                           onClick={(event) =>
-                            handleClick(event, 'right', rightSelection, content.id)
+                            handleClick(event, 'right', rightSelection, course.id)
                           }
                           role="checkbox"
                           style={{ cursor: 'pointer', height: '60px' }}
                         >
-                          <TableCell style={{ height: '60px' }}>
-                            {content.learningUnit}/{content.knowledgeUnit}/{content.mediaType}
-                          </TableCell>
+                          <TableCell style={{ height: '60px' }}>{course.title}</TableCell>
                         </TableRow>
                       );
                     })}
@@ -406,14 +344,15 @@ function AddSequenceToCourse(props) {
   );
 }
 
-AddSequenceToCourse.propTypes = {
+AddCourseToCourselist.propTypes = {
   initialValues: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
 };
 
-const AddSequenceToCourseForms = reduxForm({
-  form: 'AddSequence',
-})(AddSequenceToCourse);
+const AddCourseToCourselistForms = reduxForm({
+  form: 'AddCourseToCourselist',
+  enableReinitialize: true,
+})(AddCourseToCourselist);
 
-export default withStyles({})(AddSequenceToCourseForms);
+export default withStyles({})(AddCourseToCourselistForms);

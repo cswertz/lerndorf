@@ -39,8 +39,8 @@ class EditCourse extends Component {
     const { actions, match, history, course } = this.props;
     if (
       isNaN(match.params.id) === false &&
-      (course.item === null ||
-        (course.item.id !== parseInt(match.params.id, 10) && course.fetched === false))
+      (course?.item === null ||
+        (course?.item.id !== parseInt(match.params.id, 10) && course.fetched === false))
     ) {
       this.fetchData();
     }
@@ -77,8 +77,6 @@ class EditCourse extends Component {
         </>
       );
     }
-
-    console.error(course);
 
     return <>{content}</>;
   }

@@ -12,6 +12,7 @@ import roles from '../routes/roles';
 import logs from '../routes/logs';
 import navigations from '../routes/navigations';
 import courses from '../routes/courses';
+import courselists from '../routes/courselists';
 import threads from '../routes/threads';
 
 const configRoutes = (app) => {
@@ -30,6 +31,7 @@ const configRoutes = (app) => {
   app.use('/api/roles', roles);
   app.use('/api/logs', logs);
   app.use('/api/navigations', navigations);
+  app.use('/api/courselists', courselists);
   app.use('/api/courses', courses);
   app.use('/api/threads', threads);
 };

@@ -24,7 +24,6 @@ const initialState = {
 };
 
 const thread = (state = initialState, action) => {
-  console.warn(action.type);
   switch (action.type) {
     case THREAD_ITEM_FETCH_FAILED: {
       return { ...state, fetched: true, fetching: false, item: {} };

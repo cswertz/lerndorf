@@ -31,6 +31,7 @@ class CourseListItem extends Model {
       orderId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 9999,
       },
 
     }, {
@@ -41,7 +42,7 @@ class CourseListItem extends Model {
 
   static associate(sequelize) {
     CourseListItem.belongsTo(sequelize.CourseList, { as: 'list', foreignKey: 'courseListId' });
-    CourseListItem.hasMany(sequelize.Course, { as: 'course', foreignKey: 'id' });
+    CourseListItem.belongsTo(sequelize.Course, { as: 'course', foreignKey: 'id' });
   }
 }
 
