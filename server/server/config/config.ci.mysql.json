@@ -1,13 +1,14 @@
 {
     "test": {
-      "use_env_variable": false,
+      "use_env_variable": true,
       "operatorsAliases": false,
       "dialect": "mysql",
       "host": "localhost",
       "username": "root",
       "password": "",
       "database": "unittest",
-      "seederStorage": "sequelize"
+      "seederStorage": "sequelize",
+      "logging": false
     }
   }
   

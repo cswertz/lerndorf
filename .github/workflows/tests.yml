@@ -25,7 +25,7 @@ jobs:
         node: [14.21.1]
         database: [sqlite, mysql]
 
-    name: Tests for NodeJS v${{ matrix.node }}
+    name: Tests for NodeJS v${{ matrix.node }} / Database ${{ matrix.database }}
 
     steps:
     - uses: actions/checkout@v3
