@@ -33,7 +33,7 @@ jobs:
       with:
         node-version: ${{ matrix.node }}
     - name: Verify unittest DB exists
-        run: mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'unittest'"
+      run: mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'unittest'"
     - name: Install dependencies
       run: npm ci
     - name: Setup the config js
