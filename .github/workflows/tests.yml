@@ -1,0 +1,44 @@
+name: tests
+
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ master, dev ]
+
+jobs:
+  site:
+
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/live'
+
+    services:
+      mysql:
+        image: mysql:8.0.21
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: unittest
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    strategy:
+      matrix:
+        node: [14.21.1]
+
+    name: Tests for NodeJS v${{ matrix.node }}
+
+    env:
+        APP_KEY: ${{ secrets.APP_KEY }}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node }}
+    - name: Verify unittest DB exists
+        run: mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'unittest'"
+    - name: Install dependencies
+      run: npm ci
+    - name: Setup the config js
+      run: copy server/server/config/config.ci.json server/server/config/config.json 
+    - name: Run tests
+      run: npm run test
