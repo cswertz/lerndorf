@@ -8,6 +8,8 @@ const paths = [
   'logs',
   'threads',
   'errors',
+  'courses/my',
+  'courses/lists',
 ];
 
 const isDashboardNavCheck = (location) => {
