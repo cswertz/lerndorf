@@ -1,6 +1,6 @@
 {
     "test": {
-      "use_env_variable": true,
+      "use_env_variable": false,
       "operatorsAliases": false,
       "dialect": "mysql",
       "host": "localhost",
