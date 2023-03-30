@@ -2,6 +2,7 @@ name: tests
 
 on:
   push:
+    branches: [ develop ]
   pull_request:
     branches: [ develop ]
 
@@ -25,8 +26,6 @@ jobs:
 
     name: Tests for NodeJS v${{ matrix.node }}
 
-    env:
-        APP_KEY: ${{ secrets.APP_KEY }}
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
