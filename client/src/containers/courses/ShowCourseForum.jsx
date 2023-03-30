@@ -16,7 +16,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { PlayArrow, Assignment, Add } from '@material-ui/icons/index';
+import { PlayArrow, Assignment, Add, AddComment } from '@material-ui/icons/index';
 import { Grid } from '@material-ui/core/index';
 import Show from '@components/courses/Show';
 import List from '@components/forum/List';
@@ -38,7 +38,7 @@ class ShowCourseForum extends Component {
   componentDidUpdate() {}
 
   fetchData() {
-    const { actions, match, items, course } = this.props;
+    const { actions, match, items, course, user } = this.props;
     actions.courseFetchSingle(match.params.id);
     actions.forumPublicThreadsFetchForCourse(match.params.id);
   }
@@ -52,18 +52,30 @@ class ShowCourseForum extends Component {
   render() {
     const { user, items, history, actions, course } = this.props;
 
+    console.error('KU', course);
+
     return (
       <>
-        <Typography variant="subtitle">{course ? course.item?.title : 'n/A'} </Typography>
+        <Typography variant="subtitle1">{course ? course.item?.title : 'n/A'} </Typography>
         <List
           user={user}
           posts={items?.items ?? []}
+          course={course.item}
           onDeleteConfirm={(id) => {
             actions.forumThreadDelete(id, history).then((result) => {
               history.go(0);
             });
           }}
         />
+        {hasCapability(user.capabilities, ['create_threads']) && course?.item.id && (
+          <IconButton
+            aria-label="Create"
+            component={Link}
+            to={`/courses/${course.item.id}/forum/create`}
+          >
+            <AddComment />
+          </IconButton>
+        )}
       </>
     );
   }

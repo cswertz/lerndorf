@@ -185,6 +185,7 @@ export const forumThreadCreate = (data, history) => async (dispatch) =>
           dispatch(forumThreadFetch(json.id));
         }
       }
+      return json;
     });
 
 export const forumThreadUpdate = (id, data, history) => async (dispatch) =>

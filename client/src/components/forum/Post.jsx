@@ -14,10 +14,10 @@ const ForumTheadPost = ({ classes, user, post, index, isLast, history }) => {
   return (
     <div className={classes.gird} key={index}>
       <Grid container spacing={1}>
-        <Grid item sm={1}>
+        <Grid spacing={0} item sm={1}>
           <Avatar>{post.user.username.substr(0, 1).toUpperCase()}</Avatar>
         </Grid>
-        <Grid styles={{ padding: 10 }} item sm={11}>
+        <Grid spacing={0} styles={{ padding: 10 }} item sm={11}>
           <div className="small smallMargin">
             {' '}
             {post?.user.username} <span>wrote at</span> {formatDateWithTime(post?.createdAt)}

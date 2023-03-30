@@ -120,7 +120,7 @@ const ListView = ({ actions, rows, user, headline, fetchData, hideAdd, columns }
         </Table>
       </TableContainer>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={6} spacing={2}>
+        <Grid item xs={12} md={6} container spacing={2}>
           {hasCapability(user.capabilities, ['enrole_course']) && (
             <IconButton aria-label="Enrole" component={Link} to="/courses/enrole">
               <Assignment />
@@ -128,7 +128,7 @@ const ListView = ({ actions, rows, user, headline, fetchData, hideAdd, columns }
           )}
         </Grid>
         {hideAdd === false && (
-          <Grid item xs={12} md={6} spacing={2} align="right">
+          <Grid item xs={12} md={6} container spacing={2} align="right">
             {hasCapability(user.capabilities, ['create_course']) && (
               <IconButton aria-label="Create" component={Link} to="/courses/create">
                 <Add />
@@ -142,7 +142,6 @@ const ListView = ({ actions, rows, user, headline, fetchData, hideAdd, columns }
 };
 
 ListView.propTypes = {
-  course: PropTypes.shape({}).isRequired,
   classes: PropTypes.shape({}).isRequired,
 };
 

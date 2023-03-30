@@ -9,6 +9,7 @@ import ShowCourse from '../courses/ShowCourse';
 import ShowCourseForum from '../courses/ShowCourseForum';
 import CourseLists from '../courses/CourseLists';
 import CourseList from '../courses/CourseList';
+import ForumThreadCreate from '../forum/Create';
 
 const CoursesRouter = ({
   courses,
@@ -89,6 +90,11 @@ const CoursesRouter = ({
           items={forum ?? []}
         />
       )}
+    />
+    <Route
+      exact
+      path="/courses/:id/forum/create"
+      render={() => <ForumThreadCreate course={course} user={user} actions={actions} />}
     />
   </>
 );
