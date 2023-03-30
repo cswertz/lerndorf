@@ -35,7 +35,7 @@ jobs:
     - name: Verify unittest DB exists
       run: mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'unittest'"
     - name: Install dependencies
-      run: npm ci
+      run: npm install
     - name: Setup the config js
       run: copy server/server/config/config.ci.json server/server/config/config.json 
     - name: Run tests
