@@ -13,6 +13,8 @@ import TopicsMenu from '@components/UI/TopicsMenu';
 
 import { navKnowledgeBase, navCourses, navContent } from '@actions/navigations';
 import isDashboardNavCheck from '@utils/navigations';
+import { useDispatch, useSelector } from 'react-redux';
+import { userFetchRoles } from '@actions/user';
 
 const drawerWidth = 280;
 
@@ -52,6 +54,11 @@ const Sidebar = () => {
   const [topics, setTopics] = useState([]);
   const [isDasboardPage, setIsDashboardPage] = useState(false);
 
+  const dispatch = useDispatch();
+
+  const [courseLists, setCourseLists] = useState([]);
+  const user = useSelector((state) => state.user);
+
   useEffect(() => {
     setIsDashboardPage(isDashboardNavCheck(location));
     if (location.pathname.includes(['knowledge-units/'])) {
@@ -70,6 +77,17 @@ const Sidebar = () => {
       setTopics([]);
     }
   }, [location]);
+
+  useEffect(() => {
+    if (
+      user?.loggedIn === true &&
+      !user.fetchingRoles &&
+      !user.fetchedRoles &&
+      user.user.username !== 'Guest'
+    ) {
+      dispatch(userFetchRoles(user.user.id));
+    }
+  });
 
   return (
     <Drawer

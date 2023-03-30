@@ -32,16 +32,16 @@ const styles = () => ({
 
 class MyCourses extends Component {
   componentDidMount() {
-    const { actions, match } = this.props;
-    this.fetchData();
+    const { actions, match, history } = this.props;
+    this.fetchData(actions, history);
   }
 
   componentDidUpdate() {
     const { actions, match } = this.props;
   }
 
-  fetchData() {
-    const { actions, history } = this.props;
+  fetchData(actions, history) {
+    const e = this;
     actions.coursesFetchMy().catch((err) => {
       if (err.cause === 403) {
         history.push('/errors/403');

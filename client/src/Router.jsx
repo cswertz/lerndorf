@@ -143,7 +143,7 @@ const Router = ({
                 user={user}
                 actions={actions}
                 courses={courses}
-                course={course}
+                course={course ?? {}}
                 courselists={courselists}
                 courselist={courselist}
                 languages={languages}
@@ -246,17 +246,14 @@ Router.propTypes = {
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   course: PropTypes.shape({
-    item: PropTypes.shape({}).isRequired,
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   courselists: PropTypes.shape({
-    items: PropTypes.shape({}).isRequired,
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
   courselist: PropTypes.shape({
-    item: PropTypes.shape({}).isRequired,
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,

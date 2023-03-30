@@ -124,7 +124,7 @@ const Edit = ({
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={1}>
-              <Grid xs={12} sm={6}>
+              <Grid item xs={12} sm={6}>
                 <FormControl required className={classes.formControl}>
                   <Field
                     required
@@ -136,7 +136,7 @@ const Edit = ({
                   />
                 </FormControl>
               </Grid>
-              <Grid xs={12} sm={6}>
+              <Grid item xs={12} sm={6}>
                 <FormControl required className={classes.formControl}>
                   <Field
                     name="shortTitle"
@@ -147,7 +147,7 @@ const Edit = ({
                   />
                 </FormControl>
               </Grid>
-              <Grid xs={12} sm={12}>
+              <Grid item xs={12} sm={12}>
                 <FormControl className={classes.formTextareaControl}>
                   <Field
                     name="description"
@@ -169,7 +169,7 @@ const Edit = ({
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={1}>
-              <Grid xs={12} sm={6}>
+              <Grid item xs={12} sm={6}>
                 <FormControl className={classes.formControl}>
                   <Field
                     required
@@ -181,7 +181,7 @@ const Edit = ({
                   />
                 </FormControl>
               </Grid>
-              <Grid xs={12} sm={6}>
+              <Grid item xs={12} sm={6}>
                 <FormControl required className={classes.formControl}>
                   <Field
                     name="enrolmentEnd"
@@ -192,7 +192,7 @@ const Edit = ({
                   />
                 </FormControl>
               </Grid>
-              <Grid xs={12} sm={12}>
+              <Grid item xs={12} sm={12}>
                 <FormGroup className={classes.formControlSwitches}>
                   <FormControlLabel
                     name="enrolmentConfirmation"
@@ -251,7 +251,7 @@ const Edit = ({
                   />
                 </FormGroup>
               </Grid>
-              <Grid xs={12} sm={6}>
+              <Grid item xs={12} sm={6}>
                 <FormControl className={classes.formControlCourseDates}>
                   <Field
                     required
@@ -263,7 +263,7 @@ const Edit = ({
                   />
                 </FormControl>
               </Grid>
-              <Grid xs={12} sm={6}>
+              <Grid item xs={12} sm={6}>
                 <FormControl required className={classes.formControlCourseDates}>
                   <Field
                     name="courseEnd"
@@ -274,7 +274,7 @@ const Edit = ({
                   />
                 </FormControl>
               </Grid>
-              <Grid xs={12}>
+              <Grid item xs={12}>
                 <FormControl required className={classes.formTextareaControl}>
                   <Field
                     name="mainLanguage"
@@ -299,7 +299,7 @@ const Edit = ({
           <AccordionDetails>
             <div className={classes.full}>
               <Grid container spacing={0}>
-                <Grid xs={12} className={classes.full}>
+                <Grid item xs={12} className={classes.full}>
                   <CourseUsers
                     course={initialValues}
                     actions={actions}
@@ -310,7 +310,7 @@ const Edit = ({
                 </Grid>
               </Grid>
               <Grid container spacing={0} className={classes.marginTop}>
-                <Grid xs={12} className={classes.full} align="right">
+                <Grid item xs={12} className={classes.full} align="right">
                   <AddUserToCourse
                     course={initialValues}
                     actions={actions}
@@ -335,7 +335,7 @@ const Edit = ({
           <AccordionDetails>
             <div className={classes.full}>
               <Grid container spacing={0}>
-                <Grid xs={12} className={classes.full}>
+                <Grid item xs={12} className={classes.full}>
                   <CourseContent
                     course={initialValues}
                     actions={actions}
@@ -345,7 +345,7 @@ const Edit = ({
                 </Grid>
               </Grid>
               <Grid container spacing={0} className={classes.marginTop}>
-                <Grid xs={12} className={classes.full} align="right">
+                <Grid item xs={12} className={classes.full} align="right">
                   <AddContentToCourse
                     user={user}
                     course={initialValues}
@@ -374,7 +374,7 @@ const Edit = ({
           <AccordionDetails>
             <div className={classes.full}>
               <Grid container spacing={0}>
-                <Grid xs={12} className={classes.full}>
+                <Grid item xs={12} className={classes.full}>
                   <CourseSequences
                     user={user.user}
                     course={initialValues}
@@ -384,7 +384,7 @@ const Edit = ({
                 </Grid>
               </Grid>
               <Grid container spacing={0} className={classes.marginTop}>
-                <Grid xs={12} className={classes.full} align="right">
+                <Grid item xs={12} className={classes.full} align="right">
                   <AddSequenceToCourse
                     user={user.user}
                     course={initialValues}
@@ -421,7 +421,6 @@ const Edit = ({
 };
 
 Edit.propTypes = {
-  initialValues: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
   submitting: PropTypes.bool.isRequired,

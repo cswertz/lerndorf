@@ -1229,6 +1229,7 @@ router.post('/:id/sequences', [
 
     return res.status(200).send(courseSequence);
   } catch (err) {
+    console.log(err);
     return res.status(400).send({ message: 'Error occured while try to adding the sequence.' });
   }
 });

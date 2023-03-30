@@ -198,7 +198,7 @@ function AddCourseToCourselist(props) {
             }}
           >
             <Grid container spacing={2}>
-              <Grid xs={12} sm={12}>
+              <Grid item xs={12} sm={12}>
                 <FormControl
                   style={{ width: 'calc(100% - 30px)', margin: '0 15px' }}
                   value={itemName}
@@ -345,7 +345,6 @@ function AddCourseToCourselist(props) {
 }
 
 AddCourseToCourselist.propTypes = {
-  initialValues: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
 };

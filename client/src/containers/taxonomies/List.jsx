@@ -62,7 +62,7 @@ class Taxonomies extends Component {
           items={items.items}
           history={history}
         />
-        <Grid>
+        <Grid container>
           <Button
             color="primary"
             variant="contained"

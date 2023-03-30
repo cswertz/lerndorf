@@ -60,7 +60,6 @@ export const courseListsFetch = (history) => async (dispatch) =>
           dispatch(courseListsFetchSuccess(json));
         }
       }
-      console.error('RESULT', json);
       return json;
     })
     .catch((error) => {

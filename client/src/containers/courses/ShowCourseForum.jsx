@@ -54,7 +54,7 @@ class ShowCourseForum extends Component {
 
     return (
       <>
-        <Typography variant="subtitle">{course ? course.item?.title : 'n/A'} </Typography>
+        <Typography variant="subtitle">{course ? course?.item?.title : 'n/A'} </Typography>
         <List
           user={user}
           posts={items?.items ?? []}
@@ -74,7 +74,6 @@ ShowCourseForum.propTypes = {
     courseFetchSingle: PropTypes.func.isRequired,
     courseUpdate: PropTypes.func.isRequired,
   }).isRequired,
-  course: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

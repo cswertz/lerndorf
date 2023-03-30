@@ -51,13 +51,14 @@ class CreateCourse extends Component {
         <CreateCourseForm
           actions={actions}
           user={user}
+          errors={{}}
           handleSubmit={(e) => {
             e.preventDefault();
             if (e.target.title.value?.length === 0) {
               return;
             }
             actions.courseCreate(e.target.title.value).then((result) => {
-              history.push(`/courses/${result.id}/edit`);
+              history.replace(`/courses/${result.id}/edit`);
             });
           }}
         />

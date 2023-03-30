@@ -193,7 +193,7 @@ function AddContentToCourse(props) {
         <DialogContent>
           <form>
             <Grid container spacing={2}>
-              <Grid xs={12} sm={4}>
+              <Grid item xs={12} sm={4}>
                 <FormControl style={{ width: 'calc(100% - 30px)', margin: '0 15px' }}>
                   <Field
                     required
@@ -207,7 +207,7 @@ function AddContentToCourse(props) {
                   />
                 </FormControl>
               </Grid>
-              <Grid xs={12} sm={4}>
+              <Grid item xs={12} sm={4}>
                 <FormControl required style={{ width: '200px', margin: '16px 0' }}>
                   <Select
                     name="role"
@@ -312,7 +312,6 @@ function AddContentToCourse(props) {
 }
 
 AddContentToCourse.propTypes = {
-  initialValues: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
 };

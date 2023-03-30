@@ -84,7 +84,7 @@ class Taxonomies extends Component {
       <div>
         {title}
         {rendered}
-        <Grid>
+        <Grid container>
           <Button
             color="primary"
             variant="contained"

@@ -43,7 +43,7 @@ class Roles extends Component {
       <div>
         <Typography variant="h1">Available roles</Typography>
         <List itemsDelete={this.handleDelete} items={items.items} history={history} />
-        <Grid>
+        <Grid container>
           <Button
             color="primary"
             variant="contained"

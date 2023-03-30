@@ -61,7 +61,7 @@ const EditBar = () => {
     <div className={classes.wrapper}>
       {user.loggedIn && (
         <div className={classes.actions}>
-          <Link className={classes.actionsItem} onClick={() => setShowEditModal(true)}>
+          <Link className={classes.actionsItem} to="" onClick={() => setShowEditModal(true)}>
             Edit Content <ArrowDropDownIcon />
           </Link>
         </div>
