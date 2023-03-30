@@ -2,7 +2,7 @@ name: tests
 
 on:
   push:
-    branches: [ * ]
+    branches: *
   pull_request:
     branches: [ develop ]
 
@@ -10,7 +10,6 @@ jobs:
   site:
 
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/live'
 
     services:
       mysql:
