@@ -59,7 +59,7 @@ const Sidebar = () => {
         setTopics(result);
       });
     } else if (location.pathname.includes(['learning-units'])) {
-      navCourses().then((result) => {
+      navKnowledgeBase().then((result) => {
         setTopics(result);
       });
     } else if (location.pathname.includes(['content'])) {
@@ -85,7 +85,7 @@ const Sidebar = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-      {!isDasboardPage && <TopicsMenu nav={topics} />}
+      {!isDasboardPage && <TopicsMenu nav={topics} prefix="knowledge-units/edit" />}
       {isDasboardPage && <MainMenu />}
 
       <div className={classes.bottom}>

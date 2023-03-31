@@ -27,16 +27,16 @@ const transformQuery = (learningUnits, currentRequestIsFromAdmin, baseUrl, allow
         return knowledgeUnit;
       }
     }).map((knowledgeUnit) => ({
-      id: knowledgeUnit.kt.id,
+      id: knowledgeUnit.id,
       type: knowledgeUnit.kt.type,
       title: knowledgeUnit.kt.TaxonomyLanguages[0].vocable,
       items: learningUnit.KnowledgeUnits.filter((KnowledgeUnitForThridLevel) => {
-        if (KnowledgeUnitForThridLevel.mt != null && KnowledgeUnitForThridLevel.kt != null && KnowledgeUnitForThridLevel.kt.type === KnowledgeUnit.kt.type) {
+        if (KnowledgeUnitForThridLevel.mt != null && KnowledgeUnitForThridLevel.kt != null && KnowledgeUnitForThridLevel.kt !== undefined && KnowledgeUnit.kt !== undefined && KnowledgeUnitForThridLevel.kt.type === KnowledgeUnit.kt.type) {
           return KnowledgeUnitForThridLevel;
         }
       }).map((KnowledgeUnitForThridLevel) =>
       // transfrom the items for the thrid level
-        ({
+        (KnowledgeUnitForThridLevel === undefined ? {} : {
           id: KnowledgeUnitForThridLevel.id,
           type: KnowledgeUnitForThridLevel.type,
           title: KnowledgeUnitForThridLevel.mt.TaxonomyLanguages[0].vocable,
@@ -139,6 +139,8 @@ router.get('/knowledge', async (req, res) => {
         },
       ],
     });
+
+    console.error(learningUnits);
 
     res.json(transformQuery(learningUnits, currentRequestIsFromAdmin, '/knowledge-units/show/'));
   } catch (err) {
@@ -295,27 +297,23 @@ router.get('/courses', async (req, res) => {
       if (knowledgeUnit.kt != null) {
         return knowledgeUnit;
       }
-    }).map((knowledgeUnit) => {
-      console.error('KT', knowledgeUnit.kt);
-
-      return {
-        id: knowledgeUnit.kt.id,
-        kt: knowledgeUnit.kt.type,
-        title: knowledgeUnit.kt ? knowledgeUnit.kt.TaxonomyLanguages[0].vocable : null,
-        items: knowledgeUnits.filter((KnowledgeUnitForThridLevel) => {
-          if (KnowledgeUnitForThridLevel.mt != null && KnowledgeUnitForThridLevel.kt != null && KnowledgeUnitForThridLevel.kt.type === knowledgeUnit.kt.type) {
-            return KnowledgeUnitForThridLevel;
-          }
-        }).map((KnowledgeUnitForThridLevel) =>
-        // transfrom the items for the thrid level
-          ({
-            id: KnowledgeUnitForThridLevel ? KnowledgeUnitForThridLevel.id : null,
-            type: KnowledgeUnitForThridLevel ? KnowledgeUnitForThridLevel.type : null,
-            title: KnowledgeUnitForThridLevel && KnowledgeUnitForThridLevel.mt ? KnowledgeUnitForThridLevel.mt.TaxonomyLanguages[0].vocable : null,
-            href: `${baseUrl}${KnowledgeUnitForThridLevel.id}`,
-          })),
-      };
-    });
+    }).map((knowledgeUnit) => ({
+      id: knowledgeUnit.kt.id,
+      kt: knowledgeUnit.kt.type,
+      title: knowledgeUnit.kt ? knowledgeUnit.kt.TaxonomyLanguages[0].vocable : null,
+      items: knowledgeUnits.filter((KnowledgeUnitForThridLevel) => {
+        if (KnowledgeUnitForThridLevel.mt != null && KnowledgeUnitForThridLevel.kt != null && KnowledgeUnitForThridLevel.kt.type === knowledgeUnit.kt.type) {
+          return KnowledgeUnitForThridLevel;
+        }
+      }).map((KnowledgeUnitForThridLevel) =>
+      // transfrom the items for the thrid level
+        ({
+          id: KnowledgeUnitForThridLevel ? KnowledgeUnitForThridLevel.id : null,
+          type: KnowledgeUnitForThridLevel ? KnowledgeUnitForThridLevel.type : null,
+          title: KnowledgeUnitForThridLevel && KnowledgeUnitForThridLevel.mt ? KnowledgeUnitForThridLevel.mt.TaxonomyLanguages[0].vocable : null,
+          href: `${baseUrl}${KnowledgeUnitForThridLevel.id}`,
+        })),
+    }));
 
     return {
       id: Course.id,
