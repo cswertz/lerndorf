@@ -100,10 +100,10 @@ const LearningUnitsShow = ({
         </Typography>
         <Typography variant="caption">created by {item.username}</Typography>
         <Typography variant="caption">Tags: {tags}</Typography>
-        <Grid>
+        <Grid container>
           <ul>{relations}</ul>
         </Grid>
-        <Grid>
+        <Grid container>
           <Button
             color="primary"
             component={Link}

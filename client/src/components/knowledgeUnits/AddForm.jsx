@@ -391,7 +391,6 @@ const KnowledgeUnitsAdd = ({
 };
 
 KnowledgeUnitsAdd.propTypes = {
-  initialValues: PropTypes.shape({}).isRequired,
   taxonomies: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,

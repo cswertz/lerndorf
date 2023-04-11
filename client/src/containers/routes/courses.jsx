@@ -39,12 +39,16 @@ const CoursesRouter = ({
     <Route
       exact
       path="/courses/lists/:id"
-      render={() => <CourseList user={user} actions={actions} courselist={courselist} />}
+      render={() => (
+        <CourseList user={user} actions={actions} courselist={courselist ?? { items: [] }} />
+      )}
     />
     <Route
       exact
       path="/courses/enrole"
-      render={() => <EnroleCourses user={user} actions={actions} courses={courses} />}
+      render={() => (
+        <EnroleCourses user={user} actions={actions} courses={courses ?? { items: [] }} />
+      )}
     />
     <Route
       exact

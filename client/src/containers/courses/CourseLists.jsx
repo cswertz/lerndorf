@@ -55,8 +55,8 @@ class CourseList extends Component {
     const { user, courselists, courses, actions } = this.props;
 
     let courseItems = [];
-    if (courselists.items?.length > 0) {
-      courseItems = courselists.items.map((row) => (
+    if (courselists?.items?.length > 0) {
+      courseItems = courselists?.items.map((row) => (
         <TableRow
           key={`list-row-${row.id}`}
           sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -134,7 +134,7 @@ class CourseList extends Component {
           </Table>
         </TableContainer>
         <Grid container spacing={2}>
-          <Grid item xs={12} spacing={2} align="right">
+          <Grid container item xs={12} spacing={2} align="right">
             {hasCapability(user.capabilities, ['manage_course_lists']) && (
               <AddCourseToCourselist
                 user={user.user}

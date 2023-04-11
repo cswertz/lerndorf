@@ -210,9 +210,9 @@ const CourseUsers = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Grid xs={12} container spacing={2}>
-        <Grid xs={12} md={6} spacing={2} />
-        <Grid xs={12} md={6} spacing={2} align="right" />
+      <Grid container item xs={12} spacing={2}>
+        <Grid container item xs={12} md={6} spacing={2} />
+        <Grid container item xs={12} md={6} spacing={2} align="right" />
       </Grid>
     </div>
   );

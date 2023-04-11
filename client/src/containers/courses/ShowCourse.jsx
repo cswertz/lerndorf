@@ -63,10 +63,10 @@ class EditCourse extends Component {
 
     let content = null;
 
-    if (course.fetched && course.item?.id === parseInt(match.params.id, 10)) {
+    if (course?.fetched && course?.item?.id === parseInt(match.params.id, 10)) {
       content = (
         <>
-          <Typography variant="h1">{course.item.title}</Typography>
+          <Typography variant="h1">{course?.item.title}</Typography>
           <Show
             user={user}
             actions={actions}
@@ -87,7 +87,6 @@ EditCourse.propTypes = {
     courseFetchSingle: PropTypes.func.isRequired,
     courseUpdate: PropTypes.func.isRequired,
   }).isRequired,
-  course: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

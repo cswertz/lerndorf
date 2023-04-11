@@ -260,7 +260,7 @@ function AddSequenceToCourse(props) {
             }}
           >
             <Grid container spacing={2}>
-              <Grid spacing={0} xs={12} sm={12}>
+              <Grid item xs={12} sm={12}>
                 <FormControl style={{ width: 'calc(100% - 30px)', margin: '0 15px' }}>
                   <Field
                     required
@@ -268,7 +268,7 @@ function AddSequenceToCourse(props) {
                     label="Name of micromodel"
                     helperText="Define the name for the micromodel"
                     component={renderTextField}
-                    initialValue={itemName}
+                    initialValue={itemName ?? ''}
                     onChange={(e) => {
                       setFormState(Object.assign(formState, { name: e.target.value }));
                     }}
@@ -407,7 +407,6 @@ function AddSequenceToCourse(props) {
 }
 
 AddSequenceToCourse.propTypes = {
-  initialValues: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
 };

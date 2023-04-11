@@ -48,7 +48,6 @@ const renderTextareaField = ({ input, label, meta: { touched, error }, ...custom
     <TextField
       multiline
       rows={4}
-      maxRows={6}
       helperText={helperText}
       error={hasError && true}
       label={label}

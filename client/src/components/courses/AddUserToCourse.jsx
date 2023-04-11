@@ -288,7 +288,11 @@ function AddUserToCourse(props) {
               >
                 {rolesFiltered.length > 0 &&
                   rolesFiltered.map((role) => {
-                    return <MenuItem value={role.value}>{role.label}</MenuItem>;
+                    return (
+                      <MenuItem key={`role-${role.value}`} value={role.value}>
+                        {role.label}
+                      </MenuItem>
+                    );
                   })}
               </Select>
             </FormControl>
@@ -320,7 +324,6 @@ function AddUserToCourse(props) {
 }
 
 AddUserToCourse.propTypes = {
-  initialValues: PropTypes.shape({}).isRequired,
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.shape({}).isRequired,
 };

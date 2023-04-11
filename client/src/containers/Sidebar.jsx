@@ -55,6 +55,11 @@ const Sidebar = () => {
   const [topics, setTopics] = useState([]);
   const [isDasboardPage, setIsDashboardPage] = useState(false);
 
+  const dispatch = useDispatch();
+
+  const [courseLists, setCourseLists] = useState([]);
+  const user = useSelector((state) => state.user);
+
   useEffect(() => {
     setIsDashboardPage(isDashboardNavCheck(location));
     if (location.pathname.includes(['knowledge-units/'])) {
@@ -82,6 +87,17 @@ const Sidebar = () => {
       dispatch(userFetchRoles(user.user.id));
     }
   }, [location]);
+
+  useEffect(() => {
+    if (
+      user?.loggedIn === true &&
+      !user.fetchingRoles &&
+      !user.fetchedRoles &&
+      user.user.username !== 'Guest'
+    ) {
+      dispatch(userFetchRoles(user.user.id));
+    }
+  });
 
   return (
     <Drawer

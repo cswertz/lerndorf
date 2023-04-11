@@ -66,7 +66,6 @@ const Show = ({ title, languages, actions, user, roles, course }) => {
 };
 
 Show.propTypes = {
-  course: PropTypes.shape({}).isRequired,
   classes: PropTypes.shape({}).isRequired,
 };
 

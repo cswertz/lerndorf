@@ -44,7 +44,7 @@ class Languages extends Component {
           languages={languages.languages}
           history={history}
         />
-        <Grid>
+        <Grid container>
           <Button
             color="primary"
             variant="contained"

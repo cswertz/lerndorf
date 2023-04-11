@@ -1,5 +1,5 @@
 import { Link, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,6 +9,7 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { userLogout } from '@actions';
 import AdminMenu from '@components/UI/AdminMenu';
 import { useEffect, useState } from 'react';
+import { userFetchRoles } from '@actions/user';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +24,7 @@ const MainMenu = () => {
   const dispatch = useDispatch();
 
   const [courseLists, setCourseLists] = useState([]);
+  const user = useSelector((state) => state.user);
 
   const handleLogout = () => {
     dispatch(userLogout(history));
@@ -47,6 +49,17 @@ const MainMenu = () => {
       });
   }, [courseLists]);
 
+  useEffect(() => {
+    if (
+      user?.loggedIn === true &&
+      !user.fetchingRoles &&
+      !user.fetchedRoles &&
+      user.user.username !== 'Guest'
+    ) {
+      dispatch(userFetchRoles(user.user.id));
+    }
+  });
+
   return (
     <List className={classes.root} component="nav" aria-labelledby="nested-list">
       <ListItem button divider component={Link} to="/courses/my">
@@ -59,7 +72,7 @@ const MainMenu = () => {
         courseLists.map((courseList) => {
           return (
             <ListItem
-              key={`course-${courseList.id}`}
+              key={`courseList${courseList.id}`}
               button
               divider
               component={Link}
