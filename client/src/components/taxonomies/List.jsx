@@ -55,7 +55,7 @@ const TaxonomyList = ({ itemsDelete, itemsDisable, itemsEnable, classes, history
               title="Enable Term"
               onClick={() => itemsEnable(item.id)}
             >
-              <DoneIcon />
+              <ClearIcon />
             </IconButton>
           )}
           {item.active && (
@@ -64,7 +64,7 @@ const TaxonomyList = ({ itemsDelete, itemsDisable, itemsEnable, classes, history
               title="Disable Term"
               onClick={() => itemsDisable(item.id)}
             >
-              <ClearIcon />
+              <DoneIcon />
             </IconButton>
           )}
           <IconButton
