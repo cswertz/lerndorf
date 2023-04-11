@@ -52,7 +52,6 @@ class CourseList extends Component {
 
   render() {
     const { user, courselist, actions } = this.props;
-    console.error(courselist);
     return (
       <>
         {courselist && courselist?.item && (

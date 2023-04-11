@@ -33,6 +33,11 @@ class KnowledgeUnitsList extends Component {
 
     return (
       <>
+        {itemsToRender.length === 0 && (
+          <>
+            <div>No entries found.</div>
+          </>
+        )}
         {itemsToRender.map((item) => {
           return (
             <Show

@@ -123,7 +123,7 @@ function MenuBar() {
               role="menu"
               tabIndex={0}
             >
-              {!isDasboardPage && <TopicsMenu />}
+              {!isDasboardPage && <TopicsMenu prefix="courses/" />}
               {isDasboardPage && <MainMenu />}
             </div>
           </Drawer>
