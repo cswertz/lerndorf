@@ -275,7 +275,6 @@ const Edit = ({
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
-              <Grid spacing={0} xs={12}>
                 <FormControl required className={classes.formTextareaControl}>
                   <Field
                     name="mainLanguage"
