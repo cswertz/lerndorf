@@ -58,7 +58,13 @@ const MainMenu = () => {
         courseLists.length > 0 &&
         courseLists.map((courseList) => {
           return (
-            <ListItem button divider component={Link} to={`/courses/lists/${courseList.id}`}>
+            <ListItem
+              key={`course-${courseList.id}`}
+              button
+              divider
+              component={Link}
+              to={`/courses/lists/${courseList.id}`}
+            >
               <ListItemText primary={courseList.title} />
               <ArrowRightIcon />
             </ListItem>

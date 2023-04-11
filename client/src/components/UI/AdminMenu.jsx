@@ -41,17 +41,6 @@ const AdminMenu = () => {
     authoring: false,
   });
 
-  useEffect(() => {
-    if (
-      user?.loggedIn === true &&
-      !user.fetchingRoles &&
-      !user.fetchedRoles &&
-      user.user.username !== 'Guest'
-    ) {
-      dispatch(userFetchRoles(user.user.id));
-    }
-  });
-
   const handleClick = (event, item) => {
     event.stopPropagation();
     setOpen((prevState) => ({ ...prevState, [item]: !prevState[item] }));

@@ -23,15 +23,16 @@ const styles = () => ({
 
 const ForumList = ({ classes, user, posts, history, onDeleteConfirm, course }) => {
   let threads = null;
+  console.error('COURSE', course);
   if (posts.length > 0) {
     threads = posts.map((item) => (
       <ListItem key={item.id} dense disableGutters divider>
         <ListItemText style={styles.listItem}>
           <Grid container spacing={0}>
-            <Grid item sm={1}>
+            <Grid spacing={0} item sm={1}>
               <Avatar>{item.lastPostUser?.username.substr(0, 1).toUpperCase()}</Avatar>
             </Grid>
-            <Grid styles={{ padding: 10 }} item sm={11}>
+            <Grid spacing={0} styles={{ padding: 10 }} item sm={11}>
               <a href={`/threads/${item.id}/details`}>
                 <strong>{item.summary}</strong>
               </a>
@@ -74,7 +75,7 @@ const ForumList = ({ classes, user, posts, history, onDeleteConfirm, course }) =
   return (
     <div>
       <Typography variant="h1" className={classes.subtitle}>
-        Forum {course}
+        Forum {course?.id}
         {hasCapability(user.capabilities, ['create_threads']) &&
           (course === null || course === undefined) && (
             <IconButton aria-label="Create" component={Link} to="/threads/create">
