@@ -260,7 +260,7 @@ function AddSequenceToCourse(props) {
             }}
           >
             <Grid container spacing={2}>
-              <Grid xs={12} sm={12}>
+              <Grid spacing={0} xs={12} sm={12}>
                 <FormControl style={{ width: 'calc(100% - 30px)', margin: '0 15px' }}>
                   <Field
                     required
