@@ -58,10 +58,10 @@ export const knowledgeUnitsFetch = () => (dispatch) =>
     });
 
 export const knowledgeUnitsItemFetch = (id) => async (dispatch) => {
-  await dispatch({
-    type: types.KNOWLEDGEUNITS_ITEM_FETCH,
-    id,
-  });
+  // await dispatch({
+  //   type: types.KNOWLEDGEUNITS_ITEM_FETCH,
+  //   id,
+  // });
 
   try {
     const response = await fetch(`/api/knowledgeUnits/${id}`, {

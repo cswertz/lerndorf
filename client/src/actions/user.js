@@ -153,7 +153,7 @@ export const userFetchRoles = (id, history) => (dispatch) =>
     credentials: 'include',
   })
     .then((response) => {
-      if (response.status === 401) {
+      if (response.status === 401 || response.status === 404) {
         dispatch(userLogoutSuccess());
         if (history) {
           history.push('/');

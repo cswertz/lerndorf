@@ -1,0 +1,21 @@
+{
+    "development": {
+      "domain": "http://localhost",
+      "use_env_variable": false,
+      "operatorsAliases": false,
+      "dialect": "mysql",
+      "host": "localhost",
+      "username": "root",
+      "password": "",
+      "database": "unittest",
+      "seederStorage": "sequelize"
+    },
+    "test": {
+      "use_env_variable": false,
+      "operatorsAliases": false,
+      "storage": "test.sqlite",
+      "dialect": "sqlite",
+      "logging": false
+    }
+  }
+  

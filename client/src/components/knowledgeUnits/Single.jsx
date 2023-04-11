@@ -51,7 +51,7 @@ const KnowledgeUnitsShowPaper = ({
   return (
     <Paper key={unit?.id} className={classes.paper}>
       <div className={classes.root}>
-        <Grid item xs={12}>
+        <Grid spacing={0} item xs={12}>
           <Typography variant="h1">
             {link && <Link to={`/knowledge-units/show/${unit.id}`}>Knowledge Unit #{unit.id}</Link>}
             {!link && <span>Knowledge Unit #{unit.id}</span>}
@@ -59,8 +59,8 @@ const KnowledgeUnitsShowPaper = ({
         </Grid>
       </div>
       <div className={classes.root}>
-        <Grid container direction="row">
-          <Grid item xs={6}>
+        <Grid spacing={0} container direction="row">
+          <Grid spacing={0} item xs={6}>
             recommended Age: {unit.recommendedAge || '---'}
           </Grid>
           <Grid item xs={6}>
@@ -69,11 +69,11 @@ const KnowledgeUnitsShowPaper = ({
         </Grid>
       </div>
       <div className={classes.root}>
-        <Grid container direction="row">
-          <Grid item xs={6}>
+        <Grid spacing={0} container direction="row">
+          <Grid spacing={0} item xs={6}>
             Objective: {unit.objective || '---'}
           </Grid>
-          <Grid item xs={6}>
+          <Grid spacing={0} item xs={6}>
             Comment: {unit.comment || '---'}
           </Grid>
         </Grid>

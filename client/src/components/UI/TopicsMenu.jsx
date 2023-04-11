@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -42,13 +42,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ContentMenuItem = ({ item }) => {
+const ContentMenuItem = ({ item, prefix, history }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   const handleClick = (event) => {
     event.stopPropagation();
     setOpen((prevState) => !prevState);
+    console.error('TSET');
+  };
+
+  const openLink = () => {
+    setTimeout(() => {
+      history.push(`/${prefix}/${item.id}`);
+    }, 10);
   };
 
   return (
@@ -56,9 +63,9 @@ const ContentMenuItem = ({ item }) => {
       <ListItem
         button
         className={classes.nested}
-        onClick={item.items?.length > 0 ? handleClick : null}
+        onClick={item.items?.length > 0 ? handleClick : openLink}
         component={item.items?.length > 0 ? 'div' : Link}
-        to={item.items?.length > 0 ? null : `/course/${item.id}`}
+        to={item.items?.length > 0 ? null : `/${prefix}`}
       >
         <ListItemText primary={item.title} />
         {item.items?.length > 0 && <>{open ? <ArrowDropDownIcon /> : <ArrowRightIcon />}</>}
@@ -92,9 +99,10 @@ const ContentMenuItem = ({ item }) => {
   );
 };
 
-const TopicMenuItem = ({ topic }) => {
+const TopicMenuItem = ({ topic, prefix }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const history = useHistory();
 
   const handleClick = (event) => {
     event.stopPropagation();
@@ -121,7 +129,9 @@ const TopicMenuItem = ({ topic }) => {
           disablePadding
         >
           {topic.items?.length > 0 &&
-            topic.items.map((item) => <ContentMenuItem key={item.id} item={item} />)}
+            topic.items.map((item) => (
+              <ContentMenuItem key={item.id} item={item} prefix={prefix} history={history} />
+            ))}
         </List>
       </Collapse>
     </>
@@ -131,18 +141,20 @@ const TopicMenuItem = ({ topic }) => {
 const TopicsMenu = (props) => {
   const classes = useStyles();
 
-  const { nav } = props;
+  const { nav, prefix } = props;
 
-  if (nav === undefined) {
+  if (nav === undefined || prefix === undefined) {
     return '';
   }
 
   return (
-    <List className={classes.root} component="nav" aria-labelledby="nested-list">
-      {[...nav].map((topic) => (
-        <TopicMenuItem key={topic.id} topic={topic} />
-      ))}
-    </List>
+    <>
+      <List className={classes.root} component="nav" aria-labelledby="nested-list">
+        {[...nav].map((topic) => (
+          <TopicMenuItem key={topic.id} topic={topic} prefix={prefix} />
+        ))}
+      </List>
+    </>
   );
 };
 

@@ -16,17 +16,25 @@ class ForumThreadCreate extends Component {
   componentDidUpdate() {
     const { history, actions, match, thread } = this.props;
     if (thread?.item?.id) {
-      history.push(`/threads/${thread.item.id}/details`);
+      history.replace(`/threads/${thread.item.id}/details`);
     }
   }
 
   handleCreate(e, data) {
-    const { history, actions, match } = this.props;
+    const { history, actions, match, course } = this.props;
     e.preventDefault();
+
+    if (course?.item?.id !== undefined) {
+      data.courseId = course?.item?.id;
+    }
+
     actions
       .forumThreadCreate(data, history)
       .then((result) => {
-        history.push(`/threads/${result.id}/details`);
+        if (result === undefined) {
+          return;
+        }
+        history.replace(`/threads/${result?.id}/details`);
       })
       .catch((err) => {
         console.log(err);
