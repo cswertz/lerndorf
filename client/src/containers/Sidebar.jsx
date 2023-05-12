@@ -55,10 +55,7 @@ const Sidebar = () => {
   const [topics, setTopics] = useState([]);
   const [isDasboardPage, setIsDashboardPage] = useState(false);
 
-  const dispatch = useDispatch();
-
   const [courseLists, setCourseLists] = useState([]);
-  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     setIsDashboardPage(isDashboardNavCheck(location));
