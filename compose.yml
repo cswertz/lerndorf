@@ -1,0 +1,27 @@
+version: '3'
+services:
+  lerndorf-db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'lerndorf'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'cYXFY6JKzy2CLtoRjJ9KcGKBxvdpjD'
+      MYSQL_RANDOM_ROOT_PASSWORD: true
+    ports:
+      - '3306:3306'
+    networks:
+      - lerndorf
+  lerndorf-client:
+    image: lerndorf:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - mode=server
+    networks:
+      - lerndorf
+    depends_on:
+      - lerndorf-db
+networks:
+  lerndorf:
+    driver: bridge

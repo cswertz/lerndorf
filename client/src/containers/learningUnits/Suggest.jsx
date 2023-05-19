@@ -162,14 +162,6 @@ class Suggest extends Component {
     // this.fetchSuggestions('');
   }
 
-  onKeyUp(e) {
-    const { term } = this.state;
-    const { value } = e.target;
-    if (term !== value) {
-      this.fetchSuggestions(value);
-    }
-  }
-
   handleChange(value) {
     const { setTarget } = this.props;
     if (value) {
@@ -190,6 +182,14 @@ class Suggest extends Component {
     }
 
     // this.fetchSuggestions(term);
+  }
+
+  onKeyUp(e) {
+    const { term } = this.state;
+    const { value } = e.target;
+    if (term !== value) {
+      this.fetchSuggestions(value);
+    }
   }
 
   fetchSuggestions(term) {

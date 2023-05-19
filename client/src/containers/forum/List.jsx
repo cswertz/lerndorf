@@ -14,15 +14,15 @@ class Forum extends Component {
 
   componentDidUpdate() {}
 
-  fetchData() {
-    const { actions, match, items } = this.props;
-    actions.forumPublicThreadsFetch();
-  }
-
   handleDelete(id) {
     const { handleDelete, history } = this.props;
 
     handleDelete(id, history);
+  }
+
+  fetchData() {
+    const { actions, match, items } = this.props;
+    actions.forumPublicThreadsFetch();
   }
 
   render() {

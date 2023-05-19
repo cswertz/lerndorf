@@ -37,16 +37,16 @@ class ShowCourseForum extends Component {
 
   componentDidUpdate() {}
 
-  fetchData() {
-    const { actions, match, items, course, user } = this.props;
-    actions.courseFetchSingle(match.params.id);
-    actions.forumPublicThreadsFetchForCourse(match.params.id);
-  }
-
   handleDelete(id) {
     const { handleDelete, history } = this.props;
 
     handleDelete(id, history);
+  }
+
+  fetchData() {
+    const { actions, match, items, course, user } = this.props;
+    actions.courseFetchSingle(match.params.id);
+    actions.forumPublicThreadsFetchForCourse(match.params.id);
   }
 
   render() {

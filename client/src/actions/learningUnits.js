@@ -178,15 +178,93 @@ export const learningUnitsEdit = (id, languageId, data, history) => (dispatch) =
       console.log('Error while editing knowledge unit:', error);
     });
 
-export const learningUnitsAddTag = (
-  learningUnitLanguageId,
-  tag,
-  languageId,
-  learningUnitId,
-  history,
-) => async (dispatch) => {
-  try {
-    const response = await fetch(`/api/learningUnits/addTag/${learningUnitLanguageId}`, {
+export const learningUnitsAddTag =
+  (learningUnitLanguageId, tag, languageId, learningUnitId, history) => async (dispatch) => {
+    try {
+      const response = await fetch(`/api/learningUnits/addTag/${learningUnitLanguageId}`, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          tag,
+        }),
+      });
+
+      const json = await response.json();
+      if (json) {
+        if (json.error) {
+          // dispatch(learningUnitsAddFailed(json.error, json.errors));
+        } else {
+          dispatch(learningUnitsEditSuccess());
+          history.push(`/learning-units/edit/${languageId}/${learningUnitId}`);
+        }
+      }
+    } catch (e) {
+      console.log('Error while adding knowledge unit:', e);
+    }
+  };
+
+export const learningUnitsDeleteTag =
+  (tagId, languageId, learningUnitId, history) => async (dispatch) => {
+    try {
+      const response = await fetch(`/api/learningUnits/deleteTag/${tagId}`, {
+        method: 'delete',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      const json = await response.json();
+      if (json) {
+        if (json.error) {
+          // dispatch(learningUnitsAddFailed(json.error, json.errors));
+        } else {
+          dispatch(learningUnitsEditSuccess());
+          history.push(`/learning-units/edit/${languageId}/${learningUnitId}`);
+        }
+      }
+    } catch (e) {
+      console.log('Error while adding knowledge unit:', e);
+    }
+  };
+
+export const learningUnitsUpdateTag =
+  (tagId, value, languageId, learningUnitId, history) => async (dispatch) => {
+    try {
+      const response = await fetch(`/api/learningUnits/tag/${tagId}`, {
+        method: 'PATCH',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          value,
+        }),
+      });
+
+      const json = await response.json();
+      if (json) {
+        if (json.error) {
+          // dispatch(learningUnitsAddFailed(json.error, json.errors));
+        } else {
+          dispatch(learningUnitsEditSuccess());
+          history.push(`/learning-units/edit/${languageId}/${learningUnitId}`);
+        }
+      }
+    } catch (e) {
+      console.log('Error while updating learning unit tag:', e);
+    }
+  };
+
+export const learningUnitsAddRelation =
+  (learningUnitId, targetId, type, languageId, history) => (dispatch) =>
+    fetch(`/api/learningUnits/relation/${learningUnitId}`, {
       method: 'post',
       headers: {
         Accept: 'application/json',
@@ -194,110 +272,24 @@ export const learningUnitsAddTag = (
       },
       credentials: 'include',
       body: JSON.stringify({
-        tag,
+        type,
+        targetId,
       }),
-    });
-
-    const json = await response.json();
-    if (json) {
-      if (json.error) {
-        // dispatch(learningUnitsAddFailed(json.error, json.errors));
-      } else {
-        dispatch(learningUnitsEditSuccess());
-        history.push(`/learning-units/edit/${languageId}/${learningUnitId}`);
-      }
-    }
-  } catch (e) {
-    console.log('Error while adding knowledge unit:', e);
-  }
-};
-
-export const learningUnitsDeleteTag = (tagId, languageId, learningUnitId, history) => async (
-  dispatch,
-) => {
-  try {
-    const response = await fetch(`/api/learningUnits/deleteTag/${tagId}`, {
-      method: 'delete',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    });
-
-    const json = await response.json();
-    if (json) {
-      if (json.error) {
-        // dispatch(learningUnitsAddFailed(json.error, json.errors));
-      } else {
-        dispatch(learningUnitsEditSuccess());
-        history.push(`/learning-units/edit/${languageId}/${learningUnitId}`);
-      }
-    }
-  } catch (e) {
-    console.log('Error while adding knowledge unit:', e);
-  }
-};
-
-export const learningUnitsUpdateTag = (tagId, value, languageId, learningUnitId, history) => async (
-  dispatch,
-) => {
-  try {
-    const response = await fetch(`/api/learningUnits/tag/${tagId}`, {
-      method: 'PATCH',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({
-        value,
-      }),
-    });
-
-    const json = await response.json();
-    if (json) {
-      if (json.error) {
-        // dispatch(learningUnitsAddFailed(json.error, json.errors));
-      } else {
-        dispatch(learningUnitsEditSuccess());
-        history.push(`/learning-units/edit/${languageId}/${learningUnitId}`);
-      }
-    }
-  } catch (e) {
-    console.log('Error while updating learning unit tag:', e);
-  }
-};
-
-export const learningUnitsAddRelation = (learningUnitId, targetId, type, languageId, history) => (
-  dispatch,
-) =>
-  fetch(`/api/learningUnits/relation/${learningUnitId}`, {
-    method: 'post',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: JSON.stringify({
-      type,
-      targetId,
-    }),
-  })
-    .then((response) => response.json())
-    .then((json) => {
-      if (json) {
-        if (json.error) {
-          // dispatch(learningUnitsAddFailed(json.error, json.errors));
-        } else {
-          dispatch(learningUnitsEditSuccess());
-          history.push(`/learning-units/show/${languageId}/${learningUnitId}`);
-        }
-      }
     })
-    .catch((error) => {
-      console.log('Error while adding knowledge unit:', error);
-    });
+      .then((response) => response.json())
+      .then((json) => {
+        if (json) {
+          if (json.error) {
+            // dispatch(learningUnitsAddFailed(json.error, json.errors));
+          } else {
+            dispatch(learningUnitsEditSuccess());
+            history.push(`/learning-units/show/${languageId}/${learningUnitId}`);
+          }
+        }
+      })
+      .catch((error) => {
+        console.log('Error while adding knowledge unit:', error);
+      });
 
 export const learningUnitsDeleteRelation = (id) => async (dispatch) => {
   try {

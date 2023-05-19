@@ -30,12 +30,6 @@ class TextsEdit extends Component {
     }
   }
 
-  updateBody(body) {
-    this.setState({
-      body,
-    });
-  }
-
   handleSubmit(e) {
     e.preventDefault();
 
@@ -48,6 +42,12 @@ class TextsEdit extends Component {
     };
 
     handleSubmit(id, data, history);
+  }
+
+  updateBody(body) {
+    this.setState({
+      body,
+    });
   }
 
   render() {

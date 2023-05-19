@@ -39,32 +39,6 @@ class RolesEdit extends Component {
     }
   }
 
-  fetchLanguages() {
-    const { languages, languagesFetch } = this.props;
-
-    if (!languages.fetched && !languages.fetching) {
-      languagesFetch();
-    }
-  }
-
-  addCapability(e, capability) {
-    e.preventDefault();
-
-    const { match, addCapability } = this.props;
-    const { id } = match.params;
-
-    addCapability(id, capability);
-  }
-
-  removeCapability(e, capability) {
-    e.preventDefault();
-
-    const { match, removeCapability } = this.props;
-    const { id } = match.params;
-
-    removeCapability(id, capability);
-  }
-
   handleSubmit(e) {
     e.preventDefault();
 
@@ -92,6 +66,32 @@ class RolesEdit extends Component {
     }
 
     handleSubmit(id, data, history);
+  }
+
+  fetchLanguages() {
+    const { languages, languagesFetch } = this.props;
+
+    if (!languages.fetched && !languages.fetching) {
+      languagesFetch();
+    }
+  }
+
+  addCapability(e, capability) {
+    e.preventDefault();
+
+    const { match, addCapability } = this.props;
+    const { id } = match.params;
+
+    addCapability(id, capability);
+  }
+
+  removeCapability(e, capability) {
+    e.preventDefault();
+
+    const { match, removeCapability } = this.props;
+    const { id } = match.params;
+
+    removeCapability(id, capability);
   }
 
   render() {

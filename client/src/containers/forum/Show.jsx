@@ -28,17 +28,6 @@ class ForumThread extends Component {
     }
   }
 
-  fetchData() {
-    const { actions, match, thread, history } = this.props;
-    actions.forumThreadFetch(match?.params?.id).catch((err) => {
-      if (err.cause === 403) {
-        history.push('/errors/403');
-      } else if (err.cause === 401) {
-        history.push('/errors/401');
-      }
-    });
-  }
-
   handleAddPost(e, data) {
     const { history, actions, match } = this.props;
     e.preventDefault();
@@ -50,6 +39,17 @@ class ForumThread extends Component {
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  fetchData() {
+    const { actions, match, thread, history } = this.props;
+    actions.forumThreadFetch(match?.params?.id).catch((err) => {
+      if (err.cause === 403) {
+        history.push('/errors/403');
+      } else if (err.cause === 401) {
+        history.push('/errors/401');
+      }
+    });
   }
 
   render() {

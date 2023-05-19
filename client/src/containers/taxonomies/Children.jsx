@@ -25,16 +25,6 @@ class Taxonomies extends Component {
     this.fetchItemById();
   }
 
-  fetchItemById() {
-    const { items, match, itemFetch } = this.props;
-
-    const { id } = match.params;
-
-    if (!items.fetching && !items.id[id]) {
-      itemFetch(id);
-    }
-  }
-
   handleDelete(id) {
     const { itemsDelete } = this.props;
 
@@ -51,6 +41,16 @@ class Taxonomies extends Component {
     const { itemsEnable } = this.props;
 
     itemsEnable(id);
+  }
+
+  fetchItemById() {
+    const { items, match, itemFetch } = this.props;
+
+    const { id } = match.params;
+
+    if (!items.fetching && !items.id[id]) {
+      itemFetch(id);
+    }
   }
 
   render() {

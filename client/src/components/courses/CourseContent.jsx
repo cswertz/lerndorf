@@ -30,17 +30,8 @@ import { CachedOutlined } from '../../../node_modules/@material-ui/icons/index';
 import DeleteCourseContent from './DeleteCourseContent';
 
 const CourseContent = (props) => {
-  const {
-    actions,
-    course,
-    onConfirm,
-    okBtnText,
-    history,
-    classes,
-    showConfirmation,
-    match,
-    user,
-  } = props;
+  const { actions, course, onConfirm, okBtnText, history, classes, showConfirmation, match, user } =
+    props;
 
   const [open, setOpen] = React.useState(false);
   const [headline, setHeadline] = React.useState(null);

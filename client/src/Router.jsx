@@ -253,7 +253,6 @@ Router.propTypes = {
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,
   }).isRequired,
-  courselists: PropTypes.shape([]).isRequired,
   courselist: PropTypes.shape({
     fetching: PropTypes.bool.isRequired,
     fetched: PropTypes.bool.isRequired,

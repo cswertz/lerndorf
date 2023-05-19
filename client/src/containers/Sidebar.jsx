@@ -83,7 +83,15 @@ const Sidebar = () => {
     ) {
       dispatch(userFetchRoles(user.user.id));
     }
-  }, [location]);
+  }, [
+    location,
+    dispatch,
+    user.fetchingRoles,
+    user.fetchedRoles,
+    user?.loggedIn,
+    user.user.id,
+    user.user.username,
+  ]);
 
   useEffect(() => {
     if (

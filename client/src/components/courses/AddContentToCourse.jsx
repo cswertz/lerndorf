@@ -31,17 +31,8 @@ import {
 } from '../../../node_modules/@material-ui/core/index';
 
 function AddContentToCourse(props) {
-  const {
-    actions,
-    course,
-    courseUser,
-    onConfirm,
-    okBtnText,
-    history,
-    fetch,
-    handleSubmit,
-    user,
-  } = props;
+  const { actions, course, courseUser, onConfirm, okBtnText, history, fetch, handleSubmit, user } =
+    props;
 
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState([]);

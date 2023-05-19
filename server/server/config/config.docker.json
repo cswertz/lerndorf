@@ -1,0 +1,14 @@
+{
+  "development": {
+    "domain": "127.0.0.1",
+    "use_env_variable": false,
+    "operatorsAliases": false,
+    "dialect": "mysql",
+    "host": "127.0.0.1",
+    "username": "user",
+    "port": 3306,
+    "password": "cYXFY6JKzy2CLtoRjJ9KcGKBxvdpjD",
+    "database": "lerndorf",
+    "seederStorage": "sequelize"
+  }
+}

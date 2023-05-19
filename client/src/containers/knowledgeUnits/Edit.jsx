@@ -26,16 +26,6 @@ class KnowledgeUnitsEdit extends Component {
     this.fetchItem();
   }
 
-  fetchItem() {
-    const { match, items, itemFetch } = this.props;
-
-    const { id } = match.params;
-
-    if (!items.id[id] && items.fetchingId !== id) {
-      itemFetch(id);
-    }
-  }
-
   handleSubmit(e) {
     e.preventDefault();
 
@@ -72,6 +62,16 @@ class KnowledgeUnitsEdit extends Component {
     data.eqfLevel = data.eqfLevel.isInteger !== '' ? data.eqfLevel : null;
 
     handleSubmit(id, data, history);
+  }
+
+  fetchItem() {
+    const { match, items, itemFetch } = this.props;
+
+    const { id } = match.params;
+
+    if (!items.id[id] && items.fetchingId !== id) {
+      itemFetch(id);
+    }
   }
 
   render() {

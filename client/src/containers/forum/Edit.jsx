@@ -22,17 +22,6 @@ class ForumThreadEdit extends Component {
     }
   }
 
-  fetchData() {
-    const { actions, match, thread, history } = this.props;
-    actions.forumThreadFetch(match?.params?.id).catch((err) => {
-      if (err.cause === 403) {
-        history.push('/errors/403');
-      } else if (err.cause === 401) {
-        history.push('/errors/401');
-      }
-    });
-  }
-
   handleDelete(id) {
     const { handleDelete, history } = this.props;
 
@@ -50,6 +39,17 @@ class ForumThreadEdit extends Component {
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  fetchData() {
+    const { actions, match, thread, history } = this.props;
+    actions.forumThreadFetch(match?.params?.id).catch((err) => {
+      if (err.cause === 403) {
+        history.push('/errors/403');
+      } else if (err.cause === 401) {
+        history.push('/errors/401');
+      }
+    });
   }
 
   render() {

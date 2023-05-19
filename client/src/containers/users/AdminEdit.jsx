@@ -27,23 +27,6 @@ class Edit extends Component {
     this.rolesFetch();
   }
 
-  rolesFetch() {
-    const { roles, rolesFetch } = this.props;
-
-    if (!roles.fetching && !roles.fetched) {
-      rolesFetch();
-    }
-  }
-
-  userFetch() {
-    const { match, items, itemFetch } = this.props;
-    const { id } = match.params;
-
-    if (!items.fetching && !items.id[id]) {
-      itemFetch(id);
-    }
-  }
-
   handleSubmit(e) {
     e.preventDefault();
 
@@ -81,6 +64,23 @@ class Edit extends Component {
     }
 
     handleSubmit(id, data, history);
+  }
+
+  rolesFetch() {
+    const { roles, rolesFetch } = this.props;
+
+    if (!roles.fetching && !roles.fetched) {
+      rolesFetch();
+    }
+  }
+
+  userFetch() {
+    const { match, items, itemFetch } = this.props;
+    const { id } = match.params;
+
+    if (!items.fetching && !items.id[id]) {
+      itemFetch(id);
+    }
   }
 
   addRole(e, role) {

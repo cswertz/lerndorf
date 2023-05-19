@@ -33,18 +33,6 @@ class Logs extends Component {
     this.fetchItems();
   }
 
-  fetchItems() {
-    const { logs, logsFetch, languages, languagesFetch } = this.props;
-
-    if (!logs.fetched && !logs.fetching) {
-      logsFetch({});
-    }
-
-    if (!languages.fetched && !languages.fetching) {
-      languagesFetch();
-    }
-  }
-
   handleFilterUpdate(filters) {
     const { logsFetch } = this.props;
 
@@ -61,6 +49,18 @@ class Logs extends Component {
 
     const { filters } = this.state;
     logsDownload(filters);
+  }
+
+  fetchItems() {
+    const { logs, logsFetch, languages, languagesFetch } = this.props;
+
+    if (!logs.fetched && !logs.fetching) {
+      logsFetch({});
+    }
+
+    if (!languages.fetched && !languages.fetching) {
+      languagesFetch();
+    }
   }
 
   render() {

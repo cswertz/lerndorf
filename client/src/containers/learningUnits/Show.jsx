@@ -24,14 +24,8 @@ class LearningUnitsShow extends Component {
   }
 
   render() {
-    const {
-      handleKnowledgeUnitDelete,
-      markReviewed,
-      markLectored,
-      items,
-      match,
-      user,
-    } = this.props;
+    const { handleKnowledgeUnitDelete, markReviewed, markLectored, items, match, user } =
+      this.props;
 
     const { id, languageId } = match.params;
     let item = items.id[id];

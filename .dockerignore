@@ -1,0 +1,5 @@
+.husky
+.git
+.github
+client/node_modules
+server/node_modules

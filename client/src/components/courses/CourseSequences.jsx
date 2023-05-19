@@ -30,17 +30,8 @@ import AddSequenceToCourse from './AddSequenceToCourse';
 import DeleteCourseSequence from './DeleteCourseSequence';
 
 const CourseSequences = (props) => {
-  const {
-    actions,
-    course,
-    onConfirm,
-    okBtnText,
-    history,
-    classes,
-    showConfirmation,
-    match,
-    user,
-  } = props;
+  const { actions, course, onConfirm, okBtnText, history, classes, showConfirmation, match, user } =
+    props;
 
   const [open, setOpen] = React.useState(false);
   const [headline, setHeadline] = React.useState(null);

@@ -26,44 +26,6 @@ class Edit extends Component {
     };
   }
 
-  openAccountDeletionDialog() {
-    this.setState({
-      accountDeletionOpen: true,
-    });
-  }
-
-  closeAccountDeletionDialog() {
-    this.setState({
-      accountDeletionOpen: false,
-    });
-  }
-
-  submitAccountDeletion() {
-    this.closeAccountDeletionDialog();
-
-    const { userDelete, user, history } = this.props;
-    const { id } = user;
-
-    userDelete(id, history);
-  }
-
-  openLogDeletionDialog() {
-    this.setState({
-      logDeletionOpen: true,
-    });
-  }
-
-  closeLogDeletionDialog() {
-    this.setState({
-      logDeletionOpen: false,
-    });
-  }
-
-  submitLogDeletion() {
-    this.closeLogDeletionDialog();
-    console.log('Confirmed Log Deletion dialog');
-  }
-
   handleImageUpdate(file) {
     const { handleSubmit, history, user } = this.props;
 
@@ -113,6 +75,44 @@ class Edit extends Component {
     }
 
     handleSubmit(id, data, history);
+  }
+
+  openAccountDeletionDialog() {
+    this.setState({
+      accountDeletionOpen: true,
+    });
+  }
+
+  closeAccountDeletionDialog() {
+    this.setState({
+      accountDeletionOpen: false,
+    });
+  }
+
+  submitAccountDeletion() {
+    this.closeAccountDeletionDialog();
+
+    const { userDelete, user, history } = this.props;
+    const { id } = user;
+
+    userDelete(id, history);
+  }
+
+  openLogDeletionDialog() {
+    this.setState({
+      logDeletionOpen: true,
+    });
+  }
+
+  closeLogDeletionDialog() {
+    this.setState({
+      logDeletionOpen: false,
+    });
+  }
+
+  submitLogDeletion() {
+    this.closeLogDeletionDialog();
+    console.log('Confirmed Log Deletion dialog');
   }
 
   render() {

@@ -24,12 +24,6 @@ class TextsAdd extends Component {
     }
   }
 
-  updateBody(body) {
-    this.setState({
-      body,
-    });
-  }
-
   handleSubmit(e) {
     e.preventDefault();
 
@@ -43,6 +37,12 @@ class TextsAdd extends Component {
     };
 
     handleSubmit(data, history);
+  }
+
+  updateBody(body) {
+    this.setState({
+      body,
+    });
   }
 
   render() {

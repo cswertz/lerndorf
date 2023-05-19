@@ -28,17 +28,8 @@ import DeleteCourseUser from './DeleteCourseUser';
 const moment = require('moment');
 
 const CourseUsers = (props) => {
-  const {
-    actions,
-    course,
-    onConfirm,
-    okBtnText,
-    history,
-    classes,
-    showConfirmation,
-    match,
-    user,
-  } = props;
+  const { actions, course, onConfirm, okBtnText, history, classes, showConfirmation, match, user } =
+    props;
 
   const [open, setOpen] = React.useState(false);
   const [headline, setHeadline] = React.useState(null);

@@ -110,27 +110,29 @@ export const knowledgeUnitsAdd = (data, history) => (dispatch) =>
       console.log('Error while adding knowledge unit:', error);
     });
 
-export const knowledgeUnitsDelete = (id, history = null) => async (dispatch) => {
-  try {
-    const response = await fetch(`/api/knowledgeUnits/${id}`, {
-      method: 'DELETE',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    });
-    const json = await response.json();
-    if (json) {
-      dispatch(knowledgeUnitsDeleteSuccess());
-      if (history) {
-        history.push('/learning-units/');
+export const knowledgeUnitsDelete =
+  (id, history = null) =>
+  async (dispatch) => {
+    try {
+      const response = await fetch(`/api/knowledgeUnits/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const json = await response.json();
+      if (json) {
+        dispatch(knowledgeUnitsDeleteSuccess());
+        if (history) {
+          history.push('/learning-units/');
+        }
       }
+    } catch (e) {
+      console.log('Error while deleting knowledge unit:', e);
     }
-  } catch (e) {
-    console.log('Error while deleting knowledge unit:', e);
-  }
-};
+  };
 
 export const knowledgeUnitsEdit = (id, data, history) => (dispatch) =>
   fetch(`/api/knowledgeUnits/${id}`, {
