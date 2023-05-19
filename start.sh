@@ -1,2 +1,8 @@
 #!/bin/bash
-/wait && npm run start
+
+
+if [ "$MODE" == "client" ]; then
+  /wait && cd /client && npm run start
+else
+  /wait && cd /server && npm run start
+fi

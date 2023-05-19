@@ -1,13 +1,12 @@
 version: '3'
 services:
-  lerndorf-db:
-    image: mysql:8
-    restart: always
+  lerndorf-database:
+    image: mysql:5.7
     environment:
-      MYSQL_DATABASE: 'lerndorf'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'cYXFY6JKzy2CLtoRjJ9KcGKBxvdpjD'
-      MYSQL_RANDOM_ROOT_PASSWORD: true
+      MYSQL_DATABASE: 'docker'
+      MYSQL_USER: 'docker'
+      MYSQL_PASSWORD: 'docker'
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
     ports:
       - '3306:3306'
     networks:
@@ -17,11 +16,21 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - mode=server
+      - MODE=client
     networks:
       - lerndorf
     depends_on:
-      - lerndorf-db
+      - lerndorf-database
+  lerndorf-server:
+    image: lerndorf:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - MODE=server
+    networks:
+      - lerndorf
+    depends_on:
+      - lerndorf-database
 networks:
   lerndorf:
     driver: bridge

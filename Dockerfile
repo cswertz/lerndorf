@@ -14,19 +14,20 @@ RUN npm i
 
 FROM node:14-slim
 
-ENV mode='server'
+ENV MODE='server'
 
 RUN npm i -g @craco/craco && \
     npm i -g sequelize && \ 
     npm i -g sequelize-cli && \ 
-    npm i -g babel-register
+    npm i -g babel-register && \ 
+    npm install -g create-react-app
 
 WORKDIR /
 COPY . .
 COPY --from=build-client ./node_modules /client/
 COPY --from=build-server ./node_modules /server/
 
-RUN cd /client && npm run build
+RUN cd /client && npm i && npm run build
 RUN cd /server && npm i
 
 # Add docker-compose-wait tool -------------------

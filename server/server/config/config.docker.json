@@ -1,14 +1,14 @@
 {
   "development": {
-    "domain": "127.0.0.1",
+    "domain": "lerndorf-database",
     "use_env_variable": false,
     "operatorsAliases": false,
     "dialect": "mysql",
-    "host": "127.0.0.1",
-    "username": "user",
+    "host": "lerndorf-database",
+    "username": "docker",
     "port": 3306,
-    "password": "cYXFY6JKzy2CLtoRjJ9KcGKBxvdpjD",
-    "database": "lerndorf",
+    "password": "docker",
+    "database": "docker",
     "seederStorage": "sequelize"
   }
 }
