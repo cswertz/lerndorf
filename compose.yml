@@ -1,16 +1,5 @@
 version: '3'
 services:
-  lerndorf-database:
-    image: mysql:5.7
-    environment:
-      MYSQL_DATABASE: 'docker'
-      MYSQL_USER: 'docker'
-      MYSQL_PASSWORD: 'docker'
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
-    ports:
-      - '3306:3306'
-    networks:
-      - lerndorf
   lerndorf-client:
     image: lerndorf:latest
     ports:
