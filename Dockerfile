@@ -29,6 +29,7 @@ COPY --from=build-server ./node_modules /server/
 
 RUN cd /client && npm i && npm run build
 RUN cd /server && npm i
+COPY /server/config/config.json /server/config/config.json
 
 # Add docker-compose-wait tool -------------------
 ENV WAIT_VERSION 2.7.2
